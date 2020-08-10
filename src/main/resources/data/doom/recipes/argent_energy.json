@@ -1,0 +1,22 @@
+{
+	"result": {
+		"item": "doom:argent_energy"
+	},
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		" $ ",
+		" I ",
+		" # "
+	],
+	"key": {
+		"#": {
+			"item": "minecraft:nether_brick"
+		},
+		"I": {
+			"item": "minecraft:iron_ingot"
+		},
+		"$": {
+			"item": "minecraft:blaze_powder"
+		}
+	}
+}

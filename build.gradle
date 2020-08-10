@@ -15,7 +15,6 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	
 	modImplementation "top.theillusivec4.curios:curios-fabric:${curios_version}" 
 }
 
@@ -26,12 +25,9 @@ repositories {
 	maven {	
 		url = 'https://maven.fabricmc.net/io/github/prospector/modmenu/'
 	}
-	maven {	
-		url = 'https://oss.sonatype.org/content/groups/public/'
-	}
-	maven {	
-		url = 'https://maven.fabricmc.net/'
-	}
+	maven {
+        url = "https://www.cursemaven.com"
+    }
 }
 
 processResources {
@@ -61,8 +57,6 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 	classifier = "sources"
 	from sourceSets.main.allSource
 }
-
-includeBuild("..")
 
 jar {
 	from "LICENSE"
