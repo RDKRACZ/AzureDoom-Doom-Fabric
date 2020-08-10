@@ -23,72 +23,20 @@ import mod.azure.doom.entity.ShotgunguyEntity;
 import mod.azure.doom.entity.SpiderdemonEntity;
 import mod.azure.doom.entity.UnwillingEntity;
 import mod.azure.doom.entity.ZombiemanEntity;
-import mod.azure.doom.entity.projectiles.ArgentBoltEntity;
-import mod.azure.doom.entity.projectiles.BFGEntity;
-import mod.azure.doom.entity.projectiles.BarenBlastEntity;
 import mod.azure.doom.entity.projectiles.BarrelEntity;
-import mod.azure.doom.entity.projectiles.BulletEntity;
-import mod.azure.doom.entity.projectiles.ChaingunBulletEntity;
-import mod.azure.doom.entity.projectiles.EnergyCellEntity;
-import mod.azure.doom.entity.projectiles.PainShootEntity;
-import mod.azure.doom.entity.projectiles.RocketEntity;
-import mod.azure.doom.entity.projectiles.ShotgunShellEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-public class ModEntityTypes {
+public class MobEntityRegister {
 
 	public static final EntityType<Entity> BARREL = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "barrel"), FabricEntityTypeBuilder.create(SpawnGroup.MISC, BarrelEntity::new)
 					.dimensions(EntityDimensions.fixed(0.98F, 0.98F)).build());
-
-	public static final EntityType<ShotgunShellEntity> SHOTGUN_SHELL = Registry.register(Registry.entity,
-			new Identifier(DoomMod.MODID, "shotgun_shell"),
-			FabricEntityTypeBuilder.create(SpawnGroup.MISC, ShotgunShellEntity::new)
-					.dimensions(EntityDimensions.fixed(0.5F, 0.5F)).build());
-
-	public static final EntityType<ArgentBoltEntity> ARGENT_BOLT = Registry.register(Registry.ENTITY_TYPE,
-			new Identifier(DoomMod.MODID, "argent_bolt"),
-			FabricEntityTypeBuilder.create(SpawnGroup.MISC, ArgentBoltEntity::new)
-					.dimensions(EntityDimensions.fixed(0.5F, 0.5F)).build());
-
-	public static final EntityType<EnergyCellEntity> ENERGY_CELL = Registry.register(Registry.ENTITY_TYPE,
-			new Identifier(DoomMod.MODID, "energy_cell"),
-			FabricEntityTypeBuilder.create(SpawnGroup.MISC, EnergyCellEntity::new)
-					.dimensions(EntityDimensions.fixed(0.5F, 0.5F)).build());
-
-	public static final EntityType<BFGEntity> BFG_CELL = Registry.register(Registry.ENTITY_TYPE,
-			new Identifier(DoomMod.MODID, "bfg_cell"), FabricEntityTypeBuilder.create(SpawnGroup.MISC, BFGEntity::new)
-					.dimensions(EntityDimensions.fixed(2.0F, 2.0F)).build());
-
-	public static final EntityType<RocketEntity> ROCKET = Registry.register(Registry.ENTITY_TYPE,
-			new Identifier(DoomMod.MODID, "rocket"), FabricEntityTypeBuilder.create(SpawnGroup.MISC, RocketEntity::new)
-					.dimensions(EntityDimensions.fixed(0.5F, 0.5F)).build());
-
-	public static final EntityType<PainShootEntity> LOST_SOUL_SHOOT = Registry.register(Registry.ENTITY_TYPE,
-			new Identifier(DoomMod.MODID, "lost_soul_shot"),
-			FabricEntityTypeBuilder.create(SpawnGroup.MISC, PainShootEntity::new)
-					.dimensions(EntityDimensions.fixed(1.0F, 1.0F)).build());
-
-	public static final EntityType<BarenBlastEntity> BARENBLAST = Registry.register(Registry.ENTITY_TYPE,
-			new Identifier(DoomMod.MODID, "barenblast"),
-			FabricEntityTypeBuilder.create(SpawnGroup.MISC, BarenBlastEntity::new)
-					.dimensions(EntityDimensions.fixed(1.0F, 1.0F)).build());
-
-	public static final EntityType<BulletEntity> BULLETS = Registry.register(Registry.ENTITY_TYPE,
-			new Identifier(DoomMod.MODID, "bullets"), FabricEntityTypeBuilder.create(SpawnGroup.MISC, BulletEntity::new)
-					.dimensions(EntityDimensions.fixed(0.5F, 0.5F)).build());
-
-	public static final EntityType<ChaingunBulletEntity> CHAINGUN_BULLET = Registry.register(Registry.ENTITY_TYPE,
-			new Identifier(DoomMod.MODID, "chaingunbullets"),
-			FabricEntityTypeBuilder.create(SpawnGroup.MISC, ChaingunBulletEntity::new)
-					.dimensions(EntityDimensions.fixed(0.5F, 0.5F)).build());
 
 	public static final EntityType<ImpEntity> IMP = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "imp"), FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ImpEntity::new)

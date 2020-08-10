@@ -1,13 +1,13 @@
 package mod.azure.doom.entity.projectiles;
 
-import mod.azure.doom.util.ModEntityTypes;
+import mod.azure.doom.EntityPacket;
+import mod.azure.doom.util.ProjectilesEntityRegister;
 import mod.azure.doom.util.ModSoundEvents;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ExplosiveProjectileEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
-import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.hit.BlockHitResult;
@@ -22,17 +22,16 @@ public class PainShootEntity extends ExplosiveProjectileEntity {
 	protected boolean inAir;
 	private int ticksInAir;
 
-	@SuppressWarnings("unchecked")
-	public PainShootEntity(EntityType<?> type, World world) {
-		super((EntityType<? extends ExplosiveProjectileEntity>) type, world);
+	public PainShootEntity(EntityType<? extends PainShootEntity> entityType, World world) {
+		super(entityType, world);
 	}
 
 	public PainShootEntity(World worldIn, double x, double y, double z, double accelX, double accelY, double accelZ) {
-		super(ModEntityTypes.LOST_SOUL_SHOOT, x, y, z, accelX, accelY, accelZ, worldIn);
+		super(ProjectilesEntityRegister.LOST_SOUL_SHOOT, x, y, z, accelX, accelY, accelZ, worldIn);
 	}
 
 	public PainShootEntity(World worldIn, LivingEntity shooter, double accelX, double accelY, double accelZ) {
-		super(ModEntityTypes.LOST_SOUL_SHOOT, shooter, accelX, accelY, accelZ, worldIn);
+		super(ProjectilesEntityRegister.LOST_SOUL_SHOOT, shooter, accelX, accelY, accelZ, worldIn);
 	}
 
 	protected void func_225516_i_() {
@@ -72,7 +71,7 @@ public class PainShootEntity extends ExplosiveProjectileEntity {
 
 	@Override
 	public Packet<?> createSpawnPacket() {
-		return new EntitySpawnS2CPacket(this);
+		return EntityPacket.createPacket(this);
 	}
 
 	@Override

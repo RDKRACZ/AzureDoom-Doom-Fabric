@@ -2,9 +2,7 @@ package mod.azure.doom.util;
 
 import mod.azure.doom.DoomMod;
 import mod.azure.doom.item.ArgentEnergyItem;
-import mod.azure.doom.item.DaisyItem;
 import mod.azure.doom.item.E1M1MusicDisc;
-import mod.azure.doom.item.UnopenedItem;
 import mod.azure.doom.item.ammo.ArgentBolt;
 import mod.azure.doom.item.ammo.BFGCell;
 import mod.azure.doom.item.ammo.ChaingunAmmo;
@@ -26,7 +24,6 @@ import mod.azure.doom.item.tools.ArgentPaxel;
 import mod.azure.doom.item.tools.ArgentPickaxe;
 import mod.azure.doom.item.tools.ArgentShovel;
 import mod.azure.doom.item.weapons.ArgentSword;
-import mod.azure.doom.item.weapons.AxeMarauderItem;
 import mod.azure.doom.item.weapons.BFG;
 import mod.azure.doom.item.weapons.Ballista;
 import mod.azure.doom.item.weapons.Chaingun;
@@ -36,7 +33,6 @@ import mod.azure.doom.item.weapons.PlasmaGun;
 import mod.azure.doom.item.weapons.RocketLauncher;
 import mod.azure.doom.item.weapons.Shotgun;
 import mod.azure.doom.item.weapons.SuperShotgun;
-import mod.azure.doom.item.weapons.SwordCrucibleItem;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -45,7 +41,7 @@ import net.minecraft.util.registry.Registry;
 
 public class DoomItems {
 
-	public static Item BARREL = station(ModRegistry.BLOCKS.BARREL_BLOCK);
+	public static Item BARREL = station(DoomBlocks.BARREL_BLOCK);
 
 	// AMMO
 	public static Item SHOTGUN_SHELLS = item(new ShellAmmo(new Item.Settings().group(DoomMod.DoomItemGroup), 2.0F),
@@ -60,41 +56,39 @@ public class DoomItems {
 	public static Item BFG_CELL = item(new BFGCell(new Item.Settings().group(DoomMod.DoomItemGroup), 1.2F), "bfg_cell");
 	public static Item ROCKET = item(new Rocket(new Item.Settings().group(DoomMod.DoomItemGroup), 1.2F), "rocket");
 	// MISC
-	public static Item ARGENT_ENERGY = item(new ArgentEnergyItem(), "argent_energy");
-	public static Item DAISY = item(new DaisyItem(), "daisy");
-	public static Item E1M1_MUSIC_DISC = item(new E1M1MusicDisc(), "e1m1_music_disc");
-	public static Item INMORTAL = item(new InmortalSphereItem(), "inmortalsphere");
-	public static Item INVISIBLE = item(new InvisibleSphereItem(), "invisiblesphere");
-	public static Item MEGA = item(new MegaSphereItem(), "megasphere");
-	public static Item POWER = item(new PowerSphereItem(), "powersphere");
-	public static Item SOULCUBE = item(new SoulCubeItem(), "soulcube");
+	public static ArgentEnergyItem ARGENT_ENERGY = item(new ArgentEnergyItem(), "argent_energy");
+	public static ArgentEnergyItem DAISY = item(new ArgentEnergyItem(), "daisy");
+	public static E1M1MusicDisc E1M1_MUSIC_DISC = item(new E1M1MusicDisc(), "e1m1_music_disc");
+	public static InmortalSphereItem INMORTAL = item(new InmortalSphereItem(), "inmortalsphere");
+	public static InvisibleSphereItem INVISIBLE = item(new InvisibleSphereItem(), "invisiblesphere");
+	public static MegaSphereItem MEGA = item(new MegaSphereItem(), "megasphere");
+	public static PowerSphereItem POWER = item(new PowerSphereItem(), "powersphere");
+	public static SoulCubeItem SOULCUBE = item(new SoulCubeItem(), "soulcube");
 	// WEAPONS AND TOOLS
-	public static Item CRUCIBLESWORD = item(new SwordCrucibleItem(), "cruciblesword");
-	public static Item ARGENT_AXE = item(new ArgentAxe(), "argent_axe");
-	public static Item ARGENT_HOE = item(new ArgentHoe(), "argent_hoe");
-	public static Item ARGENT_PAXEL = item(new ArgentPaxel(), "argent_paxel");
-	public static Item ARGENT_PICKAXE = item(new ArgentPickaxe(), "argent_pickaxe");
-	public static Item ARGENT_SHOVEL = item(new ArgentShovel(), "argent_shovel");
-	public static Item ARGENT_SWORD = item(new ArgentSword(), "argent_sword");
-	// public static Item ARGENT_SHIELD =
-	// argent_shield",
-	public static Item CHAINSAW = item(new Chainsaw(), "chainsaw");
-	public static Item SWORD_CLOSED = item(new UnopenedItem(), "cruciblesword_closed");
-	public static Item AXE_OPEN = item(new AxeMarauderItem(), "axe_marauder_open");
-	public static Item AXE_CLOSED = item(new UnopenedItem(), "axe_marauder_closed");
-	public static Item SSG = item(new SuperShotgun(), "supershotgun");
-	public static Item SG = item(new Shotgun(), "shotgun");
-	public static Item BFG = item(new BFG(), "bfg9000");
-	public static Item PLASMAGUN = item(new PlasmaGun(), "plasmagun");
-	public static Item ROCKETLAUNCHER = item(new RocketLauncher(), "rocketlauncher");
-//	public static Item UNMAYKR = item(new Unmaykr(), "unmaykr");
-	public static Item BALLISTA = item(new Ballista(), "ballista");
-	public static Item CHAINGUN = item(new Chaingun(), "chaingun");
-	public static Item PISTOL = item(new PistolItem(), "pistol");
+//	public static SwordCrucibleItem CRUCIBLESWORD = item(new SwordCrucibleItem(), "cruciblesword");
+	public static ArgentAxe ARGENT_AXE = item(new ArgentAxe(), "argent_axe");
+	public static ArgentHoe ARGENT_HOE = item(new ArgentHoe(), "argent_hoe");
+	public static ArgentPaxel ARGENT_PAXEL = item(new ArgentPaxel(), "argent_paxel");
+	public static ArgentPickaxe ARGENT_PICKAXE = item(new ArgentPickaxe(), "argent_pickaxe");
+	public static ArgentShovel ARGENT_SHOVEL = item(new ArgentShovel(), "argent_shovel");
+	public static ArgentSword ARGENT_SWORD = item(new ArgentSword(), "argent_sword");
+	public static Chainsaw CHAINSAW = item(new Chainsaw(), "chainsaw");
+//	public static UnopenedItem SWORD_CLOSED = item(new UnopenedItem(), "cruciblesword_closed");
+//	public static AxeMarauderItem AXE_OPEN = item(new AxeMarauderItem(), "axe_marauder_open");
+//	public static UnopenedItem AXE_CLOSED = item(new UnopenedItem(), "axe_marauder_closed");
+	public static SuperShotgun SSG = item(new SuperShotgun(), "supershotgun");
+	public static Shotgun SG = item(new Shotgun(), "shotgun");
+	public static BFG BFG = item(new BFG(), "bfg9000");
+	public static PlasmaGun PLASMAGUN = item(new PlasmaGun(), "plasmagun");
+	public static RocketLauncher ROCKETLAUNCHER = item(new RocketLauncher(), "rocketlauncher");
+//	public static Unmaykr UNMAYKR = item(new Unmaykr(), "unmaykr");
+	public static Ballista BALLISTA = item(new Ballista(), "ballista");
+	public static Chaingun CHAINGUN = item(new Chaingun(), "chaingun");
+	public static PistolItem PISTOL = item(new PistolItem(), "pistol");
 	// MOB WEAPONS
-	public static Item CYBERDEMONATTACK = item(new CyberdemonAttackItem(), "cyberdemonattack");
-	public static Item SPIDERDEMONATTACK = item(new SpiderdemonAttackItem(), "spiderdemonattack");
-	public static Item BARENBLAST = item(new BarenBlastItem(2.0F), "barenblast");
+	public static CyberdemonAttackItem CYBERDEMONATTACK = item(new CyberdemonAttackItem(), "cyberdemonattack");
+	public static SpiderdemonAttackItem SPIDERDEMONATTACK = item(new SpiderdemonAttackItem(), "spiderdemonattack");
+	public static BarenBlastItem BARENBLAST = item(new BarenBlastItem(2.0F), "barenblast");
 
 	// ARMOR THIS WON'T BE DONE FOR SOME TIME
 //	public static Item DOOM_HELMET = item(new DoomArmor(DoomArmorMaterial.DOOM_ARMOR, EquipmentSlotType.HEAD);

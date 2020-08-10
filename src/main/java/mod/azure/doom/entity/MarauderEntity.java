@@ -4,8 +4,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoField;
 import java.util.Random;
 
-import org.eclipse.jdt.annotation.Nullable;
-
+import blue.endless.jankson.annotation.Nullable;
 import mod.azure.doom.util.DoomItems;
 import mod.azure.doom.util.ModSoundEvents;
 import net.minecraft.block.BlockState;
@@ -63,7 +62,7 @@ public class MarauderEntity extends DemonEntity {
 	@Override
 	protected void initEquipment(LocalDifficulty difficulty) {
 		super.initEquipment(difficulty);
-		this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(DoomItems.AXE_OPEN));
+		this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(DoomItems.ARGENT_AXE));
 	}
 
 	@Nullable

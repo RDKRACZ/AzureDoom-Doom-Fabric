@@ -4,8 +4,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoField;
 import java.util.Random;
 
-import org.eclipse.jdt.annotation.Nullable;
-
+import blue.endless.jankson.annotation.Nullable;
 import mod.azure.doom.entity.ai.goal.RangedSpiderdemonAttackGoal;
 import mod.azure.doom.entity.projectiles.ChaingunBulletEntity;
 import mod.azure.doom.item.ammo.ChaingunAmmo;

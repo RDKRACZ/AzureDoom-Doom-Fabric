@@ -2,8 +2,9 @@ package mod.azure.doom.entity.projectiles;
 
 import java.util.List;
 
+import mod.azure.doom.EntityPacket;
 import mod.azure.doom.util.DoomItems;
-import mod.azure.doom.util.ModEntityTypes;
+import mod.azure.doom.util.ProjectilesEntityRegister;
 import mod.azure.doom.util.ModSoundEvents;
 import net.minecraft.entity.AreaEffectCloudEntity;
 import net.minecraft.entity.Entity;
@@ -16,7 +17,6 @@ import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
-import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.hit.BlockHitResult;
@@ -37,7 +37,7 @@ public class BFGEntity extends PersistentProjectileEntity {
 	}
 
 	public BFGEntity(World world, LivingEntity owner) {
-		super(ModEntityTypes.BFG_CELL, owner, world);
+		super(ProjectilesEntityRegister.BFG_CELL, owner, world);
 	}
 
 	protected BFGEntity(EntityType<? extends BFGEntity> type, double x, double y, double z, World world) {
@@ -59,10 +59,10 @@ public class BFGEntity extends PersistentProjectileEntity {
 			this.remove();
 		}
 	}
-	
+
 	@Override
 	public Packet<?> createSpawnPacket() {
-		return new EntitySpawnS2CPacket(this);
+		return EntityPacket.createPacket(this);
 	}
 
 	@Override

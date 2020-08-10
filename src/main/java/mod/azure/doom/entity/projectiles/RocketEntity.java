@@ -1,7 +1,8 @@
 package mod.azure.doom.entity.projectiles;
 
+import mod.azure.doom.EntityPacket;
 import mod.azure.doom.util.DoomItems;
-import mod.azure.doom.util.ModEntityTypes;
+import mod.azure.doom.util.ProjectilesEntityRegister;
 import mod.azure.doom.util.ModSoundEvents;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -10,7 +11,6 @@ import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
-import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
@@ -28,7 +28,7 @@ public class RocketEntity extends PersistentProjectileEntity {
 	}
 
 	public RocketEntity(World world, LivingEntity owner) {
-		super(ModEntityTypes.ARGENT_BOLT, owner, world);
+		super(ProjectilesEntityRegister.ARGENT_BOLT, owner, world);
 	}
 
 	protected RocketEntity(EntityType<? extends RocketEntity> type, double x, double y, double z, World world) {
@@ -46,7 +46,7 @@ public class RocketEntity extends PersistentProjectileEntity {
 
 	@Override
 	public Packet<?> createSpawnPacket() {
-		return new EntitySpawnS2CPacket(this);
+		return EntityPacket.createPacket(this);
 	}
 
 	protected void func_225516_i_() {

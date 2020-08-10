@@ -1,7 +1,8 @@
 package mod.azure.doom.entity.projectiles;
 
+import mod.azure.doom.EntityPacket;
 import mod.azure.doom.util.DoomItems;
-import mod.azure.doom.util.ModEntityTypes;
+import mod.azure.doom.util.ProjectilesEntityRegister;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -9,7 +10,6 @@ import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
-import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
@@ -26,7 +26,7 @@ public class ChaingunBulletEntity extends PersistentProjectileEntity {
 	}
 
 	public ChaingunBulletEntity(World world, LivingEntity owner) {
-		super(ModEntityTypes.ARGENT_BOLT, owner, world);
+		super(ProjectilesEntityRegister.ARGENT_BOLT, owner, world);
 	}
 
 	protected ChaingunBulletEntity(EntityType<? extends ChaingunBulletEntity> type, double x, double y, double z,
@@ -45,7 +45,7 @@ public class ChaingunBulletEntity extends PersistentProjectileEntity {
 
 	@Override
 	public Packet<?> createSpawnPacket() {
-		return new EntitySpawnS2CPacket(this);
+		return EntityPacket.createPacket(this);
 	}
 
 	@Override

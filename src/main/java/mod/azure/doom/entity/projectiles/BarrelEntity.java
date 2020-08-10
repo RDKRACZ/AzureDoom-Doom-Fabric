@@ -1,8 +1,8 @@
 package mod.azure.doom.entity.projectiles;
 
-import org.eclipse.jdt.annotation.Nullable;
+import blue.endless.jankson.annotation.Nullable;
 
-import mod.azure.doom.util.ModEntityTypes;
+import mod.azure.doom.util.MobEntityRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -27,7 +27,7 @@ public class BarrelEntity extends Entity {
 	}
 
 	public BarrelEntity(World worldIn, double x, double y, double z, @Nullable LivingEntity igniter) {
-		this(ModEntityTypes.BARREL, worldIn);
+		this(MobEntityRegister.BARREL, worldIn);
 		this.updatePosition(x, y, z);
 		double d = world.random.nextDouble() * 6.2831854820251465D;
 		this.setVelocity(-Math.sin(d) * 0.02D, 0.20000000298023224D, -Math.cos(d) * 0.02D);
