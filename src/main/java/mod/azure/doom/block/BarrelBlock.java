@@ -103,11 +103,4 @@ public class BarrelBlock extends Block {
 			world.removeBlock(blockPos, false);
 		}
 	}
-
-	@Override
-	@Environment(EnvType.CLIENT)
-	public float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {
-		return 10F;
-	}
-
 }
