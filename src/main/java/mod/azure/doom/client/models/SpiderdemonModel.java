@@ -60,12 +60,32 @@ public class SpiderdemonModel<T extends Entity> extends CompositeEntityModel<T> 
 	@Override
 	public void setAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
 			float headPitch) {
+		this.spiderLLegF_1.roll = 0.0F;
+		this.spiderLLegF_1.pitch = 0.0F;
 		this.spiderLLegF_1.yaw = 2.399827721492203F;
+
+		this.spiderRLegR.roll = 0.0F;
+		this.spiderRLegR.pitch = 0.0F;
 		this.spiderRLegR.yaw = 0.8192575269176885F;
+
+		this.spiderRLegF_1.roll = 0.0F;
+		this.spiderRLegF_1.pitch = 0.0F;
 		this.spiderRLegF_1.yaw = -2.399827721492203F;
+
+		this.spiderLLegR_1.roll = 0.0F;
+		this.spiderLLegR_1.pitch = 0.0F;
 		this.spiderLLegR_1.yaw = 2.399827721492203F;
+
+		this.spiderLLegF.roll = 0.0F;
+		this.spiderLLegF.pitch = 0.0F;
 		this.spiderLLegF.yaw = 0.8192575269176885F;
+
+		this.spiderLLegR.roll = 0.0F;
+		this.spiderLLegR.pitch = 0.0F;
 		this.spiderLLegR.yaw = -0.8192575269176885F;
+
+		this.spiderRLegR_1.roll = 0.0F;
+		this.spiderRLegR_1.pitch = 0.0F;
 		this.spiderRLegR_1.yaw = -2.399827721492203F;
 	}
 

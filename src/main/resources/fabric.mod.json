@@ -10,11 +10,11 @@
   ],
   "contact": {
     "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "sources": "https://github.com/AzureDoom/AzureDoom-Doom-Fabric"
   },
 
   "license": "MIT",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/doom/icon.png",
 
   "environment": "*",
   "entrypoints": {

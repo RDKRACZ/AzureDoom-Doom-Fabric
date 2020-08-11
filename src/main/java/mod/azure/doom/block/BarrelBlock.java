@@ -1,12 +1,10 @@
 package mod.azure.doom.block;
 
 import mod.azure.doom.entity.projectiles.BarrelEntity;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,13 +18,15 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
 
 public class BarrelBlock extends Block {
 
-	public BarrelBlock(AbstractBlock.Settings properties) {
+	public BarrelBlock(Settings properties) {
 		super(properties);
 	}
 
@@ -102,5 +102,10 @@ public class BarrelBlock extends Block {
 			primeBlock(world, blockPos, entity instanceof LivingEntity ? (LivingEntity) entity : null);
 			world.removeBlock(blockPos, false);
 		}
+	}
+
+	@Override
+	public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext context) {
+		return VoxelShapes.cuboid(0.06f, 0f, 0.06f, 0.94f, 1.0f, 0.94f);
 	}
 }

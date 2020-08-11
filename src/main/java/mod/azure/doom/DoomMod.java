@@ -19,12 +19,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.CuriosComponent;
 import top.theillusivec4.curios.api.SlotTypeInfo.BuildScheme;
@@ -46,10 +43,8 @@ public class DoomMod implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		BLOCKS = new DoomBlocks();
+		DoomBlocks.init();
 		ITEMS = new DoomItems();
-		Registry.register(Registry.ITEM, new Identifier(MODID, "barrel"),
-				new BlockItem(DoomBlocks.BARREL_BLOCK, new Item.Settings().group(DoomMod.DoomItemGroup)));
 		SOUNDS = new ModSoundEvents();
 		PROJECTILES = new ProjectilesEntityRegister();
 		MOBS = new MobEntityRegister();
