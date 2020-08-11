@@ -3,6 +3,8 @@ package mod.azure.doom.entity.projectiles;
 import blue.endless.jankson.annotation.Nullable;
 
 import mod.azure.doom.util.MobEntityRegister;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -64,6 +66,12 @@ public class BarrelEntity extends Entity {
 	@Override
 	public Packet<?> createSpawnPacket() {
 		return new EntitySpawnS2CPacket(this);
+	}
+	
+	@Override
+    @Environment(EnvType.CLIENT)
+	public boolean shouldRender(double distance) {
+		return true;
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.Random;
 
 import mod.azure.doom.entity.projectiles.PainShootEntity;
 import mod.azure.doom.util.ModSoundEvents;
+import mod.azure.doom.util.packets.EntityPacket;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityDimensions;
@@ -26,7 +27,6 @@ import net.minecraft.entity.mob.FlyingEntity;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.Packet;
-import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -48,11 +48,11 @@ public class PainEntity extends FlyingEntity implements Monster {
 
 	@Override
 	public Packet<?> createSpawnPacket() {
-		return new EntitySpawnS2CPacket(this);
+		return EntityPacket.createPacket(this);
 	}
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
-		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
+		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED,0.15D)
 				.add(EntityAttributes.GENERIC_MAX_HEALTH, 19.0D);
 	}
 
@@ -239,6 +239,12 @@ public class PainEntity extends FlyingEntity implements Monster {
 	@Override
 	protected float getSoundVolume() {
 		return 1.0F;
+	}
+
+	@Override
+	@Environment(EnvType.CLIENT)
+	public boolean shouldRender(double distance) {
+		return true;
 	}
 
 }

@@ -29,6 +29,11 @@ public class PlasmaGun extends RangedWeaponItem {
 	}
 
 	@Override
+	public boolean hasGlint(ItemStack stack) {
+		return false;
+	}
+
+	@Override
 	public boolean canRepair(ItemStack stack, ItemStack ingredient) {
 		return DoomTier.DOOM.getRepairIngredient().test(ingredient) || super.canRepair(stack, ingredient);
 	}
@@ -100,6 +105,11 @@ public class PlasmaGun extends RangedWeaponItem {
 	@Override
 	public Predicate<ItemStack> getProjectiles() {
 		return itemStack -> itemStack.getItem() instanceof EnergyCell;
+	}
+
+	@Override
+	public Predicate<ItemStack> getHeldProjectiles() {
+		return getProjectiles();
 	}
 
 	public EnergyCellEntity customeArrow(EnergyCellEntity arrow) {

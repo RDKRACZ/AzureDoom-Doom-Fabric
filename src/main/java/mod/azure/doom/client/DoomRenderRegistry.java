@@ -23,7 +23,17 @@ import mod.azure.doom.client.render.ShotgunguyRender;
 import mod.azure.doom.client.render.SpiderdemonRender;
 import mod.azure.doom.client.render.UnwillingRender;
 import mod.azure.doom.client.render.ZombiemanRender;
+import mod.azure.doom.client.render.projectiles.ArgentBoltRender;
+import mod.azure.doom.client.render.projectiles.BFGCellRender;
+import mod.azure.doom.client.render.projectiles.BarenBlastRender;
+import mod.azure.doom.client.render.projectiles.BulletsRender;
+import mod.azure.doom.client.render.projectiles.ChaingunBulletRender;
+import mod.azure.doom.client.render.projectiles.EnergyCellRender;
+import mod.azure.doom.client.render.projectiles.LostSoulShootRender;
+import mod.azure.doom.client.render.projectiles.RocketRender;
+import mod.azure.doom.client.render.projectiles.ShotgunShellRender;
 import mod.azure.doom.util.MobEntityRegister;
+import mod.azure.doom.util.ProjectilesEntityRegister;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 
 public class DoomRenderRegistry {
@@ -97,6 +107,33 @@ public class DoomRenderRegistry {
 		});
 		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.POSSESSEDSOLDIER, (dispatcher, context) -> {
 			return new PossessedSoldierRender(dispatcher);
+		});
+		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.ARGENT_BOLT, (dispatcher, context) -> {
+			return new ArgentBoltRender(dispatcher);
+		});
+		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.SHOTGUN_SHELL, (dispatcher, context) -> {
+			return new ShotgunShellRender(dispatcher);
+		});
+		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.ENERGY_CELL, (dispatcher, context) -> {
+			return new EnergyCellRender(dispatcher);
+		});
+		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.BFG_CELL, (dispatcher, context) -> {
+			return new BFGCellRender(dispatcher);
+		});
+		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.ROCKET, (dispatcher, context) -> {
+			return new RocketRender(dispatcher);
+		});
+		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.LOST_SOUL_SHOOT, (dispatcher, context) -> {
+			return new LostSoulShootRender(dispatcher);
+		});
+		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.BARENBLAST, (dispatcher, context) -> {
+			return new BarenBlastRender(dispatcher);
+		});
+		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.BULLETS, (dispatcher, context) -> {
+			return new BulletsRender(dispatcher);
+		});
+		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.CHAINGUN_BULLET, (dispatcher, context) -> {
+			return new ChaingunBulletRender(dispatcher);
 		});
 	}
 }

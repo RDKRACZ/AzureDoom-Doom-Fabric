@@ -29,6 +29,11 @@ public class RocketLauncher extends RangedWeaponItem {
 	}
 
 	@Override
+	public boolean hasGlint(ItemStack stack) {
+		return false;
+	}
+
+	@Override
 	public boolean canRepair(ItemStack stack, ItemStack ingredient) {
 		return DoomTier.DOOM.getRepairIngredient().test(ingredient) || super.canRepair(stack, ingredient);
 	}

@@ -23,6 +23,11 @@ public class AxeMarauderItem extends AxeItem {
 	}
 
 	@Override
+	public boolean hasGlint(ItemStack stack) {
+		return false;
+	}
+
+	@Override
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
 		tooltip.add(new TranslatableText("\u00A7o" + "\u00A7c" + "You were never one of us. You were"));
 		tooltip.add(new TranslatableText("\u00A7o" + "\u00A7c" + "nothing but a usurper, a false"));

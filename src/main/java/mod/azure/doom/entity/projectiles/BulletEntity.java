@@ -1,8 +1,10 @@
 package mod.azure.doom.entity.projectiles;
 
-import mod.azure.doom.EntityPacket;
 import mod.azure.doom.util.DoomItems;
 import mod.azure.doom.util.ProjectilesEntityRegister;
+import mod.azure.doom.util.packets.EntityPacket;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -107,6 +109,12 @@ public class BulletEntity extends PersistentProjectileEntity {
 	@Override
 	public ItemStack asItemStack() {
 		return new ItemStack(DoomItems.ARGENT_BOLT);
+	}
+	
+	@Override
+    @Environment(EnvType.CLIENT)
+	public boolean shouldRender(double distance) {
+		return true;
 	}
 
 }

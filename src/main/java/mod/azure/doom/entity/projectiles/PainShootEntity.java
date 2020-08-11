@@ -1,8 +1,10 @@
 package mod.azure.doom.entity.projectiles;
 
-import mod.azure.doom.EntityPacket;
 import mod.azure.doom.util.ProjectilesEntityRegister;
+import mod.azure.doom.util.packets.EntityPacket;
 import mod.azure.doom.util.ModSoundEvents;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ExplosiveProjectileEntity;
@@ -112,6 +114,12 @@ public class PainShootEntity extends ExplosiveProjectileEntity {
 	protected void explode() {
 		this.world.createExplosion(this, this.getX(), this.getBodyY(0.0625D), this.getZ(), 1.0F,
 				Explosion.DestructionType.NONE);
+	}
+	
+	@Override
+    @Environment(EnvType.CLIENT)
+	public boolean shouldRender(double distance) {
+		return true;
 	}
 
 }

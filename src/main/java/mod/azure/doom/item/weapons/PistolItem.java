@@ -27,6 +27,12 @@ public class PistolItem extends RangedWeaponItem {
 	public PistolItem() {
 		super(new Item.Settings().group(DoomMod.DoomItemGroup).maxCount(1).maxDamage(9000));
 	}
+	
+	@Override
+	public boolean hasGlint(ItemStack stack) {
+		return false;
+	}
+
 
 	@Override
 	public boolean canRepair(ItemStack stack, ItemStack ingredient) {
@@ -122,6 +128,11 @@ public class PistolItem extends RangedWeaponItem {
 	@Override
 	public Predicate<ItemStack> getProjectiles() {
 		return itemStack -> itemStack.getItem() instanceof ClipAmmo;
+	}
+
+	@Override
+	public Predicate<ItemStack> getHeldProjectiles() {
+		return getProjectiles();
 	}
 
 	public BulletEntity customeArrow(BulletEntity arrow) {

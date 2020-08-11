@@ -10,6 +10,8 @@ import mod.azure.doom.entity.projectiles.BarenBlastEntity;
 import mod.azure.doom.item.entityweapons.BarenBlastItem;
 import mod.azure.doom.util.DoomItems;
 import mod.azure.doom.util.ModSoundEvents;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityData;
@@ -32,8 +34,6 @@ import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.RangedWeaponItem;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Packet;
-import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -67,11 +67,6 @@ public class BaronEntity extends DemonEntity implements RangedAttackMob {
 			BlockPos p_223337_3_, Random p_223337_4_) {
 		return p_223337_1_.getDifficulty() != Difficulty.PEACEFUL;
 	}
-	
-	@Override
-	public Packet<?> createSpawnPacket() {
-		return new EntitySpawnS2CPacket(this);
-	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
@@ -84,7 +79,7 @@ public class BaronEntity extends DemonEntity implements RangedAttackMob {
 	}
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
-		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
+		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED,0.15D)
 				.add(EntityAttributes.GENERIC_MAX_HEALTH, 40.0D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 15.0D);
 	}
 
@@ -98,6 +93,7 @@ public class BaronEntity extends DemonEntity implements RangedAttackMob {
 	@Override
 	public EntityData initialize(WorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason,
 			@Nullable EntityData entityData, @Nullable CompoundTag entityTag) {
+		entityData = super.initialize(world, difficulty, spawnReason, entityData, entityTag);
 		this.initEquipment(difficulty);
 		if (this.getEquippedStack(EquipmentSlot.HEAD).isEmpty()) {
 			LocalDate localDate = LocalDate.now();
@@ -109,7 +105,7 @@ public class BaronEntity extends DemonEntity implements RangedAttackMob {
 				this.armorDropChances[EquipmentSlot.HEAD.getEntitySlotId()] = 0.0F;
 			}
 		}
-		return (EntityData) entityData;
+		return entityData;
 	}
 
 	protected boolean shouldDrown() {
@@ -208,5 +204,11 @@ public class BaronEntity extends DemonEntity implements RangedAttackMob {
 		persistentProjectileEntity.applyEnchantmentEffects(entity, damageModifier);
 
 		return persistentProjectileEntity;
+	}
+
+	@Override
+	@Environment(EnvType.CLIENT)
+	public boolean shouldRender(double distance) {
+		return true;
 	}
 }

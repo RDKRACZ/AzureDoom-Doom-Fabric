@@ -45,7 +45,8 @@ public class ArchvileEntity extends DemonEntity {
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
 		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 25.0D)
-				.add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 7.0D);
+				.add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 7.0D)
+				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.15D);
 	}
 
 	protected boolean shouldDrown() {
@@ -261,5 +262,4 @@ public class ArchvileEntity extends DemonEntity {
 
 		}
 	}
-
 }

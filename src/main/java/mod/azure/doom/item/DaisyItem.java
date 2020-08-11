@@ -18,6 +18,11 @@ public class DaisyItem extends Item {
 	}
 
 	@Override
+	public boolean hasGlint(ItemStack stack) {
+		return false;
+	}
+
+	@Override
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
 		tooltip.add(new TranslatableText("\u00A7o" + "\u00A7e" + "For Daisy. Rip and Tear."));
 		tooltip.add(new TranslatableText("\u00A7o" + "Grants the Player unlimited Speed 3 when worn."));

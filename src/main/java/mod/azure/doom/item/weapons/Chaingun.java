@@ -31,6 +31,11 @@ public class Chaingun extends RangedWeaponItem {
 	}
 
 	@Override
+	public boolean hasGlint(ItemStack stack) {
+		return false;
+	}
+
+	@Override
 	public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
 		ItemStack stack = new ItemStack(this);
 		stack.hasTag();
@@ -142,6 +147,11 @@ public class Chaingun extends RangedWeaponItem {
 	@Override
 	public Predicate<ItemStack> getProjectiles() {
 		return itemStack -> itemStack.getItem() instanceof ChaingunAmmo;
+	}
+
+	@Override
+	public Predicate<ItemStack> getHeldProjectiles() {
+		return getProjectiles();
 	}
 
 	public ChaingunBulletEntity customeArrow(ChaingunBulletEntity arrow) {

@@ -55,7 +55,7 @@ public class MarauderEntity extends DemonEntity {
 	}
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
-		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
+		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED,0.15D)
 				.add(EntityAttributes.GENERIC_MAX_HEALTH, 45.0D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 12.0D);
 	}
 
@@ -69,6 +69,7 @@ public class MarauderEntity extends DemonEntity {
 	@Override
 	public EntityData initialize(WorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason,
 			@Nullable EntityData entityData, @Nullable CompoundTag entityTag) {
+		entityData = super.initialize(world, difficulty, spawnReason, entityData, entityTag);
 		this.initEquipment(difficulty);
 		if (this.getEquippedStack(EquipmentSlot.HEAD).isEmpty()) {
 			LocalDate localDate = LocalDate.now();
@@ -80,7 +81,7 @@ public class MarauderEntity extends DemonEntity {
 				this.armorDropChances[EquipmentSlot.HEAD.getEntitySlotId()] = 0.0F;
 			}
 		}
-		return (EntityData) entityData;
+		return entityData;
 	}
 
 	@Override

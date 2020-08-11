@@ -1,9 +1,11 @@
 package mod.azure.doom.entity.projectiles;
 
-import mod.azure.doom.EntityPacket;
 import mod.azure.doom.util.DoomItems;
 import mod.azure.doom.util.ProjectilesEntityRegister;
+import mod.azure.doom.util.packets.EntityPacket;
 import mod.azure.doom.util.ModSoundEvents;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -49,6 +51,7 @@ public class BarenBlastEntity extends PersistentProjectileEntity {
 	public Packet<?> createSpawnPacket() {
         return EntityPacket.createPacket(this);
     }
+	
 	protected void func_225516_i_() {
 		++this.ticksInAir;
 		if (this.ticksInAir >= 40) {
@@ -118,6 +121,12 @@ public class BarenBlastEntity extends PersistentProjectileEntity {
 	@Override
 	public ItemStack asItemStack() {
 		return new ItemStack(DoomItems.ARGENT_BOLT);
+	}
+	
+	@Override
+    @Environment(EnvType.CLIENT)
+	public boolean shouldRender(double distance) {
+		return true;
 	}
 
 }

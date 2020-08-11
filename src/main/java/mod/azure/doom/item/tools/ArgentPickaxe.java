@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 public class ArgentPickaxe extends PickaxeItem {
 
 	public ArgentPickaxe() {
-		super(DoomTier.DOOM, 4, -2.4F, new Item.Settings().group(DoomMod.DoomItemGroup).maxCount(1));
+		super(DoomTier.DOOM, 1, -2.4F, new Item.Settings().group(DoomMod.DoomItemGroup).maxCount(1));
 	}
 
 	@Override

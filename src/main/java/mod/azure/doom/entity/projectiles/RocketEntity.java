@@ -1,9 +1,11 @@
 package mod.azure.doom.entity.projectiles;
 
-import mod.azure.doom.EntityPacket;
 import mod.azure.doom.util.DoomItems;
 import mod.azure.doom.util.ProjectilesEntityRegister;
+import mod.azure.doom.util.packets.EntityPacket;
 import mod.azure.doom.util.ModSoundEvents;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -28,7 +30,7 @@ public class RocketEntity extends PersistentProjectileEntity {
 	}
 
 	public RocketEntity(World world, LivingEntity owner) {
-		super(ProjectilesEntityRegister.ARGENT_BOLT, owner, world);
+		super(ProjectilesEntityRegister.ROCKET, owner, world);
 	}
 
 	protected RocketEntity(EntityType<? extends RocketEntity> type, double x, double y, double z, World world) {
@@ -77,7 +79,7 @@ public class RocketEntity extends PersistentProjectileEntity {
 	}
 
 	public void initFromStack(ItemStack stack) {
-		if (stack.getItem() == DoomItems.ARGENT_BOLT) {
+		if (stack.getItem() == DoomItems.ROCKET) {
 		}
 	}
 
@@ -118,6 +120,12 @@ public class RocketEntity extends PersistentProjectileEntity {
 	protected void explode() {
 		this.world.createExplosion(this, this.getX(), this.getBodyY(0.0625D), this.getZ(), 2.0F,
 				Explosion.DestructionType.NONE);
+	}
+	
+	@Override
+    @Environment(EnvType.CLIENT)
+	public boolean shouldRender(double distance) {
+		return true;
 	}
 
 }

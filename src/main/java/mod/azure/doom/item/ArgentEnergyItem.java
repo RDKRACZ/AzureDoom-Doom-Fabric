@@ -15,12 +15,7 @@ public class ArgentEnergyItem extends Item {
 	public ArgentEnergyItem() {
 		super(new Item.Settings().group(DoomMod.DoomItemGroup));
 	}
-	
-//	@Override
-//	public int getBurnTime(ItemStack itemStack) {
-//		return 100000;
-//	}
-	
+
 	@Override
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
 		tooltip.add(new TranslatableText("\u00A7c" + "\u00A7o" + "Created by combining the tortured"));

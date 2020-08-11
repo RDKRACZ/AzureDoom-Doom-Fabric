@@ -1,6 +1,8 @@
 package mod.azure.doom.block;
 
 import mod.azure.doom.entity.projectiles.BarrelEntity;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -35,12 +37,9 @@ public class BarrelBlock extends Block {
 
 	@Override
 	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
-		if (!oldState.isOf(state.getBlock())) {
-			if (world.isReceivingRedstonePower(pos)) {
-				primeBlock(world, pos);
-				world.removeBlock(pos, false);
-			}
-
+		if (world.isReceivingRedstonePower(pos)) {
+			primeBlock(world, pos);
+			world.removeBlock(pos, false);
 		}
 	}
 
@@ -106,6 +105,7 @@ public class BarrelBlock extends Block {
 	}
 
 	@Override
+	@Environment(EnvType.CLIENT)
 	public float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {
 		return 10F;
 	}

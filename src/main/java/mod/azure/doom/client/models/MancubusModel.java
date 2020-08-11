@@ -8,63 +8,58 @@ import net.minecraft.client.render.entity.model.CompositeEntityModel;
 import net.minecraft.util.math.MathHelper;
 
 public class MancubusModel<T extends MancubusEntity> extends CompositeEntityModel<T> {
-	private final ModelPart ironGolemHead;
-	private final ModelPart ironGolemBody;
-	private final ModelPart ironGolemRightArm;
-	private final ModelPart ironGolemLeftArm;
-	private final ModelPart ironGolemLeftLeg;
-	private final ModelPart ironGolemRightLeg;
+	private final ModelPart head;
+	private final ModelPart torso;
+	private final ModelPart rightArm;
+	private final ModelPart leftArm;
+	private final ModelPart rightLeg;
+	private final ModelPart leftLeg;
 
 	public MancubusModel() {
-		this.ironGolemHead = (new ModelPart(this)).setTextureSize(128, 128);
-		this.ironGolemHead.setPivot(0.0F, -7.0F, -2.0F);
-		this.ironGolemHead.setTextureOffset(0, 0).addCuboid(-4.0F, -12.0F, -5.5F, 8.0F, 10.0F, 8.0F, 0.0F);
-		this.ironGolemHead.setTextureOffset(24, 0).addCuboid(-1.0F, -5.0F, -7.5F, 2.0F, 4.0F, 2.0F, 0.0F);
-		this.ironGolemBody = (new ModelPart(this)).setTextureSize(128, 128);
-		this.ironGolemBody.setPivot(0.0F, -7.0F, 0.0F);
-		this.ironGolemBody.setTextureOffset(0, 40).addCuboid(-9.0F, -2.0F, -6.0F, 18.0F, 12.0F, 11.0F, 0.0F);
-		this.ironGolemBody.setTextureOffset(0, 70).addCuboid(-4.5F, 10.0F, -3.0F, 9.0F, 5.0F, 6.0F, 0.5F);
-		this.ironGolemRightArm = (new ModelPart(this)).setTextureSize(128, 128);
-		this.ironGolemRightArm.setPivot(0.0F, -7.0F, 0.0F);
-		this.ironGolemRightArm.setTextureOffset(60, 21).addCuboid(-13.0F, -2.5F, -3.0F, 4.0F, 30.0F, 6.0F, 0.0F);
-		this.ironGolemLeftArm = (new ModelPart(this)).setTextureSize(128, 128);
-		this.ironGolemLeftArm.setPivot(0.0F, -7.0F, 0.0F);
-		this.ironGolemLeftArm.setTextureOffset(60, 58).addCuboid(9.0F, -2.5F, -3.0F, 4.0F, 30.0F, 6.0F, 0.0F);
-		this.ironGolemLeftLeg = (new ModelPart(this, 0, 22)).setTextureSize(128, 128);
-		this.ironGolemLeftLeg.setPivot(-4.0F, 11.0F, 0.0F);
-		this.ironGolemLeftLeg.setTextureOffset(37, 0).addCuboid(-3.5F, -3.0F, -3.0F, 6.0F, 16.0F, 5.0F, 0.0F);
-		this.ironGolemRightLeg = (new ModelPart(this, 0, 22)).setTextureSize(128, 128);
-		this.ironGolemRightLeg.mirror = true;
-		this.ironGolemRightLeg.setTextureOffset(60, 0).setPivot(5.0F, 11.0F, 0.0F);
-		this.ironGolemRightLeg.addCuboid(-3.5F, -3.0F, -3.0F, 6.0F, 16.0F, 5.0F, 0.0F);
+		this.head = (new ModelPart(this)).setTextureSize(128, 128);
+		this.head.setPivot(0.0F, -7.0F, -2.0F);
+		this.head.setTextureOffset(0, 0).addCuboid(-4.0F, -12.0F, -5.5F, 8.0F, 10.0F, 8.0F, 0.0F);
+		this.head.setTextureOffset(24, 0).addCuboid(-1.0F, -5.0F, -7.5F, 2.0F, 4.0F, 2.0F, 0.0F);
+		this.torso = (new ModelPart(this)).setTextureSize(128, 128);
+		this.torso.setPivot(0.0F, -7.0F, 0.0F);
+		this.torso.setTextureOffset(0, 40).addCuboid(-9.0F, -2.0F, -6.0F, 18.0F, 12.0F, 11.0F, 0.0F);
+		this.torso.setTextureOffset(0, 70).addCuboid(-4.5F, 10.0F, -3.0F, 9.0F, 5.0F, 6.0F, 0.5F);
+		this.rightArm = (new ModelPart(this)).setTextureSize(128, 128);
+		this.rightArm.setPivot(0.0F, -7.0F, 0.0F);
+		this.rightArm.setTextureOffset(60, 21).addCuboid(-13.0F, -2.5F, -3.0F, 4.0F, 30.0F, 6.0F, 0.0F);
+		this.leftArm = (new ModelPart(this)).setTextureSize(128, 128);
+		this.leftArm.setPivot(0.0F, -7.0F, 0.0F);
+		this.leftArm.setTextureOffset(60, 58).addCuboid(9.0F, -2.5F, -3.0F, 4.0F, 30.0F, 6.0F, 0.0F);
+		this.rightLeg = (new ModelPart(this, 0, 22)).setTextureSize(128, 128);
+		this.rightLeg.setPivot(-4.0F, 11.0F, 0.0F);
+		this.rightLeg.setTextureOffset(37, 0).addCuboid(-3.5F, -3.0F, -3.0F, 6.0F, 16.0F, 5.0F, 0.0F);
+		this.leftLeg = (new ModelPart(this, 0, 22)).setTextureSize(128, 128);
+		this.leftLeg.mirror = true;
+		this.leftLeg.setTextureOffset(60, 0).setPivot(5.0F, 11.0F, 0.0F);
+		this.leftLeg.addCuboid(-3.5F, -3.0F, -3.0F, 6.0F, 16.0F, 5.0F, 0.0F);
 	}
 
 	public Iterable<ModelPart> getParts() {
-		return ImmutableList.of(this.ironGolemHead, this.ironGolemBody, this.ironGolemLeftLeg, this.ironGolemRightLeg,
-				this.ironGolemRightArm, this.ironGolemLeftArm);
+		return ImmutableList.of(this.head, this.torso, this.rightLeg, this.leftLeg, this.rightArm, this.leftArm);
 	}
-	
+
+	public void setAngles(T ironGolemEntity, float f, float g, float h, float i, float j) {
+		this.head.yaw = i * 0.017453292F;
+		this.head.pitch = j * 0.017453292F;
+		this.rightLeg.pitch = -1.5F * MathHelper.method_24504(f, 13.0F) * g;
+		this.leftLeg.pitch = 1.5F * MathHelper.method_24504(f, 13.0F) * g;
+		this.rightLeg.yaw = 0.0F;
+		this.leftLeg.yaw = 0.0F;
+	}
+
 	public void animateModel(T ironGolemEntity, float f, float g, float h) {
-		this.ironGolemRightArm.pitch = (-0.2F + 1.5F * MathHelper.method_24504(f, 13.0F)) * g;
-		this.ironGolemLeftArm.pitch = (-0.2F - 1.5F * MathHelper.method_24504(f, 13.0F)) * g;
+
+		this.rightArm.pitch = (-0.2F + 1.5F * MathHelper.method_24504(f, 13.0F)) * g;
+		this.leftArm.pitch = (-0.2F - 1.5F * MathHelper.method_24504(f, 13.0F)) * g;
+
 	}
 
-	private float triangleWave(float p_78172_1_, float p_78172_2_) {
-		return (Math.abs(p_78172_1_ % p_78172_2_ - p_78172_2_ * 0.5F) - p_78172_2_ * 0.25F) / (p_78172_2_ * 0.25F);
-	}
-
-	public ModelPart getArmHoldingRose() {
-		return this.ironGolemRightArm;
-	}
-
-	@Override
-	public void setAngles(T entity, float limbSwing, float limbSwingAmount, float animationProgress, float netHeadYaw,
-			float headPitch) {
-		this.ironGolemHead.pivotY = netHeadYaw * ((float) Math.PI / 180F);
-		this.ironGolemHead.pivotX = headPitch * ((float) Math.PI / 180F);
-		this.ironGolemLeftLeg.pivotX = -1.5F * this.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
-		this.ironGolemRightLeg.pivotX = 1.5F * this.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
-		this.ironGolemLeftLeg.pivotY = 0.0F;
-		this.ironGolemRightLeg.pivotY = 0.0F;
+	public ModelPart getRightArm() {
+		return this.rightArm;
 	}
 }

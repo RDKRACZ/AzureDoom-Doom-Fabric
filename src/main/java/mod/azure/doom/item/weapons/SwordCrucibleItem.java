@@ -23,6 +23,11 @@ public class SwordCrucibleItem extends SwordItem {
 	}
 
 	@Override
+	public boolean hasGlint(ItemStack stack) {
+		return false;
+	}
+
+	@Override
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
 		tooltip.add(new TranslatableText("\u00A7c" + "Rip and Tear. Until it is done."));
 		super.appendTooltip(stack, world, tooltip, context);

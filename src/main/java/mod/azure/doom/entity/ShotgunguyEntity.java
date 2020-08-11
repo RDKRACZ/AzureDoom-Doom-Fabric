@@ -34,8 +34,6 @@ import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.RangedWeaponItem;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Packet;
-import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -72,11 +70,6 @@ public class ShotgunguyEntity extends DemonEntity implements RangedAttackMob {
 	}
 
 	@Override
-	public Packet<?> createSpawnPacket() {
-		return new EntitySpawnS2CPacket(this);
-	}
-
-	@Override
 	protected void initGoals() {
 		this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
 		this.goalSelector.add(6, new LookAroundGoal(this));
@@ -94,7 +87,7 @@ public class ShotgunguyEntity extends DemonEntity implements RangedAttackMob {
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
 		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
-				.add(EntityAttributes.GENERIC_MAX_HEALTH, 15.0D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 4.0D);
+				.add(EntityAttributes.GENERIC_MAX_HEALTH, 15.0D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 4.0D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED,0.15D);
 	}
 
 	@Override
@@ -107,6 +100,7 @@ public class ShotgunguyEntity extends DemonEntity implements RangedAttackMob {
 	@Override
 	public EntityData initialize(WorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason,
 			@Nullable EntityData entityData, @Nullable CompoundTag entityTag) {
+		entityData = super.initialize(world, difficulty, spawnReason, entityData, entityTag);
 		this.initEquipment(difficulty);
 		if (this.getEquippedStack(EquipmentSlot.HEAD).isEmpty()) {
 			LocalDate localDate = LocalDate.now();
@@ -118,7 +112,7 @@ public class ShotgunguyEntity extends DemonEntity implements RangedAttackMob {
 				this.armorDropChances[EquipmentSlot.HEAD.getEntitySlotId()] = 0.0F;
 			}
 		}
-		return (EntityData) entityData;
+		return entityData;
 	}
 
 	public void readCustomDataFromTag(CompoundTag tag) {

@@ -14,6 +14,7 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 
@@ -37,6 +38,13 @@ public class InvisibleSphereItem extends Item {
 				}
 			}
 		}
+	}
+
+	@Override
+	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+		ItemStack itemStack = user.getStackInHand(hand);
+		user.setCurrentHand(hand);
+		return TypedActionResult.consume(itemStack);
 	}
 
 	@Override

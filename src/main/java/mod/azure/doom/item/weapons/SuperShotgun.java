@@ -50,6 +50,11 @@ public class SuperShotgun extends CrossbowItem {
 	}
 
 	@Override
+	public boolean hasGlint(ItemStack stack) {
+		return false;
+	}
+
+	@Override
 	public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
 		ItemStack stack = new ItemStack(this);
 		stack.hasTag();
@@ -84,6 +89,7 @@ public class SuperShotgun extends CrossbowItem {
 		return itemStack -> itemStack.getItem() instanceof ShellAmmo;
 	}
 
+	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
 		ItemStack itemStack = user.getStackInHand(hand);
 		if (isCharged(itemStack)) {
@@ -103,6 +109,7 @@ public class SuperShotgun extends CrossbowItem {
 		}
 	}
 
+	@Override
 	public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
 		int i = this.getMaxUseTime(stack) - remainingUseTicks;
 		float f = getPullProgress(i, stack);
@@ -310,6 +317,7 @@ public class SuperShotgun extends CrossbowItem {
 		clearProjectiles(stack);
 	}
 
+	@Override
 	public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
 		if (!world.isClient) {
 			int i = EnchantmentHelper.getLevel(Enchantments.QUICK_CHARGE, stack);
@@ -336,8 +344,9 @@ public class SuperShotgun extends CrossbowItem {
 
 	}
 
+	@Override
 	public int getMaxUseTime(ItemStack stack) {
-		return getPullTime(stack) + 3;
+		return getPullTime(stack) + 128;
 	}
 
 	public static int getPullTime(ItemStack stack) {
@@ -345,6 +354,7 @@ public class SuperShotgun extends CrossbowItem {
 		return i == 0 ? 25 : 25 - 5 * i;
 	}
 
+	@Override
 	public UseAction getUseAction(ItemStack stack) {
 		return UseAction.CROSSBOW;
 	}
@@ -375,6 +385,7 @@ public class SuperShotgun extends CrossbowItem {
 		return stack.getItem() == DoomItems.SSG && hasProjectile(stack, Items.FIREWORK_ROCKET) ? 1.6F : 3.15F;
 	}
 
+	@Override
 	public int getRange() {
 		return 8;
 	}
