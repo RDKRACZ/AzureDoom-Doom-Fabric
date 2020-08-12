@@ -100,7 +100,7 @@ public class DemonModel<T extends DemonEntity> extends BipedEntityModel<T> {
 		}
 
 		this.method_29353(livingEntity, h);
-		if (this.isSneaking) {
+		if (this.sneaking) {
 			this.torso.pitch = 0.5F;
 			var10000 = this.rightArm;
 			var10000.pitch += 0.4F;

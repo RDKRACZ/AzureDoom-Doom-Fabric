@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoField;
 import java.util.Random;
 
-import blue.endless.jankson.annotation.Nullable;
+import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.annotation.Nullable;
 import mod.azure.doom.entity.ai.goal.RangedBarenBlastAttackGoal;
 import mod.azure.doom.entity.projectiles.BarenBlastEntity;
 import mod.azure.doom.item.entityweapons.BarenBlastItem;
@@ -39,8 +39,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
 
 public class BaronEntity extends DemonEntity implements RangedAttackMob {
 
@@ -79,8 +79,9 @@ public class BaronEntity extends DemonEntity implements RangedAttackMob {
 	}
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
-		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED,0.15D)
-				.add(EntityAttributes.GENERIC_MAX_HEALTH, 40.0D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 15.0D);
+		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
+				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.15D).add(EntityAttributes.GENERIC_MAX_HEALTH, 40.0D)
+				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 15.0D);
 	}
 
 	@Override
@@ -91,9 +92,9 @@ public class BaronEntity extends DemonEntity implements RangedAttackMob {
 
 	@Nullable
 	@Override
-	public EntityData initialize(WorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason,
-			@Nullable EntityData entityData, @Nullable CompoundTag entityTag) {
-		entityData = super.initialize(world, difficulty, spawnReason, entityData, entityTag);
+	public EntityData initialize(ServerWorldAccess serverWorldAccess, LocalDifficulty difficulty,
+			SpawnReason spawnReason, EntityData entityData, CompoundTag entityTag) {
+		entityData = super.initialize(serverWorldAccess, difficulty, spawnReason, entityData, entityTag);
 		this.initEquipment(difficulty);
 		if (this.getEquippedStack(EquipmentSlot.HEAD).isEmpty()) {
 			LocalDate localDate = LocalDate.now();
@@ -105,6 +106,7 @@ public class BaronEntity extends DemonEntity implements RangedAttackMob {
 				this.armorDropChances[EquipmentSlot.HEAD.getEntitySlotId()] = 0.0F;
 			}
 		}
+
 		return entityData;
 	}
 

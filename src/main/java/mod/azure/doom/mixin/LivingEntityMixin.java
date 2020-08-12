@@ -31,7 +31,7 @@ public class LivingEntityMixin {
 				livingEntity.clearStatusEffects();
 				livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 100, 4));
 				livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 100, 4));
-				livingEntity.world.sendEntityStatus(livingEntity, (byte) 36);
+				livingEntity.world.sendEntityStatus(livingEntity, (byte) 95);
 				ci.setReturnValue(true);
 			}
 		}

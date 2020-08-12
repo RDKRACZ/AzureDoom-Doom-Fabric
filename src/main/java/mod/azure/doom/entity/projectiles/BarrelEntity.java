@@ -1,6 +1,6 @@
 package mod.azure.doom.entity.projectiles;
 
-import blue.endless.jankson.annotation.Nullable;
+import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.annotation.Nullable;
 
 import mod.azure.doom.util.MobEntityRegister;
 import net.fabricmc.api.EnvType;

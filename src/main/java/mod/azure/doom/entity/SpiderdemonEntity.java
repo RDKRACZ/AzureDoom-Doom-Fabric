@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoField;
 import java.util.Random;
 
-import blue.endless.jankson.annotation.Nullable;
+import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.annotation.Nullable;
 import mod.azure.doom.entity.ai.goal.RangedSpiderdemonAttackGoal;
 import mod.azure.doom.entity.projectiles.ChaingunBulletEntity;
 import mod.azure.doom.item.ammo.ChaingunAmmo;
@@ -38,8 +38,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
 
 public class SpiderdemonEntity extends DemonEntity implements RangedAttackMob {
 
@@ -74,10 +74,11 @@ public class SpiderdemonEntity extends DemonEntity implements RangedAttackMob {
 		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 	}
-	
+
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
-		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED,0.15D)
-				.add(EntityAttributes.GENERIC_MAX_HEALTH, 25.0D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0D);
+		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
+				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.15D).add(EntityAttributes.GENERIC_MAX_HEALTH, 25.0D)
+				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0D);
 	}
 
 	@Override
@@ -88,9 +89,9 @@ public class SpiderdemonEntity extends DemonEntity implements RangedAttackMob {
 
 	@Nullable
 	@Override
-	public EntityData initialize(WorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason,
-			@Nullable EntityData entityData, @Nullable CompoundTag entityTag) {
-		entityData = super.initialize(world, difficulty, spawnReason, entityData, entityTag);
+	public EntityData initialize(ServerWorldAccess serverWorldAccess, LocalDifficulty difficulty,
+			SpawnReason spawnReason, EntityData entityData, CompoundTag entityTag) {
+		entityData = super.initialize(serverWorldAccess, difficulty, spawnReason, entityData, entityTag);
 		this.initEquipment(difficulty);
 		if (this.getEquippedStack(EquipmentSlot.HEAD).isEmpty()) {
 			LocalDate localDate = LocalDate.now();
@@ -102,6 +103,7 @@ public class SpiderdemonEntity extends DemonEntity implements RangedAttackMob {
 				this.armorDropChances[EquipmentSlot.HEAD.getEntitySlotId()] = 0.0F;
 			}
 		}
+
 		return entityData;
 	}
 
@@ -122,7 +124,8 @@ public class SpiderdemonEntity extends DemonEntity implements RangedAttackMob {
 		if (this.world != null && !this.world.isClient) {
 			this.goalSelector.remove(this.meleeAttackGoal);
 			this.goalSelector.remove(this.aiArrowAttack);
-			ItemStack itemStack = this.getStackInHand(ProjectileUtil.getHandPossiblyHolding(this, DoomItems.SPIDERDEMONATTACK));
+			ItemStack itemStack = this
+					.getStackInHand(ProjectileUtil.getHandPossiblyHolding(this, DoomItems.SPIDERDEMONATTACK));
 			if (itemStack.getItem() == DoomItems.SPIDERDEMONATTACK) {
 				int i = 20;
 				if (this.world.getDifficulty() != Difficulty.HARD) {
@@ -139,8 +142,8 @@ public class SpiderdemonEntity extends DemonEntity implements RangedAttackMob {
 	}
 
 	public void attack(LivingEntity target, float pullProgress) {
-		ItemStack itemStack = this
-				.getArrowType(this.getStackInHand(ProjectileUtil.getHandPossiblyHolding(this, DoomItems.CHAINGUN_BULLETS)));
+		ItemStack itemStack = this.getArrowType(
+				this.getStackInHand(ProjectileUtil.getHandPossiblyHolding(this, DoomItems.CHAINGUN_BULLETS)));
 		ChaingunBulletEntity persistentProjectileEntity = this.createArrowProjectile(itemStack, pullProgress);
 		double d = target.getX() - this.getX();
 		double e = target.getBodyY(0.3333333333333333D) - persistentProjectileEntity.getY();
@@ -160,8 +163,10 @@ public class SpiderdemonEntity extends DemonEntity implements RangedAttackMob {
 		return weapon == DoomItems.SPIDERDEMONATTACK;
 	}
 
-	public static ChaingunBulletEntity createArrowProjectile(LivingEntity entity, ItemStack stack, float damageModifier) {
-		ChaingunAmmo arrowItem = (ChaingunAmmo) ((ChaingunAmmo) (stack.getItem() instanceof ChaingunAmmo ? stack.getItem()
+	public static ChaingunBulletEntity createArrowProjectile(LivingEntity entity, ItemStack stack,
+			float damageModifier) {
+		ChaingunAmmo arrowItem = (ChaingunAmmo) ((ChaingunAmmo) (stack.getItem() instanceof ChaingunAmmo
+				? stack.getItem()
 				: DoomItems.CHAINGUN_BULLETS));
 		ChaingunBulletEntity persistentProjectileEntity = arrowItem.createArrow(entity.world, stack, entity);
 		persistentProjectileEntity.applyEnchantmentEffects(entity, damageModifier);

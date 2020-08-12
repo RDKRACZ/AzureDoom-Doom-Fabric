@@ -209,7 +209,7 @@ public class BipedModelSkin<T extends LivingEntity> extends BipedEntityModel<T> 
 			f1 = 1.0F - f1;
 		}
 
-		if (this.isSneaking) {
+		if (this.sneaking) {
 			this.torso.pivotX = 0.5F;
 			this.rightArm.pivotX += 0.4F;
 			this.leftArm.pivotX += 0.4F;

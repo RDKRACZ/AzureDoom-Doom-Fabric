@@ -1,8 +1,13 @@
 package mod.azure.doom.client;
 
 import mod.azure.doom.util.DoomItems;
+import mod.azure.doom.util.packets.EntityPacket;
+import mod.azure.doom.util.packets.EntityPacketOnClient;
 import nerdhub.cardinal.components.api.event.ItemComponentCallbackV2;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -13,10 +18,15 @@ import net.minecraft.util.math.Direction;
 import top.theillusivec4.curios.api.CuriosComponent;
 import top.theillusivec4.curios.api.type.component.IRenderableCurio;
 
+@Environment(EnvType.CLIENT)
 public class Clientnit implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
+		DoomRenderRegistry.init();
+		ClientSidePacketRegistry.INSTANCE.register(EntityPacket.ID, (ctx, buf) -> {
+			EntityPacketOnClient.onPacket(ctx, buf);
+		});
 		ItemComponentCallbackV2.event(DoomItems.SOULCUBE).register(((item, itemStack,
 				componentContainer) -> componentContainer.put(CuriosComponent.ITEM_RENDER, new IRenderableCurio() {
 					@Override

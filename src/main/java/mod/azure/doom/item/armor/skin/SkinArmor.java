@@ -33,7 +33,7 @@ public class SkinArmor extends ArmorItem {
 				model.bipedLeftArmwear.visible = armorSlot == EquipmentSlot.CHEST;
 				model.bipedRightLegwear.visible = (armorSlot == EquipmentSlot.LEGS);
 				model.bipedLeftLegwear.visible = (armorSlot == EquipmentSlot.LEGS);
-				model.isSneaking = _default.isSneaking;
+				model.sneaking = _default.sneaking;
 				model.riding = _default.riding;
 				model.child = _default.child;
 				model.rightArmPose = _default.rightArmPose;

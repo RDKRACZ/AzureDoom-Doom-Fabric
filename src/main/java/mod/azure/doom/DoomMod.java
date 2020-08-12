@@ -1,6 +1,5 @@
 package mod.azure.doom;
 
-import mod.azure.doom.client.DoomRenderRegistry;
 import mod.azure.doom.util.DoomBlocks;
 import mod.azure.doom.util.DoomItems;
 import mod.azure.doom.util.MobAttributes;
@@ -8,12 +7,9 @@ import mod.azure.doom.util.MobEntityRegister;
 import mod.azure.doom.util.MobSpawn;
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.ProjectilesEntityRegister;
-import mod.azure.doom.util.packets.EntityPacket;
-import mod.azure.doom.util.packets.EntityPacketOnClient;
 import nerdhub.cardinal.components.api.event.ItemComponentCallbackV2;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -48,13 +44,9 @@ public class DoomMod implements ModInitializer {
 		SOUNDS = new ModSoundEvents();
 		PROJECTILES = new ProjectilesEntityRegister();
 		MOBS = new MobEntityRegister();
-		DoomRenderRegistry.init();
 		MobAttributes.init();
 		MobSpawn.init();
 		FuelRegistry.INSTANCE.add(DoomItems.ARGENT_ENERGY, 100000);
-		ClientSidePacketRegistry.INSTANCE.register(EntityPacket.ID, (ctx, buf) -> {
-			EntityPacketOnClient.onPacket(ctx, buf);
-		});
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.BELT.getInfoBuilder().build());
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.CHARM.getInfoBuilder().build());
 		ItemComponentCallbackV2.event(DoomItems.SOULCUBE).register(
@@ -86,7 +78,7 @@ public class DoomMod implements ModInitializer {
 					}
 
 					private void startPowers(PlayerEntity player) {
-						player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 10000000, 2));
+						player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 10000000, 3));
 					}
 
 					private void stopPowers(PlayerEntity player) {
