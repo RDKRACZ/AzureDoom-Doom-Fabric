@@ -134,6 +134,8 @@
 	"item.doom.redneck_doom2_boots": "Mullet Slayer Boots (Green)",
 	"item.doom.redneck_doom3_boots": "Mullet Slayer Boots (White)",
 	"block.doom.barrel": "Barrel",
+	"block.doom.argent_block": "Argent Block",
+	"block.doom.argent_lamp_block": "Argent Lamp",
 	"entity.doom.imp": "Imp",
 	"entity.doom.iconofsin": "Icon of Sin",
 	"entity.doom.painelemental": "Pain Elemental",
