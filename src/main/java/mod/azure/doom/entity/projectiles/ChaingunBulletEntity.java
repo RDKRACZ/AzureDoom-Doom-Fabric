@@ -28,7 +28,7 @@ public class ChaingunBulletEntity extends PersistentProjectileEntity {
 	}
 
 	public ChaingunBulletEntity(World world, LivingEntity owner) {
-		super(ProjectilesEntityRegister.ARGENT_BOLT, owner, world);
+		super(ProjectilesEntityRegister.CHAINGUN_BULLET, owner, world);
 	}
 
 	protected ChaingunBulletEntity(EntityType<? extends ChaingunBulletEntity> type, double x, double y, double z,

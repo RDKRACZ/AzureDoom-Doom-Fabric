@@ -4,9 +4,10 @@
 	"package": "mod.azure.doom.mixin",
 	"compatibilityLevel": "JAVA_8",
 	"mixins": [
-		"SpawnRestrictionMixin",
 		"ItemPropMixin",
-		"LivingEntityMixin"
+		"LivingEntityMixin",
+		"MixinSpawnSettings",
+		"SpawnRestrictionAccessor"
 	],
 	"client": [
 		"DoomMixin"

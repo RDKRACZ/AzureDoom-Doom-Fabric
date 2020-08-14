@@ -44,8 +44,8 @@ public class DoomMod implements ModInitializer {
 		SOUNDS = new ModSoundEvents();
 		PROJECTILES = new ProjectilesEntityRegister();
 		MOBS = new MobEntityRegister();
-		MobAttributes.init();
 		MobSpawn.init();
+		MobAttributes.init();
 		FuelRegistry.INSTANCE.add(DoomItems.ARGENT_ENERGY, 100000);
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.BELT.getInfoBuilder().build());
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.CHARM.getInfoBuilder().build());

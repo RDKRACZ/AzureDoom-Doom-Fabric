@@ -16,6 +16,22 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modImplementation "top.theillusivec4.curios:curios-fabric:${curios_version}" 
+	//Cloth Config
+    modApi("me.shedaniel.cloth:config-2:4.7.0-unstable"){
+      exclude module: 'fabric-api'
+    }
+    include "me.shedaniel.cloth:config-2:4.7.0-unstable"
+    
+    //Auto Config
+    modImplementation("me.sargunvohra.mcmods:autoconfig1u:3.2.0-unstable") {
+      exclude module: 'fabric-api'
+    }
+    include "me.sargunvohra.mcmods:autoconfig1u:3.2.0-unstable"
+    
+    //Mod Menu
+    modImplementation("io.github.prospector:modmenu:1.14.6+build.31") {
+      exclude module: 'fabric-api'
+    }
 }
 
 repositories {

@@ -2,6 +2,7 @@ package mod.azure.doom.entity.ai.goal;
 
 import java.util.EnumSet;
 
+import mod.azure.doom.item.weapons.Chaingun;
 import mod.azure.doom.util.DoomItems;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.RangedAttackMob;
@@ -113,6 +114,7 @@ public class RangedChaingunAttackGoal<T extends HostileEntity & RangedAttackMob>
 					int i = this.actor.getItemUseTime();
 					if (i >= 20) {
 						this.actor.clearActiveItem();
+						((RangedAttackMob) this.actor).attack(livingEntity, Chaingun.getPullProgress(i));
 						this.cooldown = this.attackInterval;
 					}
 				}

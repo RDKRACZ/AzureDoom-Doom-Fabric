@@ -7,6 +7,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
@@ -17,7 +20,7 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
 
 public class ShotgunShellEntity extends PersistentProjectileEntity {
-
+	private static final TrackedData<Integer> COLOR;
 	protected int timeInAir;
 	protected boolean inAir;
 	private int ticksInAir;
@@ -43,11 +46,6 @@ public class ShotgunShellEntity extends PersistentProjectileEntity {
 			this.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
 		}
 
-	}
-
-	public void initFromStack(ItemStack stack) {
-		if (stack.getItem() == DoomItems.SHOTGUN_SHELLS) {
-		}
 	}
 
 	@Override
@@ -87,6 +85,13 @@ public class ShotgunShellEntity extends PersistentProjectileEntity {
 		return new ItemStack(DoomItems.SHOTGUN_SHELLS);
 	}
 
+	public void initFromStack(ItemStack stack) {
+		if (stack.getItem() == DoomItems.SHOTGUN_SHELLS) {
+			this.dataTracker.set(COLOR, -1);
+		}
+
+	}
+
 	@Override
 	public boolean hasNoGravity() {
 		if (this.isSubmergedInWater()) {
@@ -111,11 +116,15 @@ public class ShotgunShellEntity extends PersistentProjectileEntity {
 			this.remove();
 		}
 	}
-	
+
 	@Override
-    @Environment(EnvType.CLIENT)
+	@Environment(EnvType.CLIENT)
 	public boolean shouldRender(double distance) {
 		return true;
+	}
+
+	static {
+		COLOR = DataTracker.registerData(ShotgunShellEntity.class, TrackedDataHandlerRegistry.INTEGER);
 	}
 
 }

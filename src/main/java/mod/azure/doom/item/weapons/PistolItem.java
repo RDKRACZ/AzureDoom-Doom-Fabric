@@ -27,12 +27,11 @@ public class PistolItem extends RangedWeaponItem {
 	public PistolItem() {
 		super(new Item.Settings().group(DoomMod.DoomItemGroup).maxCount(1).maxDamage(9000));
 	}
-	
+
 	@Override
 	public boolean hasGlint(ItemStack stack) {
 		return false;
 	}
-
 
 	@Override
 	public boolean canRepair(ItemStack stack, ItemStack ingredient) {
@@ -137,6 +136,16 @@ public class PistolItem extends RangedWeaponItem {
 
 	public BulletEntity customeArrow(BulletEntity arrow) {
 		return arrow;
+	}
+
+	public static float getPullProgress(int useTicks) {
+		float f = (float) useTicks / 20.0F;
+		f = (f * f + f * 2.0F) / 3.0F;
+		if (f > 1.0F) {
+			f = 1.0F;
+		}
+
+		return f;
 	}
 
 	@Override

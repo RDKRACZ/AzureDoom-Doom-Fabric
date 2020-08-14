@@ -1,64 +1,83 @@
 package mod.azure.doom.util;
 
-import net.minecraft.util.registry.BuiltinRegistries;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.SpawnSettings.SpawnEntry;
+import java.util.List;
+
+import mod.azure.doom.mixin.SpawnRestrictionAccessor;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnRestriction;
+import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.world.Heightmap;
 
 public class MobSpawn {
 
-	private static void netherspawn(Biome biome) {
-		for (Biome biome1 : BuiltinRegistries.BIOME) {
-			if (biome1.getCategory() == Biome.Category.NETHER) {
-				biome1.getSpawnSettings().getSpawnEntry(MobEntityRegister.ARCHVILE.getSpawnGroup())
-						.add(new SpawnEntry(MobEntityRegister.ARCHVILE, 3, 1, 3));
-				biome1.getSpawnSettings().getSpawnEntry(MobEntityRegister.BARON.getSpawnGroup())
-						.add(new SpawnEntry(MobEntityRegister.BARON, 3, 1, 3));
-				biome1.getSpawnSettings().getSpawnEntry(MobEntityRegister.CACODEMON.getSpawnGroup())
-						.add(new SpawnEntry(MobEntityRegister.CACODEMON, 3, 1, 3));
-				biome1.getSpawnSettings().getSpawnEntry(MobEntityRegister.CHAINGUNNER.getSpawnGroup())
-						.add(new SpawnEntry(MobEntityRegister.CHAINGUNNER, 3, 1, 3));
-				biome1.getSpawnSettings().getSpawnEntry(MobEntityRegister.CYBERDEMON.getSpawnGroup())
-						.add(new SpawnEntry(MobEntityRegister.CYBERDEMON, 3, 1, 3));
-				biome1.getSpawnSettings().getSpawnEntry(MobEntityRegister.CYBERDEMON2016.getSpawnGroup())
-						.add(new SpawnEntry(MobEntityRegister.CYBERDEMON2016, 3, 1, 3));
-				biome1.getSpawnSettings().getSpawnEntry(MobEntityRegister.HELLKNIGHT.getSpawnGroup())
-						.add(new SpawnEntry(MobEntityRegister.HELLKNIGHT, 3, 1, 3));
-				biome1.getSpawnSettings().getSpawnEntry(MobEntityRegister.ICONOFSIN.getSpawnGroup())
-						.add(new SpawnEntry(MobEntityRegister.ICONOFSIN, 1, 1, 1));
-				biome1.getSpawnSettings().getSpawnEntry(MobEntityRegister.IMP.getSpawnGroup())
-						.add(new SpawnEntry(MobEntityRegister.IMP, 3, 1, 3));
-				biome1.getSpawnSettings().getSpawnEntry(MobEntityRegister.IMP2016.getSpawnGroup())
-						.add(new SpawnEntry(MobEntityRegister.IMP2016, 3, 1, 3));
-				biome1.getSpawnSettings().getSpawnEntry(MobEntityRegister.LOST_SOUL.getSpawnGroup())
-						.add(new SpawnEntry(MobEntityRegister.LOST_SOUL, 3, 1, 3));
-				biome1.getSpawnSettings().getSpawnEntry(MobEntityRegister.MANCUBUS.getSpawnGroup())
-						.add(new SpawnEntry(MobEntityRegister.MANCUBUS, 3, 1, 3));
-				biome1.getSpawnSettings().getSpawnEntry(MobEntityRegister.MARAUDER.getSpawnGroup())
-						.add(new SpawnEntry(MobEntityRegister.MARAUDER, 3, 1, 3));
-//			biome.getSpawnSettings().getSpawnEntry(MobEntityRegister.PAIN.getSpawnGroup())
-//					.add(new SpawnEntry(MobEntityRegister.PAIN, 3, 1, 3));
-//			biome.getSpawnSettings().getSpawnEntry(MobEntityRegister.PINKY.getSpawnGroup())
-//					.add(new SpawnEntry(MobEntityRegister.PINKY, 3, 1, 3));
-				biome1.getSpawnSettings().getSpawnEntry(MobEntityRegister.POSSESSEDSCIENTIST.getSpawnGroup())
-						.add(new SpawnEntry(MobEntityRegister.POSSESSEDSCIENTIST, 3, 1, 3));
-				biome1.getSpawnSettings().getSpawnEntry(MobEntityRegister.POSSESSEDSOLDIER.getSpawnGroup())
-						.add(new SpawnEntry(MobEntityRegister.POSSESSEDSOLDIER, 3, 1, 3));
-				biome1.getSpawnSettings().getSpawnEntry(MobEntityRegister.REVENANT.getSpawnGroup())
-						.add(new SpawnEntry(MobEntityRegister.REVENANT, 3, 1, 3));
-				biome1.getSpawnSettings().getSpawnEntry(MobEntityRegister.SHOTGUNGUY.getSpawnGroup())
-						.add(new SpawnEntry(MobEntityRegister.SHOTGUNGUY, 3, 1, 3));
-//			biome.getSpawnSettings().getSpawnEntry(MobEntityRegister.SPIDERDEMON.getSpawnGroup())
-//					.add(new SpawnEntry(MobEntityRegister.SPIDERDEMON, 3, 1, 3));
-				biome1.getSpawnSettings().getSpawnEntry(MobEntityRegister.UNWILLING.getSpawnGroup())
-						.add(new SpawnEntry(MobEntityRegister.UNWILLING, 3, 1, 3));
-				biome1.getSpawnSettings().getSpawnEntry(MobEntityRegister.ZOMBIEMAN.getSpawnGroup())
-						.add(new SpawnEntry(MobEntityRegister.ZOMBIEMAN, 3, 1, 3));
-			}
-		}
+	public static void init() {
+		manageMonsterEntities();
 	}
 
-	public static void init() {
-//		BuiltinRegistries.BIOME.forEach(MobSpawn::netherspawn);
+	private static void manageMonsterEntities() {
+		registerMonsterEntitySpawn(MobEntityRegister.ARCHVILE,
+				new EntityConfig(BiomeSpawnHelper.DEMON_SPAWN_BIOMES, 10).spawnBiomes.toArray(new String[0]), 10, 1, 1);
+		registerMonsterEntitySpawn(MobEntityRegister.BARON,
+				new EntityConfig(BiomeSpawnHelper.DEMON_SPAWN_BIOMES, 10).spawnBiomes.toArray(new String[0]), 10, 1, 1);
+		registerMonsterEntitySpawn(MobEntityRegister.REVENANT,
+				new EntityConfig(BiomeSpawnHelper.DEMON_SPAWN_BIOMES, 10).spawnBiomes.toArray(new String[0]), 10, 1, 1);
+		registerMonsterEntitySpawn(MobEntityRegister.MANCUBUS,
+				new EntityConfig(BiomeSpawnHelper.DEMON_SPAWN_BIOMES, 10).spawnBiomes.toArray(new String[0]), 10, 1, 1);
+		registerMonsterEntitySpawn(MobEntityRegister.MARAUDER,
+				new EntityConfig(BiomeSpawnHelper.DEMON_SPAWN_BIOMES, 10).spawnBiomes.toArray(new String[0]), 10, 1, 1);
+		registerMonsterEntitySpawn(MobEntityRegister.CYBERDEMON2016,
+				new EntityConfig(BiomeSpawnHelper.DEMON_SPAWN_BIOMES, 10).spawnBiomes.toArray(new String[0]), 10, 1, 1);
+		registerMonsterEntitySpawn(MobEntityRegister.CYBERDEMON,
+				new EntityConfig(BiomeSpawnHelper.DEMON_SPAWN_BIOMES, 10).spawnBiomes.toArray(new String[0]), 10, 1, 1);
+		registerMonsterEntitySpawn(MobEntityRegister.ICONOFSIN,
+				new EntityConfig(BiomeSpawnHelper.DEMON_SPAWN_BIOMES, 10).spawnBiomes.toArray(new String[0]), 1, 1, 1);
+		registerMonsterEntitySpawn(MobEntityRegister.UNWILLING,
+				new EntityConfig(BiomeSpawnHelper.DEMON_SPAWN_BIOMES, 10).spawnBiomes.toArray(new String[0]), 30, 1, 4);
+		registerMonsterEntitySpawn(MobEntityRegister.POSSESSEDSOLDIER,
+				new EntityConfig(BiomeSpawnHelper.DEMON_SPAWN_BIOMES, 10).spawnBiomes.toArray(new String[0]), 30, 1, 4);
+		registerMonsterEntitySpawn(MobEntityRegister.POSSESSEDSCIENTIST,
+				new EntityConfig(BiomeSpawnHelper.DEMON_SPAWN_BIOMES, 10).spawnBiomes.toArray(new String[0]), 30, 1, 4);
+		registerMonsterEntitySpawn(MobEntityRegister.LOST_SOUL,
+				new EntityConfig(BiomeSpawnHelper.DEMON_SPAWN_BIOMES, 10).spawnBiomes.toArray(new String[0]), 30, 1, 4);
+		registerMonsterEntitySpawn(MobEntityRegister.SHOTGUNGUY,
+				new EntityConfig(BiomeSpawnHelper.DEMON_SPAWN_BIOMES, 10).spawnBiomes.toArray(new String[0]), 30, 1, 4);
+		registerMonsterEntitySpawn(MobEntityRegister.ZOMBIEMAN,
+				new EntityConfig(BiomeSpawnHelper.DEMON_SPAWN_BIOMES, 10).spawnBiomes.toArray(new String[0]), 30, 1, 4);
+		registerMonsterEntitySpawn(MobEntityRegister.IMP2016,
+				new EntityConfig(BiomeSpawnHelper.DEMON_SPAWN_BIOMES, 10).spawnBiomes.toArray(new String[0]), 30, 1, 4);
+		registerMonsterEntitySpawn(MobEntityRegister.IMP,
+				new EntityConfig(BiomeSpawnHelper.DEMON_SPAWN_BIOMES, 10).spawnBiomes.toArray(new String[0]), 30, 1, 4);
+		registerMonsterEntitySpawn(MobEntityRegister.HELLKNIGHT,
+				new EntityConfig(BiomeSpawnHelper.DEMON_SPAWN_BIOMES, 10).spawnBiomes.toArray(new String[0]), 30, 1, 4);
+		registerMonsterEntitySpawn(MobEntityRegister.CHAINGUNNER,
+				new EntityConfig(BiomeSpawnHelper.DEMON_SPAWN_BIOMES, 10).spawnBiomes.toArray(new String[0]), 30, 1, 4);
+		registerMonsterEntitySpawn(MobEntityRegister.CACODEMON,
+				new EntityConfig(BiomeSpawnHelper.DEMON_SPAWN_BIOMES, 10).spawnBiomes.toArray(new String[0]), 30, 1, 4);
+	}
+
+	private static <T extends HostileEntity> void registerMonsterEntitySpawn(EntityType<T> entity, String[] spawnBiomes,
+			int weight, int minGroupCountIn, int maxGroupCountIn) {
+		BiomeSpawnHelper.setMonsterSpawnBiomes(entity, spawnBiomes, weight, minGroupCountIn, maxGroupCountIn);
+		SpawnRestrictionAccessor.callRegister(entity, SpawnRestriction.Location.ON_GROUND,
+				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+	}
+
+	public static class EntityConfig {
+		public int weight;
+		public int groupMin;
+		public int groupMax;
+		public List<String> spawnBiomes;
+
+		EntityConfig(String[] spawnBiomes, int weight, int groupMin, int groupMax) {
+			this.spawnBiomes = BiomeSpawnHelper.convertForConfig(spawnBiomes);
+			this.weight = weight;
+			this.groupMin = groupMin;
+			this.groupMax = groupMax;
+		}
+
+		EntityConfig(String[] spawnBiomes, int weight) {
+			this(spawnBiomes, weight, 2, 4);
+		}
 	}
 
 }

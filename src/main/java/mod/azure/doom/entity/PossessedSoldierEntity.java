@@ -150,7 +150,7 @@ public class PossessedSoldierEntity extends DemonEntity implements RangedAttackM
 
 	public void attack(LivingEntity target, float pullProgress) {
 		ItemStack itemStack = this
-				.getArrowType(this.getStackInHand(ProjectileUtil.getHandPossiblyHolding(this, DoomItems.BULLETS)));
+				.getArrowType(this.getStackInHand(ProjectileUtil.getHandPossiblyHolding(this, DoomItems.PISTOL)));
 		BulletEntity persistentProjectileEntity = this.createArrowProjectile(itemStack, pullProgress);
 		double d = target.getX() - this.getX();
 		double e = target.getBodyY(0.3333333333333333D) - persistentProjectileEntity.getY();

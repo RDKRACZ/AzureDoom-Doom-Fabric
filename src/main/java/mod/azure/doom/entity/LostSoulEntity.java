@@ -7,11 +7,13 @@ import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.packets.EntityPacket;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MovementType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.ai.goal.FollowTargetGoal;
@@ -22,7 +24,6 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.FlyingEntity;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FireballEntity;
@@ -36,7 +37,7 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
-public class LostSoulEntity extends FlyingEntity implements Monster {
+public class LostSoulEntity extends DemonEntity implements Monster {
 
 	private static final TrackedData<Boolean> SHOOTING;
 
@@ -48,14 +49,56 @@ public class LostSoulEntity extends FlyingEntity implements Monster {
 		super(entityType, worldIn);
 	}
 
+	public boolean handleFallDamage(float fallDistance, float damageMultiplier) {
+		return false;
+	}
+
+	protected void fall(double heightDifference, boolean onGround, BlockState landedState, BlockPos landedPosition) {
+	}
+
+	public void travel(Vec3d movementInput) {
+		if (this.isTouchingWater()) {
+			this.updateVelocity(0.02F, movementInput);
+			this.move(MovementType.SELF, this.getVelocity());
+			this.setVelocity(this.getVelocity().multiply(0.800000011920929D));
+		} else if (this.isInLava()) {
+			this.updateVelocity(0.02F, movementInput);
+			this.move(MovementType.SELF, this.getVelocity());
+			this.setVelocity(this.getVelocity().multiply(0.5D));
+		} else {
+			float f = 0.91F;
+			if (this.onGround) {
+				f = this.world.getBlockState(new BlockPos(this.getX(), this.getY() - 1.0D, this.getZ())).getBlock()
+						.getSlipperiness() * 0.91F;
+			}
+
+			float g = 0.16277137F / (f * f * f);
+			f = 0.91F;
+			if (this.onGround) {
+				f = this.world.getBlockState(new BlockPos(this.getX(), this.getY() - 1.0D, this.getZ())).getBlock()
+						.getSlipperiness() * 0.91F;
+			}
+
+			this.updateVelocity(this.onGround ? 0.1F * g : 0.02F, movementInput);
+			this.move(MovementType.SELF, this.getVelocity());
+			this.setVelocity(this.getVelocity().multiply((double) f));
+		}
+
+		this.method_29242(this, false);
+	}
+
+	public boolean isClimbing() {
+		return false;
+	}
+
 	@Override
 	public Packet<?> createSpawnPacket() {
 		return EntityPacket.createPacket(this);
 	}
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
-		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED,0.15D)
-				.add(EntityAttributes.GENERIC_MAX_HEALTH, 5.0D);
+		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
+				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.15D).add(EntityAttributes.GENERIC_MAX_HEALTH, 5.0D);
 	}
 
 	@Override
