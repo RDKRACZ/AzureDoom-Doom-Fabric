@@ -21,9 +21,6 @@ import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FireballEntity;
@@ -38,12 +35,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
 public class LostSoulEntity extends DemonEntity implements Monster {
-
-	private static final TrackedData<Boolean> SHOOTING;
-
-	static {
-		SHOOTING = DataTracker.registerData(PainEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-	}
 
 	public LostSoulEntity(EntityType<LostSoulEntity> entityType, World worldIn) {
 		super(entityType, worldIn);
@@ -124,15 +115,6 @@ public class LostSoulEntity extends DemonEntity implements Monster {
 		return true;
 	}
 
-	@Environment(EnvType.CLIENT)
-	public boolean isShooting() {
-		return (Boolean) this.dataTracker.get(SHOOTING);
-	}
-
-	public void setShooting(boolean shooting) {
-		this.dataTracker.set(SHOOTING, shooting);
-	}
-
 	@Override
 	protected float getActiveEyeHeight(EntityPose pose, EntityDimensions dimensions) {
 		return 0.5F;
@@ -152,10 +134,6 @@ public class LostSoulEntity extends DemonEntity implements Monster {
 
 		public void start() {
 			this.cooldown = 0;
-		}
-
-		public void stop() {
-			this.ghast.setShooting(false);
 		}
 
 		public void tick() {
@@ -186,8 +164,6 @@ public class LostSoulEntity extends DemonEntity implements Monster {
 			} else if (this.cooldown > 0) {
 				--this.cooldown;
 			}
-
-			this.ghast.setShooting(this.cooldown > 10);
 		}
 	}
 

@@ -22,9 +22,6 @@ import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.Packet;
@@ -37,11 +34,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
 public class PainEntity extends DemonEntity implements Monster {
-	private static final TrackedData<Boolean> SHOOTING;
-
-	static {
-		SHOOTING = DataTracker.registerData(PainEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-	}
 
 	public PainEntity(EntityType<? extends PainEntity> type, World worldIn) {
 		super(type, worldIn);
@@ -100,12 +92,6 @@ public class PainEntity extends DemonEntity implements Monster {
 	}
 
 	@Override
-	protected void initDataTracker() {
-		super.initDataTracker();
-		this.dataTracker.startTracking(SHOOTING, false);
-	}
-
-	@Override
 	protected void initGoals() {
 		this.goalSelector.add(5, new PainEntity.FlyRandomlyGoal(this));
 		this.goalSelector.add(7, new PainEntity.LookAtTargetGoal(this));
@@ -128,15 +114,6 @@ public class PainEntity extends DemonEntity implements Monster {
 		return true;
 	}
 
-	@Environment(EnvType.CLIENT)
-	public boolean isShooting() {
-		return (Boolean) this.dataTracker.get(SHOOTING);
-	}
-
-	public void setShooting(boolean shooting) {
-		this.dataTracker.set(SHOOTING, shooting);
-	}
-
 	static class ShootFireballGoal extends Goal {
 		private final PainEntity ghast;
 		public int cooldown;
@@ -151,10 +128,6 @@ public class PainEntity extends DemonEntity implements Monster {
 
 		public void start() {
 			this.cooldown = 0;
-		}
-
-		public void stop() {
-			this.ghast.setShooting(false);
 		}
 
 		public void tick() {
@@ -185,8 +158,6 @@ public class PainEntity extends DemonEntity implements Monster {
 			} else if (this.cooldown > 0) {
 				--this.cooldown;
 			}
-
-			this.ghast.setShooting(this.cooldown > 10);
 		}
 	}
 

@@ -27,4 +27,5 @@ bin/
 # fabric
 
 run/
+cursetoken
 build.bat

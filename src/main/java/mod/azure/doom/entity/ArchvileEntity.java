@@ -3,7 +3,6 @@ package mod.azure.doom.entity;
 import java.util.EnumSet;
 import java.util.Random;
 
-import mod.azure.doom.entity.ai.goal.DemonAttackGoal;
 import mod.azure.doom.util.ModSoundEvents;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -12,6 +11,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.TargetPredicate;
+import net.minecraft.entity.ai.goal.AttackGoal;
 import net.minecraft.entity.ai.goal.FollowTargetGoal;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
@@ -61,7 +61,7 @@ public class ArchvileEntity extends DemonEntity {
 	@Override
 	protected void initGoals() {
 		this.goalSelector.add(1, new ArchvileEntity.ChasePlayerGoal(this));
-		this.goalSelector.add(2, new DemonAttackGoal(this, 1.0D, false));
+		this.goalSelector.add(2, new AttackGoal(this));
 		this.goalSelector.add(8, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
 		this.goalSelector.add(8, new LookAroundGoal(this));
 		this.targetSelector.add(2, new ArchvileEntity.TeleportTowardsPlayerGoal(this));
