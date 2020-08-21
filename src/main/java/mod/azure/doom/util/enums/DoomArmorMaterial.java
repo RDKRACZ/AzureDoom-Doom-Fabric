@@ -13,107 +13,107 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Lazy;
 
 public enum DoomArmorMaterial implements ArmorMaterial {
-	DOOM_ARMOR("doomweapon:doom_armor", 50, new int[] { 5, 8, 10, 5 }, 30, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 8.0F,
+	DOOM_ARMOR("doom_armor", 50, new int[] { 5, 8, 10, 5 }, 30, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 8.0F,
 			0.4F, () -> {
 				return Ingredient.ofItems(DoomItems.ARGENT_ENERGY);
 			}),
-	PRAETOR_DOOM_ARMOR("doomweapon:praetor_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
+	PRAETOR_DOOM_ARMOR("praetor_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
 			SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 8.0F, 0.4F, () -> {
 				return Ingredient.ofItems(DoomItems.ARGENT_ENERGY);
 			}),
-	CLASSIC_DOOM_ARMOR("doomweapon:classic_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
+	CLASSIC_DOOM_ARMOR("classic_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
 			SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 8.0F, 0.4F, () -> {
 				return Ingredient.ofItems(DoomItems.ARGENT_ENERGY);
 			}),
-	MIDNIGHT_DOOM_ARMOR("doomweapon:midnight_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
+	MIDNIGHT_DOOM_ARMOR("midnight_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
 			SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 8.0F, 0.4F, () -> {
 				return Ingredient.ofItems(DoomItems.ARGENT_ENERGY);
 			}),
-	ASTRO_DOOM_ARMOR("doomweapon:astro_armor", 50, new int[] { 5, 8, 10, 5 }, 30, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC,
+	ASTRO_DOOM_ARMOR("astro_armor", 50, new int[] { 5, 8, 10, 5 }, 30, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC,
 			8.0F, 0.4F, () -> {
 				return Ingredient.ofItems(DoomItems.ARGENT_ENERGY);
 			}),
-	DEMONIC_DOOM_ARMOR("doomweapon:demonic_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
+	DEMONIC_DOOM_ARMOR("demonic_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
 			SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 8.0F, 0.4F, () -> {
 				return Ingredient.ofItems(DoomItems.ARGENT_ENERGY);
 			}),
-	SENTINEL_DOOM_ARMOR("doomweapon:sentinel_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
+	SENTINEL_DOOM_ARMOR("sentinel_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
 			SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 8.0F, 0.4F, () -> {
 				return Ingredient.ofItems(DoomItems.ARGENT_ENERGY);
 			}),
-	EMBER_DOOM_ARMOR("doomweapon:ember_armor", 50, new int[] { 5, 8, 10, 5 }, 30, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC,
+	EMBER_DOOM_ARMOR("ember_armor", 50, new int[] { 5, 8, 10, 5 }, 30, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC,
 			8.0F, 0.4F, () -> {
 				return Ingredient.ofItems(DoomItems.ARGENT_ENERGY);
 			}),
-	ZOMBIE_DOOM_ARMOR("doomweapon:zombie_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
+	ZOMBIE_DOOM_ARMOR("zombie_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
 			SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 8.0F, 0.4F, () -> {
 				return Ingredient.ofItems(DoomItems.ARGENT_ENERGY);
 			}),
-	DOOMICORN_DOOM_ARMOR("doomweapon:doomicorn_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
+	DOOMICORN_DOOM_ARMOR("doomicorn_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
 			SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 8.0F, 0.4F, () -> {
 				return Ingredient.ofItems(DoomItems.ARGENT_ENERGY);
 			}),
-	PURPLEPONY_DOOM_ARMOR("doomweapon:purplepony_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
+	PURPLEPONY_DOOM_ARMOR("purplepony_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
 			SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 8.0F, 0.4F, () -> {
 				return Ingredient.ofItems(DoomItems.ARGENT_ENERGY);
 			}),
-	NIGHTMARE_DOOM_ARMOR("doomweapon:nightmare_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
+	NIGHTMARE_DOOM_ARMOR("nightmare_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
 			SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 8.0F, 0.4F, () -> {
 				return Ingredient.ofItems(DoomItems.ARGENT_ENERGY);
 			}),
-	PHOBOS_DOOM_ARMOR("doomweapon:phobos_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
+	PHOBOS_DOOM_ARMOR("phobos_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
 			SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 8.0F, 0.4F, () -> {
 				return Ingredient.ofItems(DoomItems.ARGENT_ENERGY);
 			}),
-	CLASSIC_RED_ARMOR("doomweapon:classic_red_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
+	CLASSIC_RED_ARMOR("classic_red_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
 			SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 8.0F, 0.4F, () -> {
 				return Ingredient.ofItems(DoomItems.ARGENT_ENERGY);
 			}),
-	CLASSIC_INDIGO_ARMOR("doomweapon:classic_indigo_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
+	CLASSIC_INDIGO_ARMOR("classic_indigo_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
 			SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 8.0F, 0.4F, () -> {
 				return Ingredient.ofItems(DoomItems.ARGENT_ENERGY);
 			}),
-	CLASSIC_BRONZE_ARMOR("doomweapon:classic_bronze_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
+	CLASSIC_BRONZE_ARMOR("classic_bronze_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
 			SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 8.0F, 0.4F, () -> {
 				return Ingredient.ofItems(DoomItems.ARGENT_ENERGY);
 			}),
-	GOLD_ARMOR("doomweapon:gold_armor", 50, new int[] { 5, 8, 10, 5 }, 30, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 8.0F,
+	GOLD_ARMOR("gold_armor", 50, new int[] { 5, 8, 10, 5 }, 30, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 8.0F,
 			0.4F, () -> {
 				return Ingredient.ofItems(DoomItems.ARGENT_ENERGY);
 			}),
-	TWENTY_FIVE_ARMOR("doomweapon:twenty_five_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
+	TWENTY_FIVE_ARMOR("twenty_five_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
 			SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 8.0F, 0.4F, () -> {
 				return Ingredient.ofItems(DoomItems.ARGENT_ENERGY);
 			}),
-	REDNECK1_ARMOR("doomweapon:redneck1_armor", 50, new int[] { 5, 8, 10, 5 }, 30, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC,
+	REDNECK1_ARMOR("redneck1_armor", 50, new int[] { 5, 8, 10, 5 }, 30, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC,
 			8.0F, 0.4F, () -> {
 				return Ingredient.ofItems(DoomItems.ARGENT_ENERGY);
 			}),
-	REDNECK2_ARMOR("doomweapon:redneck2_armor", 50, new int[] { 5, 8, 10, 5 }, 30, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC,
+	REDNECK2_ARMOR("redneck2_armor", 50, new int[] { 5, 8, 10, 5 }, 30, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC,
 			8.0F, 0.4F, () -> {
 				return Ingredient.ofItems(DoomItems.ARGENT_ENERGY);
 			}),
-	REDNECK3_ARMOR("doomweapon:redneck3_armor", 50, new int[] { 5, 8, 10, 5 }, 30, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC,
+	REDNECK3_ARMOR("redneck3_armor", 50, new int[] { 5, 8, 10, 5 }, 30, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC,
 			8.0F, 0.4F, () -> {
 				return Ingredient.ofItems(DoomItems.ARGENT_ENERGY);
 			}),
-	BRONZE_DOOM_ARMOR("doomweapon:bronze_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
+	BRONZE_DOOM_ARMOR("bronze_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
 			SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 8.0F, 0.4F, () -> {
 				return Ingredient.ofItems(DoomItems.ARGENT_ENERGY);
 			}),
-	PAINTER_DOOM_ARMOR("doomweapon:painter_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
+	PAINTER_DOOM_ARMOR("painter_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
 			SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 8.0F, 0.4F, () -> {
 				return Ingredient.ofItems(DoomItems.ARGENT_ENERGY);
 			}),
-	CULTIST_DOOM_ARMOR("doomweapon:cultist_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
+	CULTIST_DOOM_ARMOR("cultist_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
 			SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 8.0F, 0.4F, () -> {
 				return Ingredient.ofItems(DoomItems.ARGENT_ENERGY);
 			}),
-	MAYKR_DOOM_ARMOR("doomweapon:maykr_armor", 50, new int[] { 5, 8, 10, 5 }, 30, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC,
+	MAYKR_DOOM_ARMOR("maykr_armor", 50, new int[] { 5, 8, 10, 5 }, 30, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC,
 			8.0F, 0.4F, () -> {
 				return Ingredient.ofItems(DoomItems.ARGENT_ENERGY);
 			}),
-	CRIMSON_DOOM_ARMOR("doomweapon:crimson_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
+	CRIMSON_DOOM_ARMOR("crimson_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
 			SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 8.0F, 0.4F, () -> {
 				return Ingredient.ofItems(DoomItems.ARGENT_ENERGY);
 			});

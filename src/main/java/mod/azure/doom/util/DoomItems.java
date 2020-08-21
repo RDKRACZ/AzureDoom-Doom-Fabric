@@ -4,6 +4,7 @@ import mod.azure.doom.DoomMod;
 import mod.azure.doom.item.ArgentEnergyItem;
 import mod.azure.doom.item.DaisyItem;
 import mod.azure.doom.item.E1M1MusicDisc;
+import mod.azure.doom.item.UnopenedItem;
 import mod.azure.doom.item.ammo.ArgentBolt;
 import mod.azure.doom.item.ammo.BFGCell;
 import mod.azure.doom.item.ammo.ChaingunAmmo;
@@ -25,6 +26,7 @@ import mod.azure.doom.item.tools.ArgentPaxel;
 import mod.azure.doom.item.tools.ArgentPickaxe;
 import mod.azure.doom.item.tools.ArgentShovel;
 import mod.azure.doom.item.weapons.ArgentSword;
+import mod.azure.doom.item.weapons.AxeMarauderItem;
 import mod.azure.doom.item.weapons.BFG;
 import mod.azure.doom.item.weapons.Ballista;
 import mod.azure.doom.item.weapons.Chaingun;
@@ -34,6 +36,7 @@ import mod.azure.doom.item.weapons.PlasmaGun;
 import mod.azure.doom.item.weapons.RocketLauncher;
 import mod.azure.doom.item.weapons.Shotgun;
 import mod.azure.doom.item.weapons.SuperShotgun;
+import mod.azure.doom.item.weapons.SwordCrucibleItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -41,18 +44,19 @@ import net.minecraft.util.registry.Registry;
 public class DoomItems {
 
 	// AMMO
-	public static Item SHOTGUN_SHELLS = item(new ShellAmmo(new Item.Settings().group(DoomMod.DoomItemGroup), 2.0F),
+	public static ShellAmmo SHOTGUN_SHELLS = item(new ShellAmmo(new Item.Settings().group(DoomMod.DoomItemGroup), 2.0F),
 			"shotgun_shells");
-	public static Item ARGENT_BOLT = item(new ArgentBolt(new Item.Settings().group(DoomMod.DoomItemGroup), 1.7F),
+	public static ArgentBolt ARGENT_BOLT = item(new ArgentBolt(new Item.Settings().group(DoomMod.DoomItemGroup), 1.7F),
 			"argent_bolt");
-	public static Item ENERGY_CELLS = item(new EnergyCell(new Item.Settings().group(DoomMod.DoomItemGroup), 2.2F),
+	public static EnergyCell ENERGY_CELLS = item(new EnergyCell(new Item.Settings().group(DoomMod.DoomItemGroup), 2.2F),
 			"energy_cells");
-	public static Item CHAINGUN_BULLETS = item(
+	public static ChaingunAmmo CHAINGUN_BULLETS = item(
 			new ChaingunAmmo(new Item.Settings().group(DoomMod.DoomItemGroup), 10.0F), "chaingunbullets");
-	public static Item BULLETS = item(new ClipAmmo(new Item.Settings().group(DoomMod.DoomItemGroup), 1.2F), "bullets");
-	public static Item BFG_CELL = item(new BFGCell(new Item.Settings().group(DoomMod.DoomItemGroup), 10.2F),
+	public static ClipAmmo BULLETS = item(new ClipAmmo(new Item.Settings().group(DoomMod.DoomItemGroup), 1.2F),
+			"bullets");
+	public static BFGCell BFG_CELL = item(new BFGCell(new Item.Settings().group(DoomMod.DoomItemGroup), 10.2F),
 			"bfg_cell");
-	public static Item ROCKET = item(new Rocket(new Item.Settings().group(DoomMod.DoomItemGroup), 2.2F), "rocket");
+	public static Rocket ROCKET = item(new Rocket(new Item.Settings().group(DoomMod.DoomItemGroup), 2.2F), "rocket");
 	// MISC
 	public static ArgentEnergyItem ARGENT_ENERGY = item(new ArgentEnergyItem(), "argent_energy");
 	public static DaisyItem DAISY = item(new DaisyItem(), "daisy");
@@ -78,10 +82,27 @@ public class DoomItems {
 	public static Ballista BALLISTA = item(new Ballista(), "ballista");
 	public static Chaingun CHAINGUN = item(new Chaingun(), "chaingun");
 	public static PistolItem PISTOL = item(new PistolItem(), "pistol");
+	public static SwordCrucibleItem CRUCIBLESWORD = item(new SwordCrucibleItem(), "cruciblesword");
+	public static UnopenedItem SWORD_CLOSED = item(new UnopenedItem(), "cruciblesword_closed");
+	public static AxeMarauderItem AXE_OPEN = item(new AxeMarauderItem(), "axe_marauder_open");
+	public static UnopenedItem AXE_CLOSED = item(new UnopenedItem(), "axe_marauder_closed");
 	// MOB WEAPONS
 	public static CyberdemonAttackItem CYBERDEMONATTACK = item(new CyberdemonAttackItem(), "cyberdemonattack");
 	public static SpiderdemonAttackItem SPIDERDEMONATTACK = item(new SpiderdemonAttackItem(), "spiderdemonattack");
 	public static BarenBlastItem BARENBLAST = item(new BarenBlastItem(2.0F), "barenblast");
+	// Spawn Eggs
+	// public static DoomSpawnEgg IMP_SPAWN_EGG = item(new
+	// DoomSpawnEgg(MobEntityRegister.IMP, 11022961, 11035249), "imp_spawn_egg");
+
+	// Armor
+//	public static DoomArmor DOOM_HELMET = item(new DoomArmor(DoomArmorMaterial.DOOM_ARMOR, EquipmentSlot.HEAD),
+//			"doom_helmet");
+//	public static DoomArmor DOOM_CHESTPLATE = item(new DoomArmor(DoomArmorMaterial.DOOM_ARMOR, EquipmentSlot.CHEST),
+//			"doom_chestplate");
+//	public static DoomArmor DOOM_LEGGINGS = item(new DoomArmor(DoomArmorMaterial.DOOM_ARMOR, EquipmentSlot.LEGS),
+//			"doom_leggings");
+//	public static DoomArmor DOOM_BOOTS = item(new DoomArmor(DoomArmorMaterial.DOOM_ARMOR, EquipmentSlot.FEET),
+//			"doom_boots");
 
 	static <T extends Item> T item(T c, String id) {
 		Registry.register(Registry.ITEM, new Identifier(DoomMod.MODID, id), c);

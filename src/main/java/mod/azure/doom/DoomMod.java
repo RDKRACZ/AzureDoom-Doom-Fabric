@@ -28,7 +28,7 @@ public class DoomMod implements ModInitializer {
 
 	public static final String MODID = "doom";
 
-	public static final ItemGroup DoomItemGroup = FabricItemGroupBuilder.create(new Identifier(MODID, "doomweapon"))
+	public static final ItemGroup DoomItemGroup = FabricItemGroupBuilder.create(new Identifier(MODID, "doom"))
 			.icon(() -> new ItemStack(DoomItems.ARGENT_AXE)).build();
 
 	public static DoomBlocks BLOCKS;
@@ -44,7 +44,8 @@ public class DoomMod implements ModInitializer {
 		SOUNDS = new ModSoundEvents();
 		PROJECTILES = new ProjectilesEntityRegister();
 		MOBS = new MobEntityRegister();
-		MobSpawn.init();
+		MobSpawn.addSpawnEntries();
+		MobSpawn.SpawnRestriction();
 		MobAttributes.init();
 		FuelRegistry.INSTANCE.add(DoomItems.ARGENT_ENERGY, 100000);
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.BELT.getInfoBuilder().build());

@@ -54,27 +54,26 @@ public class PainModel<T extends Entity> extends EntityModel<T> {
 		this.painArmR.addChild(this.painArmR_1);
 	}
 
-	public void setRotateAngle(ModelPart ModelPart, float x, float y, float z) {
-		ModelPart.pivotX = x;
-		ModelPart.pivotY = y;
-		ModelPart.pivotZ = z;
-	}
-
 	@Override
-	public void setAngles(T entity, float limbAngle, float limbDistance, float animationProgress, float headYaw,
+	public void setAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
 			float headPitch) {
-		this.painArmR.pivotX = MathHelper.cos(limbAngle) * -0.7819074915776542F * limbDistance;
-		this.painArmL.pivotX = MathHelper.cos(limbAngle + (float) Math.PI) * -0.7819074915776542F * limbDistance;
-		this.painArmR.pivotX = MathHelper.cos(limbAngle) * 0.2F * limbDistance;
-		this.painArmL.pivotX = MathHelper.cos(limbAngle) * 0.2F * limbDistance;
+		this.painArmR.pitch = MathHelper.cos(limbSwing) * -0.7819074915776542F * limbSwingAmount;
+		this.painArmL.pitch = MathHelper.cos(limbSwing + (float) Math.PI) * -0.7819074915776542F * limbSwingAmount;
+		this.painArmR.pitch = MathHelper.cos(limbSwing) * 0.2F * limbSwingAmount;
+		this.painArmL.pitch = MathHelper.cos(limbSwing) * 0.2F * limbSwingAmount;
 	}
 
 	@Override
-	public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green,
-			float blue, float alpha) {
+	public void render(MatrixStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn,
+			float red, float green, float blue, float alpha) {
 		ImmutableList.of(this.painArmL, this.painArmR, this.painBody).forEach((ModelPart) -> {
-			ModelPart.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+			ModelPart.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 		});
+	}
 
+	public void setRotateAngle(ModelPart ModelPart, float x, float y, float z) {
+		ModelPart.pitch = x;
+		ModelPart.yaw = y;
+		ModelPart.roll = z;
 	}
 }

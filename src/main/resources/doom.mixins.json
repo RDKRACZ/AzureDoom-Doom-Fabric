@@ -5,12 +5,7 @@
 	"compatibilityLevel": "JAVA_8",
 	"mixins": [
 		"ItemPropMixin",
-		"LivingEntityMixin",
-		"MixinSpawnSettings",
-		"SpawnRestrictionAccessor"
-	],
-	"client": [
-		"DoomMixin"
+		"LivingEntityMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

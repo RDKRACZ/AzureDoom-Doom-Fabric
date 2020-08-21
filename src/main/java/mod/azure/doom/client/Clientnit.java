@@ -1,9 +1,11 @@
 package mod.azure.doom.client;
 
+import mod.azure.doom.DoomMod;
 import mod.azure.doom.util.DoomItems;
 import mod.azure.doom.util.packets.EntityPacket;
 import mod.azure.doom.util.packets.EntityPacketOnClient;
 import nerdhub.cardinal.components.api.event.ItemComponentCallbackV2;
+import nerdhub.foml.obj.OBJLoader;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -43,6 +45,7 @@ public class Clientnit implements ClientModInitializer {
 								OverlayTexture.DEFAULT_UV, matrixStack, vertexConsumerProvider);
 					}
 				})));
+		OBJLoader.INSTANCE.registerDomain(DoomMod.MODID);
 	}
 
 }

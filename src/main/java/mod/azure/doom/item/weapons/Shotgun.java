@@ -1,6 +1,5 @@
 package mod.azure.doom.item.weapons;
 
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import mod.azure.doom.DoomMod;
@@ -58,7 +57,6 @@ public class Shotgun extends RangedWeaponItem {
 		return DoomTier.DOOM.getRepairIngredient().test(ingredient) || super.canRepair(stack, ingredient);
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void onStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int remainingUseTicks) {
 		if (entityLiving instanceof PlayerEntity) {
@@ -93,9 +91,7 @@ public class Shotgun extends RangedWeaponItem {
 						abstractarrowentity.setFireTicks(100);
 					}
 
-					stack.damage(1, (LivingEntity) playerentity, (Consumer) ((p) -> {
-						((LivingEntity) p).sendToolBreakStatus(playerentity.getActiveHand());
-					}));
+					stack.damage(1, entityLiving, p -> p.sendToolBreakStatus(entityLiving.getActiveHand()));
 					worldIn.spawnEntity(abstractarrowentity);
 				}
 				worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(), playerentity.getZ(),

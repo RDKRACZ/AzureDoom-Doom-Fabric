@@ -7,9 +7,10 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Wearable;
 
 //created by Marctron
-public class SkinArmor extends ArmorItem {
+public class SkinArmor extends ArmorItem  implements Wearable {
 
 	public SkinArmor(ArmorMaterial materialIn, EquipmentSlot slot, Settings builder) {
 		super(materialIn, slot, builder);

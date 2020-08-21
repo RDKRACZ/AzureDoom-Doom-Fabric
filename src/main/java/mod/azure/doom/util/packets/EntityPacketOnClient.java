@@ -33,7 +33,6 @@ public class EntityPacketOnClient {
 				entity.yaw = yaw;
 				entity.setEntityId(entityID);
 				entity.setUuid(entityUUID);
-				// entity.setVelocity(velocityX, velocityY, velocityZ);
 				world.addEntity(entityID, entity);
 			}
 		});

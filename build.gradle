@@ -32,6 +32,12 @@ dependencies {
     modImplementation("io.github.prospector:modmenu:1.14.6+build.31") {
       exclude module: 'fabric-api'
     }
+	modImplementation ("com.github.OnyxStudios:FOML:${foml_version}") {
+      exclude module: 'fabric-api'
+    }
+    include ("com.github.OnyxStudios:FOML:${foml_version}") {
+      exclude module: 'fabric-api'
+    }
 }
 
 repositories {
@@ -47,6 +53,10 @@ repositories {
     }
 	maven {
         url = "https://www.cursemaven.com"
+    }
+     maven {
+        name = "OnyxStudios"
+        url = "https://maven.abusedmaster.xyz"
     }
 }
 
@@ -74,6 +84,10 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 
 jar {
 	from "LICENSE"
+}
+
+minecraft {
+	accessWidener "src/main/resources/doom.accesswidener"
 }
 
 publishing {
