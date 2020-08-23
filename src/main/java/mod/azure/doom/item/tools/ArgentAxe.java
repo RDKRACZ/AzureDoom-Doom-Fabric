@@ -46,7 +46,7 @@ public class ArgentAxe extends MiningToolItem {
 			.put(Blocks.CRIMSON_HYPHAE, Blocks.STRIPPED_CRIMSON_HYPHAE).build();
 
 	public ArgentAxe() {
-		super(8, -2.4F, DoomTier.DOOM, EFFECTIVE_BLOCKS, new Item.Settings().group(DoomMod.DoomItemGroup).maxCount(1));
+		super(8, -2.4F, DoomTier.DOOM, EFFECTIVE_BLOCKS, new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1));
 	}
 
 	@Override

@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 public class ClassicDoomArmor extends SkinArmor {
 
 	public ClassicDoomArmor(ArmorMaterial materialIn, EquipmentSlot slot) {
-		super(materialIn, slot, new Item.Settings().group(DoomMod.DoomItemGroup).maxCount(1));
+		super(materialIn, slot, new Item.Settings().group(DoomMod.DoomArmorItemGroup).maxCount(1));
 
 	}
 
@@ -37,7 +37,7 @@ public class ClassicDoomArmor extends SkinArmor {
 		stack.addEnchantment(Enchantments.BLAST_PROTECTION, 1);
 		stack.addEnchantment(Enchantments.FEATHER_FALLING, 1);
 		stack.addEnchantment(Enchantments.FIRE_PROTECTION, 1);
-		if (group == DoomMod.DoomItemGroup) {
+		if (group == DoomMod.DoomArmorItemGroup) {
 			stacks.add(stack);
 		}
 	}

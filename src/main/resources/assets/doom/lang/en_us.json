@@ -191,5 +191,9 @@
 	"item.doom.uniques.axe.axe_crucible.desc": "You were never one of us. You were nothing but a usurper, a false idol. My eyes have been opened.",
 	"doom.affix.of_doom": "of Doom",
 	"enchantment.level.20": "XX",
-	"itemGroup.doom.doom": "Doom Items"
+	"itemGroup.doom.weapons": "Doom Weapons",
+	"itemGroup.doom.armor": "Doom Armor",
+	"itemGroup.doom.eggs": "Doom Eggs",
+	"itemGroup.doom.blocks": "Doom Blocks",
+	"itemGroup.doom.powerup": "Doom Powerups"
 }

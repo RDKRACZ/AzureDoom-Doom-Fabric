@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 public class SwordCrucibleItem extends SwordItem {
 
 	public SwordCrucibleItem() {
-		super(DoomTier.DOOM, 12, -2.4F, new Item.Settings().group(DoomMod.DoomItemGroup).maxCount(1).maxDamage(9000));
+		super(DoomTier.DOOM, 12, -2.4F, new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(9000));
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class SwordCrucibleItem extends SwordItem {
 		stack.addEnchantment(Enchantments.LOOTING, 10);
 		stack.addEnchantment(Enchantments.SHARPNESS, 10);
 		stack.addEnchantment(Enchantments.SWEEPING, 10);
-		if (group == DoomMod.DoomItemGroup) {
+		if (group == DoomMod.DoomWeaponItemGroup) {
 			stacks.add(stack);
 		}
 	}

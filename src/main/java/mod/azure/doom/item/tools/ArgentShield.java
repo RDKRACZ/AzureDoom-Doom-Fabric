@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 public class ArgentShield extends Item {
 
 	public ArgentShield() {
-		super(new Item.Settings().group(DoomMod.DoomItemGroup).maxCount(1));
+		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1));
 	}
 
 	@Override

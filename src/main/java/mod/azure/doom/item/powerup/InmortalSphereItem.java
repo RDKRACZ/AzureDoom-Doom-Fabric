@@ -21,7 +21,7 @@ import net.minecraft.world.World;
 public class InmortalSphereItem extends Item {
 
 	public InmortalSphereItem() {
-		super(new Item.Settings().group(DoomMod.DoomItemGroup).maxCount(1));
+		super(new Item.Settings().group(DoomMod.DoomPowerUPItemGroup).maxCount(1));
 	}
 
 	@Override

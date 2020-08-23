@@ -27,7 +27,7 @@ import net.minecraft.world.World;
 public class BFG extends RangedWeaponItem {
 
 	public BFG() {
-		super(new Item.Settings().group(DoomMod.DoomItemGroup).maxCount(1).maxDamage(9000));
+		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(9000));
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class BFG extends RangedWeaponItem {
 		stack.hasTag();
 		stack.addEnchantment(Enchantments.PUNCH, 2);
 		stack.addEnchantment(Enchantments.POWER, 3);
-		if (group == DoomMod.DoomItemGroup) {
+		if (group == DoomMod.DoomWeaponItemGroup) {
 			stacks.add(stack);
 		}
 	}

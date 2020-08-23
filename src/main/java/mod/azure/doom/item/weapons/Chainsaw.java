@@ -9,7 +9,7 @@ import net.minecraft.item.SwordItem;
 public class Chainsaw extends SwordItem {
 
 	public Chainsaw() {
-		super(DoomTier.DOOM, 2, -2.4F, new Item.Settings().group(DoomMod.DoomItemGroup).maxCount(1).maxDamage(600));
+		super(DoomTier.DOOM, 2, -2.4F, new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(600));
 	}
 
 	@Override

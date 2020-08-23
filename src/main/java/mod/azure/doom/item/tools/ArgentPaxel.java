@@ -53,7 +53,7 @@ public class ArgentPaxel extends MiningToolItem {
 			.put(Blocks.CRIMSON_HYPHAE, Blocks.STRIPPED_CRIMSON_HYPHAE).build();
 
 	public ArgentPaxel() {
-		super(9, -2.4F, DoomTier.DOOM, EFFECTIVE_BLOCKS, new Item.Settings().group(DoomMod.DoomItemGroup).maxCount(1));
+		super(9, -2.4F, DoomTier.DOOM, EFFECTIVE_BLOCKS, new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1));
 	}
 
 	@Override

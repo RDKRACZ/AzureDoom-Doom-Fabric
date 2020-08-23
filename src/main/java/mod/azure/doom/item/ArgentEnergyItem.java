@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 public class ArgentEnergyItem extends Item {
 
 	public ArgentEnergyItem() {
-		super(new Item.Settings().group(DoomMod.DoomItemGroup));
+		super(new Item.Settings().group(DoomMod.DoomPowerUPItemGroup));
 	}
 
 	@Override

@@ -25,7 +25,7 @@ import net.minecraft.world.World;
 public class RocketLauncher extends RangedWeaponItem {
 
 	public RocketLauncher() {
-		super(new Item.Settings().group(DoomMod.DoomItemGroup).maxCount(1).maxDamage(9000));
+		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(9000));
 	}
 
 	@Override

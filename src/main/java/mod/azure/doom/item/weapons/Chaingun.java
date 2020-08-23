@@ -27,7 +27,7 @@ import net.minecraft.world.World;
 public class Chaingun extends RangedWeaponItem {
 
 	public Chaingun() {
-		super(new Item.Settings().group(DoomMod.DoomItemGroup).maxCount(1).maxDamage(9000));
+		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(9000));
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class Chaingun extends RangedWeaponItem {
 		ItemStack stack = new ItemStack(this);
 		stack.hasTag();
 		stack.addEnchantment(Enchantments.PUNCH, 2);
-		if (group == DoomMod.DoomItemGroup) {
+		if (group == DoomMod.DoomWeaponItemGroup) {
 			stacks.add(stack);
 		}
 	}

@@ -26,7 +26,7 @@ import net.minecraft.world.World;
 public class Shotgun extends RangedWeaponItem {
 
 	public Shotgun() {
-		super(new Item.Settings().group(DoomMod.DoomItemGroup).maxCount(1).maxDamage(9000));
+		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(9000));
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class Shotgun extends RangedWeaponItem {
 		stack.hasTag();
 		stack.addEnchantment(Enchantments.PUNCH, 2);
 		stack.addEnchantment(Enchantments.POWER, 3);
-		if (group == DoomMod.DoomItemGroup) {
+		if (group == DoomMod.DoomWeaponItemGroup) {
 			stacks.add(stack);
 		}
 	}

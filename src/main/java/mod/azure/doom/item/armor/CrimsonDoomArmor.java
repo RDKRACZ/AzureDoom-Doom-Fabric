@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 public class CrimsonDoomArmor extends SkinArmor {
 
 	public CrimsonDoomArmor(ArmorMaterial materialIn, EquipmentSlot slot) {
-		super(materialIn, slot, new Item.Settings().group(DoomMod.DoomItemGroup).maxCount(1));
+		super(materialIn, slot, new Item.Settings().group(DoomMod.DoomArmorItemGroup).maxCount(1));
 
 	}
 
@@ -39,7 +39,7 @@ public class CrimsonDoomArmor extends SkinArmor {
 		stack.addEnchantment(Enchantments.FEATHER_FALLING, 1);
 		stack.addEnchantment(Enchantments.FIRE_PROTECTION, 5);
 		stack.addEnchantment(Enchantments.FIRE_ASPECT, 5);
-		if (group == DoomMod.DoomItemGroup) {
+		if (group == DoomMod.DoomArmorItemGroup) {
 			stacks.add(stack);
 		}
 	}

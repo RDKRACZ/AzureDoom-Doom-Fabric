@@ -27,15 +27,15 @@ public class DoomBlocks {
 	public static void init() {
 		Registry.register(Registry.BLOCK, new Identifier(DoomMod.MODID, "barrel"), DoomBlocks.BARREL_BLOCK);
 		Registry.register(Registry.ITEM, new Identifier(DoomMod.MODID, "barrel"),
-				new BlockItem(DoomBlocks.BARREL_BLOCK, new Item.Settings().group(DoomMod.DoomItemGroup)));
+				new BlockItem(DoomBlocks.BARREL_BLOCK, new Item.Settings().group(DoomMod.DoomBlockItemGroup)));
 
 		Registry.register(Registry.BLOCK, new Identifier(DoomMod.MODID, "argent_block"), DoomBlocks.ARGENT_BLOCK);
 		Registry.register(Registry.ITEM, new Identifier(DoomMod.MODID, "argent_block"),
-				new BlockItem(DoomBlocks.ARGENT_BLOCK, new Item.Settings().group(DoomMod.DoomItemGroup)));
+				new BlockItem(DoomBlocks.ARGENT_BLOCK, new Item.Settings().group(DoomMod.DoomBlockItemGroup)));
 
 		Registry.register(Registry.BLOCK, new Identifier(DoomMod.MODID, "argent_lamp_block"),
 				DoomBlocks.ARGENT_LAMP_BLOCK);
 		Registry.register(Registry.ITEM, new Identifier(DoomMod.MODID, "argent_lamp_block"),
-				new BlockItem(DoomBlocks.ARGENT_LAMP_BLOCK, new Item.Settings().group(DoomMod.DoomItemGroup)));
+				new BlockItem(DoomBlocks.ARGENT_LAMP_BLOCK, new Item.Settings().group(DoomMod.DoomBlockItemGroup)));
 	}
 }

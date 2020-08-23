@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 public class ArgentSword extends SwordItem {
 
 	public ArgentSword() {
-		super(DoomTier.DOOM, 6, -2.4F, new Item.Settings().group(DoomMod.DoomItemGroup).maxCount(1).maxDamage(9000));
+		super(DoomTier.DOOM, 6, -2.4F, new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(9000));
 	}
 
 	@Override

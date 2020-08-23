@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 public class ArgentShovel extends ShovelItem {
 
 	public ArgentShovel() {
-		super(DoomTier.DOOM, 3F, -2.4F, new Item.Settings().group(DoomMod.DoomItemGroup).maxCount(1));
+		super(DoomTier.DOOM, 3F, -2.4F, new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1));
 	}
 
 	@Override

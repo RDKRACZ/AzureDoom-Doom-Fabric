@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 public class PhobosDoomArmor extends SkinArmor {
 
 	public PhobosDoomArmor(ArmorMaterial materialIn, EquipmentSlot slot) {
-		super(materialIn, slot, new Item.Settings().group(DoomMod.DoomItemGroup).maxCount(1));
+		super(materialIn, slot, new Item.Settings().group(DoomMod.DoomArmorItemGroup).maxCount(1));
 
 	}
 
@@ -40,7 +40,7 @@ public class PhobosDoomArmor extends SkinArmor {
 		stack.addEnchantment(Enchantments.FEATHER_FALLING, 5);
 		stack.addEnchantment(Enchantments.FIRE_PROTECTION, 5);
 		stack.addEnchantment(Enchantments.THORNS, 5);
-		if (group == DoomMod.DoomItemGroup) {
+		if (group == DoomMod.DoomArmorItemGroup) {
 			stacks.add(stack);
 		}
 	}

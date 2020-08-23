@@ -49,7 +49,7 @@ public class Ballista extends CrossbowItem {
 	private boolean loaded = false;
 
 	public Ballista() {
-		super(new Item.Settings().group(DoomMod.DoomItemGroup).maxCount(1).maxDamage(9000));
+		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(9000));
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class Ballista extends CrossbowItem {
 		ItemStack stack = new ItemStack(this);
 		stack.hasTag();
 		stack.addEnchantment(Enchantments.PIERCING, 10);
-		if (group == DoomMod.DoomItemGroup) {
+		if (group == DoomMod.DoomWeaponItemGroup) {
 			stacks.add(stack);
 		}
 	}

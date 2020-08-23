@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 public class GoldDoomArmor extends SkinArmor {
 
 	public GoldDoomArmor(ArmorMaterial materialIn, EquipmentSlot slot) {
-		super(materialIn, slot, new Item.Settings().group(DoomMod.DoomItemGroup).maxCount(1));
+		super(materialIn, slot, new Item.Settings().group(DoomMod.DoomArmorItemGroup).maxCount(1));
 
 	}
 
@@ -39,7 +39,7 @@ public class GoldDoomArmor extends SkinArmor {
 		stack.addEnchantment(Enchantments.MENDING, 1);
 		stack.addEnchantment(Enchantments.BINDING_CURSE, 1);
 		stack.addEnchantment(Enchantments.BLAST_PROTECTION, 5);
-		if (group == DoomMod.DoomItemGroup) {
+		if (group == DoomMod.DoomArmorItemGroup) {
 			stacks.add(stack);
 		}
 	}

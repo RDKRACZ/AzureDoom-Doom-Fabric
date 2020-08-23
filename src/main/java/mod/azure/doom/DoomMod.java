@@ -28,8 +28,20 @@ public class DoomMod implements ModInitializer {
 
 	public static final String MODID = "doom";
 
-	public static final ItemGroup DoomItemGroup = FabricItemGroupBuilder.create(new Identifier(MODID, "doom"))
-			.icon(() -> new ItemStack(DoomItems.ARGENT_AXE)).build();
+	public static final ItemGroup DoomWeaponItemGroup = FabricItemGroupBuilder.create(new Identifier(MODID, "weapons"))
+			.icon(() -> new ItemStack(DoomItems.CRUCIBLESWORD)).build();
+
+	public static final ItemGroup DoomArmorItemGroup = FabricItemGroupBuilder.create(new Identifier(MODID, "armor"))
+			.icon(() -> new ItemStack(DoomItems.DOOM_HELMET)).build();
+	
+	public static final ItemGroup DoomBlockItemGroup = FabricItemGroupBuilder.create(new Identifier(MODID, "blocks"))
+			.icon(() -> new ItemStack(DoomBlocks.BARREL_BLOCK)).build();
+
+	public static final ItemGroup DoomEggItemGroup = FabricItemGroupBuilder.create(new Identifier(MODID, "eggs"))
+			.icon(() -> new ItemStack(DoomItems.IMP_SPAWN_EGG)).build();
+	
+	public static final ItemGroup DoomPowerUPItemGroup = FabricItemGroupBuilder.create(new Identifier(MODID, "powerup"))
+			.icon(() -> new ItemStack(DoomItems.INMORTAL)).build();
 
 	public static DoomBlocks BLOCKS;
 	public static ModSoundEvents SOUNDS;

@@ -6,6 +6,6 @@ import net.minecraft.item.Item;
 public class SoulCubeItem extends Item {
 
 	public SoulCubeItem() {
-		super(new Item.Settings().group(DoomMod.DoomItemGroup).maxCount(1).maxDamage(5));
+		super(new Item.Settings().group(DoomMod.DoomPowerUPItemGroup).maxCount(1).maxDamage(5));
 	}
 }

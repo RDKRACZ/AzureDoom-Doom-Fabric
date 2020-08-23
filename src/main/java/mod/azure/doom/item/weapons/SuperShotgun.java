@@ -46,7 +46,7 @@ public class SuperShotgun extends CrossbowItem {
 	private boolean loaded = false;
 
 	public SuperShotgun() {
-		super(new Item.Settings().group(DoomMod.DoomItemGroup).maxCount(1).maxDamage(9000));
+		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(9000));
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class SuperShotgun extends CrossbowItem {
 		stack.addEnchantment(Enchantments.MULTISHOT, 1);
 		stack.addEnchantment(Enchantments.PIERCING, 10);
 		stack.addEnchantment(Enchantments.QUICK_CHARGE, 1);
-		if (group == DoomMod.DoomItemGroup) {
+		if (group == DoomMod.DoomWeaponItemGroup) {
 			stacks.add(stack);
 		}
 	}
