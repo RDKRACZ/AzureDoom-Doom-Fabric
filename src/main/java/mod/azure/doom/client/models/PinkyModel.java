@@ -121,8 +121,13 @@ public class PinkyModel<T extends Entity> extends EntityModel<T> {
 		this.pinkyArmR.pitch = MathHelper.cos(limbSwing) * 0.4F * limbSwingAmount;
 		this.pinkyArmL.pitch = MathHelper.cos(limbSwing) * 0.4F * limbSwingAmount;
 		
-		this.pinkyLegR.pitch = MathHelper.cos(limbSwing) * 0.4F * limbSwingAmount;
-		this.pinkyLegL.pitch = MathHelper.cos(limbSwing + (float) Math.PI) * 0.4F * limbSwingAmount;
+		this.pinkyArmR.yaw = MathHelper.cos(limbSwing) * -0.7819074915776542F* limbSwingAmount;
+		this.pinkyArmL.yaw = MathHelper.cos(limbSwing + (float)Math.PI) * -0.7819074915776542F * limbSwingAmount;
+		this.pinkyArmR.yaw = MathHelper.cos(limbSwing) * 0.2F * limbSwingAmount;
+		this.pinkyArmL.yaw = MathHelper.cos(limbSwing) * 0.2F * limbSwingAmount;
+		
+		this.pinkyLegR.pitch = MathHelper.cos(limbSwing) * 4.9F * limbSwingAmount;
+		this.pinkyLegL.pitch = MathHelper.cos(limbSwing + (float) Math.PI) * 4.9F * limbSwingAmount;
 	}
 	
 	@Override

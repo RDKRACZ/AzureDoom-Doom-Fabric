@@ -1,4 +1,4 @@
-package mod.azure.doom.util;
+package mod.azure.doom.util.registry;
 
 import mod.azure.doom.DoomMod;
 import mod.azure.doom.entity.ArchvileEntity;

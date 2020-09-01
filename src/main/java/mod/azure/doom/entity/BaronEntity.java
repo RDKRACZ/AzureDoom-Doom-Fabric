@@ -8,8 +8,8 @@ import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.annotati
 import mod.azure.doom.entity.ai.goal.RangedBarenBlastAttackGoal;
 import mod.azure.doom.entity.projectiles.BarenBlastEntity;
 import mod.azure.doom.item.entityweapons.BarenBlastItem;
-import mod.azure.doom.util.DoomItems;
 import mod.azure.doom.util.ModSoundEvents;
+import mod.azure.doom.util.registry.DoomItems;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
@@ -74,6 +74,7 @@ public class BaronEntity extends DemonEntity implements RangedAttackMob {
 		this.goalSelector.add(5, new WanderAroundFarGoal(this, 1.0D));
 		this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
 		this.goalSelector.add(6, new LookAroundGoal(this));
+		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
 		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]));
 		this.targetSelector.add(2, new FollowTargetGoal(this, PlayerEntity.class, true));
 	}
@@ -81,7 +82,8 @@ public class BaronEntity extends DemonEntity implements RangedAttackMob {
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
 		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
 				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.15D).add(EntityAttributes.GENERIC_MAX_HEALTH, 40.0D)
-				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 15.0D);
+				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 15.0D)
+				.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package mod.azure.doom.item.ammo;
 
 import java.util.List;
 
+import mod.azure.doom.DoomMod;
 import mod.azure.doom.entity.projectiles.ShotgunShellEntity;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
@@ -16,8 +17,8 @@ public class ShellAmmo extends ArrowItem {
 
 	public final float damage;
 
-	public ShellAmmo(Item.Settings properties, float damageIn) {
-		super(properties);
+	public ShellAmmo(float damageIn) {
+		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup));
 		this.damage = damageIn;
 	}
 

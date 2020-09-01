@@ -3,7 +3,7 @@ package mod.azure.doom.item.tools;
 import java.util.List;
 
 import mod.azure.doom.DoomMod;
-import mod.azure.doom.util.DoomItems;
+import mod.azure.doom.util.registry.DoomItems;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

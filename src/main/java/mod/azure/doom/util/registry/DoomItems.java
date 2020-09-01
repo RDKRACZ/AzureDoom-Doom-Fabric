@@ -1,4 +1,4 @@
-package mod.azure.doom.util;
+package mod.azure.doom.util.registry;
 
 import mod.azure.doom.DoomMod;
 import mod.azure.doom.item.ArgentEnergyItem;
@@ -12,6 +12,7 @@ import mod.azure.doom.item.ammo.ClipAmmo;
 import mod.azure.doom.item.ammo.EnergyCell;
 import mod.azure.doom.item.ammo.Rocket;
 import mod.azure.doom.item.ammo.ShellAmmo;
+import mod.azure.doom.item.ammo.UnmaykrBolt;
 import mod.azure.doom.item.armor.AstroDoomArmor;
 import mod.azure.doom.item.armor.ClassicDoomArmor;
 import mod.azure.doom.item.armor.CrimsonDoomArmor;
@@ -57,6 +58,7 @@ import mod.azure.doom.item.weapons.RocketLauncher;
 import mod.azure.doom.item.weapons.Shotgun;
 import mod.azure.doom.item.weapons.SuperShotgun;
 import mod.azure.doom.item.weapons.SwordCrucibleItem;
+import mod.azure.doom.item.weapons.Unmaykr;
 import mod.azure.doom.util.enums.DoomArmorMaterial;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.Item;
@@ -65,53 +67,46 @@ import net.minecraft.util.registry.Registry;
 
 public class DoomItems {
 
-	// AMMO
-	public static ShellAmmo SHOTGUN_SHELLS = item(new ShellAmmo(new Item.Settings().group(DoomMod.DoomWeaponItemGroup), 2.0F),
-			"shotgun_shells");
-	public static ArgentBolt ARGENT_BOLT = item(new ArgentBolt(new Item.Settings().group(DoomMod.DoomWeaponItemGroup), 1.7F),
-			"argent_bolt");
-	public static EnergyCell ENERGY_CELLS = item(new EnergyCell(new Item.Settings().group(DoomMod.DoomWeaponItemGroup), 2.2F),
-			"energy_cells");
-	public static ChaingunAmmo CHAINGUN_BULLETS = item(
-			new ChaingunAmmo(new Item.Settings().group(DoomMod.DoomWeaponItemGroup), 10.0F), "chaingunbullets");
-	public static ClipAmmo BULLETS = item(new ClipAmmo(new Item.Settings().group(DoomMod.DoomWeaponItemGroup), 1.2F),
-			"bullets");
-	public static BFGCell BFG_CELL = item(new BFGCell(new Item.Settings().group(DoomMod.DoomWeaponItemGroup), 10.2F),
-			"bfg_cell");
-	public static Rocket ROCKET = item(new Rocket(new Item.Settings().group(DoomMod.DoomWeaponItemGroup), 2.2F), "rocket");
-	// MISC
-	public static ArgentEnergyItem ARGENT_ENERGY = item(new ArgentEnergyItem(), "argent_energy");
-	public static DaisyItem DAISY = item(new DaisyItem(), "daisy");
-	public static E1M1MusicDisc E1M1_MUSIC_DISC = item(new E1M1MusicDisc(), "e1m1_music_disc");
-	public static InmortalSphereItem INMORTAL = item(new InmortalSphereItem(), "inmortalsphere");
-	public static InvisibleSphereItem INVISIBLE = item(new InvisibleSphereItem(), "invisiblesphere");
-	public static MegaSphereItem MEGA = item(new MegaSphereItem(), "megasphere");
-	public static PowerSphereItem POWER = item(new PowerSphereItem(), "powersphere");
-	public static SoulCubeItem SOULCUBE = item(new SoulCubeItem(), "soulcube");
-	// WEAPONS AND TOOLS
-	public static ArgentAxe ARGENT_AXE = item(new ArgentAxe(), "argent_axe");
-	public static ArgentHoe ARGENT_HOE = item(new ArgentHoe(), "argent_hoe");
-	public static ArgentPaxel ARGENT_PAXEL = item(new ArgentPaxel(), "argent_paxel");
-	public static ArgentPickaxe ARGENT_PICKAXE = item(new ArgentPickaxe(), "argent_pickaxe");
-	public static ArgentShovel ARGENT_SHOVEL = item(new ArgentShovel(), "argent_shovel");
-	public static ArgentSword ARGENT_SWORD = item(new ArgentSword(), "argent_sword");
-	public static Chainsaw CHAINSAW = item(new Chainsaw(), "chainsaw");
-	public static SuperShotgun SSG = item(new SuperShotgun(), "supershotgun");
-	public static Shotgun SG = item(new Shotgun(), "shotgun");
 	public static BFG BFG = item(new BFG(), "bfg9000");
-	public static PlasmaGun PLASMAGUN = item(new PlasmaGun(), "plasmagun");
-	public static RocketLauncher ROCKETLAUNCHER = item(new RocketLauncher(), "rocketlauncher");
+	public static Shotgun SG = item(new Shotgun(), "shotgun");
+	public static DaisyItem DAISY = item(new DaisyItem(), "daisy");
+	public static Rocket ROCKET = item(new Rocket(2.2F), "rocket");
+	public static Unmaykr UNMAKYR = item(new Unmaykr(), "unmaykr");
 	public static Ballista BALLISTA = item(new Ballista(), "ballista");
 	public static Chaingun CHAINGUN = item(new Chaingun(), "chaingun");
+	public static Chainsaw CHAINSAW = item(new Chainsaw(), "chainsaw");
 	public static PistolItem PISTOL = item(new PistolItem(), "pistol");
-	public static SwordCrucibleItem CRUCIBLESWORD = item(new SwordCrucibleItem(), "cruciblesword");
-	public static UnopenedItem SWORD_CLOSED = item(new UnopenedItem(), "cruciblesword_closed");
-	public static AxeMarauderItem AXE_OPEN = item(new AxeMarauderItem(), "axe_marauder_open");
+	public static ClipAmmo BULLETS = item(new ClipAmmo(1.2F), "bullets");
+	public static BFGCell BFG_CELL = item(new BFGCell(10.2F), "bfg_cell");
+	public static PlasmaGun PLASMAGUN = item(new PlasmaGun(), "plasmagun");
+	public static ArgentAxe ARGENT_AXE = item(new ArgentAxe(), "argent_axe");
+	public static ArgentHoe ARGENT_HOE = item(new ArgentHoe(), "argent_hoe");
+	public static SuperShotgun SSG = item(new SuperShotgun(), "supershotgun");
+	public static SoulCubeItem SOULCUBE = item(new SoulCubeItem(), "soulcube");
+	public static MegaSphereItem MEGA = item(new MegaSphereItem(), "megasphere");
+	public static ArgentBolt ARGENT_BOLT = item(new ArgentBolt(1.7F), "argent_bolt");
+	public static ArgentPaxel ARGENT_PAXEL = item(new ArgentPaxel(), "argent_paxel");
+	public static ArgentSword ARGENT_SWORD = item(new ArgentSword(), "argent_sword");
+	public static PowerSphereItem POWER = item(new PowerSphereItem(), "powersphere");
+	public static EnergyCell ENERGY_CELLS = item(new EnergyCell(2.2F), "energy_cells");
+	public static ArgentShovel ARGENT_SHOVEL = item(new ArgentShovel(), "argent_shovel");
+	public static ShellAmmo SHOTGUN_SHELLS = item(new ShellAmmo(2.0F), "shotgun_shells");
+	public static UnmaykrBolt UNMAKRY_BOLT = item(new UnmaykrBolt(10.2F), "unmaykr_bolt");
+	public static BarenBlastItem BARENBLAST = item(new BarenBlastItem(2.0F), "barenblast");
 	public static UnopenedItem AXE_CLOSED = item(new UnopenedItem(), "axe_marauder_closed");
-	// MOB WEAPONS
+	public static ArgentPickaxe ARGENT_PICKAXE = item(new ArgentPickaxe(), "argent_pickaxe");
+	public static AxeMarauderItem AXE_OPEN = item(new AxeMarauderItem(), "axe_marauder_open");
+	public static UnopenedItem SWORD_CLOSED = item(new UnopenedItem(), "cruciblesword_closed");
+	public static E1M1MusicDisc E1M1_MUSIC_DISC = item(new E1M1MusicDisc(), "e1m1_music_disc");
+	public static RocketLauncher ROCKETLAUNCHER = item(new RocketLauncher(), "rocketlauncher");
+	public static ArgentEnergyItem ARGENT_ENERGY = item(new ArgentEnergyItem(), "argent_energy");
+	public static InmortalSphereItem INMORTAL = item(new InmortalSphereItem(), "inmortalsphere");
+	public static ChaingunAmmo CHAINGUN_BULLETS = item(new ChaingunAmmo(10.0F), "chaingunbullets");
+	public static SwordCrucibleItem CRUCIBLESWORD = item(new SwordCrucibleItem(), "cruciblesword");
+	public static InvisibleSphereItem INVISIBLE = item(new InvisibleSphereItem(), "invisiblesphere");
 	public static CyberdemonAttackItem CYBERDEMONATTACK = item(new CyberdemonAttackItem(), "cyberdemonattack");
 	public static SpiderdemonAttackItem SPIDERDEMONATTACK = item(new SpiderdemonAttackItem(), "spiderdemonattack");
-	public static BarenBlastItem BARENBLAST = item(new BarenBlastItem(2.0F), "barenblast");
+	
 	// Spawn Eggs
 	public static DoomSpawnEgg IMP_SPAWN_EGG = item(new DoomSpawnEgg(MobEntityRegister.IMP), "imp_spawn_egg");
 	public static DoomSpawnEgg PINKY_SPAWN_EGG = item("pinky_spawn_egg", new DoomSpawnEgg(MobEntityRegister.PINKY));

@@ -1,14 +1,13 @@
 package mod.azure.doom.item.weapons;
 
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import mod.azure.doom.DoomMod;
 import mod.azure.doom.entity.projectiles.ChaingunBulletEntity;
 import mod.azure.doom.item.ammo.ChaingunAmmo;
-import mod.azure.doom.util.DoomItems;
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.enums.DoomTier;
+import mod.azure.doom.util.registry.DoomItems;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
@@ -56,7 +55,6 @@ public class Chaingun extends RangedWeaponItem {
 		return DoomTier.DOOM.getRepairIngredient().test(ingredient) || super.canRepair(stack, ingredient);
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void usageTick(World worldIn, LivingEntity entityLiving, ItemStack stack, int count) {
 		if (entityLiving instanceof PlayerEntity) {
@@ -94,9 +92,7 @@ public class Chaingun extends RangedWeaponItem {
 						abstractarrowentity.setFireTicks(100);
 					}
 
-					stack.damage(1, (LivingEntity) playerentity, (Consumer) ((p) -> {
-						((LivingEntity) p).sendToolBreakStatus(playerentity.getActiveHand());
-					}));
+					stack.damage(1, entityLiving, p -> p.sendToolBreakStatus(entityLiving.getActiveHand()));
 					worldIn.spawnEntity(abstractarrowentity);
 				}
 				worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(), playerentity.getZ(),

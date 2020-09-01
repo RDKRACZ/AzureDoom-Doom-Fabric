@@ -32,8 +32,9 @@ import mod.azure.doom.client.render.projectiles.EnergyCellRender;
 import mod.azure.doom.client.render.projectiles.LostSoulShootRender;
 import mod.azure.doom.client.render.projectiles.RocketRender;
 import mod.azure.doom.client.render.projectiles.ShotgunShellRender;
-import mod.azure.doom.util.MobEntityRegister;
+import mod.azure.doom.client.render.projectiles.UnmaykrBulletRender;
 import mod.azure.doom.util.ProjectilesEntityRegister;
+import mod.azure.doom.util.registry.MobEntityRegister;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 
 public class DoomRenderRegistry {
@@ -134,6 +135,9 @@ public class DoomRenderRegistry {
 		});
 		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.CHAINGUN_BULLET, (dispatcher, context) -> {
 			return new ChaingunBulletRender(dispatcher);
+		});
+		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.UNMAYKR, (dispatcher, context) -> {
+			return new UnmaykrBulletRender(dispatcher);
 		});
 	}
 }

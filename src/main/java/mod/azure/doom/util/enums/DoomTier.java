@@ -2,7 +2,7 @@ package mod.azure.doom.util.enums;
 
 import java.util.function.Supplier;
 
-import mod.azure.doom.util.DoomItems;
+import mod.azure.doom.util.registry.DoomItems;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Lazy;

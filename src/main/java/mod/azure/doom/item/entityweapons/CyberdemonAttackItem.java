@@ -5,7 +5,7 @@ import java.util.function.Predicate;
 
 import mod.azure.doom.entity.projectiles.RocketEntity;
 import mod.azure.doom.item.ammo.Rocket;
-import mod.azure.doom.util.DoomItems;
+import mod.azure.doom.util.registry.DoomItems;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;

@@ -1,14 +1,13 @@
 package mod.azure.doom.item.weapons;
 
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import mod.azure.doom.DoomMod;
 import mod.azure.doom.entity.projectiles.RocketEntity;
 import mod.azure.doom.item.ammo.Rocket;
-import mod.azure.doom.util.DoomItems;
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.enums.DoomTier;
+import mod.azure.doom.util.registry.DoomItems;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
@@ -48,7 +47,6 @@ public class RocketLauncher extends RangedWeaponItem {
 		return itemStack -> itemStack.getItem() instanceof Rocket;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void onStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int remainingUseTicks) {
 		if (entityLiving instanceof PlayerEntity) {
@@ -72,9 +70,7 @@ public class RocketLauncher extends RangedWeaponItem {
 
 					abstractarrowentity.setNoGravity(true);
 
-					stack.damage(1, (LivingEntity) playerentity, (Consumer) ((p) -> {
-						((LivingEntity) p).sendToolBreakStatus(playerentity.getActiveHand());
-					}));
+					stack.damage(1, entityLiving, p -> p.sendToolBreakStatus(entityLiving.getActiveHand()));
 					worldIn.spawnEntity(abstractarrowentity);
 				}
 				worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(), playerentity.getZ(),

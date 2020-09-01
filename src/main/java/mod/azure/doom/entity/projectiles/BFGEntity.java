@@ -2,10 +2,10 @@ package mod.azure.doom.entity.projectiles;
 
 import java.util.List;
 
-import mod.azure.doom.util.DoomItems;
+import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.ProjectilesEntityRegister;
 import mod.azure.doom.util.packets.EntityPacket;
-import mod.azure.doom.util.ModSoundEvents;
+import mod.azure.doom.util.registry.DoomItems;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.AreaEffectCloudEntity;
@@ -193,9 +193,9 @@ public class BFGEntity extends PersistentProjectileEntity {
 		this.world.createExplosion(this, this.getX(), this.getBodyY(0.0625D), this.getZ(), 12.0F,
 				Explosion.DestructionType.NONE);
 	}
-	
+
 	@Override
-    @Environment(EnvType.CLIENT)
+	@Environment(EnvType.CLIENT)
 	public boolean shouldRender(double distance) {
 		return true;
 	}

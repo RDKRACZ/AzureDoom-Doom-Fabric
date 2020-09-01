@@ -2,10 +2,12 @@ package mod.azure.doom.item.ammo;
 
 import java.util.List;
 
+import mod.azure.doom.DoomMod;
 import mod.azure.doom.entity.projectiles.ChaingunBulletEntity;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ArrowItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -15,8 +17,8 @@ public class ChaingunAmmo extends ArrowItem {
 
 	public final float damage;
 
-	public ChaingunAmmo(Settings properties, float damageIn) {
-		super(properties);
+	public ChaingunAmmo(float damageIn) {
+		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup));
 		this.damage = damageIn;
 	}
 

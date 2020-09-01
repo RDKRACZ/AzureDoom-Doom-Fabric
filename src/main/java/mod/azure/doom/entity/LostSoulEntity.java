@@ -18,6 +18,7 @@ import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.ai.goal.FollowTargetGoal;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -89,7 +90,8 @@ public class LostSoulEntity extends DemonEntity implements Monster {
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
 		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
-				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.15D).add(EntityAttributes.GENERIC_MAX_HEALTH, 5.0D);
+				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.15D).add(EntityAttributes.GENERIC_MAX_HEALTH, 5.0D)
+				.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
 	}
 
 	@Override
@@ -97,6 +99,7 @@ public class LostSoulEntity extends DemonEntity implements Monster {
 		this.goalSelector.add(5, new LostSoulEntity.FlyRandomlyGoal(this));
 		this.goalSelector.add(7, new LostSoulEntity.LookAtTargetGoal(this));
 		this.goalSelector.add(7, new LostSoulEntity.ShootFireballGoal(this));
+		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 	}
 

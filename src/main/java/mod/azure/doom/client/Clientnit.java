@@ -1,9 +1,9 @@
 package mod.azure.doom.client;
 
 import mod.azure.doom.DoomMod;
-import mod.azure.doom.util.DoomItems;
 import mod.azure.doom.util.packets.EntityPacket;
 import mod.azure.doom.util.packets.EntityPacketOnClient;
+import mod.azure.doom.util.registry.DoomItems;
 import nerdhub.cardinal.components.api.event.ItemComponentCallbackV2;
 import nerdhub.foml.obj.OBJLoader;
 import net.fabricmc.api.ClientModInitializer;

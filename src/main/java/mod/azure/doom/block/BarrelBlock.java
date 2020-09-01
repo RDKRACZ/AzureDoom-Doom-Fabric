@@ -1,9 +1,11 @@
 package mod.azure.doom.block;
 
 import mod.azure.doom.entity.projectiles.BarrelEntity;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.Material;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -12,6 +14,7 @@ import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
@@ -26,8 +29,8 @@ import net.minecraft.world.explosion.Explosion;
 
 public class BarrelBlock extends Block {
 
-	public BarrelBlock(Settings properties) {
-		super(properties);
+	public BarrelBlock() {
+		super(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).nonOpaque());
 	}
 
 	@Override

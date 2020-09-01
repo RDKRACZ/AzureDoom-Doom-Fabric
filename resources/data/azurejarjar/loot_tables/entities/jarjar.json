@@ -10,8 +10,8 @@
             {
               "function": "minecraft:set_count",
               "count": {
-                "min": 10.0,
-                "max": 15.0,
+                "min": 1.0,
+                "max": 3.0,
                 "type": "minecraft:uniform"
               }
             },
@@ -23,7 +23,7 @@
               }
             }
           ],
-          "name": "doom:argent_energy"
+          "name": "minecraft:pufferfish"
         }
       ]
     }

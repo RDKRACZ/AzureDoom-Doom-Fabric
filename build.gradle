@@ -15,7 +15,18 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	modImplementation("net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}") {
+        exclude(module: "fabric-dimensions")
+        exclude(module: "fabric-biomes")
+    }
 	modImplementation "top.theillusivec4.curios:curios-fabric:${curios_version}" 
+	modRuntime "curse.maven:ageexile:3043402"
+	modRuntime "curse.maven:libexile:3042749"
+	
+	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:${cardinal_version}"
+    modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:${cardinal_version}"
+    modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-world:${cardinal_version}"
+	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-chunk:${cardinal_version}"
 	//Cloth Config
     modApi("me.shedaniel.cloth:config-2:4.7.0-unstable"){
       exclude module: 'fabric-api'

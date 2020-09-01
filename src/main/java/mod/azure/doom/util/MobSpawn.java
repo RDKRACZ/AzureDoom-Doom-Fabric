@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableMap;
 
+import mod.azure.doom.util.registry.MobEntityRegister;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.entity.mob.HostileEntity;

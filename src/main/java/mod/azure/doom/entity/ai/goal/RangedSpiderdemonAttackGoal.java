@@ -3,7 +3,7 @@ package mod.azure.doom.entity.ai.goal;
 import java.util.EnumSet;
 
 import mod.azure.doom.item.entityweapons.SpiderdemonAttackItem;
-import mod.azure.doom.util.DoomItems;
+import mod.azure.doom.util.registry.DoomItems;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.RangedAttackMob;
 import net.minecraft.entity.ai.goal.Goal;

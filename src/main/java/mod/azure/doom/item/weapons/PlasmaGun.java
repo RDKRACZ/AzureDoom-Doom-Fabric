@@ -1,14 +1,13 @@
 package mod.azure.doom.item.weapons;
 
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import mod.azure.doom.DoomMod;
 import mod.azure.doom.entity.projectiles.EnergyCellEntity;
 import mod.azure.doom.item.ammo.EnergyCell;
-import mod.azure.doom.util.DoomItems;
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.enums.DoomTier;
+import mod.azure.doom.util.registry.DoomItems;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
@@ -38,7 +37,6 @@ public class PlasmaGun extends RangedWeaponItem {
 		return DoomTier.DOOM.getRepairIngredient().test(ingredient) || super.canRepair(stack, ingredient);
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void usageTick(World worldIn, LivingEntity livingEntityIn, ItemStack stack, int count) {
 		if (livingEntityIn instanceof PlayerEntity) {
@@ -62,9 +60,7 @@ public class PlasmaGun extends RangedWeaponItem {
 
 					abstractarrowentity.hasNoGravity();
 
-					stack.damage(1, (LivingEntity) playerentity, (Consumer) ((p) -> {
-						((LivingEntity) p).sendToolBreakStatus(playerentity.getActiveHand());
-					}));
+					stack.damage(1, livingEntityIn, p -> p.sendToolBreakStatus(livingEntityIn.getActiveHand()));
 					worldIn.spawnEntity(abstractarrowentity);
 				}
 				worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(), playerentity.getZ(),

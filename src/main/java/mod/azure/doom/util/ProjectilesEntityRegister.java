@@ -13,6 +13,7 @@ import mod.azure.doom.entity.projectiles.EnergyCellEntity;
 import mod.azure.doom.entity.projectiles.PainShootEntity;
 import mod.azure.doom.entity.projectiles.RocketEntity;
 import mod.azure.doom.entity.projectiles.ShotgunShellEntity;
+import mod.azure.doom.entity.projectiles.UnmaykrBoltEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
@@ -29,6 +30,7 @@ public class ProjectilesEntityRegister {
 	public static List<EntityType<? extends Entity>> ENTITY_THAT_USE_ITEM_RENDERS = new LinkedList();
 
 	public static EntityType<ArgentBoltEntity> ARGENT_BOLT = projectile(ArgentBoltEntity::new, "argent_bolt");
+	public static EntityType<UnmaykrBoltEntity> UNMAYKR = projectile(UnmaykrBoltEntity::new, "unmaykr_bolt");
 	public static EntityType<ShotgunShellEntity> SHOTGUN_SHELL = projectile(ShotgunShellEntity::new, "shotgun_shell");
 	public static EntityType<EnergyCellEntity> ENERGY_CELL = projectile(EnergyCellEntity::new, "energy_cell");
 	public static EntityType<BFGEntity> BFG_CELL = projectile(BFGEntity::new, "bfg_cell");

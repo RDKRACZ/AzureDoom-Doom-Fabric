@@ -8,8 +8,8 @@ import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.annotati
 import mod.azure.doom.entity.ai.goal.RangedBarenBlastAttackGoal;
 import mod.azure.doom.entity.projectiles.BarenBlastEntity;
 import mod.azure.doom.item.entityweapons.BarenBlastItem;
-import mod.azure.doom.util.DoomItems;
 import mod.azure.doom.util.ModSoundEvents;
+import mod.azure.doom.util.registry.DoomItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityData;
@@ -64,7 +64,8 @@ public class RevenantEntity extends DemonEntity implements RangedAttackMob {
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
 		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
 				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.15D).add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
-				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6.0D);
+				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6.0D)
+				.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
 	}
 
 	@Override

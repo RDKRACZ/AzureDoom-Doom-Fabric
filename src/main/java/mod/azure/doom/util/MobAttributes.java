@@ -22,6 +22,7 @@ import mod.azure.doom.entity.ShotgunguyEntity;
 import mod.azure.doom.entity.SpiderdemonEntity;
 import mod.azure.doom.entity.UnwillingEntity;
 import mod.azure.doom.entity.ZombiemanEntity;
+import mod.azure.doom.util.registry.MobEntityRegister;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 
 public class MobAttributes {

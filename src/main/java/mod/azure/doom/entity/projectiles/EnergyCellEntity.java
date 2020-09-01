@@ -1,8 +1,8 @@
 package mod.azure.doom.entity.projectiles;
 
-import mod.azure.doom.util.DoomItems;
 import mod.azure.doom.util.ProjectilesEntityRegister;
 import mod.azure.doom.util.packets.EntityPacket;
+import mod.azure.doom.util.registry.DoomItems;
 import mod.azure.doom.util.ModSoundEvents;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

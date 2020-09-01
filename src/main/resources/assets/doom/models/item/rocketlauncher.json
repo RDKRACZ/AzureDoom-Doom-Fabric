@@ -1,12 +1,12 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "doomweapon:items/7251",
-		"1": "doomweapon:items/9051",
-		"2": "doomweapon:items/color_palette/000",
-		"3": "doomweapon:items/color_palette/109",
-		"4": "doomweapon:items/color_palette/071",
-		"particle": "doomweapon:items/7251"
+		"0": "doom:items/7251",
+		"1": "doom:items/9051",
+		"2": "doom:items/color_palette/000",
+		"3": "doom:items/color_palette/109",
+		"4": "doom:items/color_palette/071",
+		"particle": "doom:items/7251"
 	},
 	"elements": [
 		{

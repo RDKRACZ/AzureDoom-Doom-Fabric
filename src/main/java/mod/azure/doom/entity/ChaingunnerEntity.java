@@ -8,8 +8,8 @@ import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.annotati
 import mod.azure.doom.entity.ai.goal.RangedChaingunAttackGoal;
 import mod.azure.doom.entity.projectiles.ChaingunBulletEntity;
 import mod.azure.doom.item.ammo.ChaingunAmmo;
-import mod.azure.doom.util.DoomItems;
 import mod.azure.doom.util.ModSoundEvents;
+import mod.azure.doom.util.registry.DoomItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityData;
@@ -25,6 +25,7 @@ import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.RevengeGoal;
+import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -73,6 +74,7 @@ public class ChaingunnerEntity extends DemonEntity implements RangedAttackMob {
 	protected void initGoals() {
 		this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
 		this.goalSelector.add(6, new LookAroundGoal(this));
+		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
 		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(3, new FollowTargetGoal<>(this, Imp2016Entity.class, true));
@@ -88,7 +90,8 @@ public class ChaingunnerEntity extends DemonEntity implements RangedAttackMob {
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
 		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
 				.add(EntityAttributes.GENERIC_MAX_HEALTH, 15.0D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 4.0D)
-				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.15D);
+				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.15D)
+				.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
 	}
 
 	@Override

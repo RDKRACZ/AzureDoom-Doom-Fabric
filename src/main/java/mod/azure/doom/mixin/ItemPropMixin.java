@@ -4,10 +4,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
 import mod.azure.doom.item.weapons.SuperShotgun;
-import mod.azure.doom.util.DoomItems;
+import mod.azure.doom.util.registry.DoomItems;
 import net.minecraft.client.item.ModelPredicateProvider;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 
@@ -99,5 +100,18 @@ public class ItemPropMixin {
 			return livingEntity != null && SuperShotgun.isCharged(itemStack)
 					&& SuperShotgun.hasProjectile(itemStack, Items.FIREWORK_ROCKET) ? 1.0F : 0.0F;
 		});
+
+		// Crucible
+		callRegister(DoomItems.CRUCIBLESWORD, new Identifier("broken"), (itemStack, clientWorld, livingEntity) -> {
+			return isUsable(itemStack) ? 0.0F : 1.0F;
+		});
+		// Marauder Axe
+		callRegister(DoomItems.AXE_OPEN, new Identifier("broken"), (itemStack, clientWorld, livingEntity) -> {
+			return itemStack.getDamage() < itemStack.getMaxDamage() - 1 ? 0.0F : 1.0F;
+		});
+	}
+
+	private static boolean isUsable(ItemStack stack) {
+		return stack.getDamage() < stack.getMaxDamage() - 1;
 	}
 }
