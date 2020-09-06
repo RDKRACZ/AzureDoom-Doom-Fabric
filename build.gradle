@@ -43,10 +43,10 @@ dependencies {
     modImplementation("io.github.prospector:modmenu:1.14.6+build.31") {
       exclude module: 'fabric-api'
     }
-	modImplementation ("com.github.OnyxStudios:FOML:${foml_version}") {
+	modImplementation ("dev.onyxstudios:FOML:${foml_version}") {
       exclude module: 'fabric-api'
     }
-    include ("com.github.OnyxStudios:FOML:${foml_version}") {
+    include ("dev.onyxstudios:FOML:${foml_version}") {
       exclude module: 'fabric-api'
     }
 }
