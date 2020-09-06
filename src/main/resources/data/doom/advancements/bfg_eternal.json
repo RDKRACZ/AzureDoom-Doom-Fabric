@@ -1,0 +1,25 @@
+{
+  "parent": "doom:root",
+  "rewards": {
+    "recipes": [
+      "doom:bfg_eternal"
+    ]
+  },
+  "criteria": {
+    "has_bfg": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "doom:bfg_eternal"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_bfg"
+    ]
+  ]
+}

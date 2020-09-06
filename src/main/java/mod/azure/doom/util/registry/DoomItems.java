@@ -69,6 +69,7 @@ public class DoomItems {
 
 	public static BFG BFG = item(new BFG(), "bfg9000");
 	public static Shotgun SG = item(new Shotgun(), "shotgun");
+	public static BFG BFG_ETERNAL = item(new BFG(), "bfg_eternal");
 	public static DaisyItem DAISY = item(new DaisyItem(), "daisy");
 	public static Rocket ROCKET = item(new Rocket(2.2F), "rocket");
 	public static Unmaykr UNMAKYR = item(new Unmaykr(), "unmaykr");
@@ -106,7 +107,7 @@ public class DoomItems {
 	public static InvisibleSphereItem INVISIBLE = item(new InvisibleSphereItem(), "invisiblesphere");
 	public static CyberdemonAttackItem CYBERDEMONATTACK = item(new CyberdemonAttackItem(), "cyberdemonattack");
 	public static SpiderdemonAttackItem SPIDERDEMONATTACK = item(new SpiderdemonAttackItem(), "spiderdemonattack");
-	
+
 	// Spawn Eggs
 	public static DoomSpawnEgg IMP_SPAWN_EGG = item(new DoomSpawnEgg(MobEntityRegister.IMP), "imp_spawn_egg");
 	public static DoomSpawnEgg PINKY_SPAWN_EGG = item("pinky_spawn_egg", new DoomSpawnEgg(MobEntityRegister.PINKY));
