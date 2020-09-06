@@ -84,7 +84,9 @@ public class BFG extends RangedWeaponItem {
 					stack.damage(1, entityLiving, p -> p.sendToolBreakStatus(entityLiving.getActiveHand()));
 					worldIn.spawnEntity(abstractarrowentity);
 
-					entityLiving.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 10, 4));
+					if (!playerentity.hasStatusEffect(StatusEffects.RESISTANCE)) {
+						entityLiving.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 10, 4));
+					}
 				}
 				worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(), playerentity.getZ(),
 						ModSoundEvents.BFG_FIRING, SoundCategory.PLAYERS, 1.0F,
