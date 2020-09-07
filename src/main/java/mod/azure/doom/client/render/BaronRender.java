@@ -5,7 +5,6 @@ import mod.azure.doom.client.models.BaronModel;
 import mod.azure.doom.entity.BaronEntity;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 public class BaronRender extends MobEntityRenderer<BaronEntity, BaronModel<BaronEntity>> {
@@ -19,11 +18,6 @@ public class BaronRender extends MobEntityRenderer<BaronEntity, BaronModel<Baron
 	@Override
 	public Identifier getTexture(BaronEntity entity) {
 		return TEXTURE;
-	}
-
-	@Override
-	protected void scale(BaronEntity entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
-		matrixStackIn.scale(2.0F, 2.0F, 2.0F);
 	}
 
 }
