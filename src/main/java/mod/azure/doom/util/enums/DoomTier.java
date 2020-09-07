@@ -2,6 +2,7 @@ package mod.azure.doom.util.enums;
 
 import java.util.function.Supplier;
 
+import mod.azure.doom.util.registry.DoomBlocks;
 import mod.azure.doom.util.registry.DoomItems;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
@@ -10,6 +11,8 @@ import net.minecraft.util.Lazy;
 public enum DoomTier implements ToolMaterial {
 	DOOM(5, 1561, 3.0F, 16.0F, 30, () -> {
 		return Ingredient.ofItems(DoomItems.ARGENT_ENERGY);
+	}), DOOM_HIGHTEIR(6, 5, 16.0F, 3.0F, 30, () -> {
+		return Ingredient.ofItems(DoomBlocks.ARGENT_BLOCK);
 	});
 
 	private final int miningLevel;

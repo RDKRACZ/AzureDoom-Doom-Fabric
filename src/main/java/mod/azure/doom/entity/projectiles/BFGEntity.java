@@ -323,7 +323,7 @@ public class BFGEntity extends PersistentProjectileEntity {
 	}
 
 	protected void explode() {
-		this.world.createExplosion(this, this.getX(), this.getBodyY(0.0625D), this.getZ(), 30.0F, false,
+		this.world.createExplosion(this, this.getX(), this.getBodyY(0.0625D), this.getZ(), 12.0F, false,
 				Explosion.DestructionType.NONE);
 	}
 
