@@ -33,6 +33,7 @@ import mod.azure.doom.item.armor.PurplePonyDoomArmor;
 import mod.azure.doom.item.armor.SentinelDoomArmor;
 import mod.azure.doom.item.armor.ZombieDoomArmor;
 import mod.azure.doom.item.eggs.DoomSpawnEgg;
+import mod.azure.doom.item.entityweapons.ArchnotronAttackItem;
 import mod.azure.doom.item.entityweapons.BarenBlastItem;
 import mod.azure.doom.item.entityweapons.CyberdemonAttackItem;
 import mod.azure.doom.item.entityweapons.SpiderdemonAttackItem;
@@ -52,6 +53,7 @@ import mod.azure.doom.item.weapons.BFG;
 import mod.azure.doom.item.weapons.Ballista;
 import mod.azure.doom.item.weapons.Chaingun;
 import mod.azure.doom.item.weapons.Chainsaw;
+import mod.azure.doom.item.weapons.DoomBlade;
 import mod.azure.doom.item.weapons.PistolItem;
 import mod.azure.doom.item.weapons.PlasmaGun;
 import mod.azure.doom.item.weapons.RocketLauncher;
@@ -80,6 +82,7 @@ public class DoomItems {
 	public static ClipAmmo BULLETS = item(new ClipAmmo(1.2F), "bullets");
 	public static BFGCell BFG_CELL = item(new BFGCell(10.2F), "bfg_cell");
 	public static PlasmaGun PLASMAGUN = item(new PlasmaGun(), "plasmagun");
+	public static DoomBlade DOOM_BLADE = item(new DoomBlade(), "doomblade");
 	public static ArgentAxe ARGENT_AXE = item(new ArgentAxe(), "argent_axe");
 	public static ArgentHoe ARGENT_HOE = item(new ArgentHoe(), "argent_hoe");
 	public static SuperShotgun SSG = item(new SuperShotgun(), "supershotgun");
@@ -106,9 +109,12 @@ public class DoomItems {
 	public static SwordCrucibleItem CRUCIBLESWORD = item(new SwordCrucibleItem(), "cruciblesword");
 	public static InvisibleSphereItem INVISIBLE = item(new InvisibleSphereItem(), "invisiblesphere");
 	public static CyberdemonAttackItem CYBERDEMONATTACK = item(new CyberdemonAttackItem(), "cyberdemonattack");
+	public static ArchnotronAttackItem ARACHNOTRONATTACK = item(new ArchnotronAttackItem(), "arachnotronblast");
 	public static SpiderdemonAttackItem SPIDERDEMONATTACK = item(new SpiderdemonAttackItem(), "spiderdemonattack");
 
 	// Spawn Eggs
+	public static DoomSpawnEgg ARACHNOTRON_SPAWN_EGG = item(new DoomSpawnEgg(MobEntityRegister.ARACHNOTRON), "arachnotron_spawn_egg");
+	public static DoomSpawnEgg NIGHTMARE_IMP_SPAWN_EGG = item(new DoomSpawnEgg(MobEntityRegister.NIGHTMARE_IMP), "nightmare_imp_spawn_egg");
 	public static DoomSpawnEgg IMP_SPAWN_EGG = item(new DoomSpawnEgg(MobEntityRegister.IMP), "imp_spawn_egg");
 	public static DoomSpawnEgg PINKY_SPAWN_EGG = item("pinky_spawn_egg", new DoomSpawnEgg(MobEntityRegister.PINKY));
 	public static DoomSpawnEgg ARCHVILE_SPAWN_EGG = item("archvile_spawn_egg",

@@ -41,7 +41,7 @@ public class DoomMod implements ModInitializer {
 			.icon(() -> new ItemStack(DoomItems.CRUCIBLESWORD)).build();
 	public static final ItemGroup DoomPowerUPItemGroup = FabricItemGroupBuilder.create(new Identifier(MODID, "powerup"))
 			.icon(() -> new ItemStack(DoomItems.INMORTAL)).build();
-	
+
 	@Override
 	public void onInitialize() {
 		DoomBlocks.init();
@@ -55,6 +55,7 @@ public class DoomMod implements ModInitializer {
 		FuelRegistry.INSTANCE.add(DoomItems.ARGENT_ENERGY, 32767);
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.BELT.getInfoBuilder().build());
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.CHARM.getInfoBuilder().build());
+		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.BRACELET.getInfoBuilder().build());
 		ItemComponentCallbackV2.event(DoomItems.SOULCUBE).register(
 				((item, itemStack, componentContainer) -> componentContainer.put(CuriosComponent.ITEM, new ICurio() {
 					@Override

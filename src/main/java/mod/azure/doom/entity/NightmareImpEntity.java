@@ -3,6 +3,8 @@ package mod.azure.doom.entity;
 import java.util.Random;
 
 import mod.azure.doom.util.ModSoundEvents;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -15,21 +17,19 @@ import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.mob.Hoglin;
-import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 
-public class PinkyEntity extends DemonEntity implements Monster, Hoglin {
+public class NightmareImpEntity extends DemonEntity {
 
-	public PinkyEntity(EntityType<PinkyEntity> entityType, World worldIn) {
+	public NightmareImpEntity(EntityType<NightmareImpEntity> entityType, World worldIn) {
 		super(entityType, worldIn);
 	}
 
-	public static boolean spawning(EntityType<BaronEntity> p_223337_0_, World p_223337_1_, SpawnReason reason,
+	public static boolean spawning(EntityType<NightmareImpEntity> p_223337_0_, World p_223337_1_, SpawnReason reason,
 			BlockPos p_223337_3_, Random p_223337_4_) {
 		return p_223337_1_.getDifficulty() != Difficulty.PEACEFUL;
 	}
@@ -37,8 +37,8 @@ public class PinkyEntity extends DemonEntity implements Monster, Hoglin {
 	@Override
 	protected void initGoals() {
 		this.goalSelector.add(8, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
-		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
 		this.goalSelector.add(8, new LookAroundGoal(this));
+		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
 		this.initCustomGoals();
 	}
 
@@ -49,38 +49,47 @@ public class PinkyEntity extends DemonEntity implements Monster, Hoglin {
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
 		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 25.0D)
-				.add(EntityAttributes.GENERIC_MAX_HEALTH, 75.0D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6.0D)
+				.add(EntityAttributes.GENERIC_MAX_HEALTH, 30.0D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 4.0D)
 				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.15D)
 				.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
 	}
 
+	protected boolean shouldDrown() {
+		return false;
+	}
+
+	protected boolean shouldBurnInDay() {
+		return false;
+	}
+
+	@Override
+	@Environment(EnvType.CLIENT)
+	public boolean shouldRender(double distance) {
+		return true;
+	}
+
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return ModSoundEvents.PINKY_AMBIENT;
+		return ModSoundEvents.IMP_AMBIENT;
 	}
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-		return ModSoundEvents.PINKY_HURT;
+		return ModSoundEvents.IMP_HURT;
 	}
 
 	@Override
 	protected SoundEvent getDeathSound() {
-		return ModSoundEvents.PINKY_DEATH;
+		return ModSoundEvents.IMP_DEATH;
 	}
 
 	protected SoundEvent getStepSound() {
-		return ModSoundEvents.PINKY_STEP;
+		return ModSoundEvents.IMP_STEP;
 	}
 
 	@Override
 	protected void playStepSound(BlockPos pos, BlockState blockIn) {
 		this.playSound(this.getStepSound(), 0.15F, 1.0F);
-	}
-
-	@Override
-	public int getMovementCooldownTicks() {
-		return 10;
 	}
 
 }

@@ -2,8 +2,9 @@ package mod.azure.doom.item.entityweapons;
 
 import java.util.function.Predicate;
 
-import mod.azure.doom.entity.projectiles.ChaingunBulletEntity;
-import mod.azure.doom.item.ammo.ChaingunAmmo;
+import mod.azure.doom.entity.projectiles.EnergyCellEntity;
+import mod.azure.doom.item.ammo.EnergyCell;
+import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.registry.DoomItems;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
@@ -13,16 +14,20 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.RangedWeaponItem;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 
-public class SpiderdemonAttackItem extends RangedWeaponItem {
+public class ArchnotronAttackItem extends RangedWeaponItem {
 
-	public SpiderdemonAttackItem() {
+	public ArchnotronAttackItem() {
 		super(new Item.Settings().maxCount(1));
+	}
+
+	@Override
+	public boolean hasGlint(ItemStack stack) {
+		return false;
 	}
 
 	@Override
@@ -34,14 +39,14 @@ public class SpiderdemonAttackItem extends RangedWeaponItem {
 			ItemStack itemStack = playerEntity.getArrowType(stack);
 			if (!itemStack.isEmpty() || bl) {
 				if (itemStack.isEmpty()) {
-					itemStack = new ItemStack(DoomItems.CHAINGUN_BULLETS);
+					itemStack = new ItemStack(DoomItems.ENERGY_CELLS);
 				}
-				boolean bl2 = bl && itemStack.getItem() == DoomItems.CHAINGUN_BULLETS;
+				boolean bl2 = bl && itemStack.getItem() == DoomItems.ENERGY_CELLS;
 				if (!worldIn.isClient) {
-					ChaingunAmmo arrowItem = (ChaingunAmmo) ((ChaingunAmmo) (itemStack.getItem() instanceof ChaingunAmmo
+					EnergyCell arrowItem = (EnergyCell) ((EnergyCell) (itemStack.getItem() instanceof EnergyCell
 							? itemStack.getItem()
-							: DoomItems.CHAINGUN_BULLETS));
-					ChaingunBulletEntity persistentProjectileEntity = arrowItem.createArrow(worldIn, itemStack,
+							: DoomItems.ENERGY_CELLS));
+					EnergyCellEntity persistentProjectileEntity = arrowItem.createArrow(worldIn, itemStack,
 							playerEntity);
 					persistentProjectileEntity.setProperties(playerEntity, playerEntity.pitch, playerEntity.yaw, 0.0F,
 							0.25F * 3.0F, 1.0F);
@@ -52,7 +57,7 @@ public class SpiderdemonAttackItem extends RangedWeaponItem {
 					worldIn.spawnEntity(persistentProjectileEntity);
 				}
 				worldIn.playSound((PlayerEntity) null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(),
-						SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F,
+						ModSoundEvents.PLASMA_FIRING, SoundCategory.PLAYERS, 1.0F,
 						1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + 0.25F * 0.5F);
 				if (!bl2 && !playerEntity.abilities.creativeMode) {
 					itemStack.decrement(1);
@@ -98,10 +103,10 @@ public class SpiderdemonAttackItem extends RangedWeaponItem {
 
 	@Override
 	public Predicate<ItemStack> getProjectiles() {
-		return itemStack -> itemStack.getItem() instanceof ChaingunAmmo;
+		return itemStack -> itemStack.getItem() instanceof EnergyCell;
 	}
 
-	public ChaingunBulletEntity customeArrow(ChaingunBulletEntity abstractarrowentity) {
+	public EnergyCellEntity customeArrow(EnergyCellEntity abstractarrowentity) {
 		return abstractarrowentity;
 	}
 
@@ -118,10 +123,5 @@ public class SpiderdemonAttackItem extends RangedWeaponItem {
 		}
 
 		return f;
-	}
-
-	public ChaingunBulletEntity createArrow(World worldIn, ItemStack stack, LivingEntity shooter) {
-		ChaingunBulletEntity arrowentity = new ChaingunBulletEntity(worldIn, shooter);
-		return arrowentity;
 	}
 }

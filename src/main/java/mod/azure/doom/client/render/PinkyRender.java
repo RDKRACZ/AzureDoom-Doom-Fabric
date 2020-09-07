@@ -9,7 +9,7 @@ import net.minecraft.util.Identifier;
 
 public class PinkyRender extends MobEntityRenderer<PinkyEntity, PinkyModel<PinkyEntity>> {
 
-	protected static final Identifier TEXTURE = new Identifier(DoomMod.MODID, "textures/entity/new_pinky.png");
+	protected static final Identifier TEXTURE = new Identifier(DoomMod.MODID, "textures/entity/pinky-texturemap.png");
 
 	public PinkyRender(EntityRenderDispatcher renderManagerIn) {
 		super(renderManagerIn, new PinkyModel<>(), 0.7F);

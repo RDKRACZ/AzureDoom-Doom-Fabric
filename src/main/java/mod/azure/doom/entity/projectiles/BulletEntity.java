@@ -167,13 +167,6 @@ public class BulletEntity extends PersistentProjectileEntity {
 			double d = vec3d.x;
 			double e = vec3d.y;
 			double g = vec3d.z;
-			if (this.isCritical()) {
-				for (int i = 0; i < 4; ++i) {
-					this.world.addParticle(ParticleTypes.CRIT, this.getX() + d * (double) i / 4.0D,
-							this.getY() + e * (double) i / 4.0D, this.getZ() + g * (double) i / 4.0D, -d, -e + 0.2D,
-							-g);
-				}
-			}
 
 			double h = this.getX() + d;
 			double j = this.getY() + e;

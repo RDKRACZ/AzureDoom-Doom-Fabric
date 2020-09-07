@@ -1,5 +1,6 @@
 package mod.azure.doom.client;
 
+import mod.azure.doom.client.render.ArachonotronRender;
 import mod.azure.doom.client.render.ArchvileRender;
 import mod.azure.doom.client.render.BaronRender;
 import mod.azure.doom.client.render.BarrelRender;
@@ -14,6 +15,7 @@ import mod.azure.doom.client.render.ImpRender;
 import mod.azure.doom.client.render.LostSoulRender;
 import mod.azure.doom.client.render.MancubusRender;
 import mod.azure.doom.client.render.MarauderRender;
+import mod.azure.doom.client.render.NightmareImpRender;
 import mod.azure.doom.client.render.PainRender;
 import mod.azure.doom.client.render.PinkyRender;
 import mod.azure.doom.client.render.PossessedScientistRender;
@@ -67,6 +69,9 @@ public class DoomRenderRegistry {
 		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.SPIDERDEMON, (dispatcher, context) -> {
 			return new SpiderdemonRender(dispatcher);
 		});
+		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.ARACHNOTRON, (dispatcher, context) -> {
+			return new ArachonotronRender(dispatcher);
+		});
 		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.ZOMBIEMAN, (dispatcher, context) -> {
 			return new ZombiemanRender(dispatcher);
 		});
@@ -75,6 +80,9 @@ public class DoomRenderRegistry {
 		});
 		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.IMP2016, (dispatcher, context) -> {
 			return new Imp2016Render(dispatcher);
+		});
+		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.NIGHTMARE_IMP, (dispatcher, context) -> {
+			return new NightmareImpRender(dispatcher);
 		});
 		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.CHAINGUNNER, (dispatcher, context) -> {
 			return new ChaingunnerRender(dispatcher);

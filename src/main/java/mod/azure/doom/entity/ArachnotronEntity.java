@@ -5,9 +5,9 @@ import java.time.temporal.ChronoField;
 import java.util.Random;
 
 import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.annotation.Nullable;
-import mod.azure.doom.entity.ai.goal.RangedCyberdemonAttackGoal;
-import mod.azure.doom.entity.projectiles.RocketEntity;
-import mod.azure.doom.item.ammo.Rocket;
+import mod.azure.doom.entity.ai.goal.RangedArchnotronAttackGoal;
+import mod.azure.doom.entity.projectiles.EnergyCellEntity;
+import mod.azure.doom.item.ammo.EnergyCell;
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.registry.DoomItems;
 import net.minecraft.block.BlockState;
@@ -42,23 +42,23 @@ import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 
-public class Cyberdemon2016Entity extends DemonEntity implements RangedAttackMob {
+public class ArachnotronEntity extends DemonEntity implements RangedAttackMob {
 
-	private final RangedCyberdemonAttackGoal<Cyberdemon2016Entity> aiArrowAttack = new RangedCyberdemonAttackGoal<>(
-			this, 1.0D, 20, 15.0F);
+	private final RangedArchnotronAttackGoal<ArachnotronEntity> aiArrowAttack = new RangedArchnotronAttackGoal<>(this,
+			1.0D, 20, 15.0F);
 	private final MeleeAttackGoal meleeAttackGoal = new MeleeAttackGoal(this, 1.2D, false) {
 		public void stop() {
 			super.stop();
-			Cyberdemon2016Entity.this.setAttacking(false);
+			ArachnotronEntity.this.setAttacking(false);
 		}
 
 		public void start() {
 			super.start();
-			Cyberdemon2016Entity.this.setAttacking(true);
+			ArachnotronEntity.this.setAttacking(true);
 		}
 	};
 
-	public Cyberdemon2016Entity(EntityType<Cyberdemon2016Entity> entityType, World worldIn) {
+	public ArachnotronEntity(EntityType<ArachnotronEntity> entityType, World worldIn) {
 		super(entityType, worldIn);
 		this.updateAttackType();
 	}
@@ -79,15 +79,14 @@ public class Cyberdemon2016Entity extends DemonEntity implements RangedAttackMob
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
 		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
-				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.15D).add(EntityAttributes.GENERIC_MAX_HEALTH, 300.0D)
-				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 15.0D)
-				.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
+				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.15D).add(EntityAttributes.GENERIC_MAX_HEALTH, 90.0D)
+				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0D).add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
 	}
 
 	@Override
 	protected void initEquipment(LocalDifficulty difficulty) {
 		super.initEquipment(difficulty);
-		this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(DoomItems.CYBERDEMONATTACK));
+		this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(DoomItems.ARACHNOTRONATTACK));
 	}
 
 	@Nullable
@@ -110,14 +109,6 @@ public class Cyberdemon2016Entity extends DemonEntity implements RangedAttackMob
 		return entityData;
 	}
 
-	protected boolean shouldDrown() {
-		return false;
-	}
-
-	protected boolean shouldBurnInDay() {
-		return false;
-	}
-
 	public void readCustomDataFromTag(CompoundTag tag) {
 		super.readCustomDataFromTag(tag);
 		this.updateAttackType();
@@ -136,8 +127,8 @@ public class Cyberdemon2016Entity extends DemonEntity implements RangedAttackMob
 			this.goalSelector.remove(this.meleeAttackGoal);
 			this.goalSelector.remove(this.aiArrowAttack);
 			ItemStack itemStack = this
-					.getStackInHand(ProjectileUtil.getHandPossiblyHolding(this, DoomItems.CYBERDEMONATTACK));
-			if (itemStack.getItem() == DoomItems.CYBERDEMONATTACK) {
+					.getStackInHand(ProjectileUtil.getHandPossiblyHolding(this, DoomItems.ARACHNOTRONATTACK));
+			if (itemStack.getItem() == DoomItems.ARACHNOTRONATTACK) {
 				int i = 20;
 				if (this.world.getDifficulty() != Difficulty.HARD) {
 					i = 40;
@@ -154,29 +145,30 @@ public class Cyberdemon2016Entity extends DemonEntity implements RangedAttackMob
 
 	public void attack(LivingEntity target, float pullProgress) {
 		ItemStack itemStack = this.getArrowType(
-				this.getStackInHand(ProjectileUtil.getHandPossiblyHolding(this, DoomItems.CYBERDEMONATTACK)));
-		RocketEntity persistentProjectileEntity = this.createArrowProjectile(itemStack, pullProgress);
+				this.getStackInHand(ProjectileUtil.getHandPossiblyHolding(this, DoomItems.ARACHNOTRONATTACK)));
+		EnergyCellEntity persistentProjectileEntity = this.createArrowProjectile(itemStack, pullProgress);
 		double d = target.getX() - this.getX();
 		double e = target.getBodyY(0.3333333333333333D) - persistentProjectileEntity.getY();
 		double f = target.getZ() - this.getZ();
 		double g = (double) MathHelper.sqrt(d * d + f * f);
 		persistentProjectileEntity.setVelocity(d, e + g * 0.20000000298023224D, f, 1.6F,
 				(float) (14 - this.world.getDifficulty().getId() * 4));
-		this.playSound(ModSoundEvents.ROCKET_FIRING, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+		this.playSound(ModSoundEvents.PLASMA_FIRING, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
 		this.world.spawnEntity(persistentProjectileEntity);
 	}
 
-	protected RocketEntity createArrowProjectile(ItemStack arrow, float damageModifier) {
-		return Cyberdemon2016Entity.createArrowProjectile(this, arrow, damageModifier);
+	protected EnergyCellEntity createArrowProjectile(ItemStack arrow, float damageModifier) {
+		return ArachnotronEntity.createArrowProjectile(this, arrow, damageModifier);
 	}
 
 	public boolean canUseRangedWeapon(RangedWeaponItem weapon) {
-		return weapon == DoomItems.CYBERDEMONATTACK;
+		return weapon == DoomItems.ARACHNOTRONATTACK;
 	}
 
-	public static RocketEntity createArrowProjectile(LivingEntity entity, ItemStack stack, float damageModifier) {
-		Rocket arrowItem = (Rocket) ((Rocket) (stack.getItem() instanceof Rocket ? stack.getItem() : DoomItems.ROCKET));
-		RocketEntity persistentProjectileEntity = arrowItem.createArrow(entity.world, stack, entity);
+	public static EnergyCellEntity createArrowProjectile(LivingEntity entity, ItemStack stack, float damageModifier) {
+		EnergyCell arrowItem = (EnergyCell) ((EnergyCell) (stack.getItem() instanceof EnergyCell ? stack.getItem()
+				: DoomItems.ENERGY_CELLS));
+		EnergyCellEntity persistentProjectileEntity = arrowItem.createArrow(entity.world, stack, entity);
 		persistentProjectileEntity.applyEnchantmentEffects(entity, damageModifier);
 
 		return persistentProjectileEntity;
@@ -184,26 +176,34 @@ public class Cyberdemon2016Entity extends DemonEntity implements RangedAttackMob
 
 	@Override
 	protected float getActiveEyeHeight(EntityPose pose, EntityDimensions dimensions) {
-		return 4.70F;
+		return 1.74F;
+	}
+
+	protected boolean shouldDrown() {
+		return false;
+	}
+
+	protected boolean shouldBurnInDay() {
+		return false;
 	}
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return ModSoundEvents.CYBERDEMON_AMBIENT;
+		return ModSoundEvents.SPIDERDEMON_AMBIENT;
 	}
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-		return ModSoundEvents.CYBERDEMON_HURT;
+		return ModSoundEvents.SPIDERDEMON_HURT;
 	}
 
 	@Override
 	protected SoundEvent getDeathSound() {
-		return ModSoundEvents.CYBERDEMON_DEATH;
+		return ModSoundEvents.SPIDERDEMON_DEATH;
 	}
 
 	protected SoundEvent getStepSound() {
-		return ModSoundEvents.CYBERDEMON_STEP;
+		return ModSoundEvents.SPIDERDEMON_AMBIENT;
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package mod.azure.doom.util.registry;
 
 import mod.azure.doom.DoomMod;
+import mod.azure.doom.entity.ArachnotronEntity;
 import mod.azure.doom.entity.ArchvileEntity;
 import mod.azure.doom.entity.BaronEntity;
 import mod.azure.doom.entity.CacodemonEntity;
@@ -14,6 +15,7 @@ import mod.azure.doom.entity.ImpEntity;
 import mod.azure.doom.entity.LostSoulEntity;
 import mod.azure.doom.entity.MancubusEntity;
 import mod.azure.doom.entity.MarauderEntity;
+import mod.azure.doom.entity.NightmareImpEntity;
 import mod.azure.doom.entity.PainEntity;
 import mod.azure.doom.entity.PinkyEntity;
 import mod.azure.doom.entity.PossessedScientistEntity;
@@ -75,6 +77,11 @@ public class MobEntityRegister {
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, SpiderdemonEntity::new)
 					.dimensions(EntityDimensions.fixed(3.0F, 3.5F)).fireImmune().trackable(90, 4).build());
 
+	public static final EntityType<ArachnotronEntity> ARACHNOTRON = Registry.register(Registry.ENTITY_TYPE,
+			new Identifier(DoomMod.MODID, "arachnotron"),
+			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ArachnotronEntity::new)
+					.dimensions(EntityDimensions.fixed(3.0F, 3.5F)).fireImmune().trackable(90, 4).build());
+
 	public static final EntityType<ZombiemanEntity> ZOMBIEMAN = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "zombieman"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ZombiemanEntity::new)
@@ -88,6 +95,11 @@ public class MobEntityRegister {
 	public static final EntityType<Imp2016Entity> IMP2016 = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "imp2016"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, Imp2016Entity::new)
+					.dimensions(EntityDimensions.fixed(0.6f, 1.95F)).fireImmune().trackable(90, 4).build());
+
+	public static final EntityType<NightmareImpEntity> NIGHTMARE_IMP = Registry.register(Registry.ENTITY_TYPE,
+			new Identifier(DoomMod.MODID, "nightmare_imp"),
+			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, NightmareImpEntity::new)
 					.dimensions(EntityDimensions.fixed(0.6f, 1.95F)).fireImmune().trackable(90, 4).build());
 
 	public static final EntityType<ChaingunnerEntity> CHAINGUNNER = Registry.register(Registry.ENTITY_TYPE,

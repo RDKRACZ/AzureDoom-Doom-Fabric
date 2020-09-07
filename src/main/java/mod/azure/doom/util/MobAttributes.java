@@ -1,5 +1,6 @@
 package mod.azure.doom.util;
 
+import mod.azure.doom.entity.ArachnotronEntity;
 import mod.azure.doom.entity.ArchvileEntity;
 import mod.azure.doom.entity.BaronEntity;
 import mod.azure.doom.entity.CacodemonEntity;
@@ -13,6 +14,7 @@ import mod.azure.doom.entity.ImpEntity;
 import mod.azure.doom.entity.LostSoulEntity;
 import mod.azure.doom.entity.MancubusEntity;
 import mod.azure.doom.entity.MarauderEntity;
+import mod.azure.doom.entity.NightmareImpEntity;
 import mod.azure.doom.entity.PainEntity;
 import mod.azure.doom.entity.PinkyEntity;
 import mod.azure.doom.entity.PossessedScientistEntity;
@@ -39,6 +41,9 @@ public class MobAttributes {
 		FabricDefaultAttributeRegistry.register(MobEntityRegister.ICONOFSIN, IconofsinEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(MobEntityRegister.IMP2016, Imp2016Entity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(MobEntityRegister.IMP, ImpEntity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(MobEntityRegister.NIGHTMARE_IMP,
+				NightmareImpEntity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(MobEntityRegister.ARACHNOTRON, ArachnotronEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(MobEntityRegister.LOST_SOUL, LostSoulEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(MobEntityRegister.MANCUBUS, MancubusEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(MobEntityRegister.MARAUDER, MarauderEntity.createMobAttributes());

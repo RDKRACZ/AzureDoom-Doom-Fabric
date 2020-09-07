@@ -76,7 +76,6 @@ public class Chaingun extends RangedWeaponItem {
 					abstractarrowentity = customeArrow(abstractarrowentity);
 					abstractarrowentity.setProperties(playerentity, playerentity.pitch, playerentity.yaw, 0.0F,
 							1 * 3.0F, 1.0F);
-					abstractarrowentity.setCritical(true);
 
 					int j = EnchantmentHelper.getLevel(Enchantments.POWER, stack);
 					if (j > 0) {

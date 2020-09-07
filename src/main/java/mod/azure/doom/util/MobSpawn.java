@@ -33,7 +33,9 @@ public class MobSpawn {
 						new SpawnSettings.SpawnEntry(MobEntityRegister.REVENANT, 10, 1, 1),
 						new SpawnSettings.SpawnEntry(MobEntityRegister.SPIDERDEMON, 10, 1, 1),
 						new SpawnSettings.SpawnEntry(MobEntityRegister.ZOMBIEMAN, 30, 1, 4),
+						new SpawnSettings.SpawnEntry(MobEntityRegister.ARACHNOTRON, 30, 1, 4),
 						new SpawnSettings.SpawnEntry(MobEntityRegister.IMP2016, 30, 1, 4),
+						new SpawnSettings.SpawnEntry(MobEntityRegister.NIGHTMARE_IMP, 30, 1, 4),
 						new SpawnSettings.SpawnEntry(MobEntityRegister.CHAINGUNNER, 30, 1, 4),
 						new SpawnSettings.SpawnEntry(MobEntityRegister.SHOTGUNGUY, 30, 1, 4),
 						new SpawnSettings.SpawnEntry(MobEntityRegister.MARAUDER, 15, 1, 1),
@@ -71,6 +73,8 @@ public class MobSpawn {
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
 		SpawnRestriction.register(MobEntityRegister.SPIDERDEMON, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+		SpawnRestriction.register(MobEntityRegister.ARACHNOTRON, SpawnRestriction.Location.ON_GROUND,
+				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
 		SpawnRestriction.register(MobEntityRegister.MANCUBUS, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
 		SpawnRestriction.register(MobEntityRegister.BARON, SpawnRestriction.Location.ON_GROUND,
@@ -86,6 +90,8 @@ public class MobSpawn {
 		SpawnRestriction.register(MobEntityRegister.LOST_SOUL, SpawnRestriction.Location.IN_LAVA,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
 		SpawnRestriction.register(MobEntityRegister.IMP2016, SpawnRestriction.Location.ON_GROUND,
+				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+		SpawnRestriction.register(MobEntityRegister.NIGHTMARE_IMP, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
 		SpawnRestriction.register(MobEntityRegister.CHAINGUNNER, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
