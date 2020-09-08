@@ -115,8 +115,10 @@ public class DoomItems {
 	public static SpiderdemonAttackItem SPIDERDEMONATTACK = item(new SpiderdemonAttackItem(), "spiderdemonattack");
 
 	// Spawn Eggs
-	public static DoomSpawnEgg ARACHNOTRON_SPAWN_EGG = item(new DoomSpawnEgg(MobEntityRegister.ARACHNOTRON), "arachnotron_spawn_egg");
-	public static DoomSpawnEgg NIGHTMARE_IMP_SPAWN_EGG = item(new DoomSpawnEgg(MobEntityRegister.NIGHTMARE_IMP), "nightmare_imp_spawn_egg");
+	public static DoomSpawnEgg ARACHNOTRON_SPAWN_EGG = item(new DoomSpawnEgg(MobEntityRegister.ARACHNOTRON),
+			"arachnotron_spawn_egg");
+	public static DoomSpawnEgg NIGHTMARE_IMP_SPAWN_EGG = item(new DoomSpawnEgg(MobEntityRegister.NIGHTMARE_IMP),
+			"nightmare_imp_spawn_egg");
 	public static DoomSpawnEgg IMP_SPAWN_EGG = item(new DoomSpawnEgg(MobEntityRegister.IMP), "imp_spawn_egg");
 	public static DoomSpawnEgg PINKY_SPAWN_EGG = item("pinky_spawn_egg", new DoomSpawnEgg(MobEntityRegister.PINKY));
 	public static DoomSpawnEgg ARCHVILE_SPAWN_EGG = item("archvile_spawn_egg",

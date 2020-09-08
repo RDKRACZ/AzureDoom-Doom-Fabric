@@ -176,7 +176,7 @@ public class ArachnotronEntity extends DemonEntity implements RangedAttackMob {
 
 	@Override
 	protected float getActiveEyeHeight(EntityPose pose, EntityDimensions dimensions) {
-		return 1.74F;
+		return 1.0F;
 	}
 
 	protected boolean shouldDrown() {

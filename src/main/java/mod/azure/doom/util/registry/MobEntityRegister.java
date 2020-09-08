@@ -80,7 +80,7 @@ public class MobEntityRegister {
 	public static final EntityType<ArachnotronEntity> ARACHNOTRON = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "arachnotron"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ArachnotronEntity::new)
-					.dimensions(EntityDimensions.fixed(3.0F, 3.5F)).fireImmune().trackable(90, 4).build());
+					.dimensions(EntityDimensions.fixed(5.0F, 2.0F)).fireImmune().trackable(90, 4).build());
 
 	public static final EntityType<ZombiemanEntity> ZOMBIEMAN = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "zombieman"),
