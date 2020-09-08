@@ -6,11 +6,11 @@
    "pattern": [
         "   ",
         "#@#",
-        "# #"
+        "###"
     ],
     "key": {
         "#": {
-            "item": "minecraft:diamond"
+            "item": "doom:argent_plate"
         },
 		"@": {
 			"item": "doom:argent_energy"

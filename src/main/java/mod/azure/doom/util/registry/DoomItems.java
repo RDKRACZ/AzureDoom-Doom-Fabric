@@ -2,6 +2,7 @@ package mod.azure.doom.util.registry;
 
 import mod.azure.doom.DoomMod;
 import mod.azure.doom.item.ArgentEnergyItem;
+import mod.azure.doom.item.ArgentPlateItem;
 import mod.azure.doom.item.DaisyItem;
 import mod.azure.doom.item.E1M1MusicDisc;
 import mod.azure.doom.item.UnopenedItem;
@@ -99,6 +100,7 @@ public class DoomItems {
 	public static BarenBlastItem BARENBLAST = item(new BarenBlastItem(2.0F), "barenblast");
 	public static UnopenedItem AXE_CLOSED = item(new UnopenedItem(), "axe_marauder_closed");
 	public static ArgentPickaxe ARGENT_PICKAXE = item(new ArgentPickaxe(), "argent_pickaxe");
+	public static ArgentPlateItem ARGENT_PLATE = item("argent_plate", new ArgentPlateItem());
 	public static AxeMarauderItem AXE_OPEN = item(new AxeMarauderItem(), "axe_marauder_open");
 	public static UnopenedItem SWORD_CLOSED = item(new UnopenedItem(), "cruciblesword_closed");
 	public static E1M1MusicDisc E1M1_MUSIC_DISC = item(new E1M1MusicDisc(), "e1m1_music_disc");

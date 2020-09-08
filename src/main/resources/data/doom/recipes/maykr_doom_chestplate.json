@@ -4,16 +4,15 @@
   },
   "type": "minecraft:crafting_shaped",
    "pattern": [
-        "@ @",
-        "@@@",
-        " # "
+        "@",
+        "#"
     ],
     "key": {
         "#": {
-            "item": "doom:argent_energy"
+            "item": "minecraft:quartz"
         },
 		"@": {
-			"item": "minecraft:phantom_membrane"
+			"item": "doom:doom_chestplate"
 		}
     }
 }

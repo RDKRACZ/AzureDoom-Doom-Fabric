@@ -4,19 +4,15 @@
   },
   "type": "minecraft:crafting_shaped",
    "pattern": [
-        "   ",
-        "@c@",
-        "@#@"
+        "@",
+        "#"
     ],
     "key": {
         "#": {
-            "item": "doom:argent_energy"
+            "item": "minecraft:wheat"
         },
 		"@": {
-			"item": "minecraft:leather"
-		},
-		"c": {
-			"item": "minecraft:blue_dye"
+			"item": "doom:doom_boots"
 		}
     }
 }

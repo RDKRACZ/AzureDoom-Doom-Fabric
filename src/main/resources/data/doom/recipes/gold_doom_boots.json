@@ -4,19 +4,15 @@
 	},
 	"type": "minecraft:crafting_shaped",
 	"pattern": [
-		"###",
-		"@#@",
-		"@O@"
-	],
-	"key": {
-		"#": {
-			"item": "doom:argent_energy"
-		},
+        "@",
+        "#"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:gold_ingot"
+        },
 		"@": {
-			"item": "minecraft:gold_ingot"
-		},
-		"O": {
-			"item": "minecraft:diamond"
+			"item": "doom:doom_boots"
 		}
-	}
+    }
 }
