@@ -17,9 +17,4 @@ public class SkinArmor extends ArmorItem implements Wearable {
 		return false;
 	}
 
-	@Override
-	public boolean isNetworkSynced() {
-		return true;
-	}
-
 }
