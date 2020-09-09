@@ -63,6 +63,49 @@ public class DoomMod implements ModInitializer {
 						return true;
 					}
 				})));
+		ItemComponentCallbackV2.event(DoomItems.DOOM_BLADE).register(
+				((item, itemStack, componentContainer) -> componentContainer.put(CuriosComponent.ITEM, new ICurio() {
+					@Override
+					public boolean canRightClickEquip() {
+						return true;
+					}
+
+					@Override
+					public void onEquip(String identifier, int index, LivingEntity livingEntity) {
+						if (livingEntity instanceof PlayerEntity) {
+							startPowers((PlayerEntity) livingEntity);
+						}
+					}
+
+					@Override
+					public void onUnequip(String identifier, int index, LivingEntity livingEntity) {
+						if (livingEntity instanceof PlayerEntity) {
+							stopPowers((PlayerEntity) livingEntity);
+						}
+					}
+
+					private void startPowers(PlayerEntity player) {
+						player.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 10000000, 0));
+					}
+
+					private void stopPowers(PlayerEntity player) {
+						player.removeStatusEffect(StatusEffects.STRENGTH);
+					}
+
+					@Override
+					public void curioTick(String identifier, int index, LivingEntity livingEntity) {
+						if (livingEntity instanceof PlayerEntity) {
+							PlayerEntity player = ((PlayerEntity) livingEntity);
+							startPowers(player);
+						}
+					}
+
+					@Override
+					public boolean canEquip(String identifier, LivingEntity entityLivingBase) {
+						return !CuriosApi.getCuriosHelper().findEquippedCurio(DoomItems.DAISY, entityLivingBase)
+								.isPresent();
+					}
+				})));
 		ItemComponentCallbackV2.event(DoomItems.DAISY).register(
 				((item, itemStack, componentContainer) -> componentContainer.put(CuriosComponent.ITEM, new ICurio() {
 					@Override
@@ -105,7 +148,6 @@ public class DoomMod implements ModInitializer {
 						return !CuriosApi.getCuriosHelper().findEquippedCurio(DoomItems.DAISY, entityLivingBase)
 								.isPresent();
 					}
-
 				})));
 	}
 }
