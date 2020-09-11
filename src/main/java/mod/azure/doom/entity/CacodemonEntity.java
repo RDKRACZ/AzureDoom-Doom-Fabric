@@ -138,9 +138,6 @@ public class CacodemonEntity extends DemonEntity implements Monster {
 			if (livingEntity.squaredDistanceTo(this.ghast) < 4096.0D && this.ghast.canSee(livingEntity)) {
 				World world = this.ghast.world;
 				++this.cooldown;
-				if (this.cooldown == 10 && !this.ghast.isSilent()) {
-					world.syncWorldEvent((PlayerEntity) null, 1015, this.ghast.getBlockPos(), 0);
-				}
 
 				if (this.cooldown == 20) {
 					Vec3d vec3d = this.ghast.getRotationVec(1.0F);
