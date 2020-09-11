@@ -2,7 +2,9 @@ package mod.azure.doom.item.tools;
 
 import java.util.List;
 
+import me.crimsondawn45.fabricshieldlib.object.BasicShield;
 import mod.azure.doom.DoomMod;
+import mod.azure.doom.util.enums.DoomTier;
 import mod.azure.doom.util.registry.DoomItems;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.Item;
@@ -11,10 +13,10 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.world.World;
 
-public class ArgentShield extends Item {
+public class ArgentShield extends BasicShield {
 
 	public ArgentShield() {
-		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1));
+		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1), 100, 337, DoomItems.ARGENT_ENERGY);
 	}
 
 	@Override
@@ -25,7 +27,7 @@ public class ArgentShield extends Item {
 
 	@Override
 	public boolean canRepair(ItemStack stack, ItemStack ingredient) {
-		return DoomItems.ARGENT_ENERGY == ingredient.getItem() ? true : super.canRepair(stack, ingredient);
+		return DoomTier.DOOM.getRepairIngredient().test(ingredient) || super.canRepair(stack, ingredient);
 	}
 
 }

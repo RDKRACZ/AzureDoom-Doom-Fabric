@@ -47,6 +47,7 @@ import mod.azure.doom.item.tools.ArgentAxe;
 import mod.azure.doom.item.tools.ArgentHoe;
 import mod.azure.doom.item.tools.ArgentPaxel;
 import mod.azure.doom.item.tools.ArgentPickaxe;
+import mod.azure.doom.item.tools.ArgentShield;
 import mod.azure.doom.item.tools.ArgentShovel;
 import mod.azure.doom.item.weapons.ArgentSword;
 import mod.azure.doom.item.weapons.AxeMarauderItem;
@@ -94,6 +95,7 @@ public class DoomItems {
 	public static ArgentSword ARGENT_SWORD = item(new ArgentSword(), "argent_sword");
 	public static PowerSphereItem POWER = item(new PowerSphereItem(), "powersphere");
 	public static EnergyCell ENERGY_CELLS = item(new EnergyCell(2.2F), "energy_cells");
+	public static ArgentShield ARGENT_SHIELD = item(new ArgentShield(), "argent_shield");
 	public static ArgentShovel ARGENT_SHOVEL = item(new ArgentShovel(), "argent_shovel");
 	public static ShellAmmo SHOTGUN_SHELLS = item(new ShellAmmo(2.0F), "shotgun_shells");
 	public static UnmaykrBolt UNMAKRY_BOLT = item(new UnmaykrBolt(10.2F), "unmaykr_bolt");

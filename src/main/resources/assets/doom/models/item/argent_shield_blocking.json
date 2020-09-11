@@ -2,7 +2,7 @@
     "parent": "builtin/entity",
     "gui_light": "front",
     "textures": {
-        "layer0": "doom:items/argent_axe"
+        "layer0": "doom:items/argent_shield"
     },
     "display": {
         "thirdperson_righthand": {
