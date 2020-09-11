@@ -1,12 +1,11 @@
 package mod.azure.doom.entity.projectiles;
 
-import mod.azure.doom.util.ProjectilesEntityRegister;
-import mod.azure.doom.util.packets.EntityPacket;
-import mod.azure.doom.util.registry.DoomItems;
-
 import java.util.Iterator;
 
 import mod.azure.doom.util.ModSoundEvents;
+import mod.azure.doom.util.ProjectilesEntityRegister;
+import mod.azure.doom.util.packets.EntityPacket;
+import mod.azure.doom.util.registry.DoomItems;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
@@ -27,7 +26,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.RayTraceContext;
+import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
 
@@ -132,8 +131,8 @@ public class EnergyCellEntity extends PersistentProjectileEntity {
 			this.timeInAir = 0;
 			Vec3d vec3d3 = this.getPos();
 			vec3d4 = vec3d3.add(vec3d);
-			HitResult hitResult = this.world.rayTrace(new RayTraceContext(vec3d3, vec3d4,
-					RayTraceContext.ShapeType.COLLIDER, RayTraceContext.FluidHandling.NONE, this));
+			HitResult hitResult = this.world.raycast(new RaycastContext(vec3d3, vec3d4,
+					RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, this));
 			if (((HitResult) hitResult).getType() != HitResult.Type.MISS) {
 				vec3d4 = ((HitResult) hitResult).getPos();
 			}
@@ -262,9 +261,9 @@ public class EnergyCellEntity extends PersistentProjectileEntity {
 		this.world.createExplosion(this, this.getX(), this.getBodyY(0.0625D), this.getZ(), 0.01F,
 				Explosion.DestructionType.NONE);
 	}
-	
+
 	@Override
-    @Environment(EnvType.CLIENT)
+	@Environment(EnvType.CLIENT)
 	public boolean shouldRender(double distance) {
 		return true;
 	}

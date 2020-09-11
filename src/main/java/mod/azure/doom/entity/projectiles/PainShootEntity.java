@@ -23,7 +23,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.RayTraceContext;
+import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
 
@@ -108,8 +108,8 @@ public class PainShootEntity extends ExplosiveProjectileEntity {
 			this.timeInAir = 0;
 			Vec3d vec3d3 = this.getPos();
 			vec3d4 = vec3d3.add(vec3d);
-			HitResult hitResult = this.world.rayTrace(new RayTraceContext(vec3d3, vec3d4,
-					RayTraceContext.ShapeType.COLLIDER, RayTraceContext.FluidHandling.NONE, this));
+			HitResult hitResult = this.world.raycast(new RaycastContext(vec3d3, vec3d4,
+					RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, this));
 			if (((HitResult) hitResult).getType() != HitResult.Type.MISS) {
 				vec3d4 = ((HitResult) hitResult).getPos();
 			}
