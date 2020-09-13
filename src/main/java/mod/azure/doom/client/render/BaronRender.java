@@ -9,7 +9,8 @@ import net.minecraft.util.Identifier;
 
 public class BaronRender extends MobEntityRenderer<BaronEntity, BaronModel<BaronEntity>> {
 
-	protected static final Identifier TEXTURE = new Identifier(DoomMod.MODID, "textures/entity/barron-of-hell_new.png");
+	protected static final Identifier TEXTURE = new Identifier(DoomMod.MODID,
+			"textures/entity/baronofhell-texturemap.png");
 
 	public BaronRender(EntityRenderDispatcher renderManagerIn) {
 		super(renderManagerIn, new BaronModel<>(), 0.5f);
