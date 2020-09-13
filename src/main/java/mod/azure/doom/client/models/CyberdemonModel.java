@@ -62,7 +62,7 @@ public class CyberdemonModel<T extends Entity> extends EntityModel<T> {
 	public ModelPart lLeg3;
 	public ModelPart lFoot;
 
-	public CyberdemonModel(float modelSize, boolean smallArmsIn) {
+	public CyberdemonModel() {
 		this.textureWidth = 100;
 		this.textureHeight = 200;
 		this.lHorn2 = new ModelPart(this, 24, 173);

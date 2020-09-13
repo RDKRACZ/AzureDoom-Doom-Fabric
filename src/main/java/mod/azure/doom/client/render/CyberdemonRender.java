@@ -13,7 +13,7 @@ public class CyberdemonRender extends MobEntityRenderer<CyberdemonEntity, Cyberd
 			"textures/entity/cyberdemon-texturemap.png");
 
 	public CyberdemonRender(EntityRenderDispatcher renderManagerIn) {
-		super(renderManagerIn, new CyberdemonModel<CyberdemonEntity>(0.5f, false), 0.5f);
+		super(renderManagerIn, new CyberdemonModel<CyberdemonEntity>(), 0.5f);
 	}
 
 	@Override
