@@ -64,7 +64,7 @@ public class HellknightEntity extends DemonEntity {
 
 	@Override
 	protected float getActiveEyeHeight(EntityPose pose, EntityDimensions dimensions) {
-		return 2.4F;
+		return 3.0F;
 	}
 
 	@Override
