@@ -31,7 +31,6 @@ import mod.azure.doom.client.render.projectiles.BarenBlastRender;
 import mod.azure.doom.client.render.projectiles.BulletsRender;
 import mod.azure.doom.client.render.projectiles.ChaingunBulletRender;
 import mod.azure.doom.client.render.projectiles.EnergyCellRender;
-import mod.azure.doom.client.render.projectiles.LostSoulShootRender;
 import mod.azure.doom.client.render.projectiles.RocketRender;
 import mod.azure.doom.client.render.projectiles.ShotgunShellRender;
 import mod.azure.doom.client.render.projectiles.UnmaykrBulletRender;
@@ -131,9 +130,6 @@ public class DoomRenderRegistry {
 		});
 		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.ROCKET, (dispatcher, context) -> {
 			return new RocketRender(dispatcher);
-		});
-		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.LOST_SOUL_SHOOT, (dispatcher, context) -> {
-			return new LostSoulShootRender(dispatcher);
 		});
 		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.BARENBLAST, (dispatcher, context) -> {
 			return new BarenBlastRender(dispatcher);

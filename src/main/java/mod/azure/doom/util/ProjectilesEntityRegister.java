@@ -10,7 +10,6 @@ import mod.azure.doom.entity.projectiles.BarenBlastEntity;
 import mod.azure.doom.entity.projectiles.BulletEntity;
 import mod.azure.doom.entity.projectiles.ChaingunBulletEntity;
 import mod.azure.doom.entity.projectiles.EnergyCellEntity;
-import mod.azure.doom.entity.projectiles.LostSoulEntity;
 import mod.azure.doom.entity.projectiles.RocketEntity;
 import mod.azure.doom.entity.projectiles.ShotgunShellEntity;
 import mod.azure.doom.entity.projectiles.UnmaykrBoltEntity;
@@ -35,7 +34,6 @@ public class ProjectilesEntityRegister {
 	public static EntityType<EnergyCellEntity> ENERGY_CELL = projectile(EnergyCellEntity::new, "energy_cell");
 	public static EntityType<BFGEntity> BFG_CELL = projectile(BFGEntity::new, "bfg_cell");
 	public static EntityType<RocketEntity> ROCKET = projectile(RocketEntity::new, "rocket");
-	public static EntityType<LostSoulEntity> LOST_SOUL_SHOOT = projectile(LostSoulEntity::new, "lost_soul_shot");
 	public static EntityType<BarenBlastEntity> BARENBLAST = projectile(BarenBlastEntity::new, "barenblast");
 	public static EntityType<BulletEntity> BULLETS = projectile(BulletEntity::new, "bullets");
 	public static EntityType<ChaingunBulletEntity> CHAINGUN_BULLET = projectile(ChaingunBulletEntity::new,

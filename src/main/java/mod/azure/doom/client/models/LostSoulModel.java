@@ -2,14 +2,14 @@ package mod.azure.doom.client.models;
 
 import com.google.common.collect.ImmutableList;
 
+import mod.azure.doom.entity.projectiles.LostSoulEntity;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 
-public class LostSoulModel<T extends Entity> extends EntityModel<T> {
+public class LostSoulModel<T extends LostSoulEntity> extends EntityModel<T> {
 	public ModelPart head;
 	public ModelPart smallFlame02;
 	public ModelPart smallFlame04;
@@ -149,10 +149,9 @@ public class LostSoulModel<T extends Entity> extends EntityModel<T> {
 	}
 
 	@Override
-	public void setAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks,
-			float netHeadYaw, float headPitch) {
-		this.Jaw_flat.pitch = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 0.4F * limbSwingAmount
-				/ 1.0F;
+	public void setAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
+			float headPitch) {
+		this.Jaw_flat.pitch = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 0.4F * limbSwingAmount / 1.0F;
 	}
 
 	public void setRotateAngle(ModelPart ModelPart, float x, float y, float z) {

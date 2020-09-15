@@ -6,7 +6,6 @@ import java.util.Random;
 import mod.azure.doom.entity.DemonEntity;
 import mod.azure.doom.entity.PainEntity;
 import mod.azure.doom.util.ModSoundEvents;
-import mod.azure.doom.util.ProjectilesEntityRegister;
 import mod.azure.doom.util.packets.EntityPacket;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -51,14 +50,6 @@ public class LostSoulEntity extends DemonEntity implements Monster {
 	}
 
 	protected void fall(double heightDifference, boolean onGround, BlockState landedState, BlockPos landedPosition) {
-	}
-
-	public LostSoulEntity(World worldIn, double x, double y, double z, double accelX, double accelY, double accelZ) {
-		super(ProjectilesEntityRegister.LOST_SOUL_SHOOT, worldIn);
-	}
-
-	public LostSoulEntity(World worldIn, LivingEntity shooter, double accelX, double accelY, double accelZ) {
-		super(ProjectilesEntityRegister.LOST_SOUL_SHOOT, worldIn);
 	}
 
 	public void travel(Vec3d movementInput) {
@@ -120,10 +111,10 @@ public class LostSoulEntity extends DemonEntity implements Monster {
 		return world.getDifficulty() != Difficulty.PEACEFUL && random.nextInt(20) == 0
 				&& canMobSpawn(type, world, spawnReason, pos, random);
 	}
-
+	
 	@Override
-	protected void mobTick() {
-		super.mobTick();
+	public void tick() {
+		super.tick();
 		flameTimer = (flameTimer + 1) % 8;
 	}
 

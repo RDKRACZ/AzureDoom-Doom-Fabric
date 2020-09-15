@@ -12,7 +12,7 @@ import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
-public class LayerFlames extends FeatureRenderer<LostSoulEntity, LostSoulModel<LostSoulEntity>> {
+public class LayerFlames<T extends LostSoulEntity, M extends LostSoulModel<T>> extends FeatureRenderer<T, M> {
 	private static final Identifier[] TEX = { new Identifier(DoomMod.MODID, "textures/entity/lost_soul_fire_1.png"),
 			new Identifier(DoomMod.MODID, "textures/entity/lost_soul_fire_2.png"),
 			new Identifier(DoomMod.MODID, "textures/entity/lost_soul_fire_3.png"),
@@ -22,8 +22,8 @@ public class LayerFlames extends FeatureRenderer<LostSoulEntity, LostSoulModel<L
 			new Identifier(DoomMod.MODID, "textures/entity/lost_soul_fire_7.png"),
 			new Identifier(DoomMod.MODID, "textures/entity/lost_soul_fire_8.png") };
 
-	public LayerFlames(FeatureRendererContext<LostSoulEntity, LostSoulModel<LostSoulEntity>> entityRendererIn) {
-		super(entityRendererIn);
+	public LayerFlames(FeatureRendererContext<T, M> featureRendererContext) {
+		super(featureRendererContext);
 	}
 
 	@Override
