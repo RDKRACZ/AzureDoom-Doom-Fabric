@@ -5,24 +5,23 @@ import mod.azure.doom.client.models.LostSoulModel;
 import mod.azure.doom.entity.LostSoulEntity;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 
 public class LostSoulRender extends MobEntityRenderer<LostSoulEntity, LostSoulModel<LostSoulEntity>> {
-
-	protected static final Identifier TEXTURE = new Identifier(DoomMod.MODID, "textures/entity/lost_soul_backup.png");
+	private static final Identifier TEXTURE = new Identifier(DoomMod.MODID, "textures/entity/lost_soul.png");
 
 	public LostSoulRender(EntityRenderDispatcher renderManagerIn) {
-		super(renderManagerIn, new LostSoulModel<LostSoulEntity>(), 0.5f);
+		super(renderManagerIn, new LostSoulModel<LostSoulEntity>(), 1.5F);
+	}
+
+	@Override
+	protected int getBlockLight(LostSoulEntity entity, BlockPos blockPos) {
+		return 15;
 	}
 
 	@Override
 	public Identifier getTexture(LostSoulEntity entity) {
 		return TEXTURE;
-	}
-
-	@Override
-	protected void scale(LostSoulEntity entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
-		matrixStackIn.scale(1.5F, 1.5F, 1.5F);
 	}
 }
