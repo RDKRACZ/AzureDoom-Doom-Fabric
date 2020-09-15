@@ -10,8 +10,6 @@ import net.minecraft.util.Identifier;
 
 public class CacodemonRender extends MobEntityRenderer<CacodemonEntity, CacodemonModel<CacodemonEntity>> {
 	private static final Identifier GHAST_TEXTURES = new Identifier(DoomMod.MODID, "textures/entity/cacodemon.png");
-//	private static final Identifier GHAST_SHOOTING_TEXTURES = new Identifier(DoomMod.MODID,
-//			"textures/entity/cacodemon_shooting.png");
 
 	public CacodemonRender(EntityRenderDispatcher renderManagerIn) {
 		super(renderManagerIn, new CacodemonModel<CacodemonEntity>(), 1.5F);

@@ -9,7 +9,8 @@ import net.minecraft.util.Identifier;
 
 public class HellknightRender extends MobEntityRenderer<HellknightEntity, HellknightModel<HellknightEntity>> {
 
-	protected static final Identifier TEXTURE = new Identifier(DoomMod.MODID, "textures/entity/hellknight.png");
+	protected static final Identifier TEXTURE = new Identifier(DoomMod.MODID,
+			"textures/entity/hellknight-texturemap.png");
 
 	public HellknightRender(EntityRenderDispatcher renderManagerIn) {
 		super(renderManagerIn, new HellknightModel<>(), 0.7F);
