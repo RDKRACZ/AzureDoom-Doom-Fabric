@@ -3,6 +3,7 @@ package mod.azure.doom.mixin;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import mod.azure.doom.client.models.BipedModelSkin;
 import mod.azure.doom.client.render.layers.DoomArmorFeatureRenderer;
@@ -28,8 +29,8 @@ public abstract class PlayerRenderMixin
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Inject(at = @At("PlayerEntityRenderer"), method = "<init>(Lnet.minecraft.client.render.entity.PlayerEntityRenderer;Z)V")
-	public void PlayerEntityRenderer(EntityRenderDispatcher dispatcher, boolean bl) {
+	@Inject(at = @At("RETURN"), method = "<init>(Lnet/minecraft/client/render/entity/EntityRenderDispatcher;Z)V")
+	public void onConstruct(EntityRenderDispatcher dispatcher, boolean smallarms, CallbackInfo info) {
 		this.addFeature(new DoomArmorFeatureRenderer(this, new BipedModelSkin(0.5F), new BipedModelSkin(1.0F)));
 	}
 }

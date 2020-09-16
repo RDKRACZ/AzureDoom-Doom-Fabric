@@ -2,10 +2,9 @@ package mod.azure.doom.client.render.layers;
 
 import java.util.Map;
 
-import org.jetbrains.annotations.Nullable;
-
 import com.google.common.collect.Maps;
 
+import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.annotation.Nullable;
 import mod.azure.doom.client.models.BipedModelSkin;
 import mod.azure.doom.item.armor.skin.SkinArmor;
 import net.minecraft.client.render.OverlayTexture;

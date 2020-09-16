@@ -20,7 +20,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ArmorMaterials;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Wearable;
 import net.minecraft.predicate.entity.EntityPredicates;
@@ -32,7 +31,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
-public class SkinArmor extends Item implements Wearable {
+public class SkinArmor extends ArmorItem implements Wearable {
 
 	private static final UUID[] MODIFIERS = new UUID[] { UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"),
 			UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"),
@@ -72,7 +71,7 @@ public class SkinArmor extends Item implements Wearable {
 	}
 
 	public SkinArmor(ArmorMaterial material, EquipmentSlot slot, Settings settings) {
-		super(settings.maxDamageIfAbsent(material.getDurability(slot)));
+		super(material, slot, settings.maxDamageIfAbsent(material.getDurability(slot)));
 		this.type = material;
 		this.slot = slot;
 		this.protection = material.getProtectionAmount(slot);
