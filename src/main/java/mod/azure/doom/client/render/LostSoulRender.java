@@ -12,6 +12,7 @@ import net.minecraft.util.math.BlockPos;
 public class LostSoulRender extends MobEntityRenderer<LostSoulEntity, LostSoulModel<LostSoulEntity>> {
 	private static final Identifier TEXTURE = new Identifier(DoomMod.MODID, "textures/entity/lost_soul.png");
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public LostSoulRender(EntityRenderDispatcher renderManagerIn) {
 		super(renderManagerIn, new LostSoulModel<LostSoulEntity>(), 1.5F);
 		this.addFeature(new LayerFlames(this));
@@ -19,7 +20,7 @@ public class LostSoulRender extends MobEntityRenderer<LostSoulEntity, LostSoulMo
 
 	@Override
 	protected int getBlockLight(LostSoulEntity entity, BlockPos blockPos) {
-		return 15;
+		return 10;
 	}
 
 	@Override

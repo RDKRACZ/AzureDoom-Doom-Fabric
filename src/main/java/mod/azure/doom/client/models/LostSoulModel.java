@@ -9,6 +9,10 @@ import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 
+/**
+ * Lost Soul - Batpixxler Created using Tabula 8.0.0
+ */
+
 public class LostSoulModel<T extends LostSoulEntity> extends EntityModel<T> {
 	public ModelPart head;
 	public ModelPart smallFlame02;

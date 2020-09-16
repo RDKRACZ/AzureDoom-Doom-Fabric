@@ -171,6 +171,7 @@ public class BaronEntity extends DemonEntity implements RangedAttackMob {
 
 				this.aiArrowAttack.setAttackInterval(i);
 				this.goalSelector.add(4, this.aiArrowAttack);
+				this.goalSelector.add(4, this.meleeAttackGoal);
 			} else {
 				this.goalSelector.add(4, this.meleeAttackGoal);
 			}

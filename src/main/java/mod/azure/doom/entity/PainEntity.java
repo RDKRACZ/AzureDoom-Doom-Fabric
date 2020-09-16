@@ -3,7 +3,6 @@ package mod.azure.doom.entity;
 import java.util.EnumSet;
 import java.util.Random;
 
-import mod.azure.doom.entity.projectiles.LostSoulEntity;
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.packets.EntityPacket;
 import net.fabricmc.api.EnvType;
@@ -25,6 +24,7 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.SmallFireballEntity;
 import net.minecraft.network.Packet;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
@@ -150,8 +150,8 @@ public class PainEntity extends DemonEntity implements Monster {
 						world.syncWorldEvent((PlayerEntity) null, 1016, this.ghast.getBlockPos(), 0);
 					}
 
-					LostSoulEntity fireballEntity = new LostSoulEntity(world, this.ghast, f, g, h);
-					fireballEntity.explosionPower = this.ghast.getFireballStrength();
+					SmallFireballEntity fireballEntity = new SmallFireballEntity(world, this.ghast, f, g, h);
+					//fireballEntity.explosionPower = this.ghast.getFireballStrength();
 					fireballEntity.updatePosition(this.ghast.getX() + vec3d.x * 4.0D, this.ghast.getBodyY(0.5D) + 0.5D,
 							fireballEntity.getZ() + vec3d.z * 4.0D);
 					world.spawnEntity(fireballEntity);
