@@ -25,6 +25,15 @@
           ],
           "name": "doom:argent_energy"
         }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:entity_properties",
+          "predicate": {
+            "type": "#minecraft:players"
+          },
+          "entity": "killer"
+        }
       ]
     }
   ]
