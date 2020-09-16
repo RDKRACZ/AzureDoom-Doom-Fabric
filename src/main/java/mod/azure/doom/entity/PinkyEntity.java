@@ -16,6 +16,8 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.Hoglin;
+import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundEvent;
@@ -45,6 +47,8 @@ public class PinkyEntity extends DemonEntity implements Monster, Hoglin {
 	protected void initCustomGoals() {
 		this.goalSelector.add(2, new MeleeAttackGoal(this, 1.0D, false));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
+		this.targetSelector.add(3, new FollowTargetGoal<>(this, HostileEntity.class, true));
+		this.targetSelector.add(3, new FollowTargetGoal<>(this, MobEntity.class, true));
 	}
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
