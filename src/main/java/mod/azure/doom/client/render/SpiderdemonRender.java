@@ -9,7 +9,8 @@ import net.minecraft.util.Identifier;
 
 public class SpiderdemonRender extends MobEntityRenderer<SpiderdemonEntity, SpiderdemonModel<SpiderdemonEntity>> {
 
-	protected static final Identifier TEXTURE = new Identifier(DoomMod.MODID, "textures/entity/spiderdemon.png");
+	protected static final Identifier TEXTURE = new Identifier(DoomMod.MODID,
+			"textures/entity/spidermastermind-texturemap.png");
 
 	public SpiderdemonRender(EntityRenderDispatcher renderManagerIn) {
 		super(renderManagerIn, new SpiderdemonModel<>(), 0.8F);
