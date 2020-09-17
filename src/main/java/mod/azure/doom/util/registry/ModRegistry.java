@@ -1,7 +1,6 @@
 package mod.azure.doom.util.registry;
 
 import mod.azure.doom.util.ModSoundEvents;
-import mod.azure.doom.util.ProjectilesEntityRegister;
 
 public class ModRegistry {
 

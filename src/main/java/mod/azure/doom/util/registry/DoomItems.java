@@ -34,10 +34,6 @@ import mod.azure.doom.item.armor.PurplePonyDoomArmor;
 import mod.azure.doom.item.armor.SentinelDoomArmor;
 import mod.azure.doom.item.armor.ZombieDoomArmor;
 import mod.azure.doom.item.eggs.DoomSpawnEgg;
-import mod.azure.doom.item.entityweapons.ArchnotronAttackItem;
-import mod.azure.doom.item.entityweapons.BarenBlastItem;
-import mod.azure.doom.item.entityweapons.CyberdemonAttackItem;
-import mod.azure.doom.item.entityweapons.SpiderdemonAttackItem;
 import mod.azure.doom.item.powerup.InmortalSphereItem;
 import mod.azure.doom.item.powerup.InvisibleSphereItem;
 import mod.azure.doom.item.powerup.MegaSphereItem;
@@ -99,7 +95,6 @@ public class DoomItems {
 	public static ArgentShovel ARGENT_SHOVEL = item(new ArgentShovel(), "argent_shovel");
 	public static ShellAmmo SHOTGUN_SHELLS = item(new ShellAmmo(2.0F), "shotgun_shells");
 	public static UnmaykrBolt UNMAKRY_BOLT = item(new UnmaykrBolt(10.2F), "unmaykr_bolt");
-	public static BarenBlastItem BARENBLAST = item(new BarenBlastItem(2.0F), "barenblast");
 	public static UnopenedItem AXE_CLOSED = item(new UnopenedItem(), "axe_marauder_closed");
 	public static ArgentPickaxe ARGENT_PICKAXE = item(new ArgentPickaxe(), "argent_pickaxe");
 	public static ArgentPlateItem ARGENT_PLATE = item("argent_plate", new ArgentPlateItem());
@@ -112,9 +107,6 @@ public class DoomItems {
 	public static ChaingunAmmo CHAINGUN_BULLETS = item(new ChaingunAmmo(10.0F), "chaingunbullets");
 	public static SwordCrucibleItem CRUCIBLESWORD = item(new SwordCrucibleItem(), "cruciblesword");
 	public static InvisibleSphereItem INVISIBLE = item(new InvisibleSphereItem(), "invisiblesphere");
-	public static CyberdemonAttackItem CYBERDEMONATTACK = item(new CyberdemonAttackItem(), "cyberdemonattack");
-	public static ArchnotronAttackItem ARACHNOTRONATTACK = item(new ArchnotronAttackItem(), "arachnotronblast");
-	public static SpiderdemonAttackItem SPIDERDEMONATTACK = item(new SpiderdemonAttackItem(), "spiderdemonattack");
 
 	// Spawn Eggs
 	public static DoomSpawnEgg ARACHNOTRON_SPAWN_EGG = item(new DoomSpawnEgg(MobEntityRegister.ARACHNOTRON),

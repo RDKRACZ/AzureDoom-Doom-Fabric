@@ -1,7 +1,8 @@
-package mod.azure.doom.client.render.projectiles;
+package mod.azure.doom.client.render.projectiles.entity;
 
 import mod.azure.doom.DoomMod;
-import mod.azure.doom.entity.projectiles.entity.BarenBlastEntity;
+import mod.azure.doom.entity.projectiles.EnergyCellEntity;
+import mod.azure.doom.entity.projectiles.entity.EnergyCellMobEntity;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -15,27 +16,27 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Matrix3f;
 import net.minecraft.util.math.Matrix4f;
 
-public class BarenBlastRender extends EntityRenderer<BarenBlastEntity> {
+public class EnergyCellMobRender extends EntityRenderer<EnergyCellMobEntity> {
 
-	private static final Identifier ROCKET_TEXTURE = new Identifier(DoomMod.MODID,
-			"textures/entity/projectiles/baronblast.png");
-	private static final RenderLayer LAYER = RenderLayer.getEntityCutoutNoCull(ROCKET_TEXTURE);
+	private static final Identifier ENERGY_CELL_TEXTURE = new Identifier(DoomMod.MODID,
+			"textures/entity/projectiles/plasma_ball.png");
+	private static final RenderLayer LAYER = RenderLayer.getEntityCutoutNoCull(ENERGY_CELL_TEXTURE);
 
-	public BarenBlastRender(EntityRenderDispatcher renderManagerIn) {
+	public EnergyCellMobRender(EntityRenderDispatcher renderManagerIn) {
 		super(renderManagerIn);
 	}
 
 	@Override
-	public Identifier getTexture(BarenBlastEntity entity) {
-		return ROCKET_TEXTURE;
+	public Identifier getTexture(EnergyCellMobEntity entity) {
+		return ENERGY_CELL_TEXTURE;
 	}
 
-	protected int getBlockLight(BarenBlastEntity entityIn, BlockPos partialTicks) {
+	protected int getBlockLight(EnergyCellEntity entityIn, BlockPos partialTicks) {
 		return 15;
 	}
 
-	public void render(BarenBlastEntity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStack,
-			VertexConsumerProvider bufferIn, int packedLightIn) {
+	public void render(EnergyCellMobEntity entityIn, float f, float g, MatrixStack matrixStack,
+			VertexConsumerProvider vertexConsumerProvider, int i) {
 		matrixStack.push();
 		matrixStack.scale(1.0F, 1.0F, 1.0F);
 		matrixStack.multiply(this.dispatcher.getRotation());
@@ -43,13 +44,13 @@ public class BarenBlastRender extends EntityRenderer<BarenBlastEntity> {
 		MatrixStack.Entry entry = matrixStack.peek();
 		Matrix4f matrix4f = entry.getModel();
 		Matrix3f matrix3f = entry.getNormal();
-		VertexConsumer ivertexbuilder = bufferIn.getBuffer(LAYER);
-		produceVertex(ivertexbuilder, matrix4f, matrix3f, packedLightIn, 0.0F, 0, 0, 1);
-		produceVertex(ivertexbuilder, matrix4f, matrix3f, packedLightIn, 1.0F, 0, 1, 1);
-		produceVertex(ivertexbuilder, matrix4f, matrix3f, packedLightIn, 1.0F, 1, 1, 0);
-		produceVertex(ivertexbuilder, matrix4f, matrix3f, packedLightIn, 0.0F, 1, 0, 0);
+		VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(LAYER);
+		produceVertex(vertexConsumer, matrix4f, matrix3f, i, 0.0F, 0, 0, 1);
+		produceVertex(vertexConsumer, matrix4f, matrix3f, i, 1.0F, 0, 1, 1);
+		produceVertex(vertexConsumer, matrix4f, matrix3f, i, 1.0F, 1, 1, 0);
+		produceVertex(vertexConsumer, matrix4f, matrix3f, i, 0.0F, 1, 0, 0);
 		matrixStack.pop();
-		super.render(entityIn, entityYaw, partialTicks, matrixStack, bufferIn, packedLightIn);
+		super.render(entityIn, f, g, matrixStack, vertexConsumerProvider, i);
 	}
 
 	private static void produceVertex(VertexConsumer vertexConsumer, Matrix4f modelMatrix, Matrix3f normalMatrix,
@@ -58,4 +59,5 @@ public class BarenBlastRender extends EntityRenderer<BarenBlastEntity> {
 				.texture((float) textureU, (float) textureV).overlay(OverlayTexture.DEFAULT_UV).light(light)
 				.normal(normalMatrix, 0.0F, 1.0F, 0.0F).next();
 	}
+
 }

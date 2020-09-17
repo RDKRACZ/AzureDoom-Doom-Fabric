@@ -5,11 +5,8 @@ import java.time.temporal.ChronoField;
 import java.util.Random;
 
 import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.annotation.Nullable;
-import mod.azure.doom.entity.ai.goal.RangedBarenBlastAttackGoal;
-import mod.azure.doom.entity.projectiles.BarenBlastEntity;
-import mod.azure.doom.item.entityweapons.BarenBlastItem;
+import mod.azure.doom.entity.projectiles.entity.BarenBlastEntity;
 import mod.azure.doom.util.ModSoundEvents;
-import mod.azure.doom.util.registry.DoomItems;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
@@ -19,11 +16,10 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.RangedAttackMob;
 import net.minecraft.entity.ai.goal.FollowTargetGoal;
+import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.RevengeGoal;
 import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -32,37 +28,20 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.RangedWeaponItem;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 
-public class BaronEntity extends DemonEntity implements RangedAttackMob {
-
-	private final RangedBarenBlastAttackGoal<BaronEntity> aiArrowAttack = new RangedBarenBlastAttackGoal<>(this, 1.0D,
-			20, 15.0F);
-	private final MeleeAttackGoal meleeAttackGoal = new MeleeAttackGoal(this, 1.2D, false) {
-		public void stop() {
-			super.stop();
-			BaronEntity.this.setAttacking(false);
-		}
-
-		public void start() {
-			super.start();
-			BaronEntity.this.setAttacking(true);
-		}
-	};
+public class BaronEntity extends DemonEntity {
 
 	public BaronEntity(EntityType<BaronEntity> entityType, World worldIn) {
 		super(entityType, worldIn);
-		this.updateAttackType();
 	}
 
 	public static boolean spawning(EntityType<BaronEntity> p_223337_0_, World p_223337_1_, SpawnReason reason,
@@ -77,10 +56,52 @@ public class BaronEntity extends DemonEntity implements RangedAttackMob {
 		this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
 		this.goalSelector.add(6, new LookAroundGoal(this));
 		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
+		this.goalSelector.add(7, new BaronEntity.ShootFireballGoal(this));
 		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]));
 		this.targetSelector.add(2, new FollowTargetGoal(this, PlayerEntity.class, true));
 		this.targetSelector.add(3, new FollowTargetGoal<>(this, HostileEntity.class, true));
 		this.targetSelector.add(3, new FollowTargetGoal<>(this, MobEntity.class, true));
+	}
+
+	static class ShootFireballGoal extends Goal {
+		private final BaronEntity ghast;
+		public int cooldown;
+
+		public ShootFireballGoal(BaronEntity ghast) {
+			this.ghast = ghast;
+		}
+
+		public boolean canStart() {
+			return this.ghast.getTarget() != null;
+		}
+
+		public void start() {
+			this.cooldown = 0;
+		}
+
+		public void tick() {
+			LivingEntity livingEntity = this.ghast.getTarget();
+			if (livingEntity.squaredDistanceTo(this.ghast) < 4096.0D && this.ghast.canSee(livingEntity)) {
+				World world = this.ghast.world;
+				++this.cooldown;
+				if (this.cooldown == 20) {
+					Vec3d vec3d = this.ghast.getRotationVec(1.0F);
+					double f = livingEntity.getX() - (this.ghast.getX() + vec3d.x * 4.0D);
+					double g = livingEntity.getBodyY(0.5D) - (0.5D + this.ghast.getBodyY(0.5D));
+					double h = livingEntity.getZ() - (this.ghast.getZ() + vec3d.z * 4.0D);
+					if (!this.ghast.isSilent()) {
+						world.syncWorldEvent((PlayerEntity) null, 1016, this.ghast.getBlockPos(), 0);
+					}
+					BarenBlastEntity fireballEntity = new BarenBlastEntity(world, this.ghast, f, g, h);
+					fireballEntity.updatePosition(this.ghast.getX() + vec3d.x * 4.0D, this.ghast.getBodyY(0.5D) + 0.5D,
+							fireballEntity.getZ() + vec3d.z * 4.0D);
+					world.spawnEntity(fireballEntity);
+					this.cooldown = -40;
+				}
+			} else if (this.cooldown > 0) {
+				--this.cooldown;
+			}
+		}
 	}
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
@@ -90,18 +111,11 @@ public class BaronEntity extends DemonEntity implements RangedAttackMob {
 				.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
 	}
 
-	@Override
-	protected void initEquipment(LocalDifficulty difficulty) {
-		super.initEquipment(difficulty);
-		this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(DoomItems.BARENBLAST));
-	}
-
 	@Nullable
 	@Override
 	public EntityData initialize(ServerWorldAccess serverWorldAccess, LocalDifficulty difficulty,
 			SpawnReason spawnReason, EntityData entityData, CompoundTag entityTag) {
 		entityData = super.initialize(serverWorldAccess, difficulty, spawnReason, entityData, entityTag);
-		this.initEquipment(difficulty);
 		if (this.getEquippedStack(EquipmentSlot.HEAD).isEmpty()) {
 			LocalDate localDate = LocalDate.now();
 			int i = localDate.get(ChronoField.DAY_OF_MONTH);
@@ -150,69 +164,6 @@ public class BaronEntity extends DemonEntity implements RangedAttackMob {
 
 	public void readCustomDataFromTag(CompoundTag tag) {
 		super.readCustomDataFromTag(tag);
-		this.updateAttackType();
-	}
-
-	public void equipStack(EquipmentSlot slot, ItemStack stack) {
-		super.equipStack(slot, stack);
-		if (!this.world.isClient) {
-			this.updateAttackType();
-		}
-
-	}
-
-	public void updateAttackType() {
-		if (this.world != null && !this.world.isClient) {
-			this.goalSelector.remove(this.meleeAttackGoal);
-			this.goalSelector.remove(this.aiArrowAttack);
-			ItemStack itemStack = this
-					.getStackInHand(ProjectileUtil.getHandPossiblyHolding(this, DoomItems.BARENBLAST));
-			if (itemStack.getItem() == DoomItems.BARENBLAST) {
-				int i = 20;
-				if (this.world.getDifficulty() != Difficulty.HARD) {
-					i = 40;
-				}
-
-				this.aiArrowAttack.setAttackInterval(i);
-				this.goalSelector.add(4, this.aiArrowAttack);
-				this.goalSelector.add(4, this.meleeAttackGoal);
-			} else {
-				this.goalSelector.add(4, this.meleeAttackGoal);
-			}
-
-		}
-	}
-
-	public void attack(LivingEntity target, float pullProgress) {
-		ItemStack itemStack = this
-				.getArrowType(this.getStackInHand(ProjectileUtil.getHandPossiblyHolding(this, DoomItems.BARENBLAST)));
-		BarenBlastEntity persistentProjectileEntity = this.createArrowProjectile(itemStack, pullProgress);
-		double d = target.getX() - this.getX();
-		double e = target.getBodyY(0.3333333333333333D) - persistentProjectileEntity.getY();
-		double f = target.getZ() - this.getZ();
-		double g = (double) MathHelper.sqrt(d * d + f * f);
-		persistentProjectileEntity.setVelocity(d, e + g * 0.20000000298023224D, f, 1.6F,
-				(float) (14 - this.world.getDifficulty().getId() * 4));
-		this.playSound(ModSoundEvents.ROCKET_FIRING, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
-		this.world.spawnEntity(persistentProjectileEntity);
-	}
-
-	protected BarenBlastEntity createArrowProjectile(ItemStack arrow, float damageModifier) {
-		return BaronEntity.createArrowProjectile(this, arrow, damageModifier);
-	}
-
-	public boolean canUseRangedWeapon(RangedWeaponItem weapon) {
-		return weapon == DoomItems.BARENBLAST;
-	}
-
-	public static BarenBlastEntity createArrowProjectile(LivingEntity entity, ItemStack stack, float damageModifier) {
-		BarenBlastItem arrowItem = (BarenBlastItem) ((BarenBlastItem) (stack.getItem() instanceof BarenBlastItem
-				? stack.getItem()
-				: DoomItems.BARENBLAST));
-		BarenBlastEntity persistentProjectileEntity = arrowItem.createArrow(entity.world, stack, entity);
-		persistentProjectileEntity.applyEnchantmentEffects(entity, damageModifier);
-
-		return persistentProjectileEntity;
 	}
 
 	@Override

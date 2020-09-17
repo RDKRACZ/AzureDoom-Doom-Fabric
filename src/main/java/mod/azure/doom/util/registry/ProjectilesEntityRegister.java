@@ -1,4 +1,4 @@
-package mod.azure.doom.util;
+package mod.azure.doom.util.registry;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -6,13 +6,18 @@ import java.util.List;
 import mod.azure.doom.DoomMod;
 import mod.azure.doom.entity.projectiles.ArgentBoltEntity;
 import mod.azure.doom.entity.projectiles.BFGEntity;
-import mod.azure.doom.entity.projectiles.BarenBlastEntity;
 import mod.azure.doom.entity.projectiles.BulletEntity;
 import mod.azure.doom.entity.projectiles.ChaingunBulletEntity;
 import mod.azure.doom.entity.projectiles.EnergyCellEntity;
 import mod.azure.doom.entity.projectiles.RocketEntity;
 import mod.azure.doom.entity.projectiles.ShotgunShellEntity;
 import mod.azure.doom.entity.projectiles.UnmaykrBoltEntity;
+import mod.azure.doom.entity.projectiles.entity.BarenBlastEntity;
+import mod.azure.doom.entity.projectiles.entity.BulletMobEntity;
+import mod.azure.doom.entity.projectiles.entity.ChaingunMobEntity;
+import mod.azure.doom.entity.projectiles.entity.EnergyCellMobEntity;
+import mod.azure.doom.entity.projectiles.entity.RocketMobEntity;
+import mod.azure.doom.entity.projectiles.entity.ShotgunMobEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
@@ -32,16 +37,23 @@ public class ProjectilesEntityRegister {
 	public static EntityType<UnmaykrBoltEntity> UNMAYKR = projectile(UnmaykrBoltEntity::new, "unmaykr_bolt");
 	public static EntityType<ShotgunShellEntity> SHOTGUN_SHELL = projectile(ShotgunShellEntity::new, "shotgun_shell");
 	public static EntityType<EnergyCellEntity> ENERGY_CELL = projectile(EnergyCellEntity::new, "energy_cell");
-	public static EntityType<BFGEntity> BFG_CELL = projectile(BFGEntity::new, "bfg_cell");
+	public static EntityType<BFGEntity> BFG_CELL = projectile1(BFGEntity::new, "bfg_cell");
 	public static EntityType<RocketEntity> ROCKET = projectile(RocketEntity::new, "rocket");
 	public static EntityType<BarenBlastEntity> BARENBLAST = projectile(BarenBlastEntity::new, "barenblast");
 	public static EntityType<BulletEntity> BULLETS = projectile(BulletEntity::new, "bullets");
 	public static EntityType<ChaingunBulletEntity> CHAINGUN_BULLET = projectile(ChaingunBulletEntity::new,
 			"chaingunbullets");
+	public static EntityType<BulletMobEntity> BULLETS_MOB = projectile(BulletMobEntity::new, "bullets_mob");
+	public static EntityType<ChaingunMobEntity> CHAINGUN_BULLET_MOB = projectile(ChaingunMobEntity::new,
+			"chaingunbullets_mob");
+	public static EntityType<RocketMobEntity> ROCKET_MOB = projectile(RocketMobEntity::new, "rocket_mob");
+	public static EntityType<ShotgunMobEntity> SHOTGUN_SHELL_MOB = projectile(ShotgunMobEntity::new,
+			"shotgun_shell_mob");
+	public static EntityType<EnergyCellMobEntity> ENERGY_CELL_MOB = projectile(EnergyCellMobEntity::new,
+			"energy_cell_mob");
 
 	private static <T extends Entity> EntityType<T> projectile(EntityType.EntityFactory<T> factory, String id) {
 		return projectile(factory, id, true);
-
 	}
 
 	private static <T extends Entity> EntityType<T> projectile(EntityType.EntityFactory<T> factory, String id,
@@ -49,6 +61,28 @@ public class ProjectilesEntityRegister {
 
 		EntityType<T> type = FabricEntityTypeBuilder.<T>create(SpawnGroup.MISC, factory)
 				.dimensions(new EntityDimensions(0.5F, 0.5F, true)).disableSummon().spawnableFarFromPlayer()
+				.trackRangeBlocks(90).trackedUpdateRate(4).build();
+
+		Registry.register(Registry.ENTITY_TYPE, new Identifier(DoomMod.MODID, id), type);
+
+		ENTITY_TYPES.add(type);
+
+		if (itemRender) {
+			ENTITY_THAT_USE_ITEM_RENDERS.add(type);
+		}
+
+		return type;
+	}
+
+	private static <T extends Entity> EntityType<T> projectile1(EntityType.EntityFactory<T> factory, String id) {
+		return projectile1(factory, id, true);
+	}
+
+	private static <T extends Entity> EntityType<T> projectile1(EntityType.EntityFactory<T> factory, String id,
+			boolean itemRender) {
+
+		EntityType<T> type = FabricEntityTypeBuilder.<T>create(SpawnGroup.MISC, factory)
+				.dimensions(new EntityDimensions(2.0F, 2.0F, true)).disableSummon().spawnableFarFromPlayer()
 				.trackRangeBlocks(90).trackedUpdateRate(4).build();
 
 		Registry.register(Registry.ENTITY_TYPE, new Identifier(DoomMod.MODID, id), type);

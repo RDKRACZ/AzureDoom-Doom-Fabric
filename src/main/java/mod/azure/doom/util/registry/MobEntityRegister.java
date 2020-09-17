@@ -185,5 +185,4 @@ public class MobEntityRegister {
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, IconofsinEntity::new)
 					.dimensions(EntityDimensions.fixed(2.4f, 10.0F)).fireImmune().trackRangeBlocks(90)
 					.trackedUpdateRate(4).build());
-
 }

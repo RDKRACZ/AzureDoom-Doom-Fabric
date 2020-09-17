@@ -126,25 +126,20 @@ public class PainEntity extends DemonEntity implements Monster {
 	static class ShootFireballGoal extends Goal {
 		private final PainEntity ghast;
 		public int cooldown;
-
 		public ShootFireballGoal(PainEntity ghast) {
 			this.ghast = ghast;
 		}
-
 		public boolean canStart() {
 			return this.ghast.getTarget() != null;
 		}
-
 		public void start() {
 			this.cooldown = 0;
 		}
-
 		public void tick() {
 			LivingEntity livingEntity = this.ghast.getTarget();
 			if (livingEntity.squaredDistanceTo(this.ghast) < 4096.0D && this.ghast.canSee(livingEntity)) {
 				World world = this.ghast.world;
 				++this.cooldown;
-
 				if (this.cooldown == 20) {
 					Vec3d vec3d = this.ghast.getRotationVec(1.0F);
 					double f = livingEntity.getX() - (this.ghast.getX() + vec3d.x * 4.0D);
@@ -153,9 +148,7 @@ public class PainEntity extends DemonEntity implements Monster {
 					if (!this.ghast.isSilent()) {
 						world.syncWorldEvent((PlayerEntity) null, 1016, this.ghast.getBlockPos(), 0);
 					}
-
 					SmallFireballEntity fireballEntity = new SmallFireballEntity(world, this.ghast, f, g, h);
-					//fireballEntity.explosionPower = this.ghast.getFireballStrength();
 					fireballEntity.updatePosition(this.ghast.getX() + vec3d.x * 4.0D, this.ghast.getBodyY(0.5D) + 0.5D,
 							fireballEntity.getZ() + vec3d.z * 4.0D);
 					world.spawnEntity(fireballEntity);
