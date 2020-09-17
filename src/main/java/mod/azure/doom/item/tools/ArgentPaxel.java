@@ -30,6 +30,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -111,7 +112,8 @@ public class ArgentPaxel extends MiningToolItem {
 
 	@Override
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-		tooltip.add(new TranslatableText("\u00A7c" + "\u00A7o" + "Powered by Argent Energy"));
+		tooltip.add(new TranslatableText("doom.argent_powered.text").formatted(Formatting.RED)
+				.formatted(Formatting.ITALIC));
 		super.appendTooltip(stack, world, tooltip, context);
 	}
 

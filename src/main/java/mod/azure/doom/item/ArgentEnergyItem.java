@@ -8,6 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 
 public class ArgentEnergyItem extends Item {
@@ -18,9 +19,12 @@ public class ArgentEnergyItem extends Item {
 
 	@Override
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-		tooltip.add(new TranslatableText("\u00A7c" + "\u00A7o" + "Created by combining the tortured"));
-		tooltip.add(new TranslatableText("\u00A7c" + "\u00A7o" + "souls of the Nether and the power"));
-		tooltip.add(new TranslatableText("\u00A7c" + "\u00A7o" + "of the Aether."));
+		tooltip.add(new TranslatableText("doom.argent_engery1.text").formatted(Formatting.RED)
+				.formatted(Formatting.ITALIC));
+		tooltip.add(new TranslatableText("doom.argent_engery2.text").formatted(Formatting.RED)
+				.formatted(Formatting.ITALIC));
+		tooltip.add(new TranslatableText("doom.argent_engery3.text").formatted(Formatting.RED)
+				.formatted(Formatting.ITALIC));
 		super.appendTooltip(stack, world, tooltip, context);
 	}
 

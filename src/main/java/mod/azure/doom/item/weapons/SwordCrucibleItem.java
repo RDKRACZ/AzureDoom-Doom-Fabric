@@ -13,13 +13,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
 public class SwordCrucibleItem extends SwordItem {
 
 	public SwordCrucibleItem() {
-		super(DoomTier.DOOM_HIGHTEIR, 12, -2.4F, new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(5));
+		super(DoomTier.DOOM_HIGHTEIR, 12, -2.4F,
+				new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(5));
 	}
 
 	@Override
@@ -29,7 +31,8 @@ public class SwordCrucibleItem extends SwordItem {
 
 	@Override
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-		tooltip.add(new TranslatableText("\u00A7c" + "Rip and Tear. Until it is done."));
+		tooltip.add(new TranslatableText("doom.crucible_sword.text").formatted(Formatting.RED)
+				.formatted(Formatting.ITALIC));
 		super.appendTooltip(stack, world, tooltip, context);
 	}
 

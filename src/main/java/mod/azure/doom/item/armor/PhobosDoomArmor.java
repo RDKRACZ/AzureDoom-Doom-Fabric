@@ -11,6 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 
 public class PhobosDoomArmor extends SkinArmor {
@@ -22,8 +23,8 @@ public class PhobosDoomArmor extends SkinArmor {
 
 	@Override
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-		tooltip.add(new TranslatableText(
-				"\u00A7o" + "\u00A7e" + "Only given those that process the will and might of a true Slayer."));
+		tooltip.add(new TranslatableText("doom.phobosarmor.text").formatted(Formatting.YELLOW)
+				.formatted(Formatting.ITALIC));
 		super.appendTooltip(stack, world, tooltip, context);
 	}
 

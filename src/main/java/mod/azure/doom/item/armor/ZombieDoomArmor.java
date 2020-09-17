@@ -11,6 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 
 public class ZombieDoomArmor extends SkinArmor {
@@ -22,7 +23,8 @@ public class ZombieDoomArmor extends SkinArmor {
 
 	@Override
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-		tooltip.add(new TranslatableText("\u00A7o" + "\u00A7e" + "Even Death can not hold back the Slayer."));
+		tooltip.add(new TranslatableText("doom.zombiearmor.text").formatted(Formatting.YELLOW)
+				.formatted(Formatting.ITALIC));
 		super.appendTooltip(stack, world, tooltip, context);
 	}
 

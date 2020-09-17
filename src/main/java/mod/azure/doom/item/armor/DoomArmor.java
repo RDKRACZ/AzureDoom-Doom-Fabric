@@ -11,6 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 
 public class DoomArmor extends SkinArmor {
@@ -22,7 +23,8 @@ public class DoomArmor extends SkinArmor {
 
 	@Override
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-		tooltip.add(new TranslatableText("\u00A7o" + "\u00A7e" + "The armor fitting a Demon slayer."));
+		tooltip.add(new TranslatableText("doom.doomarmor.text").formatted(Formatting.YELLOW)
+				.formatted(Formatting.ITALIC));
 		super.appendTooltip(stack, world, tooltip, context);
 	}
 

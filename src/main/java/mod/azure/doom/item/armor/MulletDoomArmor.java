@@ -11,6 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 
 public class MulletDoomArmor extends SkinArmor {
@@ -22,7 +23,8 @@ public class MulletDoomArmor extends SkinArmor {
 
 	@Override
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-		tooltip.add(new TranslatableText("\u00A7o" + "\u00A7e" + "Business in the front, destruction in the back."));
+		tooltip.add(new TranslatableText("doom.mulletarmor.text").formatted(Formatting.YELLOW)
+				.formatted(Formatting.ITALIC));
 		super.appendTooltip(stack, world, tooltip, context);
 	}
 

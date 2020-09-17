@@ -13,13 +13,15 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
 public class AxeMarauderItem extends AxeItem {
 
 	public AxeMarauderItem() {
-		super(DoomTier.DOOM_HIGHTEIR, 12, -2.4F, new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(5));
+		super(DoomTier.DOOM_HIGHTEIR, 12, -2.4F,
+				new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(5));
 	}
 
 	@Override
@@ -29,9 +31,12 @@ public class AxeMarauderItem extends AxeItem {
 
 	@Override
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-		tooltip.add(new TranslatableText("\u00A7o" + "\u00A7c" + "You were never one of us. You were"));
-		tooltip.add(new TranslatableText("\u00A7o" + "\u00A7c" + "nothing but a usurper, a false"));
-		tooltip.add(new TranslatableText("\u00A7o" + "\u00A7c" + "idol. My eyes have been opened."));
+		tooltip.add(
+				new TranslatableText("doom.marauder_axe1.text").formatted(Formatting.RED).formatted(Formatting.ITALIC));
+		tooltip.add(
+				new TranslatableText("doom.marauder_axe2.text").formatted(Formatting.RED).formatted(Formatting.ITALIC));
+		tooltip.add(
+				new TranslatableText("doom.marauder_axe3.text").formatted(Formatting.RED).formatted(Formatting.ITALIC));
 		super.appendTooltip(stack, world, tooltip, context);
 	}
 
