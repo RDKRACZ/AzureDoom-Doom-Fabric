@@ -22,6 +22,11 @@ public class LostSoulRender extends MobEntityRenderer<LostSoulEntity, LostSoulMo
 	protected int getBlockLight(LostSoulEntity entity, BlockPos blockPos) {
 		return 10;
 	}
+	
+	@Override
+	protected float getLyingAngle(LostSoulEntity entity) {
+		return 180.0F;
+	}
 
 	@Override
 	public Identifier getTexture(LostSoulEntity entity) {

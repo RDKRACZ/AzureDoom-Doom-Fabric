@@ -61,7 +61,7 @@ public class LostSoulModel<T extends LostSoulEntity> extends EntityModel<T> {
 		this.Jaw_flat = new ModelPart(this, 32, 0);
 		this.Jaw_flat.setPivot(0.0F, 0.0F, 4.0F);
 		this.Jaw_flat.addCuboid(-3.5F, 0.0F, -8.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-		this.lHorn1 = new ModelPart(this, 0, 14);
+		this.lHorn1 = new ModelPart(this, 0, 13);
 		this.lHorn1.mirror = true;
 		this.lHorn1.setPivot(3.0F, -4.0F, 0.0F);
 		this.lHorn1.addCuboid(-1.5F, 0.0F, -1.5F, 3.0F, 4.0F, 3.0F, 0.0F, 0.0F, 0.0F);
@@ -103,7 +103,7 @@ public class LostSoulModel<T extends LostSoulEntity> extends EntityModel<T> {
 		this.lHorn4.setPivot(-0.1F, 4.0F, 0.0F);
 		this.lHorn4.addCuboid(-0.5F, 0.0F, -1.0F, 1.0F, 4.0F, 1.0F, 0.0F, 0.0F, 0.0F);
 		this.setRotateAngle(lHorn4, -0.7820820617871088F, 0.0F, 0.0F);
-		this.rHorn1 = new ModelPart(this, 0, 14);
+		this.rHorn1 = new ModelPart(this, 0, 13);
 		this.rHorn1.setPivot(-2.0F, -4.0F, 0.0F);
 		this.rHorn1.addCuboid(-1.5F, 0.0F, -1.5F, 3.0F, 4.0F, 3.0F, 0.0F, 0.0F, 0.0F);
 		this.setRotateAngle(rHorn1, 0.3127630032889644F, 0.0F, 1.8767525233642137F);
