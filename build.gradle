@@ -23,7 +23,6 @@ dependencies {
     modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:${cardinal_version}"
     modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-world:${cardinal_version}"
 	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-chunk:${cardinal_version}"
-	modImplementation "curse.maven:Fabric-Shield-Lib:3040073"
     modApi("me.shedaniel.cloth:config-2:4.8.1"){
       exclude module: 'fabric-api'
     }

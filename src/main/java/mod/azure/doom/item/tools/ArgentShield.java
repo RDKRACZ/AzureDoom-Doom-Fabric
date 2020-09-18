@@ -2,10 +2,8 @@ package mod.azure.doom.item.tools;
 
 import java.util.List;
 
-import me.crimsondawn45.fabricshieldlib.object.BasicShield;
 import mod.azure.doom.DoomMod;
 import mod.azure.doom.util.enums.DoomTier;
-import mod.azure.doom.util.registry.DoomItems;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -14,10 +12,10 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 
-public class ArgentShield extends BasicShield {
+public class ArgentShield extends Item {
 
 	public ArgentShield() {
-		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1), 100, 337, DoomItems.ARGENT_ENERGY);
+		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1));
 	}
 
 	@Override
