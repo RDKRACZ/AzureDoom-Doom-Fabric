@@ -9,7 +9,8 @@
 		"ArmorStandRenderMixin"
 	],
 	"mixins": [
-		"LivingEntityMixin"
+		"LivingEntityMixin",
+		"SpawnRestrictionMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

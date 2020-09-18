@@ -11,6 +11,7 @@ import nerdhub.cardinal.components.api.event.ItemComponentCallbackV2;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -51,6 +52,9 @@ public class DoomMod implements ModInitializer {
 		PROJECTILES = new ProjectilesEntityRegister();
 		MobSpawn.addSpawnEntries();
 		MobSpawn.SpawnRestriction();
+		if (FabricLoader.getInstance().isModLoaded("string")) {
+		// BNCompat.addSpawnEntries;
+		}
 		MobAttributes.init();
 		FuelRegistry.INSTANCE.add(DoomItems.ARGENT_ENERGY, 32767);
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.BELT.getInfoBuilder().build());

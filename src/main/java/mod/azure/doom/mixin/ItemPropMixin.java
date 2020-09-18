@@ -101,10 +101,6 @@ public class ItemPropMixin {
 					&& SuperShotgun.hasProjectile(itemStack, Items.FIREWORK_ROCKET) ? 1.0F : 0.0F;
 		});
 
-		callRegister(DoomItems.ARGENT_SHIELD, new Identifier("blocking"),
-				(itemStack, world, livingEntity) -> livingEntity != null && livingEntity.isUsingItem()
-						&& livingEntity.getActiveItem() == itemStack ? 1.0F : 0.0F);
-
 		// Crucible
 		callRegister(DoomItems.CRUCIBLESWORD, new Identifier("broken"), (itemStack, clientWorld, livingEntity) -> {
 			return isUsable(itemStack) ? 0.0F : 1.0F;
