@@ -25,6 +25,7 @@ public class Clientnit implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
+		ModelProviderinit.init();
 		DoomRenderRegistry.init();
 		ClientSidePacketRegistry.INSTANCE.register(EntityPacket.ID, (ctx, buf) -> {
 			EntityPacketOnClient.onPacket(ctx, buf);
