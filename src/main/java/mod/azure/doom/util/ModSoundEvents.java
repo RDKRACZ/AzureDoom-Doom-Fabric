@@ -24,6 +24,8 @@ public class ModSoundEvents {
 	public static SoundEvent PISTOL_HIT = of("doom.pistol_fire");
 
 	public static SoundEvent SHOTGUN_SHOOT = of("doom.shotgun_fire");
+	
+	public static SoundEvent UNMAKYR_FIRE = of("doom.unmakyr_fire");
 
 	public static SoundEvent LOADING_END = of("doom.loading_end");
 

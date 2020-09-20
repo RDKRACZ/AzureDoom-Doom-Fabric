@@ -85,7 +85,7 @@ public class Unmaykr extends RangedWeaponItem {
 					worldIn.spawnEntity(abstractarrowentity);
 				}
 				worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(), playerentity.getZ(),
-						ModSoundEvents.ROCKET_FIRING, SoundCategory.PLAYERS, 1.0F,
+						ModSoundEvents.UNMAKYR_FIRE, SoundCategory.PLAYERS, 1.0F,
 						1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + 0.25F * 0.5F);
 				if (!playerentity.abilities.creativeMode) {
 					itemstack.decrement(1);
