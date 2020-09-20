@@ -30,6 +30,34 @@ public class ModSoundEvents {
 	public static SoundEvent QUICK1_1 = of("doom.quick1_1");
 
 	public static SoundEvent E1M1 = of("doom.e1m1");
+	public static SoundEvent E1M2 = of("doom.e1m2");
+	public static SoundEvent E1M3 = of("doom.e1m3");
+	public static SoundEvent E1M4 = of("doom.e1m4");
+	public static SoundEvent E1M5 = of("doom.e1m5");
+	public static SoundEvent E1M6 = of("doom.e1m6");
+	public static SoundEvent E1M7 = of("doom.e1m7");
+	public static SoundEvent E1M8 = of("doom.e1m8");
+	public static SoundEvent E1M9 = of("doom.e1m9");
+
+	public static SoundEvent E2M1 = of("doom.e2m1");
+	public static SoundEvent E2M2 = of("doom.e2m2");
+	public static SoundEvent E2M3 = of("doom.e2m3");
+	public static SoundEvent E2M4 = of("doom.e2m4");
+	public static SoundEvent E2M5 = of("doom.e2m5");
+	public static SoundEvent E2M6 = of("doom.e2m6");
+	public static SoundEvent E2M7 = of("doom.e2m7");
+	public static SoundEvent E2M8 = of("doom.e2m8");
+	public static SoundEvent E2M9 = of("doom.e2m9");
+
+	public static SoundEvent E3M1 = of("doom.e3m1");
+	public static SoundEvent E3M2 = of("doom.e3m2");
+	public static SoundEvent E3M3 = of("doom.e3m3");
+	public static SoundEvent E3M4 = of("doom.e3m4");
+	public static SoundEvent E3M5 = of("doom.e3m5");
+	public static SoundEvent E3M6 = of("doom.e3m6");
+	public static SoundEvent E3M7 = of("doom.e3m7");
+	public static SoundEvent E3M8 = of("doom.e3m8");
+	public static SoundEvent E3M9 = of("doom.e3m9");
 
 	public static SoundEvent IMP_AMBIENT = of("doom.imp_ambient");
 	public static SoundEvent IMP_DEATH = of("doom.imp_death");
@@ -86,7 +114,7 @@ public class ModSoundEvents {
 	public static SoundEvent REVENANT_DEATH = of("doom.revenant_death");
 	public static SoundEvent REVENANT_HURT = of("doom.revenant_hit");
 	public static SoundEvent REVENANT_ATTACK = of("doom.revenant_attack");
-	
+
 	public static SoundEvent ARACHNOTRON_AMBIENT = of("doom.arachnotron_idle");
 	public static SoundEvent ARACHNOTRON_DEATH = of("doom.arachnotron_death");
 	public static SoundEvent ARACHNOTRON_HURT = of("doom.arachnotron_hurt");
