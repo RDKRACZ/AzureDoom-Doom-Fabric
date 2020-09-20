@@ -31,7 +31,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
@@ -258,7 +257,7 @@ public class SuperShotgun extends CrossbowItem {
 			});
 			world.spawnEntity((Entity) projectileEntity2);
 			world.playSound((PlayerEntity) null, shooter.getX(), shooter.getY(), shooter.getZ(),
-					SoundEvents.ITEM_CROSSBOW_SHOOT, SoundCategory.PLAYERS, 1.0F, soundPitch);
+					ModSoundEvents.SHOOT1, SoundCategory.PLAYERS, 1.0F, soundPitch);
 		}
 	}
 
@@ -271,7 +270,7 @@ public class SuperShotgun extends CrossbowItem {
 			persistentProjectileEntity.setCritical(true);
 		}
 
-		persistentProjectileEntity.setSound(ModSoundEvents.SHOOT2);
+		persistentProjectileEntity.setSound(ModSoundEvents.SHOOT1);
 		persistentProjectileEntity.setShotFromCrossbow(true);
 		int i = EnchantmentHelper.getLevel(Enchantments.PIERCING, crossbow);
 		if (i > 0) {
@@ -364,11 +363,11 @@ public class SuperShotgun extends CrossbowItem {
 		case 1:
 			return ModSoundEvents.QUICK1_1;
 		case 2:
-			return ModSoundEvents.QUICK2_1;
+			return ModSoundEvents.QUICK1_1;
 		case 3:
-			return ModSoundEvents.QUICK3_1;
+			return ModSoundEvents.QUICK1_1;
 		default:
-			return ModSoundEvents.LOADING_START;
+			return ModSoundEvents.LOADING_END;
 		}
 	}
 

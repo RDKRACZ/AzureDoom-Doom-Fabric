@@ -18,8 +18,6 @@ public class ModSoundEvents {
 	public static SoundEvent ROCKET_HIT = of("doom.rockethit");
 
 	public static SoundEvent SHOOT1 = of("doom.shoot1");
-	public static SoundEvent SHOOT2 = of("doom.shoot2");
-	public static SoundEvent SHOOT3 = of("doom.shoot3");
 
 	public static SoundEvent CHAINGUN_SHOOT = of("doom.chaingun_fire");
 
@@ -27,24 +25,9 @@ public class ModSoundEvents {
 
 	public static SoundEvent SHOTGUN_SHOOT = of("doom.shotgun_fire");
 
-	public static SoundEvent LOADING_START = of("doom.loading_start");
-	public static SoundEvent LOADING_MIDDLE1 = of("doom.loading_middle1");
-	public static SoundEvent LOADING_MIDDLE2 = of("doom.loading_middle2");
-	public static SoundEvent LOADING_MIDDLE3 = of("doom.loading_middle3");
-	public static SoundEvent LOADING_MIDDLE4 = of("doom.loading_middle4");
 	public static SoundEvent LOADING_END = of("doom.loading_end");
 
 	public static SoundEvent QUICK1_1 = of("doom.quick1_1");
-	public static SoundEvent QUICK1_2 = of("doom.quick1_2");
-	public static SoundEvent QUICK1_3 = of("doom.quick1_3");
-
-	public static SoundEvent QUICK2_1 = of("doom.quick2_1");
-	public static SoundEvent QUICK2_2 = of("doom.quick2_2");
-	public static SoundEvent QUICK2_3 = of("doom.quick2_3");
-
-	public static SoundEvent QUICK3_1 = of("doom.quick3_1");
-	public static SoundEvent QUICK3_2 = of("doom.quick3_2");
-	public static SoundEvent QUICK3_3 = of("doom.quick3_3");
 
 	public static SoundEvent E1M1 = of("doom.e1m1");
 
@@ -102,6 +85,11 @@ public class ModSoundEvents {
 	public static SoundEvent REVENANT_AMBIENT = of("doom.revenants_say");
 	public static SoundEvent REVENANT_DEATH = of("doom.revenant_death");
 	public static SoundEvent REVENANT_HURT = of("doom.revenant_hit");
+	public static SoundEvent REVENANT_ATTACK = of("doom.revenant_attack");
+	
+	public static SoundEvent ARACHNOTRON_AMBIENT = of("doom.arachnotron_idle");
+	public static SoundEvent ARACHNOTRON_DEATH = of("doom.arachnotron_death");
+	public static SoundEvent ARACHNOTRON_HURT = of("doom.arachnotron_hurt");
 
 	public static SoundEvent HELLKNIGHT_AMBIENT = of("doom.hellknight_say");
 	public static SoundEvent HELLKNIGHT_DEATH = of("doom.hellknight_death");

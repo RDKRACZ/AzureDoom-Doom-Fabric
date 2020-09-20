@@ -101,21 +101,21 @@ public class ArachnotronEntity extends DemonEntity {
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return ModSoundEvents.SPIDERDEMON_AMBIENT;
+		return ModSoundEvents.ARACHNOTRON_AMBIENT;
 	}
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-		return ModSoundEvents.SPIDERDEMON_HURT;
+		return ModSoundEvents.ARACHNOTRON_HURT;
 	}
 
 	@Override
 	protected SoundEvent getDeathSound() {
-		return ModSoundEvents.SPIDERDEMON_DEATH;
+		return ModSoundEvents.ARACHNOTRON_DEATH;
 	}
 
 	protected SoundEvent getStepSound() {
-		return ModSoundEvents.SPIDERDEMON_AMBIENT;
+		return ModSoundEvents.ARACHNOTRON_AMBIENT;
 	}
 
 	@Override

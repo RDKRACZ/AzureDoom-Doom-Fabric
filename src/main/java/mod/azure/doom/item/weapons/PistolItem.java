@@ -76,7 +76,7 @@ public class PistolItem extends RangedWeaponItem {
 					worldIn.spawnEntity(abstractarrowentity);
 				}
 				worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(), playerentity.getZ(),
-						ModSoundEvents.SHOTGUN_SHOOT, SoundCategory.PLAYERS, 1.0F,
+						ModSoundEvents.PISTOL_HIT, SoundCategory.PLAYERS, 1.0F,
 						1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + 1F * 0.5F);
 				if (!playerentity.abilities.creativeMode) {
 					itemstack.decrement(1);

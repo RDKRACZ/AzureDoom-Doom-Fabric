@@ -270,7 +270,7 @@ public class Ballista extends CrossbowItem {
 			persistentProjectileEntity.setCritical(true);
 		}
 
-		persistentProjectileEntity.setSound(ModSoundEvents.SHOOT2);
+		persistentProjectileEntity.setSound(ModSoundEvents.SHOOT1);
 		persistentProjectileEntity.setShotFromCrossbow(true);
 		int i = EnchantmentHelper.getLevel(Enchantments.PIERCING, crossbow);
 		if (i > 0) {
@@ -372,11 +372,11 @@ public class Ballista extends CrossbowItem {
 		case 1:
 			return ModSoundEvents.QUICK1_1;
 		case 2:
-			return ModSoundEvents.QUICK2_1;
+			return ModSoundEvents.QUICK1_1;
 		case 3:
-			return ModSoundEvents.QUICK3_1;
+			return ModSoundEvents.QUICK1_1;
 		default:
-			return ModSoundEvents.LOADING_START;
+			return ModSoundEvents.LOADING_END;
 		}
 	}
 
