@@ -8,9 +8,6 @@ import net.fabricmc.api.Environment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
@@ -25,7 +22,6 @@ import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 
 public class ShotgunShellEntity extends PersistentProjectileEntity {
-	private static final TrackedData<Integer> COLOR;
 	protected int timeInAir;
 	protected boolean inAir;
 	private int ticksInAir;
@@ -169,7 +165,7 @@ public class ShotgunShellEntity extends PersistentProjectileEntity {
 
 	public void initFromStack(ItemStack stack) {
 		if (stack.getItem() == DoomItems.SHOTGUN_SHELLS) {
-			this.dataTracker.set(COLOR, -1);
+			// this.dataTracker.isDirty();
 		}
 
 	}
@@ -203,10 +199,6 @@ public class ShotgunShellEntity extends PersistentProjectileEntity {
 	@Environment(EnvType.CLIENT)
 	public boolean shouldRender(double distance) {
 		return true;
-	}
-
-	static {
-		COLOR = DataTracker.registerData(ShotgunShellEntity.class, TrackedDataHandlerRegistry.INTEGER);
 	}
 
 }

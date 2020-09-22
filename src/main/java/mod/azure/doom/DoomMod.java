@@ -132,7 +132,7 @@ public class DoomMod implements ModInitializer {
 					}
 
 					private void startPowers(PlayerEntity player) {
-						player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 10000000, 3));
+						player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 10000000, 2));
 					}
 
 					private void stopPowers(PlayerEntity player) {

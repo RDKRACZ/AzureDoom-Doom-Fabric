@@ -1,4 +1,4 @@
-v.3.1.5
+v.3.1.6
 
-- Updated Shotgun
-- Compressed Mod asssets
+- Fixed Daisy Speed
+- Fixed Shotgun ammo
