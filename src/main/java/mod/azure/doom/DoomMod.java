@@ -1,5 +1,6 @@
 package mod.azure.doom;
 
+import mod.azure.doom.entity.tileentity.IconBlockEntity;
 import mod.azure.doom.util.MobAttributes;
 import mod.azure.doom.util.MobSpawn;
 import mod.azure.doom.util.ModSoundEvents;
@@ -12,6 +13,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -19,6 +21,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.CuriosComponent;
 import top.theillusivec4.curios.api.SlotTypeInfo.BuildScheme;
@@ -32,6 +35,7 @@ public class DoomMod implements ModInitializer {
 	public static MobEntityRegister MOBS;
 	public static final String MODID = "doom";
 	public static ProjectilesEntityRegister PROJECTILES;
+	public static BlockEntityType<IconBlockEntity> ICON;
 	public static final ItemGroup DoomEggItemGroup = FabricItemGroupBuilder.create(new Identifier(MODID, "eggs"))
 			.icon(() -> new ItemStack(DoomItems.IMP_SPAWN_EGG)).build();
 	public static final ItemGroup DoomArmorItemGroup = FabricItemGroupBuilder.create(new Identifier(MODID, "armor"))
@@ -50,10 +54,12 @@ public class DoomMod implements ModInitializer {
 		SOUNDS = new ModSoundEvents();
 		MOBS = new MobEntityRegister();
 		PROJECTILES = new ProjectilesEntityRegister();
+		ICON = Registry.register(Registry.BLOCK_ENTITY_TYPE, MODID + ":icon",
+				BlockEntityType.Builder.create(IconBlockEntity::new, DoomBlocks.DOOM_WALL1).build(null));
 		MobSpawn.addSpawnEntries();
 		MobSpawn.SpawnRestriction();
 		if (FabricLoader.getInstance().isModLoaded("string")) {
-		// BNCompat.addSpawnEntries;
+			// BNCompat.addSpawnEntries;
 		}
 		MobAttributes.init();
 		FuelRegistry.INSTANCE.add(DoomItems.ARGENT_ENERGY, 32767);

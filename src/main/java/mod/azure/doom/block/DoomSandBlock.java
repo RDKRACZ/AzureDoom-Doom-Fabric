@@ -5,10 +5,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.sound.BlockSoundGroup;
 
-public class ArgentLampBlock extends Block {
+public class DoomSandBlock extends Block {
 
-	public ArgentLampBlock() {
-		super(FabricBlockSettings.of(Material.REDSTONE_LAMP).sounds(BlockSoundGroup.BONE).lightLevel(15));
+	public DoomSandBlock() {
+		super(FabricBlockSettings.of(Material.SOIL).sounds(BlockSoundGroup.BONE));
 	}
-
 }

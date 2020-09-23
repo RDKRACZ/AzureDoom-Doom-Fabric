@@ -42,8 +42,7 @@ public class MobSpawn {
 						new SpawnSettings.SpawnEntry(MobEntityRegister.UNWILLING, 30, 1, 4),
 						new SpawnSettings.SpawnEntry(MobEntityRegister.POSSESSEDSCIENTIST, 30, 1, 4),
 						new SpawnSettings.SpawnEntry(MobEntityRegister.POSSESSEDSOLDIER, 30, 1, 4),
-						new SpawnSettings.SpawnEntry(MobEntityRegister.CYBERDEMON2016, 10, 1, 1),
-						new SpawnSettings.SpawnEntry(MobEntityRegister.ICONOFSIN, 1, 1, 1));
+						new SpawnSettings.SpawnEntry(MobEntityRegister.CYBERDEMON2016, 10, 1, 1));
 			}
 		}
 	}
