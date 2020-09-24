@@ -17,6 +17,8 @@ import net.minecraft.block.pattern.BlockPattern;
 import net.minecraft.block.pattern.BlockPatternBuilder;
 import net.minecraft.block.pattern.CachedBlockPosition;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.predicate.block.BlockStatePredicate;
 import net.minecraft.sound.BlockSoundGroup;
@@ -66,6 +68,8 @@ public class DoomWallBlock extends BlockWithEntity {
 							(double) blockPos.getY() + 0.55D, (double) blockPos.getZ() + 0.5D,
 							result.getForwards().getAxis() == Direction.Axis.X ? 0.0F : 90.0F, 0.0F);
 					witherentity.bodyYaw = result.getForwards().getAxis() == Direction.Axis.X ? 0.0F : 90.0F;
+					witherentity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 200, 4));
+					witherentity.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 200, 4));
 					world.spawnEntity(witherentity);
 
 					for (int k = 0; k < blockPattern.getWidth(); ++k) {
