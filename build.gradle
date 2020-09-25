@@ -19,6 +19,7 @@ dependencies {
         exclude(module: "fabric-dimensions")
         exclude(module: "fabric-biomes")
     }
+    modImplementation "software.bernie.geckolib:fabric-1.16.2-geckolib:2.0.0:dev"
 	modImplementation "top.theillusivec4.curios:curios-fabric:${curios_version}"
 	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:${cardinal_version}"
     modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:${cardinal_version}"
@@ -61,6 +62,7 @@ repositories {
         name = "OnyxStudios"
         url = "https://maven.abusedmaster.xyz"
     }
+    maven { url 'https://repo.repsy.io/mvn/gandiber/geckolib' }
 }
 
 processResources {
@@ -112,6 +114,7 @@ curseforge {
 
         relations {
             requiredDependency 'fabric-api'
+            requiredDependency 'geckolib'
             requiredDependency 'curios-fabric'        
         }
         mainArtifact(remapJar)
