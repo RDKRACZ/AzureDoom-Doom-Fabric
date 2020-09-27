@@ -12,7 +12,7 @@ public class RevenantRender extends BipedEntityRenderer<RevenantEntity, Revenant
 	protected static final Identifier TEXTURE = new Identifier(DoomMod.MODID, "textures/entity/revenant.png");
 
 	public RevenantRender(EntityRenderDispatcher renderManagerIn) {
-		super(renderManagerIn, new RevenantModel(), 0.5F);
+		super(renderManagerIn, new RevenantModel<>(), 0.5F);
 	}
 
 	@Override
