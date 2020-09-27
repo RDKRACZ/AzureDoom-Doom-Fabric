@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 public class AxeMarauderItem extends AxeItem {
 
 	public AxeMarauderItem() {
-		super(DoomTier.DOOM_HIGHTEIR, 12, -2.4F,
+		super(DoomTier.DOOM_HIGHTEIR, 36, -2.4F,
 				new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(5));
 	}
 
