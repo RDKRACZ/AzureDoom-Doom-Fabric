@@ -38,6 +38,11 @@ public class IconofsinEntity extends DemonEntity {
 	}
 
 	@Override
+	public boolean handleFallDamage(float fallDistance, float damageMultiplier) {
+		return false;
+	}
+
+	@Override
 	protected void initGoals() {
 		this.goalSelector.add(8, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
 		this.goalSelector.add(8, new LookAroundGoal(this));
@@ -56,7 +61,7 @@ public class IconofsinEntity extends DemonEntity {
 		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 100.0D)
 				.add(EntityAttributes.GENERIC_MAX_HEALTH, 1000.0D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 30.0D)
 				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.15D)
-				.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
+				.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1000.0D);
 	}
 
 	@Override
