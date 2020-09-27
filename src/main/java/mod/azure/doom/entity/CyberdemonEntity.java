@@ -91,8 +91,8 @@ public class CyberdemonEntity extends DemonEntity {
 						world.syncWorldEvent((PlayerEntity) null, 1016, this.ghast.getBlockPos(), 0);
 					}
 					RocketMobEntity fireballEntity = new RocketMobEntity(world, this.ghast, f, g, h);
-					fireballEntity.updatePosition(this.ghast.getX() + vec3d.x * 4.0D, this.ghast.getBodyY(0.5D) + 0.5D,
-							fireballEntity.getZ() + vec3d.z * 4.0D);
+					fireballEntity.updatePosition(this.ghast.getX() + vec3d.x * 2.0D, this.ghast.getBodyY(0.5D) + 0.00D,
+							fireballEntity.getZ() + vec3d.z * 1.0D);
 					world.spawnEntity(fireballEntity);
 					this.cooldown = -40;
 				}

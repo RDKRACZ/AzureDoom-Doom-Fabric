@@ -5,7 +5,9 @@ import java.time.temporal.ChronoField;
 import java.util.Random;
 
 import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.annotation.Nullable;
-import mod.azure.doom.entity.projectiles.entity.BulletMobEntity;
+import mod.azure.doom.entity.ai.goal.RangedPistolAttackGoal;
+import mod.azure.doom.entity.projectiles.BulletEntity;
+import mod.azure.doom.item.ammo.ClipAmmo;
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.registry.DoomItems;
 import net.minecraft.block.BlockState;
@@ -17,10 +19,11 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.RangedAttackMob;
 import net.minecraft.entity.ai.goal.FollowTargetGoal;
-import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.RevengeGoal;
 import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -29,21 +32,38 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.RangedWeaponItem;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 
-public class PossessedSoldierEntity extends DemonEntity {
+public class PossessedSoldierEntity extends DemonEntity implements RangedAttackMob {
+
+	private final RangedPistolAttackGoal<PossessedSoldierEntity> bowAttackGoal = new RangedPistolAttackGoal<>(this,
+			1.0D, 20, 15.0F);
+	private final MeleeAttackGoal meleeAttackGoal = new MeleeAttackGoal(this, 1.2D, false) {
+		public void stop() {
+			super.stop();
+			PossessedSoldierEntity.this.setAttacking(false);
+		}
+
+		public void start() {
+			super.start();
+			PossessedSoldierEntity.this.setAttacking(true);
+		}
+	};
 
 	public PossessedSoldierEntity(EntityType<PossessedSoldierEntity> entityType, World worldIn) {
 		super(entityType, worldIn);
+		this.updateAttackType();
 	}
 
 	public static boolean spawning(EntityType<BaronEntity> p_223337_0_, World p_223337_1_, SpawnReason reason,
@@ -56,52 +76,10 @@ public class PossessedSoldierEntity extends DemonEntity {
 		this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
 		this.goalSelector.add(6, new LookAroundGoal(this));
 		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
-		this.goalSelector.add(7, new PossessedSoldierEntity.ShootFireballGoal(this));
 		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(3, new FollowTargetGoal<>(this, HostileEntity.class, true));
 		this.targetSelector.add(3, new FollowTargetGoal<>(this, MobEntity.class, true));
-	}
-
-	static class ShootFireballGoal extends Goal {
-		private final PossessedSoldierEntity ghast;
-		public int cooldown;
-
-		public ShootFireballGoal(PossessedSoldierEntity ghast) {
-			this.ghast = ghast;
-		}
-
-		public boolean canStart() {
-			return this.ghast.getTarget() != null;
-		}
-
-		public void start() {
-			this.cooldown = 0;
-		}
-
-		public void tick() {
-			LivingEntity livingEntity = this.ghast.getTarget();
-			if (livingEntity.squaredDistanceTo(this.ghast) < 4096.0D && this.ghast.canSee(livingEntity)) {
-				World world = this.ghast.world;
-				++this.cooldown;
-				if (this.cooldown == 20) {
-					Vec3d vec3d = this.ghast.getRotationVec(1.0F);
-					double f = livingEntity.getX() - (this.ghast.getX() + vec3d.x * 4.0D);
-					double g = livingEntity.getBodyY(0.5D) - (0.5D + this.ghast.getBodyY(0.5D));
-					double h = livingEntity.getZ() - (this.ghast.getZ() + vec3d.z * 4.0D);
-					if (!this.ghast.isSilent()) {
-						world.syncWorldEvent((PlayerEntity) null, 1016, this.ghast.getBlockPos(), 0);
-					}
-					BulletMobEntity fireballEntity = new BulletMobEntity(world, this.ghast, f, g, h);
-					fireballEntity.updatePosition(this.ghast.getX() + vec3d.x * 4.0D, this.ghast.getBodyY(0.5D) + 0.5D,
-							fireballEntity.getZ() + vec3d.z * 4.0D);
-					world.spawnEntity(fireballEntity);
-					this.cooldown = -40;
-				}
-			} else if (this.cooldown > 0) {
-				--this.cooldown;
-			}
-		}
 	}
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
@@ -123,6 +101,7 @@ public class PossessedSoldierEntity extends DemonEntity {
 			SpawnReason spawnReason, EntityData entityData, CompoundTag entityTag) {
 		entityData = super.initialize(serverWorldAccess, difficulty, spawnReason, entityData, entityTag);
 		this.initEquipment(difficulty);
+		this.updateAttackType();
 		if (this.getEquippedStack(EquipmentSlot.HEAD).isEmpty()) {
 			LocalDate localDate = LocalDate.now();
 			int i = localDate.get(ChronoField.DAY_OF_MONTH);
@@ -137,8 +116,68 @@ public class PossessedSoldierEntity extends DemonEntity {
 		return entityData;
 	}
 
+	public void updateAttackType() {
+		if (this.world != null && !this.world.isClient) {
+			this.goalSelector.remove(this.meleeAttackGoal);
+			this.goalSelector.remove(this.bowAttackGoal);
+			ItemStack itemStack = this.getStackInHand(ProjectileUtil.getHandPossiblyHolding(this, DoomItems.PISTOL));
+			if (itemStack.getItem() == DoomItems.PISTOL) {
+				int i = 40;
+				if (this.world.getDifficulty() != Difficulty.HARD) {
+					i = 40;
+				}
+
+				this.bowAttackGoal.setAttackInterval(i);
+				this.goalSelector.add(4, this.bowAttackGoal);
+			} else {
+				this.goalSelector.add(4, this.meleeAttackGoal);
+			}
+
+		}
+	}
+
+	public void attack(LivingEntity target, float pullProgress) {
+		ItemStack itemStack = this
+				.getArrowType(this.getStackInHand(ProjectileUtil.getHandPossiblyHolding(this, DoomItems.PISTOL)));
+		BulletEntity BulletEntity = this.createArrowProjectile(itemStack, pullProgress);
+		double d = target.getX() - this.getX();
+		double e = target.getBodyY(0.3333333333333333D) - BulletEntity.getY();
+		double f = target.getZ() - this.getZ();
+		double g = (double) MathHelper.sqrt(d * d + f * f);
+		BulletEntity.setVelocity(d, e + g * 0.20000000298023224D, f, 1.6F,
+				(float) (14 - this.world.getDifficulty().getId() * 4));
+		this.playSound(ModSoundEvents.PISTOL_HIT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+		this.world.spawnEntity(BulletEntity);
+	}
+
+	protected BulletEntity createArrowProjectile(ItemStack arrow, float damageModifier) {
+		return ZombiemanEntity.createArrowProjectile(this, arrow, damageModifier);
+	}
+
+	public boolean canUseRangedWeapon(RangedWeaponItem weapon) {
+		return weapon == DoomItems.PISTOL;
+	}
+
+	public static BulletEntity createArrowProjectile(LivingEntity entity, ItemStack stack, float damageModifier) {
+		ClipAmmo arrowItem = (ClipAmmo) ((ClipAmmo) (stack.getItem() instanceof ClipAmmo ? stack.getItem()
+				: DoomItems.BULLETS));
+		BulletEntity persistentProjectileEntity = arrowItem.createArrow(entity.world, stack, entity);
+		persistentProjectileEntity.applyEnchantmentEffects(entity, damageModifier);
+
+		return persistentProjectileEntity;
+	}
+
 	public void readCustomDataFromTag(CompoundTag tag) {
 		super.readCustomDataFromTag(tag);
+		this.updateAttackType();
+	}
+
+	public void equipStack(EquipmentSlot slot, ItemStack stack) {
+		super.equipStack(slot, stack);
+		if (!this.world.isClient) {
+			this.updateAttackType();
+		}
+
 	}
 
 	@Override

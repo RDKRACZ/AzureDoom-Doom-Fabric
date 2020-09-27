@@ -5,6 +5,7 @@ import mod.azure.doom.item.ArgentEnergyItem;
 import mod.azure.doom.item.ArgentPlateItem;
 import mod.azure.doom.item.DaisyItem;
 import mod.azure.doom.item.E1M1MusicDisc;
+import mod.azure.doom.item.SpiderdemonAttackItem;
 import mod.azure.doom.item.UnopenedItem;
 import mod.azure.doom.item.ammo.ArgentBolt;
 import mod.azure.doom.item.ammo.BFGCell;
@@ -134,6 +135,7 @@ public class DoomItems {
 	public static E1M1MusicDisc E3M7_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E3M7), "e3m7_music_disc");
 	public static E1M1MusicDisc E3M8_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E3M8), "e3m8_music_disc");
 	public static E1M1MusicDisc E3M9_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E3M9), "e3m9_music_disc");
+	public static SpiderdemonAttackItem SPIDERDEMONATTACK = item(new SpiderdemonAttackItem(), "spiderdemonattack");
 
 	// Spawn Eggs
 	public static DoomSpawnEgg ARACHNOTRON_SPAWN_EGG = item(new DoomSpawnEgg(MobEntityRegister.ARACHNOTRON),

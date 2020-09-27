@@ -34,18 +34,14 @@ import mod.azure.doom.client.render.projectiles.EnergyCellRender;
 import mod.azure.doom.client.render.projectiles.RocketRender;
 import mod.azure.doom.client.render.projectiles.ShotgunShellRender;
 import mod.azure.doom.client.render.projectiles.UnmaykrBulletRender;
-import mod.azure.doom.client.render.projectiles.entity.BulletsMobRender;
-import mod.azure.doom.client.render.projectiles.entity.ChaingunBulletMobRender;
 import mod.azure.doom.client.render.projectiles.entity.EnergyCellMobRender;
 import mod.azure.doom.client.render.projectiles.entity.RocketMobRender;
-import mod.azure.doom.client.render.projectiles.entity.ShotgunShellMobRender;
 import mod.azure.doom.util.registry.MobEntityRegister;
 import mod.azure.doom.util.registry.ProjectilesEntityRegister;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 
 public class DoomRenderRegistry {
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void init() {
 		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.ARCHVILE, (dispatcher, context) -> {
 			return new ArchvileRender(dispatcher);
@@ -149,19 +145,8 @@ public class DoomRenderRegistry {
 		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.UNMAYKR, (dispatcher, context) -> {
 			return new UnmaykrBulletRender(dispatcher);
 		});
-
-		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.BULLETS_MOB, (dispatcher, context) -> {
-			return new BulletsMobRender(dispatcher);
-		});
-		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.CHAINGUN_BULLET_MOB,
-				(dispatcher, context) -> {
-					return new ChaingunBulletMobRender(dispatcher);
-				});
 		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.ROCKET_MOB, (dispatcher, context) -> {
 			return new RocketMobRender(dispatcher);
-		});
-		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.SHOTGUN_SHELL_MOB, (dispatcher, context) -> {
-			return new ShotgunShellMobRender(dispatcher);
 		});
 		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.ENERGY_CELL_MOB, (dispatcher, context) -> {
 			return new EnergyCellMobRender(dispatcher);
