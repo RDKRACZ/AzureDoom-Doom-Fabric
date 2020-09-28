@@ -2,7 +2,7 @@ package mod.azure.doom.client.models;
 
 import com.google.common.collect.ImmutableList;
 
-import mod.azure.doom.entity.projectiles.LostSoulEntity;
+import mod.azure.doom.entity.LostSoulEntity;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;

@@ -2,7 +2,7 @@ package mod.azure.doom.client.render.layers;
 
 import mod.azure.doom.DoomMod;
 import mod.azure.doom.client.models.LostSoulModel;
-import mod.azure.doom.entity.projectiles.LostSoulEntity;
+import mod.azure.doom.entity.LostSoulEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;

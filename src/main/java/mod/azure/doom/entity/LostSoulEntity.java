@@ -1,10 +1,8 @@
-package mod.azure.doom.entity.projectiles;
+package mod.azure.doom.entity;
 
 import java.util.EnumSet;
 import java.util.Random;
 
-import mod.azure.doom.entity.DemonEntity;
-import mod.azure.doom.entity.PainEntity;
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.packets.EntityPacket;
 import net.fabricmc.api.EnvType;
@@ -95,13 +93,13 @@ public class LostSoulEntity extends DemonEntity implements Monster {
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
 		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
 				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.15D).add(EntityAttributes.GENERIC_MAX_HEALTH, 10.0D)
-				.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
+				.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0D);
 	}
 
 	@Override
 	protected void initGoals() {
-		this.goalSelector.add(5, new LostSoulEntity.FlyRandomlyGoal(this));
 		this.goalSelector.add(7, new LostSoulEntity.LookAtTargetGoal(this));
+		this.goalSelector.add(4, new LostSoulEntity.ChargeTargetGoal());
 		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 	}
@@ -111,7 +109,62 @@ public class LostSoulEntity extends DemonEntity implements Monster {
 		return world.getDifficulty() != Difficulty.PEACEFUL && random.nextInt(20) == 0
 				&& canMobSpawn(type, world, spawnReason, pos, random);
 	}
-	
+
+	public boolean isCharging() {
+		return true;
+	}
+
+	public void setCharging(boolean charging) {
+		return;
+	}
+
+	class ChargeTargetGoal extends Goal {
+		public ChargeTargetGoal() {
+			this.setControls(EnumSet.of(Goal.Control.MOVE));
+		}
+
+		public boolean canStart() {
+			if (LostSoulEntity.this.getTarget() != null && !LostSoulEntity.this.getMoveControl().isMoving()
+					&& LostSoulEntity.this.random.nextInt(7) == 0) {
+				return LostSoulEntity.this.squaredDistanceTo(LostSoulEntity.this.getTarget()) > 4.0D;
+			} else {
+				return false;
+			}
+		}
+
+		public boolean shouldContinue() {
+			return LostSoulEntity.this.getMoveControl().isMoving() && LostSoulEntity.this.isCharging()
+					&& LostSoulEntity.this.getTarget() != null && LostSoulEntity.this.getTarget().isAlive();
+		}
+
+		public void start() {
+			LivingEntity livingEntity = LostSoulEntity.this.getTarget();
+			Vec3d vec3d = livingEntity.getCameraPosVec(1.0F);
+			LostSoulEntity.this.moveControl.moveTo(vec3d.x, vec3d.y, vec3d.z, 1.0D);
+			LostSoulEntity.this.setCharging(true);
+			LostSoulEntity.this.playSound(ModSoundEvents.LOST_SOUL_AMBIENT, 1.0F, 1.0F);
+		}
+
+		public void stop() {
+			LostSoulEntity.this.setCharging(false);
+		}
+
+		public void tick() {
+			LivingEntity livingEntity = LostSoulEntity.this.getTarget();
+			if (LostSoulEntity.this.getBoundingBox().intersects(livingEntity.getBoundingBox())) {
+				LostSoulEntity.this.tryAttack(livingEntity);
+				LostSoulEntity.this.setCharging(false);
+			} else {
+				double d = LostSoulEntity.this.squaredDistanceTo(livingEntity);
+				if (d < 9.0D) {
+					Vec3d vec3d = livingEntity.getCameraPosVec(1.0F);
+					LostSoulEntity.this.moveControl.moveTo(vec3d.x, vec3d.y, vec3d.z, 1.0D);
+				}
+			}
+
+		}
+	}
+
 	@Override
 	public void tick() {
 		super.tick();
@@ -186,40 +239,6 @@ public class LostSoulEntity extends DemonEntity implements Monster {
 			}
 
 			return true;
-		}
-	}
-
-	static class FlyRandomlyGoal extends Goal {
-		private final LostSoulEntity ghast;
-
-		public FlyRandomlyGoal(LostSoulEntity ghast) {
-			this.ghast = ghast;
-			this.setControls(EnumSet.of(Goal.Control.MOVE));
-		}
-
-		public boolean canStart() {
-			MoveControl moveControl = this.ghast.getMoveControl();
-			if (!moveControl.isMoving()) {
-				return true;
-			} else {
-				double d = moveControl.getTargetX() - this.ghast.getX();
-				double e = moveControl.getTargetY() - this.ghast.getY();
-				double f = moveControl.getTargetZ() - this.ghast.getZ();
-				double g = d * d + e * e + f * f;
-				return g < 1.0D || g > 3600.0D;
-			}
-		}
-
-		public boolean shouldContinue() {
-			return false;
-		}
-
-		public void start() {
-			Random random = this.ghast.getRandom();
-			double d = this.ghast.getX() + (double) ((random.nextFloat() * 2.0F - 1.0F) * 16.0F);
-			double e = this.ghast.getY() + (double) ((random.nextFloat() * 2.0F - 1.0F) * 16.0F);
-			double f = this.ghast.getZ() + (double) ((random.nextFloat() * 2.0F - 1.0F) * 16.0F);
-			this.ghast.getMoveControl().moveTo(d, e, f, 1.0D);
 		}
 	}
 

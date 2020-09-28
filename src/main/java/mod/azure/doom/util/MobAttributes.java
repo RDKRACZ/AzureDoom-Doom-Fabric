@@ -11,6 +11,7 @@ import mod.azure.doom.entity.HellknightEntity;
 import mod.azure.doom.entity.IconofsinEntity;
 import mod.azure.doom.entity.Imp2016Entity;
 import mod.azure.doom.entity.ImpEntity;
+import mod.azure.doom.entity.LostSoulEntity;
 import mod.azure.doom.entity.MancubusEntity;
 import mod.azure.doom.entity.MarauderEntity;
 import mod.azure.doom.entity.NightmareImpEntity;
@@ -23,7 +24,6 @@ import mod.azure.doom.entity.ShotgunguyEntity;
 import mod.azure.doom.entity.SpiderdemonEntity;
 import mod.azure.doom.entity.UnwillingEntity;
 import mod.azure.doom.entity.ZombiemanEntity;
-import mod.azure.doom.entity.projectiles.LostSoulEntity;
 import mod.azure.doom.util.registry.MobEntityRegister;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 
