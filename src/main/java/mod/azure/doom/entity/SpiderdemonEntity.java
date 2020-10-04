@@ -12,6 +12,7 @@ import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.registry.DoomItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
@@ -43,8 +44,17 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
+import software.bernie.geckolib.animation.builder.AnimationBuilder;
+import software.bernie.geckolib.animation.controller.EntityAnimationController;
+import software.bernie.geckolib.entity.IAnimatedEntity;
+import software.bernie.geckolib.event.AnimationTestEvent;
+import software.bernie.geckolib.manager.EntityAnimationManager;
 
-public class SpiderdemonEntity extends DemonEntity implements RangedAttackMob {
+public class SpiderdemonEntity extends DemonEntity implements RangedAttackMob, IAnimatedEntity {
+
+	EntityAnimationManager manager = new EntityAnimationManager();
+	EntityAnimationController<SpiderdemonEntity> controller = new EntityAnimationController<SpiderdemonEntity>(this,
+			"walkController", 0.09F, this::animationPredicate);
 
 	private final RangedSpiderDemonAttackGoal<SpiderdemonEntity> bowAttackGoal = new RangedSpiderDemonAttackGoal<>(this,
 			1.0D, 20, 15.0F);
@@ -63,6 +73,20 @@ public class SpiderdemonEntity extends DemonEntity implements RangedAttackMob {
 	public SpiderdemonEntity(EntityType<SpiderdemonEntity> entityType, World worldIn) {
 		super(entityType, worldIn);
 		this.updateAttackType();
+		manager.addAnimationController(controller);
+	}
+	
+	private <E extends Entity> boolean animationPredicate(AnimationTestEvent<E> event) {
+		if (!(lastLimbDistance > -0.15F && this.lastLimbDistance < 0.15F)) {
+			controller.setAnimation(new AnimationBuilder().addAnimation("walking", true));
+			return true;
+		} 
+		return false;
+	}
+
+	@Override
+	public EntityAnimationManager getAnimationManager() {
+		return manager;
 	}
 
 	public static boolean spawning(EntityType<BaronEntity> p_223337_0_, World p_223337_1_, SpawnReason reason,

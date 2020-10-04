@@ -5,6 +5,7 @@ import java.util.Random;
 
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.packets.EntityPacket;
+import mod.azure.doom.util.registry.MobEntityRegister;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
@@ -26,7 +27,6 @@ import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.SmallFireballEntity;
 import net.minecraft.network.Packet;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
@@ -126,32 +126,29 @@ public class PainEntity extends DemonEntity implements Monster {
 	static class ShootFireballGoal extends Goal {
 		private final PainEntity ghast;
 		public int cooldown;
+
 		public ShootFireballGoal(PainEntity ghast) {
 			this.ghast = ghast;
 		}
+
 		public boolean canStart() {
 			return this.ghast.getTarget() != null;
 		}
+
 		public void start() {
 			this.cooldown = 0;
 		}
+
 		public void tick() {
 			LivingEntity livingEntity = this.ghast.getTarget();
 			if (livingEntity.squaredDistanceTo(this.ghast) < 4096.0D && this.ghast.canSee(livingEntity)) {
 				World world = this.ghast.world;
 				++this.cooldown;
 				if (this.cooldown == 20) {
-					Vec3d vec3d = this.ghast.getRotationVec(1.0F);
-					double f = livingEntity.getX() - (this.ghast.getX() + vec3d.x * 4.0D);
-					double g = livingEntity.getBodyY(0.5D) - (0.5D + this.ghast.getBodyY(0.5D));
-					double h = livingEntity.getZ() - (this.ghast.getZ() + vec3d.z * 4.0D);
-					if (!this.ghast.isSilent()) {
-						world.syncWorldEvent((PlayerEntity) null, 1016, this.ghast.getBlockPos(), 0);
-					}
-					SmallFireballEntity fireballEntity = new SmallFireballEntity(world, this.ghast, f, g, h);
-					fireballEntity.updatePosition(this.ghast.getX() + vec3d.x * 4.0D, this.ghast.getBodyY(0.5D) + 0.5D,
-							fireballEntity.getZ() + vec3d.z * 4.0D);
-					world.spawnEntity(fireballEntity);
+					LostSoulEntity lost_soul = MobEntityRegister.LOST_SOUL.create(world);
+					lost_soul.refreshPositionAndAngles(this.ghast.getX(), this.ghast.getY(), this.ghast.getZ() + 3, 0,
+							0);
+					world.spawnEntity(lost_soul);
 					this.cooldown = -40;
 				}
 			} else if (this.cooldown > 0) {

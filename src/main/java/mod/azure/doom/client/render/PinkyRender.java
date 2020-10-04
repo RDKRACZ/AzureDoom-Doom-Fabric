@@ -7,12 +7,12 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Identifier;
 
-public class PinkyRender extends MobEntityRenderer<PinkyEntity, PinkyModel<PinkyEntity>> {
+public class PinkyRender extends MobEntityRenderer<PinkyEntity, PinkyModel> {
 
 	protected static final Identifier TEXTURE = new Identifier(DoomMod.MODID, "textures/entity/pinky-texturemap.png");
 
 	public PinkyRender(EntityRenderDispatcher renderManagerIn) {
-		super(renderManagerIn, new PinkyModel<>(), 0.7F);
+		super(renderManagerIn, new PinkyModel(), 0.7F);
 	}
 
 	@Override

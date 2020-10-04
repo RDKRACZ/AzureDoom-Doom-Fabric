@@ -1,7 +1,5 @@
-v.3.1.8
+v.3.2.0
 
-- Updated Textures for Icon Wall and added a 10 second slowness and resistance when first summoned
-- Icon of Sin doesn't take fall damage now.
-- Moved Arachnotron to using Geckolib
-- Redid ranged attacks, a ton better now.
-- Buffed Crucible and Axe Damages
+- Updated Baron of Hell, Hell Knight, Cyberdemon, Pinky, Imp, Nightmare Imp and Spider Mastermind animations!
+- Fixed Arachnotrons animation!
+- Pain Elementals now spawn Lost Souls correctly.

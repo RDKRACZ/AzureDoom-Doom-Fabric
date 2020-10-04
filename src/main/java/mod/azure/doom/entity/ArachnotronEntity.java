@@ -5,6 +5,7 @@ import java.time.temporal.ChronoField;
 import java.util.Random;
 
 import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.annotation.Nullable;
+import mod.azure.doom.entity.projectiles.entity.EnergyCellMobEntity;
 import mod.azure.doom.util.ModSoundEvents;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -17,6 +18,7 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.FollowTargetGoal;
+import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.goal.RevengeGoal;
@@ -31,6 +33,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -44,9 +47,8 @@ import software.bernie.geckolib.manager.EntityAnimationManager;
 public class ArachnotronEntity extends DemonEntity implements IAnimatedEntity {
 
 	EntityAnimationManager manager = new EntityAnimationManager();
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	EntityAnimationController controller = new EntityAnimationController(this, "walkController", 5,
-			this::animationPredicate);
+	EntityAnimationController<ArachnotronEntity> controller = new EntityAnimationController<ArachnotronEntity>(this,
+			"walkController", 0.09F, this::animationPredicate);
 
 	public ArachnotronEntity(EntityType<ArachnotronEntity> entityType, World worldIn) {
 		super(entityType, worldIn);
@@ -54,8 +56,11 @@ public class ArachnotronEntity extends DemonEntity implements IAnimatedEntity {
 	}
 
 	private <E extends Entity> boolean animationPredicate(AnimationTestEvent<E> event) {
-		controller.setAnimation(new AnimationBuilder().addAnimation("walking"));
-		return true;
+		if (!(lastLimbDistance > -0.15F && this.lastLimbDistance < 0.15F)) {
+			controller.setAnimation(new AnimationBuilder().addAnimation("walking", true));
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -73,10 +78,49 @@ public class ArachnotronEntity extends DemonEntity implements IAnimatedEntity {
 		this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
 		this.goalSelector.add(6, new LookAroundGoal(this));
 		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
+		this.goalSelector.add(7, new ArachnotronEntity.ShootFireballGoal(this));
 		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(3, new FollowTargetGoal<>(this, HostileEntity.class, true));
 		this.targetSelector.add(3, new FollowTargetGoal<>(this, MobEntity.class, true));
+	}
+
+	static class ShootFireballGoal extends Goal {
+		private final ArachnotronEntity ghast;
+		public int cooldown;
+
+		public ShootFireballGoal(ArachnotronEntity ghast) {
+			this.ghast = ghast;
+		}
+
+		public boolean canStart() {
+			return this.ghast.getTarget() != null;
+		}
+
+		public void start() {
+			this.cooldown = 0;
+		}
+
+		public void tick() {
+			LivingEntity livingEntity = this.ghast.getTarget();
+			if (livingEntity.squaredDistanceTo(this.ghast) < 4096.0D && this.ghast.canSee(livingEntity)) {
+				World world = this.ghast.world;
+				++this.cooldown;
+				if (this.cooldown == 20) {
+					Vec3d vec3d = this.ghast.getRotationVec(1.0F);
+					double f = livingEntity.getX() - (this.ghast.getX() + vec3d.x * 4.0D);
+					double g = livingEntity.getBodyY(0.5D) - (0.5D + this.ghast.getBodyY(0.5D));
+					double h = livingEntity.getZ() - (this.ghast.getZ() + vec3d.z * 4.0D);
+					EnergyCellMobEntity fireballEntity = new EnergyCellMobEntity(world, this.ghast, f, g, h);
+					fireballEntity.updatePosition(this.ghast.getX() + vec3d.x * 1.0D, this.ghast.getBodyY(0.5D) + 0.5D,
+							fireballEntity.getZ() + vec3d.z * 2.0D);
+					world.spawnEntity(fireballEntity);
+					this.cooldown = -40;
+				}
+			} else if (this.cooldown > 0) {
+				--this.cooldown;
+			}
+		}
 	}
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {

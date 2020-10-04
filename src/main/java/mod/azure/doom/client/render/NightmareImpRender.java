@@ -7,13 +7,13 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Identifier;
 
-public class NightmareImpRender extends MobEntityRenderer<NightmareImpEntity, ImpNightmareModel<NightmareImpEntity>> {
+public class NightmareImpRender extends MobEntityRenderer<NightmareImpEntity, ImpNightmareModel> {
 
 	protected static final Identifier TEXTURE = new Identifier(DoomMod.MODID,
 			"textures/entity/nightmareimp-texture.png");
 
 	public NightmareImpRender(EntityRenderDispatcher renderManagerIn) {
-		super(renderManagerIn, new ImpNightmareModel<NightmareImpEntity>(0.5f, false), 0.5f);
+		super(renderManagerIn, new ImpNightmareModel(), 0.5f);
 	}
 
 	@Override

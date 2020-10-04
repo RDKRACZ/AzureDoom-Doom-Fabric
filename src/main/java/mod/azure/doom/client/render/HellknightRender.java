@@ -7,13 +7,13 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Identifier;
 
-public class HellknightRender extends MobEntityRenderer<HellknightEntity, HellknightModel<HellknightEntity>> {
+public class HellknightRender extends MobEntityRenderer<HellknightEntity, HellknightModel> {
 
 	protected static final Identifier TEXTURE = new Identifier(DoomMod.MODID,
 			"textures/entity/hellknight-texturemap.png");
 
 	public HellknightRender(EntityRenderDispatcher renderManagerIn) {
-		super(renderManagerIn, new HellknightModel<>(), 0.7F);
+		super(renderManagerIn, new HellknightModel(), 0.7F);
 	}
 
 	@Override

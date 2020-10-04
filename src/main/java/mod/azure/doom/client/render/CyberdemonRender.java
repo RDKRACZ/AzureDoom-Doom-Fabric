@@ -7,13 +7,13 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Identifier;
 
-public class CyberdemonRender extends MobEntityRenderer<CyberdemonEntity, CyberdemonModel<CyberdemonEntity>> {
+public class CyberdemonRender extends MobEntityRenderer<CyberdemonEntity, CyberdemonModel> {
 
 	protected static final Identifier TEXTURE = new Identifier(DoomMod.MODID,
 			"textures/entity/cyberdemon-texturemap.png");
 
 	public CyberdemonRender(EntityRenderDispatcher renderManagerIn) {
-		super(renderManagerIn, new CyberdemonModel<CyberdemonEntity>(), 0.5f);
+		super(renderManagerIn, new CyberdemonModel(), 0.5f);
 	}
 
 	@Override

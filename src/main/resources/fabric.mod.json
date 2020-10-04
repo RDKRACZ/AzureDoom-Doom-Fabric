@@ -8,8 +8,8 @@
 		"AzureDoomC"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/AzureDoom/AzureDoom-Doom-Fabric"
+		"homepage": "https://www.curseforge.com/minecraft/mc-mods/azuredooms-doom-mod-fabric/",
+		"sources": "https://github.com/AzureDoom/AzureDoom-Doom-Fabric/"
 	},
 	"license": "MIT",
 	"icon": "assets/doom/icon.png",

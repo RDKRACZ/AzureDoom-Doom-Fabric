@@ -7,12 +7,12 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Identifier;
 
-public class ImpRender extends MobEntityRenderer<ImpEntity, ImpModel<ImpEntity>> {
+public class ImpRender extends MobEntityRenderer<ImpEntity, ImpModel> {
 
 	protected static final Identifier TEXTURE = new Identifier(DoomMod.MODID, "textures/entity/imp-texturemap.png");
 
 	public ImpRender(EntityRenderDispatcher renderManagerIn) {
-		super(renderManagerIn, new ImpModel<ImpEntity>(0.5f, false), 0.5f);
+		super(renderManagerIn, new ImpModel(), 0.5f);
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import mod.azure.doom.util.ModSoundEvents;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
@@ -24,11 +25,34 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
+import software.bernie.geckolib.animation.builder.AnimationBuilder;
+import software.bernie.geckolib.animation.controller.EntityAnimationController;
+import software.bernie.geckolib.entity.IAnimatedEntity;
+import software.bernie.geckolib.event.AnimationTestEvent;
+import software.bernie.geckolib.manager.EntityAnimationManager;
 
-public class ImpEntity extends DemonEntity {
+public class ImpEntity extends DemonEntity implements IAnimatedEntity {
+
+	EntityAnimationManager manager = new EntityAnimationManager();
+	EntityAnimationController<ImpEntity> controller = new EntityAnimationController<ImpEntity>(this, "walkController",
+			0.09F, this::animationPredicate);
 
 	public ImpEntity(EntityType<ImpEntity> entityType, World worldIn) {
 		super(entityType, worldIn);
+		manager.addAnimationController(controller);
+	}
+	
+	private <E extends Entity> boolean animationPredicate(AnimationTestEvent<E> event) {
+		if (!(lastLimbDistance > -0.15F && this.lastLimbDistance < 0.15F)) {
+			controller.setAnimation(new AnimationBuilder().addAnimation("walking", true));
+			return true;
+		} 
+		return false;
+	}
+
+	@Override
+	public EntityAnimationManager getAnimationManager() {
+		return manager;
 	}
 
 	public static boolean spawning(EntityType<ImpEntity> p_223337_0_, World p_223337_1_, SpawnReason reason,

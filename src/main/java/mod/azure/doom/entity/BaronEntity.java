@@ -11,6 +11,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -37,11 +38,34 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
+import software.bernie.geckolib.animation.builder.AnimationBuilder;
+import software.bernie.geckolib.animation.controller.EntityAnimationController;
+import software.bernie.geckolib.entity.IAnimatedEntity;
+import software.bernie.geckolib.event.AnimationTestEvent;
+import software.bernie.geckolib.manager.EntityAnimationManager;
 
-public class BaronEntity extends DemonEntity {
+public class BaronEntity extends DemonEntity implements IAnimatedEntity {
+
+	EntityAnimationManager manager = new EntityAnimationManager();
+	EntityAnimationController<BaronEntity> controller = new EntityAnimationController<BaronEntity>(this,
+			"walkController", 0.09F, this::animationPredicate);
 
 	public BaronEntity(EntityType<BaronEntity> entityType, World worldIn) {
 		super(entityType, worldIn);
+		manager.addAnimationController(controller);
+	}
+
+	private <E extends Entity> boolean animationPredicate(AnimationTestEvent<E> event) {
+		if (!(lastLimbDistance > -0.15F && lastLimbDistance < 0.15F)) {
+			controller.setAnimation(new AnimationBuilder().addAnimation("walking", true));
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public EntityAnimationManager getAnimationManager() {
+		return manager;
 	}
 
 	public static boolean spawning(EntityType<BaronEntity> p_223337_0_, World p_223337_1_, SpawnReason reason,
@@ -89,12 +113,9 @@ public class BaronEntity extends DemonEntity {
 					double f = livingEntity.getX() - (this.ghast.getX() + vec3d.x * 4.0D);
 					double g = livingEntity.getBodyY(0.5D) - (0.5D + this.ghast.getBodyY(0.5D));
 					double h = livingEntity.getZ() - (this.ghast.getZ() + vec3d.z * 4.0D);
-					if (!this.ghast.isSilent()) {
-						world.syncWorldEvent((PlayerEntity) null, 1016, this.ghast.getBlockPos(), 0);
-					}
 					BarenBlastEntity fireballEntity = new BarenBlastEntity(world, this.ghast, f, g, h);
-					fireballEntity.updatePosition(this.ghast.getX() + vec3d.x * 4.0D, this.ghast.getBodyY(0.5D) + 0.5D,
-							fireballEntity.getZ() + vec3d.z * 4.0D);
+					fireballEntity.updatePosition(this.ghast.getX() + vec3d.x * 2.0D, this.ghast.getBodyY(0.5D) + 0.5D,
+							fireballEntity.getZ() + vec3d.z * 1.0D);
 					world.spawnEntity(fireballEntity);
 					this.cooldown = -40;
 				}

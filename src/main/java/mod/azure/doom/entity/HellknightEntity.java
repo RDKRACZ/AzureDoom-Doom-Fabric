@@ -4,6 +4,7 @@ import java.util.Random;
 
 import mod.azure.doom.util.ModSoundEvents;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;
@@ -25,11 +26,34 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
+import software.bernie.geckolib.animation.builder.AnimationBuilder;
+import software.bernie.geckolib.animation.controller.EntityAnimationController;
+import software.bernie.geckolib.entity.IAnimatedEntity;
+import software.bernie.geckolib.event.AnimationTestEvent;
+import software.bernie.geckolib.manager.EntityAnimationManager;
 
-public class HellknightEntity extends DemonEntity {
+public class HellknightEntity extends DemonEntity implements IAnimatedEntity {
+
+	EntityAnimationManager manager = new EntityAnimationManager();
+	EntityAnimationController<HellknightEntity> controller = new EntityAnimationController<HellknightEntity>(this,
+			"walkController", 0.09F, this::animationPredicate);
 
 	public HellknightEntity(EntityType<HellknightEntity> entityType, World worldIn) {
 		super(entityType, worldIn);
+		manager.addAnimationController(controller);
+	}
+
+	private <E extends Entity> boolean animationPredicate(AnimationTestEvent<E> event) {
+		if (!(lastLimbDistance > -0.15F && lastLimbDistance < 0.15F)) {
+			controller.setAnimation(new AnimationBuilder().addAnimation("walking", true));
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public EntityAnimationManager getAnimationManager() {
+		return manager;
 	}
 
 	public static boolean spawning(EntityType<HellknightEntity> p_223337_0_, World p_223337_1_, SpawnReason reason,

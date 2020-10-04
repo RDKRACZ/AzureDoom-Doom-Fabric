@@ -7,13 +7,13 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Identifier;
 
-public class SpiderdemonRender extends MobEntityRenderer<SpiderdemonEntity, SpiderdemonModel<SpiderdemonEntity>> {
+public class SpiderdemonRender extends MobEntityRenderer<SpiderdemonEntity, SpiderdemonModel> {
 
 	protected static final Identifier TEXTURE = new Identifier(DoomMod.MODID,
 			"textures/entity/spidermastermind-texturemap.png");
 
 	public SpiderdemonRender(EntityRenderDispatcher renderManagerIn) {
-		super(renderManagerIn, new SpiderdemonModel<>(), 0.8F);
+		super(renderManagerIn, new SpiderdemonModel(), 0.8F);
 	}
 
 	@Override
