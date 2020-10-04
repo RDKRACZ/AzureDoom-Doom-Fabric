@@ -109,32 +109,6 @@ public class DoomItems {
 	public static SwordCrucibleItem CRUCIBLESWORD = item(new SwordCrucibleItem(), "cruciblesword");
 	public static InvisibleSphereItem INVISIBLE = item(new InvisibleSphereItem(), "invisiblesphere");
 	public static E1M1MusicDisc E1M1_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E1M1), "e1m1_music_disc");
-	public static E1M1MusicDisc E1M2_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E1M2), "e1m2_music_disc");
-	public static E1M1MusicDisc E1M3_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E1M3), "e1m3_music_disc");
-	public static E1M1MusicDisc E1M4_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E1M4), "e1m4_music_disc");
-	public static E1M1MusicDisc E1M5_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E1M5), "e1m5_music_disc");
-	public static E1M1MusicDisc E1M6_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E1M6), "e1m6_music_disc");
-	public static E1M1MusicDisc E1M7_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E1M7), "e1m7_music_disc");
-	public static E1M1MusicDisc E1M8_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E1M8), "e1m8_music_disc");
-	public static E1M1MusicDisc E1M9_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E1M9), "e1m9_music_disc");
-	public static E1M1MusicDisc E2M1_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E2M1), "e2m1_music_disc");
-	public static E1M1MusicDisc E2M2_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E2M2), "e2m2_music_disc");
-	public static E1M1MusicDisc E2M3_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E2M3), "e2m3_music_disc");
-	public static E1M1MusicDisc E2M4_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E2M4), "e2m4_music_disc");
-	public static E1M1MusicDisc E2M5_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E2M5), "e2m5_music_disc");
-	public static E1M1MusicDisc E2M6_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E2M6), "e2m6_music_disc");
-	public static E1M1MusicDisc E2M7_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E2M7), "e2m7_music_disc");
-	public static E1M1MusicDisc E2M8_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E2M8), "e2m8_music_disc");
-	public static E1M1MusicDisc E2M9_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E2M9), "e2m9_music_disc");
-	public static E1M1MusicDisc E3M1_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E3M1), "e3m1_music_disc");
-	public static E1M1MusicDisc E3M2_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E3M2), "e3m2_music_disc");
-	public static E1M1MusicDisc E3M3_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E3M3), "e3m3_music_disc");
-	public static E1M1MusicDisc E3M4_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E3M4), "e3m4_music_disc");
-	public static E1M1MusicDisc E3M5_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E3M5), "e3m5_music_disc");
-	public static E1M1MusicDisc E3M6_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E3M6), "e3m6_music_disc");
-	public static E1M1MusicDisc E3M7_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E3M7), "e3m7_music_disc");
-	public static E1M1MusicDisc E3M8_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E3M8), "e3m8_music_disc");
-	public static E1M1MusicDisc E3M9_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E3M9), "e3m9_music_disc");
 	public static SpiderdemonAttackItem SPIDERDEMONATTACK = item(new SpiderdemonAttackItem(), "spiderdemonattack");
 
 	// Spawn Eggs
