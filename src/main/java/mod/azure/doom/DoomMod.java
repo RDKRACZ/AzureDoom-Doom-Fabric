@@ -53,15 +53,15 @@ public class DoomMod implements ModInitializer {
 		SOUNDS = new ModSoundEvents();
 		MOBS = new MobEntityRegister();
 		PROJECTILES = new ProjectilesEntityRegister();
+		FuelRegistry.INSTANCE.add(DoomItems.ARGENT_ENERGY, 32767);
 		ICON = Registry.register(Registry.BLOCK_ENTITY_TYPE, MODID + ":icon",
-				BlockEntityType.Builder.create(IconBlockEntity::new, DoomBlocks.DOOM_WALL1).build(null));
+				BlockEntityType.Builder.create(IconBlockEntity::new, DoomBlocks.ICON_WALL1).build(null));
 		MobSpawn.addSpawnEntries();
 		MobSpawn.SpawnRestriction();
 //		if (FabricLoader.getInstance().isModLoaded("string")) {
 //			BNCompat.addSpawnEntries;
 //		}
 		MobAttributes.init();
-		FuelRegistry.INSTANCE.add(DoomItems.ARGENT_ENERGY, 32767);
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.BELT.getInfoBuilder().build());
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.CHARM.getInfoBuilder().build());
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.BRACELET.getInfoBuilder().build());

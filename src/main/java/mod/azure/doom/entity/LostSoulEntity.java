@@ -3,6 +3,8 @@ package mod.azure.doom.entity;
 import java.util.EnumSet;
 import java.util.Random;
 
+import org.jetbrains.annotations.Nullable;
+
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.packets.EntityPacket;
 import net.fabricmc.api.EnvType;
@@ -37,6 +39,8 @@ public class LostSoulEntity extends DemonEntity implements Monster {
 
 	public int explosionPower = 1;
 	public int flameTimer;
+	@Nullable
+	private BlockPos bounds;
 
 	public LostSoulEntity(EntityType<? extends LostSoulEntity> type, World worldIn) {
 		super(type, worldIn);
@@ -98,9 +102,9 @@ public class LostSoulEntity extends DemonEntity implements Monster {
 
 	@Override
 	protected void initGoals() {
-		this.goalSelector.add(7, new LostSoulEntity.LookAtTargetGoal(this));
+		this.goalSelector.add(7, new LostSoulEntity.LookAtTargetGoal());
 		this.goalSelector.add(4, new LostSoulEntity.ChargeTargetGoal());
-		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
+		this.goalSelector.add(5, new WanderAroundFarGoal(this, 1.0D));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 	}
 
@@ -116,6 +120,11 @@ public class LostSoulEntity extends DemonEntity implements Monster {
 
 	public void setCharging(boolean charging) {
 		return;
+	}
+
+	@Nullable
+	public BlockPos getBounds() {
+		return this.bounds;
 	}
 
 	class ChargeTargetGoal extends Goal {
@@ -171,30 +180,36 @@ public class LostSoulEntity extends DemonEntity implements Monster {
 		flameTimer = (flameTimer + 1) % 8;
 	}
 
-	static class LookAtTargetGoal extends Goal {
-		private final LostSoulEntity ghast;
-
-		public LookAtTargetGoal(LostSoulEntity ghast) {
-			this.ghast = ghast;
-			this.setControls(EnumSet.of(Goal.Control.LOOK));
+	class LookAtTargetGoal extends Goal {
+		public LookAtTargetGoal() {
+			this.setControls(EnumSet.of(Goal.Control.MOVE));
 		}
 
 		public boolean canStart() {
-			return true;
+			return !LostSoulEntity.this.getMoveControl().isMoving() && LostSoulEntity.this.random.nextInt(7) == 0;
+		}
+
+		public boolean shouldContinue() {
+			return false;
 		}
 
 		public void tick() {
-			if (this.ghast.getTarget() == null) {
-				Vec3d vec3d = this.ghast.getVelocity();
-				this.ghast.yaw = -((float) MathHelper.atan2(vec3d.x, vec3d.z)) * 57.295776F;
-				this.ghast.bodyYaw = this.ghast.yaw;
-			} else {
-				LivingEntity livingEntity = this.ghast.getTarget();
-				if (livingEntity.squaredDistanceTo(this.ghast) < 4096.0D) {
-					double e = livingEntity.getX() - this.ghast.getX();
-					double f = livingEntity.getZ() - this.ghast.getZ();
-					this.ghast.yaw = -((float) MathHelper.atan2(e, f)) * 57.295776F;
-					this.ghast.bodyYaw = this.ghast.yaw;
+			BlockPos blockPos = LostSoulEntity.this.getBounds();
+			if (blockPos == null) {
+				blockPos = LostSoulEntity.this.getBlockPos();
+			}
+
+			for (int i = 0; i < 3; ++i) {
+				BlockPos blockPos2 = blockPos.add(LostSoulEntity.this.random.nextInt(15) - 7,
+						LostSoulEntity.this.random.nextInt(11) - 5, LostSoulEntity.this.random.nextInt(15) - 7);
+				if (LostSoulEntity.this.world.isAir(blockPos2)) {
+					LostSoulEntity.this.moveControl.moveTo((double) blockPos2.getX() + 0.5D,
+							(double) blockPos2.getY() + 0.5D, (double) blockPos2.getZ() + 0.5D, 0.25D);
+					if (LostSoulEntity.this.getTarget() == null) {
+						LostSoulEntity.this.getLookControl().lookAt((double) blockPos2.getX() + 0.5D,
+								(double) blockPos2.getY() + 0.5D, (double) blockPos2.getZ() + 0.5D, 180.0F, 20.0F);
+					}
+					break;
 				}
 			}
 

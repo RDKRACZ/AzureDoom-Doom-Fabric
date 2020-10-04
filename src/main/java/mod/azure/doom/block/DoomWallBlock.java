@@ -48,7 +48,7 @@ public class DoomWallBlock extends BlockWithEntity {
 	public static void checkIconSpawn(World world, BlockPos pos, IconBlockEntity blockEntity) {
 		if (!world.isClient()) {
 			BlockState block = blockEntity.getCachedState();
-			boolean flag = block.isOf(DoomBlocks.DOOM_WALL1) || block.isOf(DoomBlocks.DOOM_WALL16);
+			boolean flag = block.isOf(DoomBlocks.ICON_WALL1) || block.isOf(DoomBlocks.ICON_WALL16);
 			if (flag && pos.getY() >= 3 && world.getDifficulty() != Difficulty.PEACEFUL) {
 				BlockPattern blockPattern = getOrCreateIconFull();
 				BlockPattern.Result result = blockPattern.searchAround(world, pos);
@@ -87,37 +87,37 @@ public class DoomWallBlock extends BlockWithEntity {
 		if (iconPatternFull == null) {
 			iconPatternFull = BlockPatternBuilder.start().aisle("!@#$", "%^&*", "()-_", "+=12")
 					.where('!',
-							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.DOOM_WALL1)))
+							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.ICON_WALL1)))
 					.where('@',
-							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.DOOM_WALL2)))
+							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.ICON_WALL2)))
 					.where('#',
-							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.DOOM_WALL3)))
+							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.ICON_WALL3)))
 					.where('$',
-							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.DOOM_WALL4)))
+							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.ICON_WALL4)))
 					.where('%',
-							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.DOOM_WALL5)))
+							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.ICON_WALL5)))
 					.where('^',
-							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.DOOM_WALL6)))
+							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.ICON_WALL6)))
 					.where('&',
-							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.DOOM_WALL7)))
+							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.ICON_WALL7)))
 					.where('*',
-							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.DOOM_WALL8)))
+							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.ICON_WALL8)))
 					.where('(',
-							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.DOOM_WALL9)))
+							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.ICON_WALL9)))
 					.where(')',
-							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.DOOM_WALL10)))
+							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.ICON_WALL10)))
 					.where('-',
-							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.DOOM_WALL11)))
+							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.ICON_WALL11)))
 					.where('_',
-							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.DOOM_WALL12)))
+							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.ICON_WALL12)))
 					.where('+',
-							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.DOOM_WALL13)))
+							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.ICON_WALL13)))
 					.where('=',
-							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.DOOM_WALL14)))
+							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.ICON_WALL14)))
 					.where('1',
-							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.DOOM_WALL15)))
+							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.ICON_WALL15)))
 					.where('2',
-							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.DOOM_WALL16)))
+							CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(DoomBlocks.ICON_WALL16)))
 					.build();
 		}
 		return iconPatternFull;
