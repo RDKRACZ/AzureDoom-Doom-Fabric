@@ -9,12 +9,12 @@ import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
-public class LostSoulRender extends MobEntityRenderer<LostSoulEntity, LostSoulModel<LostSoulEntity>> {
+public class LostSoulRender extends MobEntityRenderer<LostSoulEntity, LostSoulModel> {
 	private static final Identifier TEXTURE = new Identifier(DoomMod.MODID, "textures/entity/lost_soul.png");
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public LostSoulRender(EntityRenderDispatcher renderManagerIn) {
-		super(renderManagerIn, new LostSoulModel<LostSoulEntity>(), 1.5F);
+		super(renderManagerIn, new LostSoulModel(), 1.5F);
 		this.addFeature(new LayerFlames(this));
 	}
 
