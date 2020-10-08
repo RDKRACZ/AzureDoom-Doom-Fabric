@@ -7,9 +7,11 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableMultimap.Builder;
 import com.google.common.collect.Multimap;
 
+import mod.azure.doom.DoomMod;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.DispenserBehavior;
 import net.minecraft.block.dispenser.ItemDispenserBehavior;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
@@ -20,11 +22,13 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ArmorMaterials;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Wearable;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPointer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -111,6 +115,22 @@ public class SkinArmor extends ArmorItem implements Wearable {
 
 	public boolean canRepair(ItemStack stack, ItemStack ingredient) {
 		return this.type.getRepairIngredient().test(ingredient) || super.canRepair(stack, ingredient);
+	}
+
+	@Override
+	public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
+		ItemStack stack = new ItemStack(this);
+		stack.hasTag();
+		stack.addEnchantment(Enchantments.FIRE_PROTECTION, 1);
+		if (group == DoomMod.DoomArmorItemGroup) {
+			stacks.add(stack);
+		}
+	}
+
+	@Override
+	public void onCraft(ItemStack stack, World world, PlayerEntity player) {
+		stack.hasTag();
+		stack.addEnchantment(Enchantments.FIRE_PROTECTION, 1);
 	}
 
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
