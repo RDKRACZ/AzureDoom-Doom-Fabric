@@ -23,11 +23,29 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 
-public class PossessedScientistEntity extends DemonEntity {
+public class PossessedScientistEntity extends DemonEntity { // implements IAnimatedEntity {
 
 	public PossessedScientistEntity(EntityType<PossessedScientistEntity> entityType, World worldIn) {
 		super(entityType, worldIn);
+//		manager.addAnimationController(controller);
 	}
+
+//	EntityAnimationManager manager = new EntityAnimationManager();
+//	EntityAnimationController<PossessedScientistEntity> controller = new EntityAnimationController<PossessedScientistEntity>(
+//			this, "walkController", 0.09F, this::animationPredicate);
+//
+//	private <E extends Entity> boolean animationPredicate(AnimationTestEvent<E> event) {
+//		if (!(lastLimbDistance > -0.15F && lastLimbDistance < 0.15F)) {
+//			controller.setAnimation(new AnimationBuilder().addAnimation("walking", true));
+//			return true;
+//		}
+//		return false;
+//	}
+//
+//	@Override
+//	public EntityAnimationManager getAnimationManager() {
+//		return manager;
+//	}
 
 	public static boolean spawning(EntityType<PossessedScientistEntity> p_223337_0_, World p_223337_1_,
 			SpawnReason reason, BlockPos p_223337_3_, Random p_223337_4_) {
