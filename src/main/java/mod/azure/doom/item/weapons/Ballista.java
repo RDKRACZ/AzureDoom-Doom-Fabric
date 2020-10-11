@@ -12,7 +12,6 @@ import mod.azure.doom.item.ammo.ArgentBolt;
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.enums.DoomTier;
 import mod.azure.doom.util.registry.DoomItems;
-import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
@@ -30,11 +29,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
@@ -313,15 +310,6 @@ public class Ballista extends CrossbowItem {
 	}
 
 	private static void postShoot(World world, LivingEntity entity, ItemStack stack) {
-		if (entity instanceof ServerPlayerEntity) {
-			ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) entity;
-			if (!world.isClient) {
-				Criteria.SHOT_CROSSBOW.trigger(serverPlayerEntity, stack);
-			}
-
-			serverPlayerEntity.incrementStat(Stats.USED.getOrCreateStat(stack.getItem()));
-		}
-
 		clearProjectiles(stack);
 	}
 
