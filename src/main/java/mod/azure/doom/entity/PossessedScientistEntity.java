@@ -4,6 +4,7 @@ import java.util.Random;
 
 import mod.azure.doom.util.ModSoundEvents;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
@@ -22,30 +23,52 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
+import software.bernie.geckolib.animation.builder.AnimationBuilder;
+import software.bernie.geckolib.animation.controller.EntityAnimationController;
+import software.bernie.geckolib.entity.IAnimatedEntity;
+import software.bernie.geckolib.event.AnimationTestEvent;
+import software.bernie.geckolib.manager.EntityAnimationManager;
 
-public class PossessedScientistEntity extends DemonEntity { // implements IAnimatedEntity {
+public class PossessedScientistEntity extends DemonEntity implements IAnimatedEntity {
 
 	public PossessedScientistEntity(EntityType<PossessedScientistEntity> entityType, World worldIn) {
 		super(entityType, worldIn);
-//		manager.addAnimationController(controller);
+		manager.addAnimationController(controller);
 	}
 
-//	EntityAnimationManager manager = new EntityAnimationManager();
-//	EntityAnimationController<PossessedScientistEntity> controller = new EntityAnimationController<PossessedScientistEntity>(
-//			this, "walkController", 0.09F, this::animationPredicate);
-//
-//	private <E extends Entity> boolean animationPredicate(AnimationTestEvent<E> event) {
-//		if (!(lastLimbDistance > -0.15F && lastLimbDistance < 0.15F)) {
-//			controller.setAnimation(new AnimationBuilder().addAnimation("walking", true));
-//			return true;
-//		}
-//		return false;
-//	}
-//
-//	@Override
-//	public EntityAnimationManager getAnimationManager() {
-//		return manager;
-//	}
+	EntityAnimationManager manager = new EntityAnimationManager();
+	EntityAnimationController<PossessedScientistEntity> controller = new EntityAnimationController<PossessedScientistEntity>(
+			this, "walkController", 0.09F, this::animationPredicate);
+
+	private <E extends Entity> boolean animationPredicate(AnimationTestEvent<E> event) {
+		if (!(lastLimbDistance > -0.05F && lastLimbDistance < 0.05F)) {
+			controller.setAnimation(new AnimationBuilder().addAnimation("walking", true));
+			return true;
+		} else if (this.dead) {
+			controller.setAnimation(new AnimationBuilder().addAnimation("death", false));
+			return true;
+		} else {
+			controller.setAnimation(new AnimationBuilder().addAnimation("idle", true));
+			return true;
+		}
+	}
+
+	@Override
+	protected void updatePostDeath() {
+		++this.deathTime;
+		if (this.deathTime == 80) {
+			this.remove();
+			for (int i = 0; i < 20; ++i) {
+				controller.setAnimation(new AnimationBuilder().addAnimation("death", false));
+			}
+		}
+
+	}
+	
+	@Override
+	public EntityAnimationManager getAnimationManager() {
+		return manager;
+	}
 
 	public static boolean spawning(EntityType<PossessedScientistEntity> p_223337_0_, World p_223337_1_,
 			SpawnReason reason, BlockPos p_223337_3_, Random p_223337_4_) {
