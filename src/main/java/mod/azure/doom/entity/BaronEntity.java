@@ -26,6 +26,9 @@ import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -45,6 +48,8 @@ import software.bernie.geckolib.event.AnimationTestEvent;
 import software.bernie.geckolib.manager.EntityAnimationManager;
 
 public class BaronEntity extends DemonEntity implements IAnimatedEntity {
+	private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(BaronEntity.class,
+			TrackedDataHandlerRegistry.BOOLEAN);
 
 	EntityAnimationManager manager = new EntityAnimationManager();
 	EntityAnimationController<BaronEntity> controller = new EntityAnimationController<BaronEntity>(this,
@@ -60,12 +65,30 @@ public class BaronEntity extends DemonEntity implements IAnimatedEntity {
 			controller.setAnimation(new AnimationBuilder().addAnimation("walking", true));
 			return true;
 		}
+		if (this.dataTracker.get(SHOOTING)) {
+			controller.setAnimation(new AnimationBuilder().addAnimation("attacking", true));
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public EntityAnimationManager getAnimationManager() {
 		return manager;
+	}
+
+	@Environment(EnvType.CLIENT)
+	public boolean isShooting() {
+		return (Boolean) this.dataTracker.get(SHOOTING);
+	}
+
+	public void setShooting(boolean shooting) {
+		this.dataTracker.set(SHOOTING, shooting);
+	}
+
+	protected void initDataTracker() {
+		super.initDataTracker();
+		this.dataTracker.startTracking(SHOOTING, false);
 	}
 
 	public static boolean spawning(EntityType<BaronEntity> p_223337_0_, World p_223337_1_, SpawnReason reason,
@@ -103,6 +126,10 @@ public class BaronEntity extends DemonEntity implements IAnimatedEntity {
 			this.cooldown = 0;
 		}
 
+		public void resetTask() {
+			this.ghast.setShooting(false);
+		}
+
 		public void tick() {
 			LivingEntity livingEntity = this.ghast.getTarget();
 			if (livingEntity.squaredDistanceTo(this.ghast) < 4096.0D && this.ghast.canSee(livingEntity)) {
@@ -122,6 +149,8 @@ public class BaronEntity extends DemonEntity implements IAnimatedEntity {
 			} else if (this.cooldown > 0) {
 				--this.cooldown;
 			}
+
+			this.ghast.setShooting(this.cooldown > 10);
 		}
 	}
 

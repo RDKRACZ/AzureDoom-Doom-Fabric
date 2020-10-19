@@ -23,6 +23,9 @@ import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.Packet;
@@ -42,6 +45,8 @@ import software.bernie.geckolib.event.AnimationTestEvent;
 import software.bernie.geckolib.manager.EntityAnimationManager;
 
 public class LostSoulEntity extends DemonEntity implements Monster, IAnimatedEntity {
+	private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(LostSoulEntity.class,
+			TrackedDataHandlerRegistry.BOOLEAN);
 
 	EntityAnimationManager manager = new EntityAnimationManager();
 	EntityAnimationController<LostSoulEntity> controller = new EntityAnimationController<LostSoulEntity>(this,
@@ -63,12 +68,30 @@ public class LostSoulEntity extends DemonEntity implements Monster, IAnimatedEnt
 			controller.setAnimation(new AnimationBuilder().addAnimation("walking", true));
 			return true;
 		}
+		if (this.dataTracker.get(SHOOTING)) {
+			controller.setAnimation(new AnimationBuilder().addAnimation("attacking", true));
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public EntityAnimationManager getAnimationManager() {
 		return manager;
+	}
+
+	@Environment(EnvType.CLIENT)
+	public boolean isShooting() {
+		return (Boolean) this.dataTracker.get(SHOOTING);
+	}
+
+	public void setShooting(boolean shooting) {
+		this.dataTracker.set(SHOOTING, shooting);
+	}
+
+	protected void initDataTracker() {
+		super.initDataTracker();
+		this.dataTracker.startTracking(SHOOTING, false);
 	}
 
 	public boolean handleFallDamage(float fallDistance, float damageMultiplier) {
@@ -152,6 +175,8 @@ public class LostSoulEntity extends DemonEntity implements Monster, IAnimatedEnt
 	}
 
 	class ChargeTargetGoal extends Goal {
+		public int attackTimer;
+
 		public ChargeTargetGoal() {
 			this.setControls(EnumSet.of(Goal.Control.MOVE));
 		}
@@ -182,19 +207,26 @@ public class LostSoulEntity extends DemonEntity implements Monster, IAnimatedEnt
 			LostSoulEntity.this.setCharging(false);
 		}
 
+		public void resetTask() {
+			LostSoulEntity.this.setShooting(false);
+		}
+
 		public void tick() {
 			LivingEntity livingEntity = LostSoulEntity.this.getTarget();
 			if (LostSoulEntity.this.getBoundingBox().intersects(livingEntity.getBoundingBox())) {
 				LostSoulEntity.this.tryAttack(livingEntity);
 				LostSoulEntity.this.setCharging(false);
+				--this.attackTimer;
 			} else {
 				double d = LostSoulEntity.this.squaredDistanceTo(livingEntity);
-				if (d < 9.0D) {
+				if (d < 30.0D) {
 					Vec3d vec3d = livingEntity.getCameraPosVec(1.0F);
 					LostSoulEntity.this.moveControl.moveTo(vec3d.x, vec3d.y, vec3d.z, 1.0D);
+					this.attackTimer = -40;
 				}
 			}
 
+			LostSoulEntity.this.setAttacking(this.attackTimer > 10);
 		}
 	}
 
