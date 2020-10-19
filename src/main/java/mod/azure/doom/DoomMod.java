@@ -57,7 +57,6 @@ public class DoomMod implements ModInitializer {
 		ICON = Registry.register(Registry.BLOCK_ENTITY_TYPE, MODID + ":icon",
 				BlockEntityType.Builder.create(IconBlockEntity::new, DoomBlocks.ICON_WALL1).build(null));
 		MobSpawn.addSpawnEntries();
-		MobSpawn.SpawnRestriction();
 //		if (FabricLoader.getInstance().isModLoaded("string")) {
 //			BNCompat.addSpawnEntries;
 //		}
