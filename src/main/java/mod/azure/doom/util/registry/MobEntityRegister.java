@@ -8,6 +8,7 @@ import mod.azure.doom.entity.CacodemonEntity;
 import mod.azure.doom.entity.ChaingunnerEntity;
 import mod.azure.doom.entity.Cyberdemon2016Entity;
 import mod.azure.doom.entity.CyberdemonEntity;
+import mod.azure.doom.entity.GoreNestEntity;
 import mod.azure.doom.entity.HellknightEntity;
 import mod.azure.doom.entity.IconofsinEntity;
 import mod.azure.doom.entity.Imp2016Entity;
@@ -177,6 +178,12 @@ public class MobEntityRegister {
 	public static final EntityType<PossessedScientistEntity> POSSESSEDSCIENTIST = Registry.register(
 			Registry.ENTITY_TYPE, new Identifier(DoomMod.MODID, "possessed_scientist"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, PossessedScientistEntity::new)
+					.dimensions(EntityDimensions.fixed(0.6f, 1.95F)).fireImmune().trackRangeBlocks(90)
+					.trackedUpdateRate(4).build());
+
+	public static final EntityType<GoreNestEntity> GORE_NEST = Registry.register(
+			Registry.ENTITY_TYPE, new Identifier(DoomMod.MODID, "gore_nest"),
+			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, GoreNestEntity::new)
 					.dimensions(EntityDimensions.fixed(0.6f, 1.95F)).fireImmune().trackRangeBlocks(90)
 					.trackedUpdateRate(4).build());
 

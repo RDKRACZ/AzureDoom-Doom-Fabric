@@ -7,6 +7,7 @@ import mod.azure.doom.entity.CacodemonEntity;
 import mod.azure.doom.entity.ChaingunnerEntity;
 import mod.azure.doom.entity.Cyberdemon2016Entity;
 import mod.azure.doom.entity.CyberdemonEntity;
+import mod.azure.doom.entity.GoreNestEntity;
 import mod.azure.doom.entity.HellknightEntity;
 import mod.azure.doom.entity.IconofsinEntity;
 import mod.azure.doom.entity.Imp2016Entity;
@@ -58,5 +59,6 @@ public class MobAttributes {
 		FabricDefaultAttributeRegistry.register(MobEntityRegister.SPIDERDEMON, SpiderdemonEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(MobEntityRegister.UNWILLING, UnwillingEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(MobEntityRegister.ZOMBIEMAN, ZombiemanEntity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(MobEntityRegister.GORE_NEST, GoreNestEntity.createMobAttributes());
 	}
 }
