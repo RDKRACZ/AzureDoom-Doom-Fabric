@@ -16,6 +16,11 @@ public class PinkyRender extends MobEntityRenderer<PinkyEntity, PinkyModel> {
 	}
 
 	@Override
+	protected float getLyingAngle(PinkyEntity entityLivingBaseIn) {
+		return 0.0F;
+	}
+
+	@Override
 	public Identifier getTexture(PinkyEntity entity) {
 		return TEXTURE;
 	}

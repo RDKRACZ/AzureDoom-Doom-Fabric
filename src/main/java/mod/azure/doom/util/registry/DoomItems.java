@@ -156,6 +156,8 @@ public class DoomItems {
 			new DoomSpawnEgg(MobEntityRegister.POSSESSEDSCIENTIST));
 	public static DoomSpawnEgg POSSESSED_SOLDIER_SPAWN_EGG = item("possessed_soldier_spawn_egg",
 			new DoomSpawnEgg(MobEntityRegister.POSSESSEDSOLDIER));
+	public static DoomSpawnEgg GORE_NEST_SPAWN_EGG = item("gorenest_spawn_egg",
+			new DoomSpawnEgg(MobEntityRegister.GORE_NEST));
 
 	// Armor
 	public static DoomArmor DOOM_HELMET = item(new DoomArmor(DoomArmorMaterial.DOOM_ARMOR, EquipmentSlot.HEAD),

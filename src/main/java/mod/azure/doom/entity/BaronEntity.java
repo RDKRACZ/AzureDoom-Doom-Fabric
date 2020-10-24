@@ -65,10 +65,10 @@ public class BaronEntity extends DemonEntity implements IAnimatedEntity {
 			controller.setAnimation(new AnimationBuilder().addAnimation("walking", true));
 			return true;
 		}
-		if (this.dataTracker.get(SHOOTING)) {
-			controller.setAnimation(new AnimationBuilder().addAnimation("attacking", true));
-			return true;
-		}
+//		if (this.dataTracker.get(SHOOTING)) {
+//			controller.setAnimation(new AnimationBuilder().addAnimation("attacking", true));
+//			return true;
+//		}
 		return false;
 	}
 

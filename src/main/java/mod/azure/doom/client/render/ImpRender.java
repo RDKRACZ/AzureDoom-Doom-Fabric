@@ -16,6 +16,11 @@ public class ImpRender extends MobEntityRenderer<ImpEntity, ImpModel> {
 	}
 
 	@Override
+	protected float getLyingAngle(ImpEntity entityLivingBaseIn) {
+		return 0.0F;
+	}
+
+	@Override
 	public Identifier getTexture(ImpEntity entity) {
 		return TEXTURE;
 	}

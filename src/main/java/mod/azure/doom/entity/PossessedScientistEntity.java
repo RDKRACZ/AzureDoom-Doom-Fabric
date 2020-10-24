@@ -44,13 +44,15 @@ public class PossessedScientistEntity extends DemonEntity implements IAnimatedEn
 		if (!(lastLimbDistance > -0.05F && lastLimbDistance < 0.05F)) {
 			controller.setAnimation(new AnimationBuilder().addAnimation("walking", true));
 			return true;
-		} else if (this.dead) {
-			controller.setAnimation(new AnimationBuilder().addAnimation("death", false));
-			return true;
-		} else {
-			controller.setAnimation(new AnimationBuilder().addAnimation("idle", true));
-			return true;
 		}
+		if (this.dead) {
+			if (world.isClient) {
+				controller.setAnimation(new AnimationBuilder().addAnimation("death", false));
+				return true;
+			}
+		}
+		controller.setAnimation(new AnimationBuilder().addAnimation("idle", true));
+		return true;
 	}
 
 	@Override
@@ -59,12 +61,14 @@ public class PossessedScientistEntity extends DemonEntity implements IAnimatedEn
 		if (this.deathTime == 80) {
 			this.remove();
 			for (int i = 0; i < 20; ++i) {
-				controller.setAnimation(new AnimationBuilder().addAnimation("death", false));
+				if (world.isClient) {
+					controller.setAnimation(new AnimationBuilder().addAnimation("death", false));
+				}
 			}
 		}
 
 	}
-	
+
 	@Override
 	public EntityAnimationManager getAnimationManager() {
 		return manager;

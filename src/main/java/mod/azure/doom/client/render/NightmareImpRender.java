@@ -17,6 +17,11 @@ public class NightmareImpRender extends MobEntityRenderer<NightmareImpEntity, Im
 	}
 
 	@Override
+	protected float getLyingAngle(NightmareImpEntity entityLivingBaseIn) {
+		return 0.0F;
+	}
+
+	@Override
 	public Identifier getTexture(NightmareImpEntity entity) {
 		return TEXTURE;
 	}
