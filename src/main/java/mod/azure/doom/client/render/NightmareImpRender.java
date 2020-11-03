@@ -1,29 +1,30 @@
 package mod.azure.doom.client.render;
 
-import mod.azure.doom.DoomMod;
 import mod.azure.doom.client.models.ImpNightmareModel;
 import mod.azure.doom.entity.NightmareImpEntity;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
-import net.minecraft.client.render.entity.MobEntityRenderer;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import software.bernie.geckolib.renderer.geo.GeoEntityRenderer;
 
-public class NightmareImpRender extends MobEntityRenderer<NightmareImpEntity, ImpNightmareModel> {
-
-	protected static final Identifier TEXTURE = new Identifier(DoomMod.MODID,
-			"textures/entity/nightmareimp-texture.png");
+public class NightmareImpRender extends GeoEntityRenderer<NightmareImpEntity> {
 
 	public NightmareImpRender(EntityRenderDispatcher renderManagerIn) {
-		super(renderManagerIn, new ImpNightmareModel(), 0.5f);
+		super(renderManagerIn, new ImpNightmareModel());
 	}
 
 	@Override
-	protected float getLyingAngle(NightmareImpEntity entityLivingBaseIn) {
-		return 0.0F;
+	public RenderLayer getRenderType(NightmareImpEntity animatable, float partialTicks, MatrixStack stack,
+			VertexConsumerProvider renderTypeBuffer, VertexConsumer vertexBuilder, int packedLightIn,
+			Identifier textureLocation) {
+		return RenderLayer.getEntityTranslucent(getTextureLocation(animatable));
 	}
-
-	@Override
-	public Identifier getTexture(NightmareImpEntity entity) {
-		return TEXTURE;
+	
+	protected float getLyingAngle(NightmareImpEntity spiderEntity) {
+		return 180.0F;
 	}
 
 }

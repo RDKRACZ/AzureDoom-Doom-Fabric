@@ -88,7 +88,7 @@ public class DoomArmorFeatureRenderer<T extends LivingEntity, M extends BipedMod
 	private void renderArmorParts(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i,
 			SkinArmor armorItem, boolean bl, A BipedModelSkin, boolean bl2, float f, float g, float h,
 			@Nullable String string) {
-		VertexConsumer vertexConsumer = ItemRenderer.getArmorVertexConsumer(vertexConsumerProvider,
+		VertexConsumer vertexConsumer = ItemRenderer.getArmorGlintConsumer(vertexConsumerProvider,
 				RenderLayer.getArmorCutoutNoCull(this.getArmorTexture(armorItem, bl2, string)), false, bl);
 		BipedModelSkin.render(matrixStack, vertexConsumer, i, OverlayTexture.DEFAULT_UV, f, g, h, 1.0F);
 	}

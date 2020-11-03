@@ -6,7 +6,6 @@ import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.annotati
 import mod.azure.doom.util.registry.MobEntityRegister;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -19,41 +18,44 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
-import software.bernie.geckolib.animation.builder.AnimationBuilder;
-import software.bernie.geckolib.animation.controller.EntityAnimationController;
-import software.bernie.geckolib.entity.IAnimatedEntity;
-import software.bernie.geckolib.event.AnimationTestEvent;
-import software.bernie.geckolib.manager.EntityAnimationManager;
+import software.bernie.geckolib.core.IAnimatable;
+import software.bernie.geckolib.core.PlayState;
+import software.bernie.geckolib.core.builder.AnimationBuilder;
+import software.bernie.geckolib.core.controller.AnimationController;
+import software.bernie.geckolib.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib.core.manager.AnimationData;
+import software.bernie.geckolib.core.manager.AnimationFactory;
 
-public class GoreNestEntity extends DemonEntity implements IAnimatedEntity {
+public class GoreNestEntity extends DemonEntity implements IAnimatable {
 
 	private final GoreNestEntity parentEntity;
 
-	EntityAnimationManager manager = new EntityAnimationManager();
-	EntityAnimationController<GoreNestEntity> controller = new EntityAnimationController<GoreNestEntity>(this,
-			"walkController", 0.09F, this::animationPredicate);
-
 	public GoreNestEntity(EntityType<? extends GoreNestEntity> entityType, World worldIn) {
 		super(entityType, worldIn);
-		manager.addAnimationController(controller);
 		this.parentEntity = GoreNestEntity.this;
 	}
 
-	private <E extends Entity> boolean animationPredicate(AnimationTestEvent<E> event) {
+	private AnimationFactory factory = new AnimationFactory(this);
 
+	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 		if (this.dead) {
 			if (world.isClient) {
-				controller.setAnimation(new AnimationBuilder().addAnimation("death", false));
-				return true;
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("death", true));
+				return PlayState.CONTINUE;
 			}
 		}
-		controller.setAnimation(new AnimationBuilder().addAnimation("idle", true));
-		return true;
+		event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
+		return PlayState.CONTINUE;
 	}
 
 	@Override
-	public EntityAnimationManager getAnimationManager() {
-		return manager;
+	public void registerControllers(AnimationData data) {
+		data.addAnimationController(new AnimationController<GoreNestEntity>(this, "controller", 0, this::predicate));
+	}
+
+	@Override
+	public AnimationFactory getFactory() {
+		return this.factory;
 	}
 
 	public static boolean spawning(EntityType<GoreNestEntity> p_223337_0_, World p_223337_1_, SpawnReason reason,

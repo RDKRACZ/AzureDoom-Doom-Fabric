@@ -1,35 +1,35 @@
 package mod.azure.doom.client.render;
 
-import mod.azure.doom.DoomMod;
 import mod.azure.doom.client.models.GoreNestModel;
 import mod.azure.doom.entity.GoreNestEntity;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
-import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
-import software.bernie.geckolib.forgetofabric.ResourceLocation;
+import net.minecraft.util.Identifier;
+import software.bernie.geckolib.renderer.geo.GeoEntityRenderer;
 
-public class GoreNestRender extends MobEntityRenderer<GoreNestEntity, GoreNestModel> {
-
-	protected static final ResourceLocation TEXTURE = new ResourceLocation(DoomMod.MODID,
-			"textures/entity/gore_nest.png");
+public class GoreNestRender extends GeoEntityRenderer<GoreNestEntity> {
 
 	public GoreNestRender(EntityRenderDispatcher renderManagerIn) {
-		super(renderManagerIn, new GoreNestModel(), 0.5f);
-
-	}
-
-	protected void scale(GoreNestEntity entitylivingbaseIn, MatrixStack matrixStack, float f) {
-		matrixStack.scale(1.5F, 1.5F, 1.5F);
+		super(renderManagerIn, new GoreNestModel());
 	}
 
 	@Override
-	protected float getLyingAngle(GoreNestEntity entityLivingBaseIn) {
+	public RenderLayer getRenderType(GoreNestEntity animatable, float partialTicks, MatrixStack stack,
+			VertexConsumerProvider renderTypeBuffer, VertexConsumer vertexBuilder, int packedLightIn,
+			Identifier textureLocation) {
+		return RenderLayer.getEntityTranslucent(getTextureLocation(animatable));
+	}
+
+	protected void preRenderCallback(GoreNestEntity entitylivingbaseIn, MatrixStack matrixStackIn,
+			float partialTickTime) {
+		matrixStackIn.scale(1.5F, 1.5F, 1.5F);
+	}
+
+	@Override
+	protected float getDeathMaxRotation(GoreNestEntity entityLivingBaseIn) {
 		return 0.0F;
 	}
-
-	@Override
-	public ResourceLocation getTexture(GoreNestEntity entity) {
-		return TEXTURE;
-	}
-
 }

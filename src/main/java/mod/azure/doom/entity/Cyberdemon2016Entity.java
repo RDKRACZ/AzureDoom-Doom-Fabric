@@ -5,6 +5,7 @@ import java.time.temporal.ChronoField;
 import java.util.Random;
 
 import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.annotation.Nullable;
+import mod.azure.doom.entity.ai.goal.DemonAttackGoal;
 import mod.azure.doom.entity.projectiles.entity.RocketMobEntity;
 import mod.azure.doom.util.ModSoundEvents;
 import net.minecraft.block.BlockState;
@@ -55,6 +56,7 @@ public class Cyberdemon2016Entity extends DemonEntity {
 		this.goalSelector.add(6, new LookAroundGoal(this));
 		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
 		this.goalSelector.add(7, new Cyberdemon2016Entity.ShootFireballGoal(this));
+		this.goalSelector.add(7, new DemonAttackGoal(this, 1.0D, false));
 		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(3, new FollowTargetGoal<>(this, HostileEntity.class, true));

@@ -82,7 +82,7 @@ public class MobEntityRegister {
 	public static final EntityType<MancubusEntity> MANCUBUS = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "mancubus"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, MancubusEntity::new)
-					.dimensions(EntityDimensions.fixed(1.9F, 5.4F)).fireImmune().trackRangeBlocks(90)
+					.dimensions(EntityDimensions.fixed(2.3F, 3.0F)).fireImmune().trackRangeBlocks(90)
 					.trackedUpdateRate(4).build());
 
 	public static final EntityType<SpiderdemonEntity> SPIDERDEMON = Registry.register(Registry.ENTITY_TYPE,
@@ -178,7 +178,7 @@ public class MobEntityRegister {
 	public static final EntityType<PossessedScientistEntity> POSSESSEDSCIENTIST = Registry.register(
 			Registry.ENTITY_TYPE, new Identifier(DoomMod.MODID, "possessed_scientist"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, PossessedScientistEntity::new)
-					.dimensions(EntityDimensions.fixed(0.6f, 1.95F)).fireImmune().trackRangeBlocks(90)
+					.dimensions(EntityDimensions.fixed(1.5f, 1.95F)).fireImmune().trackRangeBlocks(90)
 					.trackedUpdateRate(4).build());
 
 	public static final EntityType<GoreNestEntity> GORE_NEST = Registry.register(

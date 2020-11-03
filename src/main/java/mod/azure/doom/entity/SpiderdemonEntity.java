@@ -12,7 +12,6 @@ import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.registry.DoomItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
@@ -44,17 +43,15 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
-import software.bernie.geckolib.animation.builder.AnimationBuilder;
-import software.bernie.geckolib.animation.controller.EntityAnimationController;
-import software.bernie.geckolib.entity.IAnimatedEntity;
-import software.bernie.geckolib.event.AnimationTestEvent;
-import software.bernie.geckolib.manager.EntityAnimationManager;
+import software.bernie.geckolib.core.IAnimatable;
+import software.bernie.geckolib.core.PlayState;
+import software.bernie.geckolib.core.builder.AnimationBuilder;
+import software.bernie.geckolib.core.controller.AnimationController;
+import software.bernie.geckolib.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib.core.manager.AnimationData;
+import software.bernie.geckolib.core.manager.AnimationFactory;
 
-public class SpiderdemonEntity extends DemonEntity implements RangedAttackMob, IAnimatedEntity {
-
-	EntityAnimationManager manager = new EntityAnimationManager();
-	EntityAnimationController<SpiderdemonEntity> controller = new EntityAnimationController<SpiderdemonEntity>(this,
-			"walkController", 0.09F, this::animationPredicate);
+public class SpiderdemonEntity extends DemonEntity implements RangedAttackMob, IAnimatable {
 
 	private final RangedSpiderDemonAttackGoal<SpiderdemonEntity> bowAttackGoal = new RangedSpiderDemonAttackGoal<>(this,
 			1.0D, 20, 15.0F);
@@ -73,20 +70,26 @@ public class SpiderdemonEntity extends DemonEntity implements RangedAttackMob, I
 	public SpiderdemonEntity(EntityType<SpiderdemonEntity> entityType, World worldIn) {
 		super(entityType, worldIn);
 		this.updateAttackType();
-		manager.addAnimationController(controller);
 	}
-	
-	private <E extends Entity> boolean animationPredicate(AnimationTestEvent<E> event) {
-		if (!(lastLimbDistance > -0.15F && this.lastLimbDistance < 0.15F)) {
-			controller.setAnimation(new AnimationBuilder().addAnimation("walking", true));
-			return true;
-		} 
-		return false;
+
+	private AnimationFactory factory = new AnimationFactory(this);
+
+	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+		if (!(lastLimbDistance > -0.15F && lastLimbDistance < 0.15F)) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
+			return PlayState.CONTINUE;
+		}
+		return PlayState.STOP;
 	}
 
 	@Override
-	public EntityAnimationManager getAnimationManager() {
-		return manager;
+	public void registerControllers(AnimationData data) {
+		data.addAnimationController(new AnimationController<SpiderdemonEntity>(this, "controller", 0, this::predicate));
+	}
+
+	@Override
+	public AnimationFactory getFactory() {
+		return this.factory;
 	}
 
 	public static boolean spawning(EntityType<BaronEntity> p_223337_0_, World p_223337_1_, SpawnReason reason,

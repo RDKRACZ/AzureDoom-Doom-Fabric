@@ -20,6 +20,7 @@ import net.minecraft.util.math.Direction;
 import top.theillusivec4.curios.api.CuriosComponent;
 import top.theillusivec4.curios.api.type.component.IRenderableCurio;
 
+@SuppressWarnings("deprecation")
 @Environment(EnvType.CLIENT)
 public class Clientnit implements ClientModInitializer {
 

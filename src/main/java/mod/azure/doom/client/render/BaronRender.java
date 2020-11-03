@@ -1,24 +1,26 @@
 package mod.azure.doom.client.render;
 
-import mod.azure.doom.DoomMod;
 import mod.azure.doom.client.models.BaronModel;
 import mod.azure.doom.entity.BaronEntity;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
-import net.minecraft.client.render.entity.MobEntityRenderer;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import software.bernie.geckolib.renderer.geo.GeoEntityRenderer;
 
-public class BaronRender extends MobEntityRenderer<BaronEntity, BaronModel> {
-
-	protected static final Identifier TEXTURE = new Identifier(DoomMod.MODID,
-			"textures/entity/baronofhell-texturemap.png");
+public class BaronRender extends GeoEntityRenderer<BaronEntity> {
 
 	public BaronRender(EntityRenderDispatcher renderManagerIn) {
-		super(renderManagerIn, new BaronModel(), 0.5f);
+		super(renderManagerIn, new BaronModel());
 	}
 
 	@Override
-	public Identifier getTexture(BaronEntity entity) {
-		return TEXTURE;
+	public RenderLayer getRenderType(BaronEntity animatable, float partialTicks, MatrixStack stack,
+			VertexConsumerProvider renderTypeBuffer, VertexConsumer vertexBuilder, int packedLightIn,
+			Identifier textureLocation) {
+		return RenderLayer.getEntityTranslucent(getTextureLocation(animatable));
 	}
 
 }

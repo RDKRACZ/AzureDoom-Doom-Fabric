@@ -5,11 +5,11 @@ import java.time.temporal.ChronoField;
 import java.util.Random;
 
 import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.annotation.Nullable;
+import mod.azure.doom.entity.ai.goal.DemonAttackGoal;
 import mod.azure.doom.entity.projectiles.entity.RocketMobEntity;
 import mod.azure.doom.util.ModSoundEvents;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
@@ -38,34 +38,38 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
-import software.bernie.geckolib.animation.builder.AnimationBuilder;
-import software.bernie.geckolib.animation.controller.EntityAnimationController;
-import software.bernie.geckolib.entity.IAnimatedEntity;
-import software.bernie.geckolib.event.AnimationTestEvent;
-import software.bernie.geckolib.manager.EntityAnimationManager;
+import software.bernie.geckolib.core.IAnimatable;
+import software.bernie.geckolib.core.PlayState;
+import software.bernie.geckolib.core.builder.AnimationBuilder;
+import software.bernie.geckolib.core.controller.AnimationController;
+import software.bernie.geckolib.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib.core.manager.AnimationData;
+import software.bernie.geckolib.core.manager.AnimationFactory;
 
-public class CyberdemonEntity extends DemonEntity implements IAnimatedEntity {
-
-	EntityAnimationManager manager = new EntityAnimationManager();
-	EntityAnimationController<CyberdemonEntity> controller = new EntityAnimationController<CyberdemonEntity>(this,
-			"walkController", 0.09F, this::animationPredicate);
+public class CyberdemonEntity extends DemonEntity implements IAnimatable {
 
 	public CyberdemonEntity(EntityType<? extends CyberdemonEntity> entityType, World worldIn) {
 		super(entityType, worldIn);
-		manager.addAnimationController(controller);
 	}
 
-	private <E extends Entity> boolean animationPredicate(AnimationTestEvent<E> event) {
+	private AnimationFactory factory = new AnimationFactory(this);
+
+	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 		if (!(lastLimbDistance > -0.15F && lastLimbDistance < 0.15F)) {
-			controller.setAnimation(new AnimationBuilder().addAnimation("walking", true));
-			return true;
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
+			return PlayState.CONTINUE;
 		}
-		return false;
+		return PlayState.STOP;
 	}
 
 	@Override
-	public EntityAnimationManager getAnimationManager() {
-		return manager;
+	public void registerControllers(AnimationData data) {
+		data.addAnimationController(new AnimationController<CyberdemonEntity>(this, "controller", 0, this::predicate));
+	}
+
+	@Override
+	public AnimationFactory getFactory() {
+		return this.factory;
 	}
 
 	public static boolean spawning(EntityType<BaronEntity> p_223337_0_, World p_223337_1_, SpawnReason reason,
@@ -79,6 +83,7 @@ public class CyberdemonEntity extends DemonEntity implements IAnimatedEntity {
 		this.goalSelector.add(6, new LookAroundGoal(this));
 		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
 		this.goalSelector.add(7, new CyberdemonEntity.ShootFireballGoal(this));
+		this.goalSelector.add(7, new DemonAttackGoal(this, 1.0D, false));
 		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(3, new FollowTargetGoal<>(this, HostileEntity.class, true));

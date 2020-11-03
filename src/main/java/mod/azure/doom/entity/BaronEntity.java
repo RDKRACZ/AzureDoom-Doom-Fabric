@@ -5,13 +5,13 @@ import java.time.temporal.ChronoField;
 import java.util.Random;
 
 import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.annotation.Nullable;
+import mod.azure.doom.entity.ai.goal.DemonAttackGoal;
 import mod.azure.doom.entity.projectiles.entity.BarenBlastEntity;
 import mod.azure.doom.util.ModSoundEvents;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -41,40 +41,44 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
-import software.bernie.geckolib.animation.builder.AnimationBuilder;
-import software.bernie.geckolib.animation.controller.EntityAnimationController;
-import software.bernie.geckolib.entity.IAnimatedEntity;
-import software.bernie.geckolib.event.AnimationTestEvent;
-import software.bernie.geckolib.manager.EntityAnimationManager;
+import software.bernie.geckolib.core.IAnimatable;
+import software.bernie.geckolib.core.PlayState;
+import software.bernie.geckolib.core.builder.AnimationBuilder;
+import software.bernie.geckolib.core.controller.AnimationController;
+import software.bernie.geckolib.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib.core.manager.AnimationData;
+import software.bernie.geckolib.core.manager.AnimationFactory;
 
-public class BaronEntity extends DemonEntity implements IAnimatedEntity {
+public class BaronEntity extends DemonEntity implements IAnimatable {
 	private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(BaronEntity.class,
 			TrackedDataHandlerRegistry.BOOLEAN);
 
-	EntityAnimationManager manager = new EntityAnimationManager();
-	EntityAnimationController<BaronEntity> controller = new EntityAnimationController<BaronEntity>(this,
-			"walkController", 0.09F, this::animationPredicate);
-
 	public BaronEntity(EntityType<BaronEntity> entityType, World worldIn) {
 		super(entityType, worldIn);
-		manager.addAnimationController(controller);
 	}
 
-	private <E extends Entity> boolean animationPredicate(AnimationTestEvent<E> event) {
+	private AnimationFactory factory = new AnimationFactory(this);
+
+	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 		if (!(lastLimbDistance > -0.15F && lastLimbDistance < 0.15F)) {
-			controller.setAnimation(new AnimationBuilder().addAnimation("walking", true));
-			return true;
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
+			return PlayState.CONTINUE;
 		}
-//		if (this.dataTracker.get(SHOOTING)) {
-//			controller.setAnimation(new AnimationBuilder().addAnimation("attacking", true));
-//			return true;
-//		}
-		return false;
+		if (this.dataTracker.get(SHOOTING)) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking", true));
+			return PlayState.CONTINUE;
+		}
+		return PlayState.STOP;
 	}
 
 	@Override
-	public EntityAnimationManager getAnimationManager() {
-		return manager;
+	public void registerControllers(AnimationData data) {
+		data.addAnimationController(new AnimationController<BaronEntity>(this, "controller", 0, this::predicate));
+	}
+
+	@Override
+	public AnimationFactory getFactory() {
+		return this.factory;
 	}
 
 	@Environment(EnvType.CLIENT)
@@ -104,6 +108,7 @@ public class BaronEntity extends DemonEntity implements IAnimatedEntity {
 		this.goalSelector.add(6, new LookAroundGoal(this));
 		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
 		this.goalSelector.add(7, new BaronEntity.ShootFireballGoal(this));
+		this.goalSelector.add(7, new DemonAttackGoal(this, 1.0D, false));
 		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]));
 		this.targetSelector.add(2, new FollowTargetGoal(this, PlayerEntity.class, true));
 		this.targetSelector.add(3, new FollowTargetGoal<>(this, HostileEntity.class, true));

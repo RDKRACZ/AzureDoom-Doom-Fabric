@@ -10,7 +10,6 @@ import mod.azure.doom.util.packets.EntityPacket;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -38,20 +37,18 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.explosion.Explosion;
-import software.bernie.geckolib.animation.builder.AnimationBuilder;
-import software.bernie.geckolib.animation.controller.EntityAnimationController;
-import software.bernie.geckolib.entity.IAnimatedEntity;
-import software.bernie.geckolib.event.AnimationTestEvent;
-import software.bernie.geckolib.manager.EntityAnimationManager;
+import software.bernie.geckolib.core.IAnimatable;
+import software.bernie.geckolib.core.PlayState;
+import software.bernie.geckolib.core.builder.AnimationBuilder;
+import software.bernie.geckolib.core.controller.AnimationController;
+import software.bernie.geckolib.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib.core.manager.AnimationData;
+import software.bernie.geckolib.core.manager.AnimationFactory;
 
-public class LostSoulEntity extends DemonEntity implements Monster, IAnimatedEntity {
+public class LostSoulEntity extends DemonEntity implements Monster, IAnimatable {
+
 	private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(LostSoulEntity.class,
 			TrackedDataHandlerRegistry.BOOLEAN);
-
-	EntityAnimationManager manager = new EntityAnimationManager();
-	EntityAnimationController<LostSoulEntity> controller = new EntityAnimationController<LostSoulEntity>(this,
-			"walkController", 0.09F, this::animationPredicate);
-
 	public int explosionPower = 1;
 	public int flameTimer;
 	@Nullable
@@ -60,24 +57,27 @@ public class LostSoulEntity extends DemonEntity implements Monster, IAnimatedEnt
 	public LostSoulEntity(EntityType<? extends LostSoulEntity> type, World worldIn) {
 		super(type, worldIn);
 		this.moveControl = new LostSoulEntity.GhastMoveControl(this);
-		manager.addAnimationController(controller);
 	}
 
-	private <E extends Entity> boolean animationPredicate(AnimationTestEvent<E> event) {
+	private AnimationFactory factory = new AnimationFactory(this);
+
+	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 		if (!(lastLimbDistance > -0.15F && lastLimbDistance < 0.15F)) {
-			controller.setAnimation(new AnimationBuilder().addAnimation("walking", true));
-			return true;
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
+			return PlayState.CONTINUE;
 		}
-		if (this.dataTracker.get(SHOOTING)) {
-			controller.setAnimation(new AnimationBuilder().addAnimation("attacking", true));
-			return true;
-		}
-		return false;
+		event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
+		return PlayState.CONTINUE;
 	}
 
 	@Override
-	public EntityAnimationManager getAnimationManager() {
-		return manager;
+	public void registerControllers(AnimationData data) {
+		data.addAnimationController(new AnimationController<LostSoulEntity>(this, "controller", 0, this::predicate));
+	}
+
+	@Override
+	public AnimationFactory getFactory() {
+		return this.factory;
 	}
 
 	@Environment(EnvType.CLIENT)

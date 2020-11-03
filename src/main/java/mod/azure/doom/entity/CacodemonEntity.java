@@ -3,6 +3,7 @@ package mod.azure.doom.entity;
 import java.util.EnumSet;
 import java.util.Random;
 
+import mod.azure.doom.entity.ai.goal.DemonAttackGoal;
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.packets.EntityPacket;
 import net.fabricmc.api.EnvType;
@@ -102,6 +103,7 @@ public class CacodemonEntity extends DemonEntity implements Monster {
 		this.goalSelector.add(5, new CacodemonEntity.FlyRandomlyGoal(this));
 		this.goalSelector.add(7, new CacodemonEntity.LookAtTargetGoal(this));
 		this.goalSelector.add(7, new CacodemonEntity.ShootFireballGoal(this));
+		this.goalSelector.add(7, new DemonAttackGoal(this, 1.0D, false));
 		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(3, new FollowTargetGoal<>(this, HostileEntity.class, true));

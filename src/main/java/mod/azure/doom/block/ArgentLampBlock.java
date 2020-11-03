@@ -8,7 +8,7 @@ import net.minecraft.sound.BlockSoundGroup;
 public class ArgentLampBlock extends Block {
 
 	public ArgentLampBlock() {
-		super(FabricBlockSettings.of(Material.REDSTONE_LAMP).sounds(BlockSoundGroup.BONE).lightLevel(15));
+		super(FabricBlockSettings.of(Material.REDSTONE_LAMP).sounds(BlockSoundGroup.BONE).luminance(15));
 	}
 
 }

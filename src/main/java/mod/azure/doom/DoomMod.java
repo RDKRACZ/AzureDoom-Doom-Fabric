@@ -21,12 +21,14 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import software.bernie.geckolib.GeckoLib;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.CuriosComponent;
 import top.theillusivec4.curios.api.SlotTypeInfo.BuildScheme;
 import top.theillusivec4.curios.api.SlotTypePreset;
 import top.theillusivec4.curios.api.type.component.ICurio;
 
+@SuppressWarnings("deprecation")
 public class DoomMod implements ModInitializer {
 
 	public static DoomItems ITEMS;
@@ -61,6 +63,7 @@ public class DoomMod implements ModInitializer {
 //			BNCompat.addSpawnEntries;
 //		}
 		MobAttributes.init();
+		GeckoLib.initialize();
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.BELT.getInfoBuilder().build());
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.CHARM.getInfoBuilder().build());
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.BRACELET.getInfoBuilder().build());
