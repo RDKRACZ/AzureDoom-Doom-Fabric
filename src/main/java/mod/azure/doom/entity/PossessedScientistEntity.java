@@ -22,13 +22,13 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
-import software.bernie.geckolib.core.IAnimatable;
-import software.bernie.geckolib.core.PlayState;
-import software.bernie.geckolib.core.builder.AnimationBuilder;
-import software.bernie.geckolib.core.controller.AnimationController;
-import software.bernie.geckolib.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib.core.manager.AnimationData;
-import software.bernie.geckolib.core.manager.AnimationFactory;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class PossessedScientistEntity extends DemonEntity implements IAnimatable {
 
@@ -39,7 +39,7 @@ public class PossessedScientistEntity extends DemonEntity implements IAnimatable
 	private AnimationFactory factory = new AnimationFactory(this);
 
 	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-		if (!(lastLimbDistance < 0.10F) && !this.isAttacking()) {
+		if (!(lastLimbDistance > -0.10F && lastLimbDistance < 0.10F) && !this.isAttacking()) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("walk", true));
 			return PlayState.CONTINUE;
 		}
@@ -53,7 +53,7 @@ public class PossessedScientistEntity extends DemonEntity implements IAnimatable
 				return PlayState.CONTINUE;
 			}
 		}
-		if ((lastLimbDistance < 0.10F) && !this.isAttacking()) {
+		if ((lastLimbDistance > -0.10F && lastLimbDistance < 0.10F) && !this.isAttacking()) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
 			return PlayState.CONTINUE;
 		}

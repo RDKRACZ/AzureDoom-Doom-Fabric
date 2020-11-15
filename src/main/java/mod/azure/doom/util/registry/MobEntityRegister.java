@@ -16,6 +16,7 @@ import mod.azure.doom.entity.ImpEntity;
 import mod.azure.doom.entity.LostSoulEntity;
 import mod.azure.doom.entity.MancubusEntity;
 import mod.azure.doom.entity.MarauderEntity;
+import mod.azure.doom.entity.MechaZombieEntity;
 import mod.azure.doom.entity.NightmareImpEntity;
 import mod.azure.doom.entity.PainEntity;
 import mod.azure.doom.entity.PinkyEntity;
@@ -181,10 +182,16 @@ public class MobEntityRegister {
 					.dimensions(EntityDimensions.fixed(1.5f, 1.95F)).fireImmune().trackRangeBlocks(90)
 					.trackedUpdateRate(4).build());
 
-	public static final EntityType<GoreNestEntity> GORE_NEST = Registry.register(
-			Registry.ENTITY_TYPE, new Identifier(DoomMod.MODID, "gore_nest"),
+	public static final EntityType<MechaZombieEntity> MECHAZOMBIE = Registry.register(Registry.ENTITY_TYPE,
+			new Identifier(DoomMod.MODID, "mechazombie"),
+			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, MechaZombieEntity::new)
+					.dimensions(EntityDimensions.fixed(1.5f, 1.95F)).fireImmune().trackRangeBlocks(90)
+					.trackedUpdateRate(4).build());
+
+	public static final EntityType<GoreNestEntity> GORE_NEST = Registry.register(Registry.ENTITY_TYPE,
+			new Identifier(DoomMod.MODID, "gore_nest"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, GoreNestEntity::new)
-					.dimensions(EntityDimensions.fixed(0.6f, 1.95F)).fireImmune().trackRangeBlocks(90)
+					.dimensions(EntityDimensions.fixed(3.0f, 4.0F)).fireImmune().trackRangeBlocks(90)
 					.trackedUpdateRate(4).build());
 
 	public static final EntityType<IconofsinEntity> ICONOFSIN = Registry.register(Registry.ENTITY_TYPE,

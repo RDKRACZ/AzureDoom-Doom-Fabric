@@ -13,26 +13,25 @@ import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.particle.DustParticleEffect;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
-import software.bernie.geckolib.core.IAnimatable;
-import software.bernie.geckolib.core.PlayState;
-import software.bernie.geckolib.core.builder.AnimationBuilder;
-import software.bernie.geckolib.core.controller.AnimationController;
-import software.bernie.geckolib.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib.core.manager.AnimationData;
-import software.bernie.geckolib.core.manager.AnimationFactory;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class GoreNestEntity extends DemonEntity implements IAnimatable {
 
-	private final GoreNestEntity parentEntity;
-
 	public GoreNestEntity(EntityType<? extends GoreNestEntity> entityType, World worldIn) {
 		super(entityType, worldIn);
-		this.parentEntity = GoreNestEntity.this;
 	}
 
 	private AnimationFactory factory = new AnimationFactory(this);
@@ -69,23 +68,21 @@ public class GoreNestEntity extends DemonEntity implements IAnimatable {
 		if (this.deathTime == 80) {
 			this.remove();
 			HellknightEntity fireballentity = MobEntityRegister.HELLKNIGHT.create(world);
-			fireballentity.setPos(this.parentEntity.getX() + 2.0D, this.parentEntity.getY() + 0.5D,
-					this.parentEntity.getZ() + 2.0D);
+			fireballentity.refreshPositionAndAngles(this.getX() + 2.0D, this.getY() + 0.5D, this.getZ() + 2.0D, 0, 0);
 			world.spawnEntity(fireballentity);
 
 			PossessedScientistEntity fireballentity1 = MobEntityRegister.POSSESSEDSCIENTIST.create(world);
-			fireballentity1.setPos(this.parentEntity.getX() + -2.0D, this.parentEntity.getY() + 0.5D,
-					this.parentEntity.getZ() + -2.0D);
+			fireballentity1.refreshPositionAndAngles(this.getX() + -2.0D, this.getY() + 0.5D, this.getZ() + -2.0D, 0,
+					0);
 			world.spawnEntity(fireballentity1);
 
 			ImpEntity fireballentity11 = MobEntityRegister.IMP.create(world);
-			fireballentity11.setPos(this.parentEntity.getX() + 1.0D, this.parentEntity.getY() + 0.5D,
-					this.parentEntity.getZ() + 1.0D);
+			fireballentity11.refreshPositionAndAngles(this.getX() + 1.0D, this.getY() + 0.5D, this.getZ() + 1.0D, 0, 0);
 			world.spawnEntity(fireballentity11);
 
 			NightmareImpEntity fireballentity111 = MobEntityRegister.NIGHTMARE_IMP.create(world);
-			fireballentity111.setPos(this.parentEntity.getX() + -1.0D, this.parentEntity.getY() + 0.5D,
-					this.parentEntity.getZ() + -1.0D);
+			fireballentity111.refreshPositionAndAngles(this.getX() + -1.0D, this.getY() + 0.5D, this.getZ() + -1.0D, 0,
+					0);
 			world.spawnEntity(fireballentity111);
 		}
 
@@ -103,6 +100,18 @@ public class GoreNestEntity extends DemonEntity implements IAnimatable {
 			SpawnReason spawnReason, EntityData entityData, CompoundTag entityTag) {
 		entityData = super.initialize(serverWorldAccess, difficulty, spawnReason, entityData, entityTag);
 		return entityData;
+	}
+
+	@Override
+	public void tickMovement() {
+		if (this.world.isClient) {
+			this.world.addParticle(DustParticleEffect.RED, this.getParticleX(0.5D), this.getRandomBodyY() - 0.25D,
+					this.getParticleZ(0.5D), (this.random.nextDouble() - 0.5D) * 2.0D, -this.random.nextDouble(),
+					(this.random.nextDouble() - 0.5D) * 2.0D);
+			this.world.addParticle(ParticleTypes.SOUL, this.getParticleX(0.2D), this.getRandomBodyY(),
+					this.getParticleZ(0.5D), 0.0D, 0D, 0D);
+		}
+		super.tickMovement();
 	}
 
 	protected boolean shouldDrown() {

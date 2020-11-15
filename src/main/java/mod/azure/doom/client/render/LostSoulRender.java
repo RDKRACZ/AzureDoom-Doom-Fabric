@@ -8,7 +8,8 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import software.bernie.geckolib.renderer.geo.GeoEntityRenderer;
+import net.minecraft.util.math.BlockPos;
+import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
 
 public class LostSoulRender extends GeoEntityRenderer<LostSoulEntity> {
 
@@ -21,5 +22,10 @@ public class LostSoulRender extends GeoEntityRenderer<LostSoulEntity> {
 			VertexConsumerProvider renderTypeBuffer, VertexConsumer vertexBuilder, int packedLightIn,
 			Identifier textureLocation) {
 		return RenderLayer.getEntityTranslucent(getTextureLocation(animatable));
+	}
+
+	@Override
+	protected int getBlockLight(LostSoulEntity entity, BlockPos blockPos) {
+		return 15;
 	}
 }

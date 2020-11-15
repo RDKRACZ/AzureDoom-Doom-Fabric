@@ -15,6 +15,7 @@ import mod.azure.doom.entity.ImpEntity;
 import mod.azure.doom.entity.LostSoulEntity;
 import mod.azure.doom.entity.MancubusEntity;
 import mod.azure.doom.entity.MarauderEntity;
+import mod.azure.doom.entity.MechaZombieEntity;
 import mod.azure.doom.entity.NightmareImpEntity;
 import mod.azure.doom.entity.PainEntity;
 import mod.azure.doom.entity.PinkyEntity;
@@ -54,6 +55,7 @@ public class MobAttributes {
 				PossessedScientistEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(MobEntityRegister.POSSESSEDSOLDIER,
 				PossessedSoldierEntity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(MobEntityRegister.MECHAZOMBIE, MechaZombieEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(MobEntityRegister.REVENANT, RevenantEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(MobEntityRegister.SHOTGUNGUY, ShotgunguyEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(MobEntityRegister.SPIDERDEMON, SpiderdemonEntity.createMobAttributes());

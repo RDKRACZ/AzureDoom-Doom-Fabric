@@ -2,7 +2,6 @@ package mod.azure.doom.entity;
 
 import java.util.Random;
 
-import mod.azure.doom.entity.ai.goal.DemonAttackGoal;
 import mod.azure.doom.entity.projectiles.entity.BarenBlastEntity;
 import mod.azure.doom.util.ModSoundEvents;
 import net.fabricmc.api.EnvType;
@@ -32,13 +31,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
-import software.bernie.geckolib.core.IAnimatable;
-import software.bernie.geckolib.core.PlayState;
-import software.bernie.geckolib.core.builder.AnimationBuilder;
-import software.bernie.geckolib.core.controller.AnimationController;
-import software.bernie.geckolib.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib.core.manager.AnimationData;
-import software.bernie.geckolib.core.manager.AnimationFactory;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class MancubusEntity extends DemonEntity implements IAnimatable {
 	private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(MancubusEntity.class,
@@ -63,10 +62,6 @@ public class MancubusEntity extends DemonEntity implements IAnimatable {
 		}
 		if (this.dataTracker.get(SHOOTING)) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking", true));
-			return PlayState.CONTINUE;
-		}
-		if (this.isAttacking()) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("attack"));
 			return PlayState.CONTINUE;
 		}
 		event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
@@ -124,22 +119,22 @@ public class MancubusEntity extends DemonEntity implements IAnimatable {
 
 	protected void initCustomGoals() {
 		this.goalSelector.add(7, new MancubusEntity.ShootFireballGoal(this));
-		this.goalSelector.add(7, new DemonAttackGoal(this, 1.0D, false));
+		// this.goalSelector.add(7, new DemonAttackGoal(this, 1.0D, false));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(3, new FollowTargetGoal<>(this, HostileEntity.class, true));
 		this.targetSelector.add(3, new FollowTargetGoal<>(this, MobEntity.class, true));
 	}
 
 	static class ShootFireballGoal extends Goal {
-		private final MancubusEntity ghast;
+		private final MancubusEntity parentEntity;
 		public int cooldown;
 
-		public ShootFireballGoal(MancubusEntity ghast) {
-			this.ghast = ghast;
+		public ShootFireballGoal(MancubusEntity parentEntity) {
+			this.parentEntity = parentEntity;
 		}
 
 		public boolean canStart() {
-			return this.ghast.getTarget() != null;
+			return this.parentEntity.getTarget() != null;
 		}
 
 		public void start() {
@@ -147,30 +142,36 @@ public class MancubusEntity extends DemonEntity implements IAnimatable {
 		}
 
 		public void resetTask() {
-			this.ghast.setShooting(false);
+			this.parentEntity.setShooting(false);
 		}
 
 		public void tick() {
-			LivingEntity livingEntity = this.ghast.getTarget();
-			if (livingEntity.squaredDistanceTo(this.ghast) < 4096.0D && this.ghast.canSee(livingEntity)) {
-				World world = this.ghast.world;
+			LivingEntity livingEntity = this.parentEntity.getTarget();
+			if (livingEntity.squaredDistanceTo(this.parentEntity) < 4096.0D && this.parentEntity.canSee(livingEntity)) {
+				this.parentEntity.getLookControl().lookAt(livingEntity, 90.0F, 30.0F);
+				World world = this.parentEntity.world;
+				Vec3d vec3d = this.parentEntity.getRotationVec(1.0F);
 				++this.cooldown;
-				if (this.cooldown == 20) {
-					Vec3d vec3d = this.ghast.getRotationVec(1.0F);
-					double f = livingEntity.getX();
-					double g = livingEntity.getY();
-					double h = livingEntity.getZ();
-					BarenBlastEntity fireballEntity = new BarenBlastEntity(world, this.ghast, f, g, h);
-					fireballEntity.updatePosition(this.ghast.getX() + vec3d.x * 1.0D, this.ghast.getBodyY(0.5D) + 0.5D,
-							fireballEntity.getZ() + vec3d.z * 2.0D);
+				double f = livingEntity.getX() - (this.parentEntity.getX() + vec3d.x * 2.0D);
+				double g = livingEntity.getBodyY(0.5D) - (0.5D + this.parentEntity.getBodyY(0.5D));
+				double h = livingEntity.getZ() - (this.parentEntity.getZ() + vec3d.z * 4.0D);
+				BarenBlastEntity fireballEntity = new BarenBlastEntity(world, this.parentEntity, f, g, h);
+				if (this.cooldown == 15) {
+					fireballEntity.updatePosition(this.parentEntity.getX() + vec3d.x * 1.0D,
+							this.parentEntity.getBodyY(0.5D), fireballEntity.getZ() + 1.0D);
 					world.spawnEntity(fireballEntity);
-					this.cooldown = -40;
+				}
+				if (this.cooldown == 20) {
+					fireballEntity.updatePosition(this.parentEntity.getX() + vec3d.x * 1.0D,
+							this.parentEntity.getBodyY(0.5D), fireballEntity.getZ() - 1.0D);
+					world.spawnEntity(fireballEntity);
+					this.cooldown = -100;
 				}
 			} else if (this.cooldown > 0) {
 				--this.cooldown;
 			}
 
-			this.ghast.setShooting(this.cooldown > 10);
+			this.parentEntity.setShooting(this.cooldown > 10);
 		}
 	}
 

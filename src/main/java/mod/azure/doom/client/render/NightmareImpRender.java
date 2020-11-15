@@ -8,7 +8,7 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import software.bernie.geckolib.renderer.geo.GeoEntityRenderer;
+import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
 
 public class NightmareImpRender extends GeoEntityRenderer<NightmareImpEntity> {
 
@@ -22,7 +22,7 @@ public class NightmareImpRender extends GeoEntityRenderer<NightmareImpEntity> {
 			Identifier textureLocation) {
 		return RenderLayer.getEntityTranslucent(getTextureLocation(animatable));
 	}
-	
+
 	protected float getLyingAngle(NightmareImpEntity spiderEntity) {
 		return 180.0F;
 	}

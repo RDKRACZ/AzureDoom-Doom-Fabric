@@ -43,13 +43,13 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
-import software.bernie.geckolib.core.IAnimatable;
-import software.bernie.geckolib.core.PlayState;
-import software.bernie.geckolib.core.builder.AnimationBuilder;
-import software.bernie.geckolib.core.controller.AnimationController;
-import software.bernie.geckolib.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib.core.manager.AnimationData;
-import software.bernie.geckolib.core.manager.AnimationFactory;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class ArachnotronEntity extends DemonEntity implements IAnimatable {
 	private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(ArachnotronEntity.class,
@@ -138,20 +138,42 @@ public class ArachnotronEntity extends DemonEntity implements IAnimatable {
 		public void tick() {
 			LivingEntity livingEntity = this.ghast.getTarget();
 			if (livingEntity.squaredDistanceTo(this.ghast) < 4096.0D && this.ghast.canSee(livingEntity)) {
+				this.ghast.getLookControl().lookAt(livingEntity, 90.0F, 30.0F);
 				World world = this.ghast.world;
+				Vec3d vec3d = this.ghast.getRotationVec(1.0F);
+				double f = livingEntity.getX() - (this.ghast.getX() + vec3d.x * 4.0D);
+				double g = livingEntity.getBodyY(0.5D) - (0.5D + this.ghast.getBodyY(0.5D));
+				double h = livingEntity.getZ() - (this.ghast.getZ() + vec3d.z * 4.0D);
+				EnergyCellMobEntity fireballEntity = new EnergyCellMobEntity(world, this.ghast, f, g, h);
 				++this.cooldown;
-				if (this.cooldown == 20) {
-					Vec3d vec3d = this.ghast.getRotationVec(1.0F);
-					double f = livingEntity.getX() - (this.ghast.getX() + vec3d.x * 4.0D);
-					double g = livingEntity.getBodyY(0.5D) - (0.5D + this.ghast.getBodyY(0.5D));
-					double h = livingEntity.getZ() - (this.ghast.getZ() + vec3d.z * 4.0D);
-					EnergyCellMobEntity fireballEntity = new EnergyCellMobEntity(world, this.ghast, f, g, h);
-					fireballEntity.updatePosition(this.ghast.getX() + vec3d.x * 1.0D, this.ghast.getBodyY(0.5D) + 0.5D,
-							fireballEntity.getZ() + vec3d.z * 2.0D);
+				if (this.cooldown == 10) {
+					fireballEntity.updatePosition(this.ghast.getX() + vec3d.x * 2.0D, this.ghast.getBodyY(0.5D) + 0.5D,
+							ghast.getZ() + vec3d.z * 1.0D);
 					world.spawnEntity(fireballEntity);
-					this.cooldown = -40;
+				}
+				if (this.cooldown == 20) {
+					fireballEntity.updatePosition(this.ghast.getX() + vec3d.x * 2.0D, this.ghast.getBodyY(0.5D) + 0.5D,
+							ghast.getZ() + vec3d.z * 1.0D);
+					world.spawnEntity(fireballEntity);
+				}
+				if (this.cooldown == 30) {
+					fireballEntity.updatePosition(this.ghast.getX() + vec3d.x * 2.0D, this.ghast.getBodyY(0.5D) + 0.5D,
+							ghast.getZ() + vec3d.z * 1.0D);
+					world.spawnEntity(fireballEntity);
+				}
+				if (this.cooldown == 40) {
+					fireballEntity.updatePosition(this.ghast.getX() + vec3d.x * 2.0D, this.ghast.getBodyY(0.5D) + 0.5D,
+							ghast.getZ() + vec3d.z * 1.0D);
+					world.spawnEntity(fireballEntity);
+				}
+				if (this.cooldown == 50) {
+					fireballEntity.updatePosition(this.ghast.getX() + vec3d.x * 2.0D, this.ghast.getBodyY(0.5D) + 0.5D,
+							ghast.getZ() + vec3d.z * 1.0D);
+					world.spawnEntity(fireballEntity);
+					this.cooldown = -100;
 				}
 			} else if (this.cooldown > 0) {
+				this.ghast.getLookControl().lookAt(livingEntity, 90.0F, 30.0F);
 				--this.cooldown;
 			}
 

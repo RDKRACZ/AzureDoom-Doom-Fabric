@@ -84,9 +84,9 @@ public class ModSoundEvents {
 	public static SoundEvent MANCUBUS_HURT = of("doom.mancubus_hit");
 	public static SoundEvent MANCUBUS_STEP = of("doom.mancubus_walk");
 
-	public static SoundEvent REVENANT_AMBIENT = of("doom.revenants_say");
+	public static SoundEvent REVENANT_AMBIENT = of("doom.revenant_say");
 	public static SoundEvent REVENANT_DEATH = of("doom.revenant_death");
-	public static SoundEvent REVENANT_HURT = of("doom.revenant_hit");
+	public static SoundEvent REVENANT_HURT = of("doom.revenant_hurt");
 	public static SoundEvent REVENANT_ATTACK = of("doom.revenant_attack");
 
 	public static SoundEvent ARACHNOTRON_AMBIENT = of("doom.arachnotron_idle");

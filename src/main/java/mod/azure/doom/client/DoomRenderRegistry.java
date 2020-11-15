@@ -16,6 +16,7 @@ import mod.azure.doom.client.render.ImpRender;
 import mod.azure.doom.client.render.LostSoulRender;
 import mod.azure.doom.client.render.MancubusRender;
 import mod.azure.doom.client.render.MarauderRender;
+import mod.azure.doom.client.render.MechaZombieRender;
 import mod.azure.doom.client.render.NightmareImpRender;
 import mod.azure.doom.client.render.PainRender;
 import mod.azure.doom.client.render.PinkyRender;
@@ -121,6 +122,10 @@ public class DoomRenderRegistry {
 		});
 		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.POSSESSEDSOLDIER, (dispatcher, context) -> {
 			return new PossessedSoldierRender(dispatcher);
+		});
+
+		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.MECHAZOMBIE, (dispatcher, context) -> {
+			return new MechaZombieRender(dispatcher);
 		});
 		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.ARGENT_BOLT, (dispatcher, context) -> {
 			return new ArgentBoltRender(dispatcher);

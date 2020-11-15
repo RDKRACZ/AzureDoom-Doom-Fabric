@@ -24,6 +24,9 @@ import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.Monster;
@@ -37,12 +40,82 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class PainEntity extends DemonEntity implements Monster {
+public class PainEntity extends DemonEntity implements Monster, IAnimatable {
+
+	private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(PainEntity.class,
+			TrackedDataHandlerRegistry.BOOLEAN);
 
 	public PainEntity(EntityType<? extends PainEntity> type, World worldIn) {
 		super(type, worldIn);
 		this.moveControl = new PainEntity.GhastMoveControl(this);
+	}
+
+	private AnimationFactory factory = new AnimationFactory(this);
+
+	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+		if (!(lastLimbDistance > -0.15F && lastLimbDistance < 0.15F) && !this.dataTracker.get(SHOOTING)) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
+			return PlayState.CONTINUE;
+		}
+		if (this.dead) {
+			if (world.isClient) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("death", false));
+				return PlayState.CONTINUE;
+			}
+		}
+		if (this.dataTracker.get(SHOOTING)) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking", false));
+			return PlayState.CONTINUE;
+		}
+		if ((lastLimbDistance > -0.15F && lastLimbDistance < 0.15F) && !this.dataTracker.get(SHOOTING)) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
+			return PlayState.CONTINUE;
+		}
+		return PlayState.STOP;
+	}
+
+	@Override
+	public void registerControllers(AnimationData data) {
+		data.addAnimationController(new AnimationController<PainEntity>(this, "controller", 0, this::predicate));
+	}
+
+	@Override
+	public AnimationFactory getFactory() {
+		return this.factory;
+	}
+
+	@Override
+	protected void updatePostDeath() {
+		++this.deathTime;
+		if (this.deathTime == 60) {
+			this.remove();
+			for (int i = 0; i < 20; ++i) {
+				if (world.isClient) {
+				}
+			}
+		}
+	}
+
+	@Environment(EnvType.CLIENT)
+	public boolean isShooting() {
+		return (Boolean) this.dataTracker.get(SHOOTING);
+	}
+
+	public void setShooting(boolean shooting) {
+		this.dataTracker.set(SHOOTING, shooting);
+	}
+
+	protected void initDataTracker() {
+		super.initDataTracker();
+		this.dataTracker.startTracking(SHOOTING, false);
 	}
 
 	public boolean handleFallDamage(float fallDistance, float damageMultiplier) {
@@ -141,21 +214,28 @@ public class PainEntity extends DemonEntity implements Monster {
 			this.cooldown = 0;
 		}
 
+		public void resetTask() {
+			this.ghast.setShooting(false);
+		}
+
 		public void tick() {
 			LivingEntity livingEntity = this.ghast.getTarget();
 			if (livingEntity.squaredDistanceTo(this.ghast) < 4096.0D && this.ghast.canSee(livingEntity)) {
+				this.ghast.getLookControl().lookAt(livingEntity, 90.0F, 30.0F);
 				World world = this.ghast.world;
 				++this.cooldown;
 				if (this.cooldown == 20) {
 					LostSoulEntity lost_soul = MobEntityRegister.LOST_SOUL.create(world);
-					lost_soul.refreshPositionAndAngles(this.ghast.getX(), this.ghast.getY(), this.ghast.getZ() + 3, 0,
-							0);
+					lost_soul.refreshPositionAndAngles(this.ghast.getX(), this.ghast.getY(), this.ghast.getZ(), 0, 0);
+					lost_soul.addVelocity(1.0D, 0.0D, 0.0D);
 					world.spawnEntity(lost_soul);
 					this.cooldown = -40;
 				}
 			} else if (this.cooldown > 0) {
 				--this.cooldown;
 			}
+
+			this.ghast.setShooting(this.cooldown > 10);
 		}
 	}
 
@@ -247,7 +327,7 @@ public class PainEntity extends DemonEntity implements Monster {
 				double e = moveControl.getTargetY() - this.ghast.getY();
 				double f = moveControl.getTargetZ() - this.ghast.getZ();
 				double g = d * d + e * e + f * f;
-				return g < 1.0D || g > 3600.0D;
+				return g < 1.0D || g > 10.0D;
 			}
 		}
 
@@ -257,9 +337,9 @@ public class PainEntity extends DemonEntity implements Monster {
 
 		public void start() {
 			Random random = this.ghast.getRandom();
-			double d = this.ghast.getX() + (double) ((random.nextFloat() * 2.0F - 1.0F) * 16.0F);
-			double e = this.ghast.getY() + (double) ((random.nextFloat() * 2.0F - 1.0F) * 16.0F);
-			double f = this.ghast.getZ() + (double) ((random.nextFloat() * 2.0F - 1.0F) * 16.0F);
+			double d = this.ghast.getX() + (double) ((random.nextFloat() * 2.0F - 1.0F) * 2.0F);
+			double e = this.ghast.getY() + (double) ((random.nextFloat() * 2.0F - 1.0F) * 2.0F);
+			double f = this.ghast.getZ() + (double) ((random.nextFloat() * 2.0F - 1.0F) * 2.0F);
 			this.ghast.getMoveControl().moveTo(d, e, f, 1.0D);
 		}
 	}

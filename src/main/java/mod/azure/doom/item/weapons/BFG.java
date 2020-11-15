@@ -11,8 +11,6 @@ import mod.azure.doom.util.registry.DoomItems;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -40,8 +38,6 @@ public class BFG extends RangedWeaponItem {
 	public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
 		ItemStack stack = new ItemStack(this);
 		stack.hasTag();
-		stack.addEnchantment(Enchantments.PUNCH, 2);
-		stack.addEnchantment(Enchantments.POWER, 3);
 		if (group == DoomMod.DoomWeaponItemGroup) {
 			stacks.add(stack);
 		}
@@ -50,8 +46,6 @@ public class BFG extends RangedWeaponItem {
 	@Override
 	public void onCraft(ItemStack stack, World world, PlayerEntity player) {
 		stack.hasTag();
-		stack.addEnchantment(Enchantments.PUNCH, 2);
-		stack.addEnchantment(Enchantments.POWER, 3);
 	}
 
 	@Override
@@ -83,10 +77,6 @@ public class BFG extends RangedWeaponItem {
 
 					stack.damage(1, entityLiving, p -> p.sendToolBreakStatus(entityLiving.getActiveHand()));
 					worldIn.spawnEntity(abstractarrowentity);
-
-					if (!playerentity.hasStatusEffect(StatusEffects.RESISTANCE)) {
-						entityLiving.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 10, 4));
-					}
 				}
 				worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(), playerentity.getZ(),
 						ModSoundEvents.BFG_FIRING, SoundCategory.PLAYERS, 1.0F,

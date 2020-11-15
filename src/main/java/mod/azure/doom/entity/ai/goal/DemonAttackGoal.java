@@ -22,7 +22,7 @@ public class DemonAttackGoal extends MeleeAttackGoal {
 		super.stop();
 		this.zombie.setAttacking(false);
 	}
-	
+
 	@Override
 	public boolean shouldContinue() {
 		return super.shouldContinue();
@@ -32,6 +32,7 @@ public class DemonAttackGoal extends MeleeAttackGoal {
 		super.tick();
 		++this.ticks;
 		LivingEntity livingEntity = this.zombie.getTarget();
+		this.zombie.getLookControl().lookAt(livingEntity, 90.0F, 30.0F);
 		if (livingEntity.squaredDistanceTo(this.zombie) < 8.0D) {
 			if (this.ticks >= 5 && this.method_28348() < this.method_28349() / 2) {
 				this.zombie.setAttacking(true);

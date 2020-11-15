@@ -67,5 +67,9 @@ public class SpawnRestrictionMixin {
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
 		register(MobEntityRegister.ICONOFSIN, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+		register(MobEntityRegister.MECHAZOMBIE, SpawnRestriction.Location.ON_GROUND,
+				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+		register(MobEntityRegister.GORE_NEST, SpawnRestriction.Location.ON_GROUND,
+				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
 	}
 }

@@ -8,7 +8,7 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import software.bernie.geckolib.renderer.geo.GeoEntityRenderer;
+import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
 
 public class PossessedScientistRender extends GeoEntityRenderer<PossessedScientistEntity> {
 
@@ -31,6 +31,8 @@ public class PossessedScientistRender extends GeoEntityRenderer<PossessedScienti
 	public void renderEarly(PossessedScientistEntity animatable, MatrixStack stackIn, float ticks,
 			VertexConsumerProvider renderTypeBuffer, VertexConsumer vertexBuilder, int packedLightIn,
 			int packedOverlayIn, float red, float green, float blue, float partialTicks) {
+		super.renderEarly(animatable, stackIn, ticks, renderTypeBuffer, vertexBuilder, packedLightIn, packedOverlayIn,
+				red, green, blue, partialTicks);
 		stackIn.scale(0.725F, 0.6F, 0.725F);
 	}
 

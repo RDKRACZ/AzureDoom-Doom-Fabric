@@ -3,6 +3,7 @@ package mod.azure.doom.entity.projectiles;
 import java.util.List;
 
 import mod.azure.doom.util.ModSoundEvents;
+import mod.azure.doom.util.MyExplosion;
 import mod.azure.doom.util.packets.EntityPacket;
 import mod.azure.doom.util.registry.DoomItems;
 import mod.azure.doom.util.registry.ProjectilesEntityRegister;
@@ -267,8 +268,13 @@ public class BFGEntity extends PersistentProjectileEntity {
 	}
 
 	protected void explode() {
-		this.world.createExplosion(this, this.getX(), this.getBodyY(0.0625D), this.getZ(), 12.0F, false,
-				Explosion.DestructionType.NONE);
+		this.createExplosion(12.0F);
+	}
+
+	public Explosion createExplosion(float g) {
+		MyExplosion explosion = new MyExplosion(this.world, this, this.getX(), this.getBodyY(0.0625D), this.getZ(), g);
+		explosion.collectBlocksAndDamageEntities();
+		return explosion;
 	}
 
 	@Override

@@ -21,7 +21,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import software.bernie.geckolib.GeckoLib;
+import software.bernie.geckolib3.GeckoLib;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.CuriosComponent;
 import top.theillusivec4.curios.api.SlotTypeInfo.BuildScheme;
