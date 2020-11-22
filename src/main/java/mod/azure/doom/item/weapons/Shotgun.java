@@ -75,7 +75,7 @@ public class Shotgun extends RangedWeaponItem {
 					ShotgunShellEntity abstractarrowentity = arrowitem.createArrow(worldIn, itemstack, playerentity);
 					abstractarrowentity = customeArrow(abstractarrowentity);
 					abstractarrowentity.setProperties(playerentity, playerentity.pitch, playerentity.yaw, 0.0F,
-							1 * 3.0F, 1.0F);
+							0.25F * 3.0F, 1.0F);
 
 					int j = EnchantmentHelper.getLevel(Enchantments.POWER, stack);
 					if (j > 0) {

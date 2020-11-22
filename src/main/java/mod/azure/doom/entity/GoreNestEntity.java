@@ -12,6 +12,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.particle.ParticleTypes;
@@ -37,7 +39,7 @@ public class GoreNestEntity extends DemonEntity implements IAnimatable {
 	private AnimationFactory factory = new AnimationFactory(this);
 
 	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-		if (this.dead) {
+		if ((this.dead || this.getHealth() < 0.01 || this.isDead())) {
 			if (world.isClient) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("death", true));
 				return PlayState.CONTINUE;
@@ -45,6 +47,11 @@ public class GoreNestEntity extends DemonEntity implements IAnimatable {
 		}
 		event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
 		return PlayState.CONTINUE;
+	}
+	
+	@Override
+	public void takeKnockback(float f, double d, double e) {
+		super.takeKnockback(0, 0, 0);
 	}
 
 	@Override
@@ -67,25 +74,36 @@ public class GoreNestEntity extends DemonEntity implements IAnimatable {
 		++this.deathTime;
 		if (this.deathTime == 80) {
 			this.remove();
-			HellknightEntity fireballentity = MobEntityRegister.HELLKNIGHT.create(world);
-			fireballentity.refreshPositionAndAngles(this.getX() + 2.0D, this.getY() + 0.5D, this.getZ() + 2.0D, 0, 0);
-			world.spawnEntity(fireballentity);
-
-			PossessedScientistEntity fireballentity1 = MobEntityRegister.POSSESSEDSCIENTIST.create(world);
-			fireballentity1.refreshPositionAndAngles(this.getX() + -2.0D, this.getY() + 0.5D, this.getZ() + -2.0D, 0,
-					0);
-			world.spawnEntity(fireballentity1);
-
-			ImpEntity fireballentity11 = MobEntityRegister.IMP.create(world);
-			fireballentity11.refreshPositionAndAngles(this.getX() + 1.0D, this.getY() + 0.5D, this.getZ() + 1.0D, 0, 0);
-			world.spawnEntity(fireballentity11);
-
-			NightmareImpEntity fireballentity111 = MobEntityRegister.NIGHTMARE_IMP.create(world);
-			fireballentity111.refreshPositionAndAngles(this.getX() + -1.0D, this.getY() + 0.5D, this.getZ() + -1.0D, 0,
-					0);
-			world.spawnEntity(fireballentity111);
 		}
+	}
+	
+	@Override
+	protected void applyDamage(DamageSource source, float amount) {
+		if (!(source.getSource() instanceof PlayerEntity)) {
+			this.setHealth(5.0F);
+		} else {
+			this.remove();
+		}
+	}
 
+	public void spawnWave() {
+		HellknightEntity fireballentity = MobEntityRegister.HELLKNIGHT.create(world);
+		fireballentity.refreshPositionAndAngles(this.getX() + 2.0D, this.getY() + 0.5D, this.getZ() + 2.0D, 0, 0);
+		world.spawnEntity(fireballentity);
+
+		PossessedScientistEntity fireballentity1 = MobEntityRegister.POSSESSEDSCIENTIST.create(world);
+		fireballentity1.refreshPositionAndAngles(this.getX() + -2.0D, this.getY() + 0.5D, this.getZ() + -2.0D, 0,
+				0);
+		world.spawnEntity(fireballentity1);
+
+		ImpEntity fireballentity11 = MobEntityRegister.IMP.create(world);
+		fireballentity11.refreshPositionAndAngles(this.getX() + 1.0D, this.getY() + 0.5D, this.getZ() + 1.0D, 0, 0);
+		world.spawnEntity(fireballentity11);
+
+		NightmareImpEntity fireballentity111 = MobEntityRegister.NIGHTMARE_IMP.create(world);
+		fireballentity111.refreshPositionAndAngles(this.getX() + -1.0D, this.getY() + 0.5D, this.getZ() + -1.0D, 0,
+				0);
+		world.spawnEntity(fireballentity111);
 	}
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
@@ -110,6 +128,11 @@ public class GoreNestEntity extends DemonEntity implements IAnimatable {
 					(this.random.nextDouble() - 0.5D) * 2.0D);
 			this.world.addParticle(ParticleTypes.SOUL, this.getParticleX(0.2D), this.getRandomBodyY(),
 					this.getParticleZ(0.5D), 0.0D, 0D, 0D);
+		}
+		if (!world.isClient) {
+			if (this.age % 800 == 0) {
+				this.spawnWave();
+			}
 		}
 		super.tickMovement();
 	}

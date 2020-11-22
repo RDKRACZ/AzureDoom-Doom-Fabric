@@ -65,7 +65,7 @@ public class CacodemonEntity extends DemonEntity implements Monster, IAnimatable
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
 			return PlayState.CONTINUE;
 		}
-		if (this.dead) {
+		if ((this.dead || this.getHealth() < 0.01 || this.isDead())) {
 			if (world.isClient) {
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("death", false));
 				return PlayState.CONTINUE;

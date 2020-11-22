@@ -3,7 +3,6 @@ package mod.azure.doom.entity.projectiles;
 import java.util.List;
 
 import mod.azure.doom.util.ModSoundEvents;
-import mod.azure.doom.util.MyExplosion;
 import mod.azure.doom.util.packets.EntityPacket;
 import mod.azure.doom.util.registry.DoomItems;
 import mod.azure.doom.util.registry.ProjectilesEntityRegister;
@@ -13,22 +12,26 @@ import net.minecraft.entity.AreaEffectCloudEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.mob.HoglinEntity;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.PhantomEntity;
+import net.minecraft.entity.mob.ShulkerEntity;
+import net.minecraft.entity.mob.SlimeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
-import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
-import net.minecraft.world.explosion.Explosion;
 
 public class BFGEntity extends PersistentProjectileEntity {
 
@@ -186,42 +189,11 @@ public class BFGEntity extends PersistentProjectileEntity {
 		}
 	}
 
-	protected ParticleEffect getParticleType() {
-		return ParticleTypes.TOTEM_OF_UNDYING;
-	}
-
 	@Override
 	protected void onBlockHit(BlockHitResult blockHitResult) {
 		super.onBlockHit(blockHitResult);
-		Entity entity = this.getOwner();
 		if (!this.world.isClient) {
-			List<LivingEntity> list = this.world.getEntitiesIncludingUngeneratedChunks(HostileEntity.class,
-					this.getBoundingBox().expand(15.0D, 15.0D, 15.0D));
-			AreaEffectCloudEntity areaeffectcloudentity = new AreaEffectCloudEntity(this.world, this.getX(),
-					this.getY(), this.getZ());
-			if (entity instanceof LivingEntity) {
-				areaeffectcloudentity.setOwner((LivingEntity) entity);
-			}
-
-			areaeffectcloudentity.setParticleType(this.getParticleType());
-			areaeffectcloudentity.setRadius(1.0F);
-			areaeffectcloudentity.setDuration(10);
-			areaeffectcloudentity.setRadiusGrowth(
-					(7.0F - areaeffectcloudentity.getRadius()) / (float) areaeffectcloudentity.getDuration());
-			if (!list.isEmpty()) {
-				for (LivingEntity livingentity : list) {
-					double d0 = this.squaredDistanceTo(livingentity);
-					if (d0 < 16.0D) {
-						areaeffectcloudentity.updatePosition(livingentity.getX(), livingentity.getY(),
-								livingentity.getZ());
-						break;
-					}
-				}
-			}
-
-			this.world.syncWorldEvent(2006, this.getBlockPos(), this.isSilent() ? -1 : 1);
-			this.world.spawnEntity(areaeffectcloudentity);
-			this.explode();
+			this.doDamage();
 			this.remove();
 		}
 		this.playSound(ModSoundEvents.BFG_HIT, 1.0F, 1.0F);
@@ -234,47 +206,57 @@ public class BFGEntity extends PersistentProjectileEntity {
 		if (entityHitResult.getType() != HitResult.Type.ENTITY
 				|| !((EntityHitResult) entityHitResult).getEntity().isPartOf(entity)) {
 			if (!this.world.isClient) {
-				List<LivingEntity> list = this.world.getEntitiesIncludingUngeneratedChunks(HostileEntity.class,
-						this.getBoundingBox().expand(15.0D, 15.0D, 15.0D));
-				AreaEffectCloudEntity areaeffectcloudentity = new AreaEffectCloudEntity(this.world, this.getX(),
-						this.getY(), this.getZ());
-				if (entity instanceof LivingEntity) {
-					areaeffectcloudentity.setOwner((LivingEntity) entity);
-				}
-
-				areaeffectcloudentity.setParticleType(this.getParticleType());
-				areaeffectcloudentity.setRadius(1.0F);
-				areaeffectcloudentity.setDuration(10);
-				areaeffectcloudentity.setRadiusGrowth(
-						(7.0F - areaeffectcloudentity.getRadius()) / (float) areaeffectcloudentity.getDuration());
-				if (!list.isEmpty()) {
-					for (LivingEntity livingentity : list) {
-						double d0 = this.squaredDistanceTo(livingentity);
-						if (d0 < 16.0D) {
-							areaeffectcloudentity.updatePosition(livingentity.getX(), livingentity.getY(),
-									livingentity.getZ());
-							break;
-						}
-					}
-				}
-
-				this.world.syncWorldEvent(2006, this.getBlockPos(), this.isSilent() ? -1 : 1);
-				this.world.spawnEntity(areaeffectcloudentity);
-				this.explode();
+				this.doDamage();
 				this.remove();
 			}
 		}
 		this.playSound(ModSoundEvents.BFG_HIT, 1.0F, 1.0F);
 	}
 
-	protected void explode() {
-		this.createExplosion(12.0F);
-	}
+	public void doDamage() {
+		float q = 24.0F;
+		int k = MathHelper.floor(this.getX() - (double) q - 1.0D);
+		int l = MathHelper.floor(this.getX() + (double) q + 1.0D);
+		int t = MathHelper.floor(this.getY() - (double) q - 1.0D);
+		int u = MathHelper.floor(this.getY() + (double) q + 1.0D);
+		int v = MathHelper.floor(this.getZ() - (double) q - 1.0D);
+		int w = MathHelper.floor(this.getZ() + (double) q + 1.0D);
+		List<Entity> list = this.world.getOtherEntities(this,
+				new Box((double) k, (double) t, (double) v, (double) l, (double) u, (double) w));
+		Vec3d vec3d = new Vec3d(this.getX(), this.getY(), this.getZ());
 
-	public Explosion createExplosion(float g) {
-		MyExplosion explosion = new MyExplosion(this.world, this, this.getX(), this.getBodyY(0.0625D), this.getZ(), g);
-		explosion.collectBlocksAndDamageEntities();
-		return explosion;
+		for (int x = 0; x < list.size(); ++x) {
+			Entity entity = (Entity) list.get(x);
+			if (!(entity instanceof PlayerEntity) && (entity instanceof HostileEntity)
+					|| (entity instanceof SlimeEntity) || (entity instanceof PhantomEntity)
+					|| (entity instanceof ShulkerEntity) || (entity instanceof HoglinEntity)) {
+				double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d)) / q);
+				if (y <= 1.0D) {
+					entity.damage(DamageSource.badRespawnPoint(), 100);
+					if (!this.world.isClient) {
+						List<LivingEntity> list1 = this.world.getEntitiesIncludingUngeneratedChunks(LivingEntity.class,
+								this.getBoundingBox().expand(15.0D, 15.0D, 15.0D));
+						AreaEffectCloudEntity areaeffectcloudentity = new AreaEffectCloudEntity(entity.world,
+								entity.getX(), entity.getY(), entity.getZ());
+						areaeffectcloudentity.setParticleType(ParticleTypes.TOTEM_OF_UNDYING);
+						areaeffectcloudentity.setRadius(3.0F);
+						areaeffectcloudentity.setDuration(10);
+						if (!list1.isEmpty()) {
+							for (LivingEntity livingentity : list1) {
+								double d0 = this.squaredDistanceTo(livingentity);
+								if (d0 < 16.0D) {
+									areaeffectcloudentity.updatePosition(entity.getX(), entity.getEyeY(),
+											entity.getZ());
+									break;
+								}
+							}
+						}
+						this.world.spawnEntity(areaeffectcloudentity);
+					}
+				}
+			}
+		}
+
 	}
 
 	@Override

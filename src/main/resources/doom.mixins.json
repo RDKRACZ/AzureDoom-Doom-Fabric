@@ -4,8 +4,7 @@
 	"package": "mod.azure.doom.mixin",
 	"compatibilityLevel": "JAVA_8",
 	"client": [
-		"PlayerRenderMixin",
-		"ArmorStandRenderMixin"
+		"DoubleJumpMixin"
 	],
 	"mixins": [
 		"LivingEntityMixin",

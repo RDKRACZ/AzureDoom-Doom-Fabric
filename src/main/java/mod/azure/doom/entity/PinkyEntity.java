@@ -43,6 +43,12 @@ public class PinkyEntity extends DemonEntity implements IAnimatable {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
 			return PlayState.CONTINUE;
 		}
+		if ((this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			if (world.isClient) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("death", false));
+				return PlayState.CONTINUE;
+			}
+		}
 		return PlayState.STOP;
 	}
 

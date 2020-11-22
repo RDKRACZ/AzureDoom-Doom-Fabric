@@ -55,6 +55,8 @@ public class SpawnRestrictionMixin {
 				HostileEntity::canSpawnInDark);
 		register(MobEntityRegister.HELLKNIGHT, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+		register(MobEntityRegister.HELLKNIGHT2016, SpawnRestriction.Location.ON_GROUND,
+				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
 		register(MobEntityRegister.CYBERDEMON, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
 		register(MobEntityRegister.CYBERDEMON2016, SpawnRestriction.Location.ON_GROUND,

@@ -1,5 +1,7 @@
 package mod.azure.doom.entity.projectiles;
 
+import java.util.List;
+
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.packets.EntityPacket;
 import mod.azure.doom.util.registry.DoomItems;
@@ -9,6 +11,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
@@ -17,11 +20,11 @@ import net.minecraft.network.Packet;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
-import net.minecraft.world.explosion.Explosion;
 
 public class EnergyCellEntity extends PersistentProjectileEntity {
 
@@ -178,7 +181,7 @@ public class EnergyCellEntity extends PersistentProjectileEntity {
 	protected void onBlockHit(BlockHitResult blockHitResult) {
 		super.onBlockHit(blockHitResult);
 		if (!this.world.isClient) {
-			this.explode();
+			this.doDamage();
 			this.remove();
 		}
 		this.playSound(ModSoundEvents.PLASMA_HIT, 1.0F, 1.0F);
@@ -188,7 +191,7 @@ public class EnergyCellEntity extends PersistentProjectileEntity {
 	protected void onEntityHit(EntityHitResult entityHitResult) {
 		super.onEntityHit(entityHitResult);
 		if (!this.world.isClient) {
-			this.explode();
+			this.doDamage();
 			this.remove();
 		}
 		this.playSound(ModSoundEvents.PLASMA_HIT, 1.0F, 1.0F);
@@ -199,9 +202,24 @@ public class EnergyCellEntity extends PersistentProjectileEntity {
 		return new ItemStack(DoomItems.ENERGY_CELLS);
 	}
 
-	protected void explode() {
-		this.world.createExplosion(this, this.getX(), this.getBodyY(0.0625D), this.getZ(), 0.01F,
-				Explosion.DestructionType.NONE);
+	public void doDamage() {
+		float q = 2.0F;
+		int k = MathHelper.floor(this.getX() - (double) q - 1.0D);
+		int l = MathHelper.floor(this.getX() + (double) q + 1.0D);
+		int t = MathHelper.floor(this.getY() - (double) q - 1.0D);
+		int u = MathHelper.floor(this.getY() + (double) q + 1.0D);
+		int v = MathHelper.floor(this.getZ() - (double) q - 1.0D);
+		int w = MathHelper.floor(this.getZ() + (double) q + 1.0D);
+		List<Entity> list = this.world.getOtherEntities(this,
+				new Box((double) k, (double) t, (double) v, (double) l, (double) u, (double) w));
+		Vec3d vec3d = new Vec3d(this.getX(), this.getY(), this.getZ());
+		for (int x = 0; x < list.size(); ++x) {
+			Entity entity = (Entity) list.get(x);
+			double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d)) / q);
+			if (y <= 1.0D) {
+				entity.damage(DamageSource.badRespawnPoint(), 20);
+			}
+		}
 	}
 
 	@Override

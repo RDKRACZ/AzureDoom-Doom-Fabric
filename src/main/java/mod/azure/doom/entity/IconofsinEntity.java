@@ -2,6 +2,8 @@ package mod.azure.doom.entity;
 
 import java.util.Random;
 
+import org.jetbrains.annotations.Nullable;
+
 import mod.azure.doom.util.ModSoundEvents;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityDimensions;
@@ -19,12 +21,16 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.boss.ServerBossBar;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
@@ -32,7 +38,7 @@ import net.minecraft.world.World;
 public class IconofsinEntity extends DemonEntity {
 
 	private final ServerBossBar bossBar = (ServerBossBar) (new ServerBossBar(this.getDisplayName(),
-			BossBar.Color.PURPLE, BossBar.Style.PROGRESS)).setDarkenSky(false).setThickenFog(true);
+			BossBar.Color.PURPLE, BossBar.Style.PROGRESS)).setDarkenSky(true).setThickenFog(true);
 
 	public IconofsinEntity(EntityType<IconofsinEntity> entityType, World worldIn) {
 		super(entityType, worldIn);
@@ -116,5 +122,42 @@ public class IconofsinEntity extends DemonEntity {
 	@Override
 	protected void playStepSound(BlockPos pos, BlockState blockIn) {
 		this.playSound(this.getStepSound(), 0.15F, 1.0F);
+	}
+
+	@Override
+	public void readCustomDataFromTag(CompoundTag tag) {
+		super.readCustomDataFromTag(tag);
+		if (this.hasCustomName()) {
+			this.bossBar.setName(this.getDisplayName());
+		}
+	}
+
+	@Override
+	public void setCustomName(@Nullable Text name) {
+		super.setCustomName(name);
+		this.bossBar.setName(this.getDisplayName());
+	}
+
+	@Override
+	protected void mobTick() {
+		super.mobTick();
+		this.bossBar.setPercent(this.getHealth() / this.getMaxHealth());
+	}
+
+	@Override
+	public void tickMovement() {
+		super.tickMovement();
+		if (this.getHealth() > 500.0D) {
+			if (!this.world.isClient) {
+				this.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 1000000, 1));
+			}
+		}
+		if (this.getHealth() < 500.0D) {
+			if (!this.world.isClient) {
+				this.removeStatusEffect(StatusEffects.STRENGTH);
+				this.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 10000000, 2));
+				this.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 10000000, 1));
+			}
+		}
 	}
 }

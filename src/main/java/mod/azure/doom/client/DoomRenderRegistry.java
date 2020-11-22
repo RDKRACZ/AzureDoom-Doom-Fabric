@@ -9,6 +9,7 @@ import mod.azure.doom.client.render.ChaingunnerRender;
 import mod.azure.doom.client.render.Cyberdemon2016Render;
 import mod.azure.doom.client.render.CyberdemonRender;
 import mod.azure.doom.client.render.GoreNestRender;
+import mod.azure.doom.client.render.Hellknight2016Render;
 import mod.azure.doom.client.render.HellknightRender;
 import mod.azure.doom.client.render.IconofsinRender;
 import mod.azure.doom.client.render.Imp2016Render;
@@ -104,6 +105,9 @@ public class DoomRenderRegistry {
 		});
 		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.HELLKNIGHT, (dispatcher, context) -> {
 			return new HellknightRender(dispatcher);
+		});
+		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.HELLKNIGHT2016, (dispatcher, context) -> {
+			return new Hellknight2016Render(dispatcher);
 		});
 		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.CYBERDEMON, (dispatcher, context) -> {
 			return new CyberdemonRender(dispatcher);

@@ -28,6 +28,16 @@
 					"type": "item",
 					"weight": 1,
 					"name": "doom:soulcube"
+				},
+				{
+					"type": "item",
+					"weight": 1,
+					"name": "doom:leaping_doom"
+				},
+				{
+					"type": "item",
+					"weight": 1,
+					"name": "doom:daisy"
 				}
 			]
 		}

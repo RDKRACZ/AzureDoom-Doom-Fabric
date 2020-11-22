@@ -8,6 +8,7 @@ import mod.azure.doom.entity.ChaingunnerEntity;
 import mod.azure.doom.entity.Cyberdemon2016Entity;
 import mod.azure.doom.entity.CyberdemonEntity;
 import mod.azure.doom.entity.GoreNestEntity;
+import mod.azure.doom.entity.Hellknight2016Entity;
 import mod.azure.doom.entity.HellknightEntity;
 import mod.azure.doom.entity.IconofsinEntity;
 import mod.azure.doom.entity.Imp2016Entity;
@@ -40,6 +41,8 @@ public class MobAttributes {
 				Cyberdemon2016Entity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(MobEntityRegister.CYBERDEMON, CyberdemonEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(MobEntityRegister.HELLKNIGHT, HellknightEntity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(MobEntityRegister.HELLKNIGHT2016,
+				Hellknight2016Entity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(MobEntityRegister.ICONOFSIN, IconofsinEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(MobEntityRegister.IMP2016, Imp2016Entity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(MobEntityRegister.IMP, ImpEntity.createMobAttributes());

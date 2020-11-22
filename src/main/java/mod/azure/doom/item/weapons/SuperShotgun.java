@@ -22,11 +22,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FireworkRocketEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.item.RangedWeaponItem;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.sound.SoundCategory;
@@ -39,7 +39,7 @@ import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class SuperShotgun extends CrossbowItem {
+public class SuperShotgun extends RangedWeaponItem {
 
 	private boolean charged = false;
 	private boolean loaded = false;
@@ -256,8 +256,8 @@ public class SuperShotgun extends CrossbowItem {
 				e.sendToolBreakStatus(hand);
 			});
 			world.spawnEntity((Entity) projectileEntity2);
-			world.playSound((PlayerEntity) null, shooter.getX(), shooter.getY(), shooter.getZ(),
-					ModSoundEvents.SHOOT1, SoundCategory.PLAYERS, 1.0F, soundPitch);
+			world.playSound((PlayerEntity) null, shooter.getX(), shooter.getY(), shooter.getZ(), ModSoundEvents.SHOOT1,
+					SoundCategory.PLAYERS, 1.0F, soundPitch);
 		}
 	}
 

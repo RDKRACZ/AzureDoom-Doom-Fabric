@@ -16,6 +16,7 @@ import top.theillusivec4.curios.api.CuriosApi;
 
 @Mixin(LivingEntity.class)
 public class LivingEntityMixin {
+
 	@Inject(method = "tryUseTotem", at = @At(value = "HEAD"), cancellable = true)
 	private void tryUseTotem(DamageSource source, CallbackInfoReturnable<Boolean> ci) {
 		LivingEntity livingEntity = (LivingEntity) (Object) this;

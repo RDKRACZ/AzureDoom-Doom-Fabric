@@ -13,7 +13,7 @@ import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.SpawnSettings;
 
-public class MobSpawn {
+public class BNMobSpawn {
 
 	/* Major fucking thanks to Corgi Taco for figuring this shit out */
 	public static void addSpawnEntries() {
@@ -38,7 +38,6 @@ public class MobSpawn {
 						new SpawnSettings.SpawnEntry(MobEntityRegister.MARAUDER, 15, 1, 1),
 						new SpawnSettings.SpawnEntry(MobEntityRegister.PAIN, 8, 1, 2),
 						new SpawnSettings.SpawnEntry(MobEntityRegister.HELLKNIGHT, 10, 1, 1),
-						new SpawnSettings.SpawnEntry(MobEntityRegister.HELLKNIGHT2016, 10, 1, 1),
 						new SpawnSettings.SpawnEntry(MobEntityRegister.CYBERDEMON, 10, 1, 1),
 						new SpawnSettings.SpawnEntry(MobEntityRegister.UNWILLING, 30, 1, 4),
 						new SpawnSettings.SpawnEntry(MobEntityRegister.POSSESSEDSCIENTIST, 30, 1, 4),
