@@ -2,6 +2,9 @@ package mod.azure.doom.entity.projectiles;
 
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
+
+import mod.azure.doom.entity.GoreNestEntity;
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.packets.EntityPacket;
 import mod.azure.doom.util.registry.DoomItems;
@@ -13,6 +16,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HoglinEntity;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.PhantomEntity;
@@ -38,6 +44,9 @@ public class BFGEntity extends PersistentProjectileEntity {
 	protected int timeInAir;
 	protected boolean inAir;
 	private int ticksInAir;
+	private static final TrackedData<Integer> BEAM_TARGET_ID = DataTracker.registerData(BFGEntity.class,
+			TrackedDataHandlerRegistry.INTEGER);
+	private LivingEntity cachedBeamTarget;
 
 	public BFGEntity(EntityType<? extends BFGEntity> entityType, World world) {
 		super(entityType, world);
@@ -104,7 +113,7 @@ public class BFGEntity extends PersistentProjectileEntity {
 			this.prevYaw = this.yaw;
 			this.prevPitch = this.pitch;
 		}
-		if (this.age >= 600) {
+		if (this.age >= 100) {
 			this.remove();
 		}
 		if (this.inAir && !bl) {
@@ -168,6 +177,30 @@ public class BFGEntity extends PersistentProjectileEntity {
 			this.updatePosition(h, j, k);
 			this.checkBlockCollision();
 		}
+		float q = 24.0F;
+		int k = MathHelper.floor(this.getX() - (double) q - 1.0D);
+		int l = MathHelper.floor(this.getX() + (double) q + 1.0D);
+		int t = MathHelper.floor(this.getY() - (double) q - 1.0D);
+		int u = MathHelper.floor(this.getY() + (double) q + 1.0D);
+		int v = MathHelper.floor(this.getZ() - (double) q - 1.0D);
+		int w = MathHelper.floor(this.getZ() + (double) q + 1.0D);
+		List<Entity> list = this.world.getOtherEntities(this,
+				new Box((double) k, (double) t, (double) v, (double) l, (double) u, (double) w));
+		Vec3d vec3d1 = new Vec3d(this.getX(), this.getY(), this.getZ());
+
+		for (int x = 0; x < list.size(); ++x) {
+			Entity entity = (Entity) list.get(x);
+			if (!(entity instanceof PlayerEntity) && (entity instanceof HostileEntity)
+					|| (entity instanceof SlimeEntity) || (entity instanceof PhantomEntity)
+					|| (entity instanceof GoreNestEntity) || (entity instanceof ShulkerEntity)
+					|| (entity instanceof HoglinEntity)) {
+				double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d1)) / q);
+				if (y <= 1.0D) {
+					entity.damage(DamageSource.arrow(this, this), 10);
+					setBeamTarget(entity.getEntityId());
+				}
+			}
+		}
 	}
 
 	public void initFromStack(ItemStack stack) {
@@ -229,10 +262,11 @@ public class BFGEntity extends PersistentProjectileEntity {
 			Entity entity = (Entity) list.get(x);
 			if (!(entity instanceof PlayerEntity) && (entity instanceof HostileEntity)
 					|| (entity instanceof SlimeEntity) || (entity instanceof PhantomEntity)
-					|| (entity instanceof ShulkerEntity) || (entity instanceof HoglinEntity)) {
+					|| (entity instanceof GoreNestEntity) || (entity instanceof ShulkerEntity)
+					|| (entity instanceof HoglinEntity)) {
 				double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d)) / q);
 				if (y <= 1.0D) {
-					entity.damage(DamageSource.badRespawnPoint(), 100);
+					entity.damage(DamageSource.arrow(this, this), 100);
 					if (!this.world.isClient) {
 						List<LivingEntity> list1 = this.world.getEntitiesIncludingUngeneratedChunks(LivingEntity.class,
 								this.getBoundingBox().expand(15.0D, 15.0D, 15.0D));
@@ -263,5 +297,53 @@ public class BFGEntity extends PersistentProjectileEntity {
 	@Environment(EnvType.CLIENT)
 	public boolean shouldRender(double distance) {
 		return true;
+	}
+
+	@Override
+	protected void initDataTracker() {
+		super.initDataTracker();
+		this.dataTracker.startTracking(BEAM_TARGET_ID, 0);
+	}
+
+	private void setBeamTarget(int entityId) {
+		this.dataTracker.set(BEAM_TARGET_ID, entityId);
+	}
+
+	public boolean hasBeamTarget() {
+		return (Integer) this.dataTracker.get(BEAM_TARGET_ID) != 0;
+	}
+
+	@Nullable
+	public LivingEntity getBeamTarget() {
+		if (!this.hasBeamTarget()) {
+			return null;
+		} else if (this.world.isClient) {
+			if (this.cachedBeamTarget != null) {
+				return this.cachedBeamTarget;
+			} else {
+				Entity entity = this.world.getEntityById((Integer) this.dataTracker.get(BEAM_TARGET_ID));
+				if (entity instanceof LivingEntity) {
+					this.cachedBeamTarget = (LivingEntity) entity;
+					return this.cachedBeamTarget;
+				} else {
+					return null;
+				}
+			}
+		} else {
+			return this.getTarget();
+		}
+	}
+
+	@Override
+	public void onTrackedDataSet(TrackedData<?> data) {
+		super.onTrackedDataSet(data);
+		if (BEAM_TARGET_ID.equals(data)) {
+			this.cachedBeamTarget = null;
+		}
+	}
+
+	@Nullable
+	public LivingEntity getTarget() {
+		return this.cachedBeamTarget;
 	}
 }

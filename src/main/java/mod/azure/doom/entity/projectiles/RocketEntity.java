@@ -97,7 +97,7 @@ public class RocketEntity extends PersistentProjectileEntity {
 			this.prevYaw = this.yaw;
 			this.prevPitch = this.pitch;
 		}
-		if (this.age >= 600) {
+		if (this.age >= 100) {
 			this.remove();
 		}
 		if (this.inAir && !bl) {
