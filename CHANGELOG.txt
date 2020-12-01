@@ -1,5 +1,6 @@
-v.3.4.8
+v.3.5.0
 
-- BFG now has an AOE effect when fired and usually attaches a tendril to entities.
-- BFG, Rockets, and Plasma Blasts now have shorter life span. 
-- Fixed Hell Knight 2016 speed.
+- Updated all armors to using 3D Geckolib Armors with animations.* 
+- Armors have have a base enchantment like in Forge.
+
+*Warning: putting all the armors in the same chunk to view WILL lag your game, you have been worked.

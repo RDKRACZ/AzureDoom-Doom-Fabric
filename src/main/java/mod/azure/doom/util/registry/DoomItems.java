@@ -16,16 +16,24 @@ import mod.azure.doom.item.ammo.Rocket;
 import mod.azure.doom.item.ammo.ShellAmmo;
 import mod.azure.doom.item.ammo.UnmaykrBolt;
 import mod.azure.doom.item.armor.AstroDoomArmor;
+import mod.azure.doom.item.armor.BronzeDoomArmor;
+import mod.azure.doom.item.armor.ClassicBronzeDoomArmor;
 import mod.azure.doom.item.armor.ClassicDoomArmor;
+import mod.azure.doom.item.armor.ClassicIndigoDoomArmor;
+import mod.azure.doom.item.armor.ClassicRedDoomArmor;
 import mod.azure.doom.item.armor.CrimsonDoomArmor;
 import mod.azure.doom.item.armor.CultistDoomArmor;
+import mod.azure.doom.item.armor.DemoncideDoomArmor;
 import mod.azure.doom.item.armor.DemonicDoomArmor;
 import mod.azure.doom.item.armor.DoomArmor;
 import mod.azure.doom.item.armor.DoomicornDoomArmor;
 import mod.azure.doom.item.armor.EmberDoomArmor;
 import mod.azure.doom.item.armor.GoldDoomArmor;
+import mod.azure.doom.item.armor.HotrodDoomArmor;
 import mod.azure.doom.item.armor.MaykrDoomArmor;
 import mod.azure.doom.item.armor.MidnightDoomArmor;
+import mod.azure.doom.item.armor.Mullet2DoomArmor;
+import mod.azure.doom.item.armor.Mullet3DoomArmor;
 import mod.azure.doom.item.armor.MulletDoomArmor;
 import mod.azure.doom.item.armor.NightmareDoomArmor;
 import mod.azure.doom.item.armor.PainterDoomArmor;
@@ -33,6 +41,7 @@ import mod.azure.doom.item.armor.PhobosDoomArmor;
 import mod.azure.doom.item.armor.PraetorDoomArmor;
 import mod.azure.doom.item.armor.PurplePonyDoomArmor;
 import mod.azure.doom.item.armor.SentinelDoomArmor;
+import mod.azure.doom.item.armor.TwentyFiveDoomArmor;
 import mod.azure.doom.item.armor.ZombieDoomArmor;
 import mod.azure.doom.item.eggs.DoomSpawnEgg;
 import mod.azure.doom.item.powerup.InmortalSphereItem;
@@ -164,14 +173,14 @@ public class DoomItems {
 			new DoomSpawnEgg(MobEntityRegister.HELLKNIGHT2016));
 
 	// Armor
-	public static DoomArmor DOOM_HELMET = item(new DoomArmor(DoomArmorMaterial.DOOM_ARMOR, EquipmentSlot.HEAD),
-			"doom_helmet");
-	public static DoomArmor DOOM_CHESTPLATE = item(new DoomArmor(DoomArmorMaterial.DOOM_ARMOR, EquipmentSlot.CHEST),
-			"doom_chestplate");
-	public static DoomArmor DOOM_LEGGINGS = item(new DoomArmor(DoomArmorMaterial.DOOM_ARMOR, EquipmentSlot.LEGS),
-			"doom_leggings");
-	public static DoomArmor DOOM_BOOTS = item(new DoomArmor(DoomArmorMaterial.DOOM_ARMOR, EquipmentSlot.FEET),
-			"doom_boots");
+	public static DoomArmor DOOM_HELMET = item("doom_helmet",
+			new DoomArmor(DoomArmorMaterial.DOOM_ARMOR, EquipmentSlot.HEAD));
+	public static DoomArmor DOOM_CHESTPLATE = item("doom_chestplate",
+			new DoomArmor(DoomArmorMaterial.DOOM_ARMOR, EquipmentSlot.CHEST));
+	public static DoomArmor DOOM_LEGGINGS = item("doom_leggings",
+			new DoomArmor(DoomArmorMaterial.DOOM_ARMOR, EquipmentSlot.LEGS));
+	public static DoomArmor DOOM_BOOTS = item("doom_boots",
+			new DoomArmor(DoomArmorMaterial.DOOM_ARMOR, EquipmentSlot.FEET));
 	public static PraetorDoomArmor PRAETOR_DOOM_HELMET = item("praetor_doom_helmet",
 			new PraetorDoomArmor(DoomArmorMaterial.PRAETOR_DOOM_ARMOR, EquipmentSlot.HEAD));
 	public static PraetorDoomArmor PRAETOR_DOOM_CHESTPLATE = item("praetor_doom_chestplate",
@@ -212,6 +221,14 @@ public class DoomItems {
 			new DemonicDoomArmor(DoomArmorMaterial.DEMONIC_DOOM_ARMOR, EquipmentSlot.LEGS));
 	public static DemonicDoomArmor DEMONIC_DOOM_BOOTS = item("demonic_doom_boots",
 			new DemonicDoomArmor(DoomArmorMaterial.DEMONIC_DOOM_ARMOR, EquipmentSlot.FEET));
+	public static DemoncideDoomArmor DEMONCIDE_DOOM_HELMET = item("demoncide_doom_helmet",
+			new DemoncideDoomArmor(DoomArmorMaterial.DEMONCIDE_DOOM_ARMOR, EquipmentSlot.HEAD));
+	public static DemoncideDoomArmor DEMONCIDE_DOOM_CHESTPLATE = item("demoncide_doom_chestplate",
+			new DemoncideDoomArmor(DoomArmorMaterial.DEMONCIDE_DOOM_ARMOR, EquipmentSlot.CHEST));
+	public static DemoncideDoomArmor DEMONCIDE_DOOM_LEGGINGS = item("demoncide_doom_leggings",
+			new DemoncideDoomArmor(DoomArmorMaterial.DEMONCIDE_DOOM_ARMOR, EquipmentSlot.LEGS));
+	public static DemoncideDoomArmor DEMONCIDE_DOOM_BOOTS = item("demoncide_doom_boots",
+			new DemoncideDoomArmor(DoomArmorMaterial.DEMONCIDE_DOOM_ARMOR, EquipmentSlot.FEET));
 	public static SentinelDoomArmor SENTINEL_DOOM_HELMET = item("sentinel_doom_helmet",
 			new SentinelDoomArmor(DoomArmorMaterial.SENTINEL_DOOM_ARMOR, EquipmentSlot.HEAD));
 	public static SentinelDoomArmor SENTINEL_DOOM_CHESTPLATE = item("sentinel_doom_chestplate",
@@ -276,42 +293,22 @@ public class DoomItems {
 			new GoldDoomArmor(DoomArmorMaterial.GOLD_ARMOR, EquipmentSlot.LEGS));
 	public static GoldDoomArmor GOLD_DOOM_BOOTS = item("gold_doom_boots",
 			new GoldDoomArmor(DoomArmorMaterial.GOLD_ARMOR, EquipmentSlot.FEET));
-	public static DoomArmor TWENTY_FIVE_DOOM_HELMET = item("twenty_five_helmet",
-			new DoomArmor(DoomArmorMaterial.TWENTY_FIVE_ARMOR, EquipmentSlot.HEAD));
-	public static DoomArmor TWENTY_FIVE_DOOM_CHESTPLATE = item("twenty_five_chestplate",
-			new DoomArmor(DoomArmorMaterial.TWENTY_FIVE_ARMOR, EquipmentSlot.CHEST));
-	public static DoomArmor TWENTY_FIVE_DOOM_LEGGINGS = item("twenty_five_leggings",
-			new DoomArmor(DoomArmorMaterial.TWENTY_FIVE_ARMOR, EquipmentSlot.LEGS));
-	public static DoomArmor TWENTY_FIVE_DOOM_BOOTS = item("twenty_five_boots",
-			new DoomArmor(DoomArmorMaterial.TWENTY_FIVE_ARMOR, EquipmentSlot.FEET));
-	public static ClassicDoomArmor CLASSIC_DOOM_HELMET = item("classic_doom_helmet",
-			new ClassicDoomArmor(DoomArmorMaterial.CLASSIC_DOOM_ARMOR, EquipmentSlot.HEAD));
-	public static ClassicDoomArmor CLASSIC_DOOM_CHESTPLATE = item("classic_doom_chestplate",
-			new ClassicDoomArmor(DoomArmorMaterial.CLASSIC_DOOM_ARMOR, EquipmentSlot.CHEST));
-	public static ClassicDoomArmor CLASSIC_DOOM_LEGGINGS = item("classic_doom_leggings",
-			new ClassicDoomArmor(DoomArmorMaterial.CLASSIC_DOOM_ARMOR, EquipmentSlot.LEGS));
-	public static ClassicDoomArmor CLASSIC_RED_DOOM_CHESTPLATE = item("classic_red_chestplate",
-			new ClassicDoomArmor(DoomArmorMaterial.CLASSIC_RED_ARMOR, EquipmentSlot.CHEST));
-	public static ClassicDoomArmor CLASSIC_RED_DOOM_LEGGINGS = item("classic_red_leggings",
-			new ClassicDoomArmor(DoomArmorMaterial.CLASSIC_RED_ARMOR, EquipmentSlot.LEGS));
-	public static ClassicDoomArmor CLASSIC_INDIGO_DOOM_CHESTPLATE = item("classic_black_chestplate",
-			new ClassicDoomArmor(DoomArmorMaterial.CLASSIC_INDIGO_ARMOR, EquipmentSlot.CHEST));
-	public static ClassicDoomArmor CLASSIC_INDIGO_DOOM_LEGGINGS = item("classic_black_leggings",
-			new ClassicDoomArmor(DoomArmorMaterial.CLASSIC_INDIGO_ARMOR, EquipmentSlot.LEGS));
-	public static ClassicDoomArmor CLASSIC_BRONZE_DOOM_CHESTPLATE = item("classic_bronze_chestplate",
-			new ClassicDoomArmor(DoomArmorMaterial.CLASSIC_BRONZE_ARMOR, EquipmentSlot.CHEST));
-	public static ClassicDoomArmor CLASSIC_BRONZE_DOOM_LEGGINGS = item("classic_bronze_leggings",
-			new ClassicDoomArmor(DoomArmorMaterial.CLASSIC_BRONZE_ARMOR, EquipmentSlot.LEGS));
-	public static ClassicDoomArmor CLASSIC_DOOM_BOOTS = item("classic_doom_boots",
-			new ClassicDoomArmor(DoomArmorMaterial.CLASSIC_DOOM_ARMOR, EquipmentSlot.FEET));
-	public static DoomArmor BRONZE_DOOM_HELMET = item("bronze_doom_helmet",
-			new DoomArmor(DoomArmorMaterial.BRONZE_DOOM_ARMOR, EquipmentSlot.HEAD));
-	public static DoomArmor BRONZE_DOOM_CHESTPLATE = item("bronze_doom_chestplate",
-			new DoomArmor(DoomArmorMaterial.BRONZE_DOOM_ARMOR, EquipmentSlot.CHEST));
-	public static DoomArmor BRONZE_DOOM_LEGGINGS = item("bronze_doom_leggings",
-			new DoomArmor(DoomArmorMaterial.BRONZE_DOOM_ARMOR, EquipmentSlot.LEGS));
-	public static DoomArmor BRONZE_DOOM_BOOTS = item("bronze_doom_boots",
-			new DoomArmor(DoomArmorMaterial.BRONZE_DOOM_ARMOR, EquipmentSlot.FEET));
+	public static TwentyFiveDoomArmor TWENTY_FIVE_DOOM_HELMET = item("twenty_five_helmet",
+			new TwentyFiveDoomArmor(DoomArmorMaterial.TWENTY_FIVE_ARMOR, EquipmentSlot.HEAD));
+	public static TwentyFiveDoomArmor TWENTY_FIVE_DOOM_CHESTPLATE = item("twenty_five_chestplate",
+			new TwentyFiveDoomArmor(DoomArmorMaterial.TWENTY_FIVE_ARMOR, EquipmentSlot.CHEST));
+	public static TwentyFiveDoomArmor TWENTY_FIVE_DOOM_LEGGINGS = item("twenty_five_leggings",
+			new TwentyFiveDoomArmor(DoomArmorMaterial.TWENTY_FIVE_ARMOR, EquipmentSlot.LEGS));
+	public static TwentyFiveDoomArmor TWENTY_FIVE_DOOM_BOOTS = item("twenty_five_boots",
+			new TwentyFiveDoomArmor(DoomArmorMaterial.TWENTY_FIVE_ARMOR, EquipmentSlot.FEET));
+	public static BronzeDoomArmor BRONZE_DOOM_HELMET = item("bronze_doom_helmet",
+			new BronzeDoomArmor(DoomArmorMaterial.BRONZE_DOOM_ARMOR, EquipmentSlot.HEAD));
+	public static BronzeDoomArmor BRONZE_DOOM_CHESTPLATE = item("bronze_doom_chestplate",
+			new BronzeDoomArmor(DoomArmorMaterial.BRONZE_DOOM_ARMOR, EquipmentSlot.CHEST));
+	public static BronzeDoomArmor BRONZE_DOOM_LEGGINGS = item("bronze_doom_leggings",
+			new BronzeDoomArmor(DoomArmorMaterial.BRONZE_DOOM_ARMOR, EquipmentSlot.LEGS));
+	public static BronzeDoomArmor BRONZE_DOOM_BOOTS = item("bronze_doom_boots",
+			new BronzeDoomArmor(DoomArmorMaterial.BRONZE_DOOM_ARMOR, EquipmentSlot.FEET));
 	public static CultistDoomArmor CULTIST_DOOM_HELMET = item("cultist_doom_helmet",
 			new CultistDoomArmor(DoomArmorMaterial.CULTIST_DOOM_ARMOR, EquipmentSlot.HEAD));
 	public static CultistDoomArmor CULTIST_DOOM_CHESTPLATE = item("cultist_doom_chestplate",
@@ -332,34 +329,46 @@ public class DoomItems {
 			new PainterDoomArmor(DoomArmorMaterial.PAINTER_DOOM_ARMOR, EquipmentSlot.HEAD));
 	public static PainterDoomArmor PAINTER_DOOM_CHESTPLATE = item("painter_doom_chestplate",
 			new PainterDoomArmor(DoomArmorMaterial.PAINTER_DOOM_ARMOR, EquipmentSlot.CHEST));
-	public static PainterDoomArmor PAINTER_DOOM_LEGGINGS = item("painter_doom_leggings",
-			new PainterDoomArmor(DoomArmorMaterial.PAINTER_DOOM_ARMOR, EquipmentSlot.LEGS));
-	public static PainterDoomArmor PAINTER_DOOM_BOOTS = item("painter_doom_boots",
-			new PainterDoomArmor(DoomArmorMaterial.PAINTER_DOOM_ARMOR, EquipmentSlot.FEET));
+	public static ClassicDoomArmor CLASSIC_DOOM_HELMET = item("classic_doom_helmet",
+			new ClassicDoomArmor(DoomArmorMaterial.CLASSIC_DOOM_ARMOR, EquipmentSlot.HEAD));
+	public static ClassicDoomArmor CLASSIC_DOOM_CHESTPLATE = item("classic_doom_chestplate",
+			new ClassicDoomArmor(DoomArmorMaterial.CLASSIC_DOOM_ARMOR, EquipmentSlot.CHEST));
+	public static ClassicDoomArmor CLASSIC_DOOM_LEGGINGS = item("classic_doom_leggings",
+			new ClassicDoomArmor(DoomArmorMaterial.CLASSIC_DOOM_ARMOR, EquipmentSlot.LEGS));
+	public static ClassicRedDoomArmor CLASSIC_RED_DOOM_CHESTPLATE = item("classic_red_chestplate",
+			new ClassicRedDoomArmor(DoomArmorMaterial.CLASSIC_RED_ARMOR, EquipmentSlot.CHEST));
+	public static ClassicRedDoomArmor CLASSIC_RED_DOOM_LEGGINGS = item("classic_red_leggings",
+			new ClassicRedDoomArmor(DoomArmorMaterial.CLASSIC_RED_ARMOR, EquipmentSlot.LEGS));
+	public static ClassicIndigoDoomArmor CLASSIC_INDIGO_DOOM_CHESTPLATE = item("classic_black_chestplate",
+			new ClassicIndigoDoomArmor(DoomArmorMaterial.CLASSIC_INDIGO_ARMOR, EquipmentSlot.CHEST));
+	public static ClassicIndigoDoomArmor CLASSIC_INDIGO_DOOM_LEGGINGS = item("classic_black_leggings",
+			new ClassicIndigoDoomArmor(DoomArmorMaterial.CLASSIC_INDIGO_ARMOR, EquipmentSlot.LEGS));
+	public static ClassicBronzeDoomArmor CLASSIC_BRONZE_DOOM_CHESTPLATE = item("classic_bronze_chestplate",
+			new ClassicBronzeDoomArmor(DoomArmorMaterial.CLASSIC_BRONZE_ARMOR, EquipmentSlot.CHEST));
+	public static ClassicBronzeDoomArmor CLASSIC_BRONZE_DOOM_LEGGINGS = item("classic_bronze_leggings",
+			new ClassicBronzeDoomArmor(DoomArmorMaterial.CLASSIC_BRONZE_ARMOR, EquipmentSlot.LEGS));
+	public static ClassicDoomArmor CLASSIC_DOOM_BOOTS = item("classic_doom_boots",
+			new ClassicDoomArmor(DoomArmorMaterial.CLASSIC_DOOM_ARMOR, EquipmentSlot.FEET));
 	public static MulletDoomArmor MULLET_DOOM_HELMET1 = item("redneck_doom1_helmet",
 			new MulletDoomArmor(DoomArmorMaterial.REDNECK1_ARMOR, EquipmentSlot.HEAD));
-	public static MulletDoomArmor MULLET_DOOM_HELMET2 = item("redneck_doom2_helmet",
-			new MulletDoomArmor(DoomArmorMaterial.REDNECK2_ARMOR, EquipmentSlot.HEAD));
-	public static MulletDoomArmor MULLET_DOOM_HELMET3 = item("redneck_doom3_helmet",
-			new MulletDoomArmor(DoomArmorMaterial.REDNECK3_ARMOR, EquipmentSlot.HEAD));
 	public static MulletDoomArmor MULLET_DOOM_CHESTPLATE1 = item("redneck_doom1_chestplate",
 			new MulletDoomArmor(DoomArmorMaterial.REDNECK1_ARMOR, EquipmentSlot.CHEST));
-	public static MulletDoomArmor MULLET_DOOM_CHESTPLATE2 = item("redneck_doom2_chestplate",
-			new MulletDoomArmor(DoomArmorMaterial.REDNECK2_ARMOR, EquipmentSlot.CHEST));
-	public static MulletDoomArmor MULLET_DOOM_CHESTPLATE3 = item("redneck_doom3_chestplate",
-			new MulletDoomArmor(DoomArmorMaterial.REDNECK3_ARMOR, EquipmentSlot.CHEST));
+	public static Mullet2DoomArmor MULLET_DOOM_CHESTPLATE2 = item("redneck_doom2_chestplate",
+			new Mullet2DoomArmor(DoomArmorMaterial.REDNECK2_ARMOR, EquipmentSlot.CHEST));
+	public static Mullet3DoomArmor MULLET_DOOM_CHESTPLATE3 = item("redneck_doom3_chestplate",
+			new Mullet3DoomArmor(DoomArmorMaterial.REDNECK3_ARMOR, EquipmentSlot.CHEST));
 	public static MulletDoomArmor MULLET_DOOM_LEGGINGS1 = item("redneck_doom1_leggings",
 			new MulletDoomArmor(DoomArmorMaterial.REDNECK1_ARMOR, EquipmentSlot.LEGS));
-	public static MulletDoomArmor MULLET_DOOM_LEGGINGS2 = item("redneck_doom2_leggings",
-			new MulletDoomArmor(DoomArmorMaterial.REDNECK2_ARMOR, EquipmentSlot.LEGS));
-	public static MulletDoomArmor MULLET_DOOM_LEGGINGS3 = item("redneck_doom3_leggings",
-			new MulletDoomArmor(DoomArmorMaterial.REDNECK3_ARMOR, EquipmentSlot.LEGS));
 	public static MulletDoomArmor MULLET_DOOM_BOOTS1 = item("redneck_doom1_boots",
 			new MulletDoomArmor(DoomArmorMaterial.REDNECK1_ARMOR, EquipmentSlot.FEET));
-	public static MulletDoomArmor MULLET_DOOM_BOOTS2 = item("redneck_doom2_boots",
-			new MulletDoomArmor(DoomArmorMaterial.REDNECK2_ARMOR, EquipmentSlot.FEET));
-	public static MulletDoomArmor MULLET_DOOM_BOOTS3 = item("redneck_doom3_boots",
-			new MulletDoomArmor(DoomArmorMaterial.REDNECK3_ARMOR, EquipmentSlot.FEET));
+	public static HotrodDoomArmor HOTROD_HELMET = item("hotrod_helmet",
+			new HotrodDoomArmor(DoomArmorMaterial.HOTROD_DOOM_ARMOR, EquipmentSlot.HEAD));
+	public static HotrodDoomArmor HOTROD_CHESTPLATE = item("hotrod_chestplate",
+			new HotrodDoomArmor(DoomArmorMaterial.HOTROD_DOOM_ARMOR, EquipmentSlot.CHEST));
+	public static HotrodDoomArmor HOTROD_LEGGINGS = item("hotrod_leggings",
+			new HotrodDoomArmor(DoomArmorMaterial.HOTROD_DOOM_ARMOR, EquipmentSlot.LEGS));
+	public static HotrodDoomArmor HOTROD_BOOTS = item("hotrod_boots",
+			new HotrodDoomArmor(DoomArmorMaterial.HOTROD_DOOM_ARMOR, EquipmentSlot.FEET));
 
 	static <T extends Item> T item(T c, String id) {
 		Registry.register(Registry.ITEM, new Identifier(DoomMod.MODID, id), c);
