@@ -40,6 +40,7 @@ import mod.azure.doom.item.armor.PainterDoomArmor;
 import mod.azure.doom.item.armor.PhobosDoomArmor;
 import mod.azure.doom.item.armor.PraetorDoomArmor;
 import mod.azure.doom.item.armor.PurplePonyDoomArmor;
+import mod.azure.doom.item.armor.SantaDoomArmor;
 import mod.azure.doom.item.armor.SentinelDoomArmor;
 import mod.azure.doom.item.armor.TwentyFiveDoomArmor;
 import mod.azure.doom.item.armor.ZombieDoomArmor;
@@ -58,6 +59,7 @@ import mod.azure.doom.item.tools.ArgentShovel;
 import mod.azure.doom.item.weapons.ArgentSword;
 import mod.azure.doom.item.weapons.AxeMarauderItem;
 import mod.azure.doom.item.weapons.BFG;
+import mod.azure.doom.item.weapons.BFG9000;
 import mod.azure.doom.item.weapons.Ballista;
 import mod.azure.doom.item.weapons.Chaingun;
 import mod.azure.doom.item.weapons.Chainsaw;
@@ -78,8 +80,8 @@ import net.minecraft.util.registry.Registry;
 
 public class DoomItems {
 
-	public static BFG BFG = item(new BFG(), "bfg9000");
 	public static Shotgun SG = item(new Shotgun(), "shotgun");
+	public static BFG9000 BFG = item(new BFG9000(), "bfg9000");
 	public static BFG BFG_ETERNAL = item(new BFG(), "bfg_eternal");
 	public static DaisyItem DAISY = item(new DaisyItem(), "daisy");
 	public static Rocket ROCKET = item(new Rocket(2.2F), "rocket");
@@ -90,6 +92,7 @@ public class DoomItems {
 	public static PistolItem PISTOL = item(new PistolItem(), "pistol");
 	public static ClipAmmo BULLETS = item(new ClipAmmo(1.2F), "bullets");
 	public static BFGCell BFG_CELL = item(new BFGCell(10.2F), "bfg_cell");
+	public static Chainsaw CHAINSAW64 = item(new Chainsaw(), "chainsaw64");
 	public static PlasmaGun PLASMAGUN = item(new PlasmaGun(), "plasmagun");
 	public static DoomBlade DOOM_BLADE = item(new DoomBlade(), "doomblade");
 	public static ArgentAxe ARGENT_AXE = item(new ArgentAxe(), "argent_axe");
@@ -369,6 +372,8 @@ public class DoomItems {
 			new HotrodDoomArmor(DoomArmorMaterial.HOTROD_DOOM_ARMOR, EquipmentSlot.LEGS));
 	public static HotrodDoomArmor HOTROD_BOOTS = item("hotrod_boots",
 			new HotrodDoomArmor(DoomArmorMaterial.HOTROD_DOOM_ARMOR, EquipmentSlot.FEET));
+	public static SantaDoomArmor SANTA_HELMET = item("santa_helmet",
+			new SantaDoomArmor(DoomArmorMaterial.DOOM_ARMOR, EquipmentSlot.HEAD));
 
 	static <T extends Item> T item(T c, String id) {
 		Registry.register(Registry.ITEM, new Identifier(DoomMod.MODID, id), c);

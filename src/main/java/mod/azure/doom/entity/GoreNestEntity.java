@@ -48,10 +48,19 @@ public class GoreNestEntity extends DemonEntity implements IAnimatable {
 		event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
 		return PlayState.CONTINUE;
 	}
-	
+
 	@Override
 	public void takeKnockback(float f, double d, double e) {
 		super.takeKnockback(0, 0, 0);
+	}
+
+	@Override
+	public boolean isPushable() {
+		return false;
+	}
+
+	@Override
+	protected void tickCramming() {
 	}
 
 	@Override
@@ -76,7 +85,7 @@ public class GoreNestEntity extends DemonEntity implements IAnimatable {
 			this.remove();
 		}
 	}
-	
+
 	@Override
 	protected void applyDamage(DamageSource source, float amount) {
 		if (!(source.getSource() instanceof PlayerEntity)) {
@@ -92,8 +101,7 @@ public class GoreNestEntity extends DemonEntity implements IAnimatable {
 		world.spawnEntity(fireballentity);
 
 		PossessedScientistEntity fireballentity1 = MobEntityRegister.POSSESSEDSCIENTIST.create(world);
-		fireballentity1.refreshPositionAndAngles(this.getX() + -2.0D, this.getY() + 0.5D, this.getZ() + -2.0D, 0,
-				0);
+		fireballentity1.refreshPositionAndAngles(this.getX() + -2.0D, this.getY() + 0.5D, this.getZ() + -2.0D, 0, 0);
 		world.spawnEntity(fireballentity1);
 
 		ImpEntity fireballentity11 = MobEntityRegister.IMP.create(world);
@@ -101,8 +109,7 @@ public class GoreNestEntity extends DemonEntity implements IAnimatable {
 		world.spawnEntity(fireballentity11);
 
 		NightmareImpEntity fireballentity111 = MobEntityRegister.NIGHTMARE_IMP.create(world);
-		fireballentity111.refreshPositionAndAngles(this.getX() + -1.0D, this.getY() + 0.5D, this.getZ() + -1.0D, 0,
-				0);
+		fireballentity111.refreshPositionAndAngles(this.getX() + -1.0D, this.getY() + 0.5D, this.getZ() + -1.0D, 0, 0);
 		world.spawnEntity(fireballentity111);
 	}
 

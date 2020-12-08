@@ -1,5 +1,7 @@
 package mod.azure.doom;
 
+import mod.azure.doom.client.render.weapons.BFG9000Render;
+import mod.azure.doom.client.render.weapons.BFGRender;
 import mod.azure.doom.entity.tileentity.IconBlockEntity;
 import mod.azure.doom.util.MobAttributes;
 import mod.azure.doom.util.MobSpawn;
@@ -31,6 +33,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
 import software.bernie.geckolib3.GeckoLib;
+import software.bernie.geckolib3.renderer.geo.GeoItemRenderer;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.CuriosComponent;
 import top.theillusivec4.curios.api.SlotTypeInfo.BuildScheme;
@@ -78,6 +81,8 @@ public class DoomMod implements ModInitializer {
 		});
 		MobAttributes.init();
 		GeckoLib.initialize();
+		GeoItemRenderer.registerItemRenderer(DoomItems.BFG, new BFG9000Render());
+		GeoItemRenderer.registerItemRenderer(DoomItems.BFG_ETERNAL, new BFGRender());
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.BELT.getInfoBuilder().build());
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.CHARM.getInfoBuilder().build());
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.BRACELET.getInfoBuilder().build());

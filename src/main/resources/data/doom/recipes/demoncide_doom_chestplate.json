@@ -1,6 +1,6 @@
 {
   "result": {
-    "item": "doom:painter_doom_boots"
+    "item": "doom:demoncide_doom_chestplate"
   },
   "type": "minecraft:crafting_shaped",
    "pattern": [
@@ -9,10 +9,10 @@
     ],
     "key": {
         "#": {
-            "item": "minecraft:brown_dye"
+            "item": "minecraft:emerald"
         },
 		"@": {
-			"item": "doom:doom_boots"
+			"item": "doom:doom_chestplate"
 		}
     }
 }

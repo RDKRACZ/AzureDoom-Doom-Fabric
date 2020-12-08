@@ -22,8 +22,35 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
+import software.bernie.geckolib3.core.AnimationState;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 
-public class Shotgun extends RangedWeaponItem {
+public class Shotgun extends RangedWeaponItem implements IAnimatable {
+
+	public AnimationFactory factory = new AnimationFactory(this);
+	private String controllerName = "controller";
+
+	private <P extends RangedWeaponItem & IAnimatable> PlayState predicate(AnimationEvent<P> event) {
+		return PlayState.CONTINUE;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public void registerControllers(AnimationData data) {
+		data.addAnimationController(new AnimationController(this, controllerName, 1, this::predicate));
+	}
+
+	@Override
+	public AnimationFactory getFactory() {
+		return this.factory;
+	}
 
 	public Shotgun() {
 		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(9000));
@@ -75,7 +102,7 @@ public class Shotgun extends RangedWeaponItem {
 					ShotgunShellEntity abstractarrowentity = arrowitem.createArrow(worldIn, itemstack, playerentity);
 					abstractarrowentity = customeArrow(abstractarrowentity);
 					abstractarrowentity.setProperties(playerentity, playerentity.pitch, playerentity.yaw, 0.0F,
-							0.25F * 3.0F, 1.0F);
+							1.0F * 3.0F, 1.0F);
 
 					int j = EnchantmentHelper.getLevel(Enchantments.POWER, stack);
 					if (j > 0) {
@@ -103,6 +130,12 @@ public class Shotgun extends RangedWeaponItem {
 						playerentity.inventory.removeOne(itemstack);
 					}
 				}
+				AnimationController controller = GeckoLibUtil.getControllerForStack(this.factory, stack,
+						controllerName);
+				if (controller.getAnimationState() == AnimationState.Stopped) {
+					controller.markNeedsReload();
+					controller.setAnimation(new AnimationBuilder().addAnimation("firing", false));
+				}
 			}
 		}
 	}
@@ -124,7 +157,7 @@ public class Shotgun extends RangedWeaponItem {
 
 	@Override
 	public UseAction getUseAction(ItemStack stack) {
-		return UseAction.CROSSBOW;
+		return UseAction.BLOCK;
 	}
 
 	@Override

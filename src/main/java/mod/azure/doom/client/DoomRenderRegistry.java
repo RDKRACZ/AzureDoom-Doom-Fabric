@@ -53,6 +53,7 @@ import mod.azure.doom.client.render.armors.PainterRender;
 import mod.azure.doom.client.render.armors.PhobosRender;
 import mod.azure.doom.client.render.armors.PraetorRender;
 import mod.azure.doom.client.render.armors.PurplePonyRender;
+import mod.azure.doom.client.render.armors.SantaRender;
 import mod.azure.doom.client.render.armors.SentinelRender;
 import mod.azure.doom.client.render.armors.TwentyFiveRender;
 import mod.azure.doom.client.render.armors.ZombieRender;
@@ -92,6 +93,7 @@ import mod.azure.doom.item.armor.PainterDoomArmor;
 import mod.azure.doom.item.armor.PhobosDoomArmor;
 import mod.azure.doom.item.armor.PraetorDoomArmor;
 import mod.azure.doom.item.armor.PurplePonyDoomArmor;
+import mod.azure.doom.item.armor.SantaDoomArmor;
 import mod.azure.doom.item.armor.SentinelDoomArmor;
 import mod.azure.doom.item.armor.TwentyFiveDoomArmor;
 import mod.azure.doom.item.armor.ZombieDoomArmor;
@@ -248,8 +250,8 @@ public class DoomRenderRegistry {
 		GeoArmorRenderer.registerArmorRenderer(PainterDoomArmor.class, new PainterRender());
 		GeoArmorRenderer.registerArmorRenderer(CultistDoomArmor.class, new CultistRender());
 		GeoArmorRenderer.registerArmorRenderer(MaykrDoomArmor.class, new MaykrRender());
-		 GeoArmorRenderer.registerArmorRenderer(SentinelDoomArmor.class, new
-		 SentinelRender());
+		GeoArmorRenderer.registerArmorRenderer(SentinelDoomArmor.class, new SentinelRender());
 		GeoArmorRenderer.registerArmorRenderer(ZombieDoomArmor.class, new ZombieRender());
+		GeoArmorRenderer.registerArmorRenderer(SantaDoomArmor.class, new SantaRender());
 	}
 }

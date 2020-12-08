@@ -1,18 +1,18 @@
 {
   "result": {
-    "item": "doom:redneck_doom2_helmet"
+    "item": "doom:demoncide_doom_leggings"
   },
   "type": "minecraft:crafting_shaped",
    "pattern": [
-        "@ ",
-        "##"
+        "@",
+        "#"
     ],
     "key": {
         "#": {
-            "item": "minecraft:wheat"
+            "item": "minecraft:emerald"
         },
 		"@": {
-			"item": "doom:doom_helmet"
+			"item": "doom:doom_leggings"
 		}
     }
 }

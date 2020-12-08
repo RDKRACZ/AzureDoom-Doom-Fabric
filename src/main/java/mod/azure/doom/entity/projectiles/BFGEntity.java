@@ -190,9 +190,9 @@ public class BFGEntity extends PersistentProjectileEntity {
 
 		for (int x = 0; x < list.size(); ++x) {
 			Entity entity = (Entity) list.get(x);
-			if (!(entity instanceof PlayerEntity) && (entity instanceof HostileEntity)
-					|| (entity instanceof SlimeEntity) || (entity instanceof PhantomEntity)
-					|| (entity instanceof GoreNestEntity) || (entity instanceof ShulkerEntity)
+			if (!(entity instanceof PlayerEntity) && !(entity instanceof GoreNestEntity)
+					&& (entity instanceof HostileEntity) || (entity instanceof SlimeEntity)
+					|| (entity instanceof PhantomEntity) || (entity instanceof ShulkerEntity)
 					|| (entity instanceof HoglinEntity)) {
 				double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d1)) / q);
 				if (y <= 1.0D) {
@@ -260,9 +260,9 @@ public class BFGEntity extends PersistentProjectileEntity {
 
 		for (int x = 0; x < list.size(); ++x) {
 			Entity entity = (Entity) list.get(x);
-			if (!(entity instanceof PlayerEntity) && (entity instanceof HostileEntity)
-					|| (entity instanceof SlimeEntity) || (entity instanceof PhantomEntity)
-					|| (entity instanceof GoreNestEntity) || (entity instanceof ShulkerEntity)
+			if (!(entity instanceof PlayerEntity) && !(entity instanceof GoreNestEntity)
+					&& (entity instanceof HostileEntity) || (entity instanceof SlimeEntity)
+					|| (entity instanceof PhantomEntity) || (entity instanceof ShulkerEntity)
 					|| (entity instanceof HoglinEntity)) {
 				double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d)) / q);
 				if (y <= 1.0D) {

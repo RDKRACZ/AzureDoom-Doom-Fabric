@@ -13,17 +13,42 @@ import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.RangedWeaponItem;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
-import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
+import software.bernie.geckolib3.core.AnimationState;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 
-public class BFG extends RangedWeaponItem {
+public class BFG extends RangedWeaponItem implements IAnimatable {
+
+	public AnimationFactory factory = new AnimationFactory(this);
+	private String controllerName = "controller";
+
+	private <P extends RangedWeaponItem & IAnimatable> PlayState predicate(AnimationEvent<P> event) {
+		return PlayState.CONTINUE;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public void registerControllers(AnimationData data) {
+		data.addAnimationController(new AnimationController(this, controllerName, 1, this::predicate));
+	}
+
+	@Override
+	public AnimationFactory getFactory() {
+		return this.factory;
+	}
 
 	public BFG() {
 		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(9000));
@@ -32,15 +57,6 @@ public class BFG extends RangedWeaponItem {
 	@Override
 	public boolean hasGlint(ItemStack stack) {
 		return false;
-	}
-
-	@Override
-	public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
-		ItemStack stack = new ItemStack(this);
-		stack.hasTag();
-		if (group == DoomMod.DoomWeaponItemGroup) {
-			stacks.add(stack);
-		}
 	}
 
 	@Override
@@ -87,6 +103,16 @@ public class BFG extends RangedWeaponItem {
 						playerentity.inventory.removeOne(itemstack);
 					}
 				}
+
+				AnimationController controller = GeckoLibUtil.getControllerForStack(this.factory, stack,
+						controllerName);
+
+				if (controller.getAnimationState() == AnimationState.Stopped) {
+					// playerIn.sendStatusMessage(new StringTextComponent("Opening the jack in the
+					// box!"), true);
+					controller.markNeedsReload();
+					controller.setAnimation(new AnimationBuilder().addAnimation("firing", false));
+				}
 			}
 		}
 	}
@@ -108,7 +134,7 @@ public class BFG extends RangedWeaponItem {
 
 	@Override
 	public UseAction getUseAction(ItemStack stack) {
-		return UseAction.NONE;
+		return UseAction.BLOCK;
 	}
 
 	@Override

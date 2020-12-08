@@ -79,7 +79,7 @@ public class Hellknight2016Entity extends DemonEntity implements IAnimatable {
 	}
 
 	protected void initCustomGoals() {
-		this.goalSelector.add(2, new MeleeAttackGoal(this, 1.0D, false));
+		this.goalSelector.add(2, new MeleeAttackGoal(this, 1.5D, false));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(3, new FollowTargetGoal<>(this, HostileEntity.class, true));
 		this.targetSelector.add(3, new FollowTargetGoal<>(this, MobEntity.class, true));
