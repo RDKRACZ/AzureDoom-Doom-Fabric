@@ -19,7 +19,7 @@ dependencies {
         exclude(module: "fabric-dimensions")
         exclude(module: "fabric-biomes")
     }
-    modImplementation 'software.bernie.geckolib:fabric-1.16.3-geckolib:3.0.0-beta.7:dev'
+    modImplementation 'software.bernie.geckolib:fabric-1.16.4-geckolib:3.0.0:dev'
 	modImplementation "top.theillusivec4.curios:curios-fabric:${curios_version}"
 	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:${cardinal_version}"
     modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:${cardinal_version}"
@@ -34,12 +34,6 @@ dependencies {
     }
     include "me.sargunvohra.mcmods:autoconfig1u:3.2.2"
     modImplementation("io.github.prospector:modmenu:1.14.6+build.31") {
-      exclude module: 'fabric-api'
-    }
-	modImplementation ("dev.onyxstudios:FOML:${foml_version}") {
-      exclude module: 'fabric-api'
-    }
-    include ("dev.onyxstudios:FOML:${foml_version}") {
       exclude module: 'fabric-api'
     }
 }

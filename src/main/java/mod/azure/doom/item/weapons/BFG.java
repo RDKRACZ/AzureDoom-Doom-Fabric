@@ -104,7 +104,7 @@ public class BFG extends RangedWeaponItem implements IAnimatable {
 					}
 				}
 
-				AnimationController controller = GeckoLibUtil.getControllerForStack(this.factory, stack,
+				AnimationController<?> controller = GeckoLibUtil.getControllerForStack(this.factory, stack,
 						controllerName);
 
 				if (controller.getAnimationState() == AnimationState.Stopped) {

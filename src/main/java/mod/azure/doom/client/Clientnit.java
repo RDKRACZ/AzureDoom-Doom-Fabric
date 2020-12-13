@@ -1,7 +1,5 @@
 package mod.azure.doom.client;
 
-import dev.onyxstudios.foml.obj.OBJLoader;
-import mod.azure.doom.DoomMod;
 import mod.azure.doom.util.packets.EntityPacket;
 import mod.azure.doom.util.packets.EntityPacketOnClient;
 import mod.azure.doom.util.registry.DoomItems;
@@ -47,7 +45,6 @@ public class Clientnit implements ClientModInitializer {
 								OverlayTexture.DEFAULT_UV, matrixStack, vertexConsumerProvider);
 					}
 				})));
-		OBJLoader.INSTANCE.registerDomain(DoomMod.MODID);
 	}
 
 }

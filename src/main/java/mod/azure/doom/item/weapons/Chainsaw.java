@@ -35,8 +35,8 @@ public class Chainsaw extends SwordItem {
 			final Box aabb = new Box(entityIn.getBlockPos().up()).expand(1D, 1D, 1D).offset(facing.multiply(1D));
 			entityIn.getEntityWorld().getOtherEntities(user, aabb).forEach(e -> doDamage(user, e));
 			entityIn.getEntityWorld().getOtherEntities(user, aabb)
-					.forEach(e -> e.world.addParticle(DustParticleEffect.RED, user.getParticleX(0.5D),
-							user.getRandomBodyY() - 0.25D, user.getParticleZ(0.5D), 0.0D, 0D, 0D));
+					.forEach(e -> e.world.addParticle(DustParticleEffect.RED, e.getParticleX(0.5D),
+							e.getRandomBodyY() - 0.25D, e.getParticleZ(0.5D), 0.0D, 0D, 0D));
 			if (!player.abilities.creativeMode) {
 				stack.setDamage(stack.getDamage() + 1);
 			}

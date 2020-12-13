@@ -13,17 +13,42 @@ import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.RangedWeaponItem;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
-import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
+import software.bernie.geckolib3.core.AnimationState;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 
-public class Chaingun extends RangedWeaponItem {
+public class Chaingun extends RangedWeaponItem implements IAnimatable {
+
+	public AnimationFactory factory = new AnimationFactory(this);
+	private String controllerName = "controller";
+
+	private <P extends RangedWeaponItem & IAnimatable> PlayState predicate(AnimationEvent<P> event) {
+		return PlayState.CONTINUE;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public void registerControllers(AnimationData data) {
+		data.addAnimationController(new AnimationController(this, controllerName, 1, this::predicate));
+	}
+
+	@Override
+	public AnimationFactory getFactory() {
+		return this.factory;
+	}
 
 	public Chaingun() {
 		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(9000));
@@ -32,22 +57,6 @@ public class Chaingun extends RangedWeaponItem {
 	@Override
 	public boolean hasGlint(ItemStack stack) {
 		return false;
-	}
-
-	@Override
-	public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
-		ItemStack stack = new ItemStack(this);
-		stack.hasTag();
-		stack.addEnchantment(Enchantments.PUNCH, 2);
-		if (group == DoomMod.DoomWeaponItemGroup) {
-			stacks.add(stack);
-		}
-	}
-
-	@Override
-	public void onCraft(ItemStack stack, World world, PlayerEntity player) {
-		stack.hasTag();
-		stack.addEnchantment(Enchantments.PUNCH, 2);
 	}
 
 	@Override
@@ -76,21 +85,7 @@ public class Chaingun extends RangedWeaponItem {
 					abstractarrowentity = customeArrow(abstractarrowentity);
 					abstractarrowentity.setProperties(playerentity, playerentity.pitch, playerentity.yaw, 0.0F,
 							1 * 3.0F, 1.0F);
-
-					int j = EnchantmentHelper.getLevel(Enchantments.POWER, stack);
-					if (j > 0) {
-						abstractarrowentity.setDamage(abstractarrowentity.getDamage() + (double) j * 0.5D + 0.5D);
-					}
-
-					int k = EnchantmentHelper.getLevel(Enchantments.PUNCH, stack);
-					if (k > 0) {
-						abstractarrowentity.setPunch(k);
-					}
-
-					if (EnchantmentHelper.getLevel(Enchantments.FLAME, stack) > 0) {
-						abstractarrowentity.setFireTicks(100);
-					}
-
+					abstractarrowentity.setDamage(3);
 					stack.damage(1, entityLiving, p -> p.sendToolBreakStatus(entityLiving.getActiveHand()));
 					worldIn.spawnEntity(abstractarrowentity);
 				}
@@ -102,6 +97,12 @@ public class Chaingun extends RangedWeaponItem {
 					if (itemstack.isEmpty()) {
 						playerentity.inventory.removeOne(itemstack);
 					}
+				}
+				AnimationController<?> controller = GeckoLibUtil.getControllerForStack(this.factory, stack,
+						controllerName);
+				if (controller.getAnimationState() == AnimationState.Stopped) {
+					controller.markNeedsReload();
+					controller.setAnimation(new AnimationBuilder().addAnimation("firing", false));
 				}
 			}
 		}
@@ -124,7 +125,7 @@ public class Chaingun extends RangedWeaponItem {
 
 	@Override
 	public UseAction getUseAction(ItemStack stack) {
-		return UseAction.NONE;
+		return UseAction.BLOCK;
 	}
 
 	@Override

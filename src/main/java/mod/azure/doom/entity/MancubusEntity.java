@@ -2,6 +2,7 @@ package mod.azure.doom.entity;
 
 import java.util.Random;
 
+import mod.azure.doom.entity.ai.goal.DemonAttackGoal;
 import mod.azure.doom.entity.projectiles.entity.BarenBlastEntity;
 import mod.azure.doom.util.ModSoundEvents;
 import net.fabricmc.api.EnvType;
@@ -119,7 +120,7 @@ public class MancubusEntity extends DemonEntity implements IAnimatable {
 
 	protected void initCustomGoals() {
 		this.goalSelector.add(7, new MancubusEntity.ShootFireballGoal(this));
-		// this.goalSelector.add(7, new DemonAttackGoal(this, 1.0D, false));
+		this.goalSelector.add(7, new DemonAttackGoal(this, 1.0D, false));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(3, new FollowTargetGoal<>(this, HostileEntity.class, true));
 		this.targetSelector.add(3, new FollowTargetGoal<>(this, MobEntity.class, true));

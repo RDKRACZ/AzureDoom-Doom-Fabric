@@ -1,23 +1,26 @@
 package mod.azure.doom.client.render;
 
-import mod.azure.doom.DoomMod;
 import mod.azure.doom.client.models.RevenantModel;
 import mod.azure.doom.entity.RevenantEntity;
-import net.minecraft.client.render.entity.BipedEntityRenderer;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
 
-public class RevenantRender extends BipedEntityRenderer<RevenantEntity, RevenantModel<RevenantEntity>> {
-
-	protected static final Identifier TEXTURE = new Identifier(DoomMod.MODID, "textures/entity/revenant.png");
+public class RevenantRender extends GeoEntityRenderer<RevenantEntity> {
 
 	public RevenantRender(EntityRenderDispatcher renderManagerIn) {
-		super(renderManagerIn, new RevenantModel<>(), 0.5F);
+		super(renderManagerIn, new RevenantModel());
 	}
 
 	@Override
-	public Identifier getTexture(RevenantEntity entity) {
-		return TEXTURE;
+	public RenderLayer getRenderType(RevenantEntity animatable, float partialTicks, MatrixStack stack,
+			VertexConsumerProvider renderTypeBuffer, VertexConsumer vertexBuilder, int packedLightIn,
+			Identifier textureLocation) {
+		return RenderLayer.getEntityTranslucent(getTextureLocation(animatable));
 	}
 
 }

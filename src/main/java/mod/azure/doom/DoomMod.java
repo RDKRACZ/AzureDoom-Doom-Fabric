@@ -2,6 +2,9 @@ package mod.azure.doom;
 
 import mod.azure.doom.client.render.weapons.BFG9000Render;
 import mod.azure.doom.client.render.weapons.BFGRender;
+import mod.azure.doom.client.render.weapons.ChaingunRender;
+import mod.azure.doom.client.render.weapons.SGRender;
+import mod.azure.doom.client.render.weapons.SSGRender;
 import mod.azure.doom.entity.tileentity.IconBlockEntity;
 import mod.azure.doom.util.MobAttributes;
 import mod.azure.doom.util.MobSpawn;
@@ -83,9 +86,11 @@ public class DoomMod implements ModInitializer {
 		GeckoLib.initialize();
 		GeoItemRenderer.registerItemRenderer(DoomItems.BFG, new BFG9000Render());
 		GeoItemRenderer.registerItemRenderer(DoomItems.BFG_ETERNAL, new BFGRender());
+		GeoItemRenderer.registerItemRenderer(DoomItems.SG, new SGRender());
+		GeoItemRenderer.registerItemRenderer(DoomItems.SSG, new SSGRender());
+		GeoItemRenderer.registerItemRenderer(DoomItems.CHAINGUN, new ChaingunRender());
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.BELT.getInfoBuilder().build());
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.CHARM.getInfoBuilder().build());
-		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.BRACELET.getInfoBuilder().build());
 		LootTableLoadingCallback.EVENT.register((resourceManager, lootManager, id, supplier, setter) -> {
 			if (DoomLoot.BASTION_BRIDGE.equals(id) || DoomLoot.BASTION_HOGLIN_STABLE.equals(id)
 					|| DoomLoot.BASTION_OTHER.equals(id) || DoomLoot.BASTION_TREASURE.equals(id)
@@ -107,49 +112,6 @@ public class DoomMod implements ModInitializer {
 					@Override
 					public boolean canRightClickEquip() {
 						return true;
-					}
-				})));
-		ItemComponentCallbackV2.event(DoomItems.DOOM_BLADE).register(
-				((item, itemStack, componentContainer) -> componentContainer.put(CuriosComponent.ITEM, new ICurio() {
-					@Override
-					public boolean canRightClickEquip() {
-						return true;
-					}
-
-					@Override
-					public void onEquip(String identifier, int index, LivingEntity livingEntity) {
-						if (livingEntity instanceof PlayerEntity) {
-							startPowers((PlayerEntity) livingEntity);
-						}
-					}
-
-					@Override
-					public void onUnequip(String identifier, int index, LivingEntity livingEntity) {
-						if (livingEntity instanceof PlayerEntity) {
-							stopPowers((PlayerEntity) livingEntity);
-						}
-					}
-
-					private void startPowers(PlayerEntity player) {
-						player.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 10000000, 0));
-					}
-
-					private void stopPowers(PlayerEntity player) {
-						player.removeStatusEffect(StatusEffects.STRENGTH);
-					}
-
-					@Override
-					public void curioTick(String identifier, int index, LivingEntity livingEntity) {
-						if (livingEntity instanceof PlayerEntity) {
-							PlayerEntity player = ((PlayerEntity) livingEntity);
-							startPowers(player);
-						}
-					}
-
-					@Override
-					public boolean canEquip(String identifier, LivingEntity entityLivingBase) {
-						return !CuriosApi.getCuriosHelper().findEquippedCurio(DoomItems.DAISY, entityLivingBase)
-								.isPresent();
 					}
 				})));
 		ItemComponentCallbackV2.event(DoomItems.DAISY).register(

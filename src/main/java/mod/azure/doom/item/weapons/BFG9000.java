@@ -13,14 +13,12 @@ import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.RangedWeaponItem;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
-import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.core.AnimationState;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -106,7 +104,7 @@ public class BFG9000 extends RangedWeaponItem implements IAnimatable {
 					}
 				}
 
-				AnimationController controller = GeckoLibUtil.getControllerForStack(this.factory, stack,
+				AnimationController<?> controller = GeckoLibUtil.getControllerForStack(this.factory, stack,
 						controllerName);
 
 				if (controller.getAnimationState() == AnimationState.Stopped) {

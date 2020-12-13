@@ -130,7 +130,7 @@ public class Shotgun extends RangedWeaponItem implements IAnimatable {
 						playerentity.inventory.removeOne(itemstack);
 					}
 				}
-				AnimationController controller = GeckoLibUtil.getControllerForStack(this.factory, stack,
+				AnimationController<?> controller = GeckoLibUtil.getControllerForStack(this.factory, stack,
 						controllerName);
 				if (controller.getAnimationState() == AnimationState.Stopped) {
 					controller.markNeedsReload();

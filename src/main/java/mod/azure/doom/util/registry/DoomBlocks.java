@@ -14,6 +14,12 @@ import net.minecraft.util.registry.Registry;
 
 public class DoomBlocks {
 
+	public static final Block E1M1_1 = new ArgentBlock();
+	public static final Block E1M1_2 = new ArgentBlock();
+	public static final Block E1M1_3 = new ArgentBlock();
+	public static final Block E1M1_4 = new ArgentBlock();
+	public static final Block E1M1_5 = new ArgentBlock();
+	public static final Block E1M1_6 = new ArgentBlock();
 	public static final Block DOOM_SAND = new DoomSandBlock();
 	public static final Block ARGENT_BLOCK = new ArgentBlock();
 	public static final Block BARREL_BLOCK = new BarrelBlock();
@@ -101,5 +107,29 @@ public class DoomBlocks {
 				new BlockItem(DoomBlocks.ICON_WALL15, new Item.Settings().group(DoomMod.DoomBlockItemGroup)));
 		Registry.register(Registry.ITEM, new Identifier(DoomMod.MODID, "icon_wall16"),
 				new BlockItem(DoomBlocks.ICON_WALL16, new Item.Settings().group(DoomMod.DoomBlockItemGroup)));
+
+		Registry.register(Registry.BLOCK, new Identifier(DoomMod.MODID, "e1m1_block1"), DoomBlocks.E1M1_1);
+		Registry.register(Registry.ITEM, new Identifier(DoomMod.MODID, "e1m1_block1"),
+				new BlockItem(DoomBlocks.E1M1_1, new Item.Settings().group(DoomMod.DoomBlockItemGroup)));
+
+		Registry.register(Registry.BLOCK, new Identifier(DoomMod.MODID, "e1m1_block2"), DoomBlocks.E1M1_2);
+		Registry.register(Registry.ITEM, new Identifier(DoomMod.MODID, "e1m1_block2"),
+				new BlockItem(DoomBlocks.E1M1_2, new Item.Settings().group(DoomMod.DoomBlockItemGroup)));
+
+		Registry.register(Registry.BLOCK, new Identifier(DoomMod.MODID, "e1m1_block3"), DoomBlocks.E1M1_3);
+		Registry.register(Registry.ITEM, new Identifier(DoomMod.MODID, "e1m1_block3"),
+				new BlockItem(DoomBlocks.E1M1_3, new Item.Settings().group(DoomMod.DoomBlockItemGroup)));
+
+		Registry.register(Registry.BLOCK, new Identifier(DoomMod.MODID, "e1m1_block4"), DoomBlocks.E1M1_4);
+		Registry.register(Registry.ITEM, new Identifier(DoomMod.MODID, "e1m1_block4"),
+				new BlockItem(DoomBlocks.E1M1_4, new Item.Settings().group(DoomMod.DoomBlockItemGroup)));
+
+		Registry.register(Registry.BLOCK, new Identifier(DoomMod.MODID, "e1m1_block5"), DoomBlocks.E1M1_5);
+		Registry.register(Registry.ITEM, new Identifier(DoomMod.MODID, "e1m1_block5"),
+				new BlockItem(DoomBlocks.E1M1_5, new Item.Settings().group(DoomMod.DoomBlockItemGroup)));
+
+		Registry.register(Registry.BLOCK, new Identifier(DoomMod.MODID, "e1m1_block6"), DoomBlocks.E1M1_6);
+		Registry.register(Registry.ITEM, new Identifier(DoomMod.MODID, "e1m1_block6"),
+				new BlockItem(DoomBlocks.E1M1_6, new Item.Settings().group(DoomMod.DoomBlockItemGroup)));
 	}
 }

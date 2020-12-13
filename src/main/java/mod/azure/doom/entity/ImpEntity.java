@@ -162,7 +162,7 @@ public class ImpEntity extends DemonEntity implements IAnimatable {
 				--this.cooldown;
 			}
 
-			this.ghast.setShooting(this.cooldown > 10);
+			this.ghast.setShooting(true);
 		}
 	}
 
