@@ -8,6 +8,7 @@ import mod.azure.doom.entity.CacodemonEntity;
 import mod.azure.doom.entity.ChaingunnerEntity;
 import mod.azure.doom.entity.Cyberdemon2016Entity;
 import mod.azure.doom.entity.CyberdemonEntity;
+import mod.azure.doom.entity.GargoyleEntity;
 import mod.azure.doom.entity.GoreNestEntity;
 import mod.azure.doom.entity.Hellknight2016Entity;
 import mod.azure.doom.entity.HellknightEntity;
@@ -201,9 +202,15 @@ public class MobEntityRegister {
 					.dimensions(EntityDimensions.fixed(3.0f, 4.0F)).fireImmune().trackRangeBlocks(90)
 					.trackedUpdateRate(4).build());
 
+	public static final EntityType<GargoyleEntity> GARGOYLE = Registry.register(Registry.ENTITY_TYPE,
+			new Identifier(DoomMod.MODID, "gargoyle"),
+			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, GargoyleEntity::new)
+					.dimensions(EntityDimensions.fixed(3.0f, 4.0F)).fireImmune().trackRangeBlocks(90)
+					.trackedUpdateRate(4).build());
+
 	public static final EntityType<IconofsinEntity> ICONOFSIN = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "iconofsin"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, IconofsinEntity::new)
-					.dimensions(EntityDimensions.fixed(2.4f, 10.0F)).fireImmune().trackRangeBlocks(90)
+					.dimensions(EntityDimensions.fixed(1.3f, 2.25F)).fireImmune().trackRangeBlocks(90)
 					.trackedUpdateRate(4).build());
 }

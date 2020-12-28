@@ -10,22 +10,6 @@ public class MechaZombieModel extends AnimatedGeoModel<MechaZombieEntity> {
 	public MechaZombieModel() {
 	}
 
-//	@SuppressWarnings({ "rawtypes", "unchecked" })
-//	@Override
-//	public void setLivingAnimations(MechaZombieEntity entity, Integer uniqueID, AnimationEvent customPredicate) {
-//		super.setLivingAnimations(entity, uniqueID, customPredicate);
-//		IBone head = this.getAnimationProcessor().getBone("head");
-//
-//		EntityModelData extraData = (EntityModelData) customPredicate.getExtraDataOfType(EntityModelData.class).get(0);
-//		head.setRotationX(extraData.headPitch / 180F);
-//		head.setRotationY(extraData.netHeadYaw / 180F);
-//	}
-
-	@Override
-	public void setLivingAnimations(MechaZombieEntity entity, Integer uniqueID) {
-		super.setLivingAnimations(entity, uniqueID);
-	}
-
 	@Override
 	public Identifier getModelLocation(MechaZombieEntity object) {
 		return new Identifier(DoomMod.MODID, "geo/mechazombie.geo.json");

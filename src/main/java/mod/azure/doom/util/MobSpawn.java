@@ -32,6 +32,7 @@ public class MobSpawn {
 						new SpawnSettings.SpawnEntry(MobEntityRegister.ZOMBIEMAN, 30, 1, 4),
 						new SpawnSettings.SpawnEntry(MobEntityRegister.ARACHNOTRON, 30, 1, 4),
 						new SpawnSettings.SpawnEntry(MobEntityRegister.IMP2016, 30, 1, 4),
+						new SpawnSettings.SpawnEntry(MobEntityRegister.GARGOYLE, 30, 1, 4),
 						new SpawnSettings.SpawnEntry(MobEntityRegister.NIGHTMARE_IMP, 30, 1, 4),
 						new SpawnSettings.SpawnEntry(MobEntityRegister.CHAINGUNNER, 30, 1, 4),
 						new SpawnSettings.SpawnEntry(MobEntityRegister.SHOTGUNGUY, 30, 1, 4),
@@ -44,7 +45,7 @@ public class MobSpawn {
 						new SpawnSettings.SpawnEntry(MobEntityRegister.POSSESSEDSCIENTIST, 30, 1, 4),
 						new SpawnSettings.SpawnEntry(MobEntityRegister.POSSESSEDSOLDIER, 30, 1, 4),
 						new SpawnSettings.SpawnEntry(MobEntityRegister.MECHAZOMBIE, 30, 1, 4),
-						new SpawnSettings.SpawnEntry(MobEntityRegister.GORE_NEST, 30, 1, 1),
+						new SpawnSettings.SpawnEntry(MobEntityRegister.GORE_NEST, 10, 1, 1),
 						new SpawnSettings.SpawnEntry(MobEntityRegister.CYBERDEMON2016, 10, 1, 1));
 			}
 		}

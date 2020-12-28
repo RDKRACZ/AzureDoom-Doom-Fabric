@@ -30,7 +30,7 @@
 		"fabric": "*",
 		"minecraft": "1.16.x",
 		"curios": ">=0.0.6",
-		"geckolib3": ">=3.0.0-beta.7"
+		"geckolib3": ">=3.0.1"
 	},
 	"suggests": {
 		"flamingo": "*"

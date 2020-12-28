@@ -2,6 +2,7 @@ package mod.azure.doom;
 
 import mod.azure.doom.client.render.weapons.BFG9000Render;
 import mod.azure.doom.client.render.weapons.BFGRender;
+import mod.azure.doom.client.render.weapons.BallistaRender;
 import mod.azure.doom.client.render.weapons.ChaingunRender;
 import mod.azure.doom.client.render.weapons.SGRender;
 import mod.azure.doom.client.render.weapons.SSGRender;
@@ -43,7 +44,6 @@ import top.theillusivec4.curios.api.SlotTypeInfo.BuildScheme;
 import top.theillusivec4.curios.api.SlotTypePreset;
 import top.theillusivec4.curios.api.type.component.ICurio;
 
-@SuppressWarnings("deprecation")
 public class DoomMod implements ModInitializer {
 
 	public static DoomItems ITEMS;
@@ -64,6 +64,7 @@ public class DoomMod implements ModInitializer {
 	public static final ItemGroup DoomPowerUPItemGroup = FabricItemGroupBuilder.create(new Identifier(MODID, "powerup"))
 			.icon(() -> new ItemStack(DoomItems.INMORTAL)).build();
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onInitialize() {
 		DoomBlocks.init();
@@ -89,6 +90,7 @@ public class DoomMod implements ModInitializer {
 		GeoItemRenderer.registerItemRenderer(DoomItems.SG, new SGRender());
 		GeoItemRenderer.registerItemRenderer(DoomItems.SSG, new SSGRender());
 		GeoItemRenderer.registerItemRenderer(DoomItems.CHAINGUN, new ChaingunRender());
+		GeoItemRenderer.registerItemRenderer(DoomItems.BALLISTA, new BallistaRender());
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.BELT.getInfoBuilder().build());
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.CHARM.getInfoBuilder().build());
 		LootTableLoadingCallback.EVENT.register((resourceManager, lootManager, id, supplier, setter) -> {

@@ -1,5 +1,6 @@
 package mod.azure.doom.entity;
 
+import java.util.List;
 import java.util.Random;
 
 import org.jetbrains.annotations.Nullable;
@@ -23,11 +24,16 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
@@ -113,6 +119,30 @@ public class ArchvileEntity extends DemonEntity {
 				++this.cooldown;
 				if (this.cooldown == 40) {
 					if (!this.ghast.world.isClient) {
+						float q = 24.0F;
+						int k = MathHelper.floor(this.ghast.getX() - (double) q - 1.0D);
+						int l = MathHelper.floor(this.ghast.getX() + (double) q + 1.0D);
+						int t = MathHelper.floor(this.ghast.getY() - (double) q - 1.0D);
+						int u = MathHelper.floor(this.ghast.getY() + (double) q + 1.0D);
+						int v = MathHelper.floor(this.ghast.getZ() - (double) q - 1.0D);
+						int w = MathHelper.floor(this.ghast.getZ() + (double) q + 1.0D);
+						List<Entity> list = this.ghast.world.getOtherEntities(this.ghast,
+								new Box((double) k, (double) t, (double) v, (double) l, (double) u, (double) w));
+						Vec3d vec3d1 = new Vec3d(this.ghast.getX(), this.ghast.getY(), this.ghast.getZ());
+
+						for (int x = 0; x < list.size(); ++x) {
+							Entity entity = (Entity) list.get(x);
+							if ((entity instanceof DemonEntity)) {
+								double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d1)) / q);
+								if (y <= 1.0D) {
+									((DemonEntity) entity)
+											.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 1000, 1));
+									((DemonEntity) entity)
+											.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 1000, 1));
+									entity.setGlowing(true);
+								}
+							}
+						}
 						this.ghast.createExplosion(this.ghast, DamageSource.LIGHTNING_BOLT, (ExplosionBehavior) null,
 								this.ghast.getTarget().getX(), this.ghast.getTarget().getEyeY(),
 								this.ghast.getTarget().getZ(), 1.0F, true, Explosion.DestructionType.NONE);

@@ -13,6 +13,7 @@ import mod.azure.doom.entity.projectiles.RocketEntity;
 import mod.azure.doom.entity.projectiles.ShotgunShellEntity;
 import mod.azure.doom.entity.projectiles.UnmaykrBoltEntity;
 import mod.azure.doom.entity.projectiles.entity.BarenBlastEntity;
+import mod.azure.doom.entity.projectiles.entity.ChaingunMobEntity;
 import mod.azure.doom.entity.projectiles.entity.EnergyCellMobEntity;
 import mod.azure.doom.entity.projectiles.entity.RocketMobEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
@@ -43,6 +44,8 @@ public class ProjectilesEntityRegister {
 	public static EntityType<RocketMobEntity> ROCKET_MOB = projectile(RocketMobEntity::new, "rocket_mob");
 	public static EntityType<EnergyCellMobEntity> ENERGY_CELL_MOB = projectile(EnergyCellMobEntity::new,
 			"energy_cell_mob");
+
+	public static EntityType<ChaingunMobEntity> CHAINGUN_MOB = projectile(ChaingunMobEntity::new, "chaingun_mob");
 
 	private static <T extends Entity> EntityType<T> projectile(EntityType.EntityFactory<T> factory, String id) {
 		return projectile(factory, id, true);

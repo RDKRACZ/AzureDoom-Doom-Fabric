@@ -1,10 +1,8 @@
 package mod.azure.doom.client;
 
-import mod.azure.doom.item.weapons.Ballista;
 import mod.azure.doom.util.registry.DoomItems;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 
 public class ModelProviderinit {
@@ -37,32 +35,6 @@ public class ModelProviderinit {
 				(itemStack, clientWorld, livingEntity) -> {
 					return livingEntity != null && livingEntity.isUsingItem()
 							&& livingEntity.getActiveItem() == itemStack ? 1.0F : 0.0F;
-				});
-
-		FabricModelPredicateProviderRegistry.register(DoomItems.BALLISTA, new Identifier("pull"),
-				(itemStack, clientWorld, livingEntity) -> {
-					if (livingEntity == null) {
-						return 0.0F;
-					} else {
-						return Ballista.isCharged(itemStack) ? 0.0F
-								: (float) (itemStack.getMaxUseTime() - livingEntity.getItemUseTimeLeft())
-										/ (float) Ballista.getPullTime(itemStack);
-					}
-				});
-		FabricModelPredicateProviderRegistry.register(DoomItems.BALLISTA, new Identifier("pulling"),
-				(itemStack, clientWorld, livingEntity) -> {
-					return livingEntity != null && livingEntity.isUsingItem()
-							&& livingEntity.getActiveItem() == itemStack && !Ballista.isCharged(itemStack) ? 1.0F
-									: 0.0F;
-				});
-		FabricModelPredicateProviderRegistry.register(DoomItems.BALLISTA, new Identifier("charged"),
-				(itemStack, clientWorld, livingEntity) -> {
-					return livingEntity != null && Ballista.isCharged(itemStack) ? 1.0F : 0.0F;
-				});
-		FabricModelPredicateProviderRegistry.register(DoomItems.BALLISTA, new Identifier("firework"),
-				(itemStack, clientWorld, livingEntity) -> {
-					return livingEntity != null && Ballista.isCharged(itemStack)
-							&& Ballista.hasProjectile(itemStack, Items.FIREWORK_ROCKET) ? 1.0F : 0.0F;
 				});
 
 		// Crucible

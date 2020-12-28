@@ -196,8 +196,10 @@ public class BFGEntity extends PersistentProjectileEntity {
 					|| (entity instanceof HoglinEntity)) {
 				double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d1)) / q);
 				if (y <= 1.0D) {
-					entity.damage(DamageSource.arrow(this, this), 10);
-					setBeamTarget(entity.getEntityId());
+					if (entity.isAlive()) {
+						entity.damage(DamageSource.arrow(this, this), 10);
+						setBeamTarget(entity.getEntityId());
+					}
 				}
 			}
 		}

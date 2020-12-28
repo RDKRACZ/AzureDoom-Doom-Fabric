@@ -8,6 +8,7 @@ import mod.azure.doom.client.render.CacodemonRender;
 import mod.azure.doom.client.render.ChaingunnerRender;
 import mod.azure.doom.client.render.Cyberdemon2016Render;
 import mod.azure.doom.client.render.CyberdemonRender;
+import mod.azure.doom.client.render.GargoyleRender;
 import mod.azure.doom.client.render.GoreNestRender;
 import mod.azure.doom.client.render.Hellknight2016Render;
 import mod.azure.doom.client.render.HellknightRender;
@@ -66,6 +67,7 @@ import mod.azure.doom.client.render.projectiles.EnergyCellRender;
 import mod.azure.doom.client.render.projectiles.RocketRender;
 import mod.azure.doom.client.render.projectiles.ShotgunShellRender;
 import mod.azure.doom.client.render.projectiles.UnmaykrBulletRender;
+import mod.azure.doom.client.render.projectiles.entity.ChaingunMobRender;
 import mod.azure.doom.client.render.projectiles.entity.EnergyCellMobRender;
 import mod.azure.doom.client.render.projectiles.entity.RocketMobRender;
 import mod.azure.doom.item.armor.AstroDoomArmor;
@@ -186,6 +188,9 @@ public class DoomRenderRegistry {
 		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.POSSESSEDSOLDIER, (dispatcher, context) -> {
 			return new PossessedSoldierRender(dispatcher);
 		});
+		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.GARGOYLE, (dispatcher, context) -> {
+			return new GargoyleRender(dispatcher);
+		});
 
 		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.MECHAZOMBIE, (dispatcher, context) -> {
 			return new MechaZombieRender(dispatcher);
@@ -222,6 +227,9 @@ public class DoomRenderRegistry {
 		});
 		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.ENERGY_CELL_MOB, (dispatcher, context) -> {
 			return new EnergyCellMobRender(dispatcher);
+		});
+		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.CHAINGUN_MOB, (dispatcher, context) -> {
+			return new ChaingunMobRender(dispatcher);
 		});
 
 		GeoArmorRenderer.registerArmorRenderer(DoomicornDoomArmor.class, new DoomicornRender());

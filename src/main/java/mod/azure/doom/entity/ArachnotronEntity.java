@@ -150,27 +150,7 @@ public class ArachnotronEntity extends DemonEntity implements IAnimatable {
 					fireballEntity.updatePosition(this.ghast.getX() + vec3d.x * 2.0D, this.ghast.getBodyY(0.5D) + 0.5D,
 							ghast.getZ() + vec3d.z * 1.0D);
 					world.spawnEntity(fireballEntity);
-				}
-				if (this.cooldown == 20) {
-					fireballEntity.updatePosition(this.ghast.getX() + vec3d.x * 2.0D, this.ghast.getBodyY(0.5D) + 0.5D,
-							ghast.getZ() + vec3d.z * 1.0D);
-					world.spawnEntity(fireballEntity);
-				}
-				if (this.cooldown == 30) {
-					fireballEntity.updatePosition(this.ghast.getX() + vec3d.x * 2.0D, this.ghast.getBodyY(0.5D) + 0.5D,
-							ghast.getZ() + vec3d.z * 1.0D);
-					world.spawnEntity(fireballEntity);
-				}
-				if (this.cooldown == 40) {
-					fireballEntity.updatePosition(this.ghast.getX() + vec3d.x * 2.0D, this.ghast.getBodyY(0.5D) + 0.5D,
-							ghast.getZ() + vec3d.z * 1.0D);
-					world.spawnEntity(fireballEntity);
-				}
-				if (this.cooldown == 50) {
-					fireballEntity.updatePosition(this.ghast.getX() + vec3d.x * 2.0D, this.ghast.getBodyY(0.5D) + 0.5D,
-							ghast.getZ() + vec3d.z * 1.0D);
-					world.spawnEntity(fireballEntity);
-					this.cooldown = -100;
+					this.cooldown = -10;
 				}
 			} else if (this.cooldown > 0) {
 				this.ghast.getLookControl().lookAt(livingEntity, 90.0F, 30.0F);
