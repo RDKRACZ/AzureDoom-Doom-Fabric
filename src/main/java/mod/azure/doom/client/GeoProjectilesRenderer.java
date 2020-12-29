@@ -11,7 +11,6 @@ import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -23,7 +22,7 @@ import software.bernie.geckolib3.model.provider.GeoModelProvider;
 import software.bernie.geckolib3.renderer.geo.IGeoRenderer;
 import software.bernie.geckolib3.util.AnimationUtils;
 
-public class GeoProjectilesRenderer<T extends ProjectileEntity & IAnimatable> extends EntityRenderer<T>
+public class GeoProjectilesRenderer<T extends Entity & IAnimatable> extends EntityRenderer<T>
 		implements IGeoRenderer<T> {
 
 	static {
@@ -63,7 +62,7 @@ public class GeoProjectilesRenderer<T extends ProjectileEntity & IAnimatable> ex
 		super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
 	}
 
-	public static int getPackedOverlay(ProjectileEntity livingEntityIn, float uIn) {
+	public static int getPackedOverlay(Entity livingEntityIn, float uIn) {
 		return OverlayTexture.getUv(OverlayTexture.getU(uIn), false);
 	}
 

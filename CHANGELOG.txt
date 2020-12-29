@@ -7,5 +7,8 @@ v.3.6.2
 - Updated Imp 2016 texture thanks to Silly.
 - Updated Ballista model thanks to cybercat5555.
 - Updated Rocket model thanks to thelilcoin.
-- Arch-vile now buffs nearby Demons on it's attack.
+- Arch-vile now buffs nearby Demons on it's attack, granting Speed and Strength bonuses as well as making the entities glow.
+- Arch-vile now throws fire at it's attacking entity and sets them on fire.
+- Mancubus now throws fire at close range instead of firing it's cannon.
 - Hard requiring Geckolib 3.0.1 now as that version fixes the Armor crash.
+- Completely rewrote the in-fighting system, in-fighting will now only happen if demon hits another. 

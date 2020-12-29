@@ -12,6 +12,7 @@ import mod.azure.doom.entity.projectiles.EnergyCellEntity;
 import mod.azure.doom.entity.projectiles.RocketEntity;
 import mod.azure.doom.entity.projectiles.ShotgunShellEntity;
 import mod.azure.doom.entity.projectiles.UnmaykrBoltEntity;
+import mod.azure.doom.entity.projectiles.entity.ArchvileFiring;
 import mod.azure.doom.entity.projectiles.entity.BarenBlastEntity;
 import mod.azure.doom.entity.projectiles.entity.ChaingunMobEntity;
 import mod.azure.doom.entity.projectiles.entity.EnergyCellMobEntity;
@@ -31,6 +32,7 @@ public class ProjectilesEntityRegister {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static List<EntityType<? extends Entity>> ENTITY_THAT_USE_ITEM_RENDERS = new LinkedList();
 
+	public static EntityType<ArchvileFiring> FIRING = projectile(ArchvileFiring::new, "archvile_firing");
 	public static EntityType<ArgentBoltEntity> ARGENT_BOLT = projectile(ArgentBoltEntity::new, "argent_bolt");
 	public static EntityType<UnmaykrBoltEntity> UNMAYKR = projectile(UnmaykrBoltEntity::new, "unmaykr_bolt");
 	public static EntityType<ShotgunShellEntity> SHOTGUN_SHELL = projectile(ShotgunShellEntity::new, "shotgun_shell");

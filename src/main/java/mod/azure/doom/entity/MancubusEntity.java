@@ -3,6 +3,7 @@ package mod.azure.doom.entity;
 import java.util.Random;
 
 import mod.azure.doom.entity.ai.goal.DemonAttackGoal;
+import mod.azure.doom.entity.projectiles.entity.ArchvileFiring;
 import mod.azure.doom.entity.projectiles.entity.BarenBlastEntity;
 import mod.azure.doom.util.ModSoundEvents;
 import net.fabricmc.api.EnvType;
@@ -29,7 +30,10 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -157,15 +161,38 @@ public class MancubusEntity extends DemonEntity implements IAnimatable {
 				double g = livingEntity.getBodyY(0.5D) - (0.5D + this.parentEntity.getBodyY(0.5D));
 				double h = livingEntity.getZ() - (this.parentEntity.getZ() + vec3d.z * 4.0D);
 				BarenBlastEntity fireballEntity = new BarenBlastEntity(world, this.parentEntity, f, g, h);
+				double d = Math.min(livingEntity.getY(), parentEntity.getY());
+				double e = Math.max(livingEntity.getY(), parentEntity.getY()) + 1.0D;
+				float f2 = (float) MathHelper.atan2(livingEntity.getZ() - parentEntity.getZ(),
+						livingEntity.getX() - parentEntity.getX());
+				int j;
 				if (this.cooldown == 15) {
-					fireballEntity.updatePosition(this.parentEntity.getX() + vec3d.x * 1.0D,
-							this.parentEntity.getBodyY(0.5D), fireballEntity.getZ() + 1.0D);
-					world.spawnEntity(fireballEntity);
+					if (parentEntity.distanceTo(livingEntity) < 15.0D) {
+						for (j = 0; j < 16; ++j) {
+							double l1 = 1.25D * (double) (j + 1);
+							int m = 1 * j;
+							parentEntity.conjureFangs(parentEntity.getX() + (double) MathHelper.cos(f2) * l1,
+									parentEntity.getZ() + (double) MathHelper.sin(f2) * l1, d, e, f2, m);
+						}
+					} else {
+						fireballEntity.updatePosition(this.parentEntity.getX() + vec3d.x * 1.0D,
+								this.parentEntity.getBodyY(0.5D), fireballEntity.getZ() + 1.0D);
+						world.spawnEntity(fireballEntity);
+					}
 				}
 				if (this.cooldown == 20) {
-					fireballEntity.updatePosition(this.parentEntity.getX() + vec3d.x * 1.0D,
-							this.parentEntity.getBodyY(0.5D), fireballEntity.getZ() - 1.0D);
-					world.spawnEntity(fireballEntity);
+					if (parentEntity.distanceTo(livingEntity) < 15.0D) {
+						for (j = 0; j < 16; ++j) {
+							double l1 = 1.25D * (double) (j + 1);
+							int m = 1 * j;
+							parentEntity.conjureFangs(parentEntity.getX() + (double) MathHelper.cos(f2) * l1,
+									parentEntity.getZ() + (double) MathHelper.sin(f2) * l1, d, e, f2, m);
+						}
+					} else {
+						fireballEntity.updatePosition(this.parentEntity.getX() + vec3d.x * 1.0D,
+								this.parentEntity.getBodyY(0.5D), fireballEntity.getZ() - 1.0D);
+						world.spawnEntity(fireballEntity);
+					}
 					this.cooldown = -100;
 				}
 			} else if (this.cooldown > 0) {
@@ -174,6 +201,36 @@ public class MancubusEntity extends DemonEntity implements IAnimatable {
 
 			this.parentEntity.setShooting(this.cooldown > 10);
 		}
+	}
+
+	private void conjureFangs(double x, double z, double maxY, double y, float yaw, int warmup) {
+		BlockPos blockPos = new BlockPos(x, y, z);
+		boolean bl = false;
+		double d = 0.0D;
+		do {
+			BlockPos blockPos2 = blockPos.down();
+			BlockState blockState = this.world.getBlockState(blockPos2);
+			if (blockState.isSideSolidFullSquare(this.world, blockPos2, Direction.UP)) {
+				if (!this.world.isAir(blockPos)) {
+					BlockState blockState2 = this.world.getBlockState(blockPos);
+					VoxelShape voxelShape = blockState2.getCollisionShape(this.world, blockPos);
+					if (!voxelShape.isEmpty()) {
+						d = voxelShape.getMax(Direction.Axis.Y);
+					}
+				}
+				bl = true;
+				break;
+			}
+			blockPos = blockPos.down();
+		} while (blockPos.getY() >= MathHelper.floor(maxY) - 1);
+
+		if (bl) {
+			ArchvileFiring fang = new ArchvileFiring(this.world, x, (double) blockPos.getY() + d, z, yaw, warmup, this);
+			fang.setFireTicks(age);
+			fang.isInvisible();
+			this.world.spawnEntity(fang);
+		}
+
 	}
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {

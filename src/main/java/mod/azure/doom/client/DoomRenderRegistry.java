@@ -67,6 +67,7 @@ import mod.azure.doom.client.render.projectiles.EnergyCellRender;
 import mod.azure.doom.client.render.projectiles.RocketRender;
 import mod.azure.doom.client.render.projectiles.ShotgunShellRender;
 import mod.azure.doom.client.render.projectiles.UnmaykrBulletRender;
+import mod.azure.doom.client.render.projectiles.entity.ArchvileFiringRender;
 import mod.azure.doom.client.render.projectiles.entity.ChaingunMobRender;
 import mod.azure.doom.client.render.projectiles.entity.EnergyCellMobRender;
 import mod.azure.doom.client.render.projectiles.entity.RocketMobRender;
@@ -230,6 +231,9 @@ public class DoomRenderRegistry {
 		});
 		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.CHAINGUN_MOB, (dispatcher, context) -> {
 			return new ChaingunMobRender(dispatcher);
+		});
+		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.FIRING, (dispatcher, context) -> {
+			return new ArchvileFiringRender(dispatcher);
 		});
 
 		GeoArmorRenderer.registerArmorRenderer(DoomicornDoomArmor.class, new DoomicornRender());

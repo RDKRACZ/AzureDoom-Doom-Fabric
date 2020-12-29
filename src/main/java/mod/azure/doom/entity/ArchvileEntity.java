@@ -3,11 +3,11 @@ package mod.azure.doom.entity;
 import java.util.List;
 import java.util.Random;
 
-import org.jetbrains.annotations.Nullable;
-
+import mod.azure.doom.entity.projectiles.entity.ArchvileFiring;
 import mod.azure.doom.util.ModSoundEvents;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -27,17 +27,16 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
-import net.minecraft.world.explosion.Explosion;
-import net.minecraft.world.explosion.ExplosionBehavior;
 
 public class ArchvileEntity extends DemonEntity {
 	private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(ArchvileEntity.class,
@@ -89,7 +88,6 @@ public class ArchvileEntity extends DemonEntity {
 		this.goalSelector.add(7, new ArchvileEntity.AttackGoal(this));
 		this.targetSelector.add(2, new RevengeGoal(this));
 		this.targetSelector.add(3, new FollowTargetGoal<>(this, HostileEntity.class, true));
-		this.targetSelector.add(3, new FollowTargetGoal<>(this, MobEntity.class, true));
 	}
 
 	static class AttackGoal extends Goal {
@@ -142,11 +140,40 @@ public class ArchvileEntity extends DemonEntity {
 									entity.setGlowing(true);
 								}
 							}
+							if (entity instanceof LivingEntity) {
+								if (entity.isAlive() && ghast.getTarget().canSee(livingEntity)) {
+									entity.setFireTicks(3);
+								}
+							}
 						}
-						this.ghast.createExplosion(this.ghast, DamageSource.LIGHTNING_BOLT, (ExplosionBehavior) null,
-								this.ghast.getTarget().getX(), this.ghast.getTarget().getEyeY(),
-								this.ghast.getTarget().getZ(), 1.0F, true, Explosion.DestructionType.NONE);
+						double d = Math.min(livingEntity.getY(), ghast.getY());
+						double e = Math.max(livingEntity.getY(), ghast.getY()) + 1.0D;
+						float f = (float) MathHelper.atan2(livingEntity.getZ() - ghast.getZ(),
+								livingEntity.getX() - ghast.getX());
+						int j;
+						if (ghast.squaredDistanceTo(livingEntity) < 9.0D) {
+							float h;
+							for (j = 0; j < 5; ++j) {
+								h = f + (float) j * 3.1415927F * 0.4F;
+								ghast.conjureFangs(ghast.getX() + (double) MathHelper.cos(h) * 1.5D,
+										ghast.getZ() + (double) MathHelper.sin(h) * 1.5D, d, e, h, 0);
+							}
+
+							for (j = 0; j < 8; ++j) {
+								h = f + (float) j * 3.1415927F * 2.0F / 8.0F + 1.2566371F;
+								ghast.conjureFangs(ghast.getX() + (double) MathHelper.cos(h) * 2.5D,
+										ghast.getZ() + (double) MathHelper.sin(h) * 2.5D, d, e, h, 3);
+							}
+						} else {
+							for (j = 0; j < 16; ++j) {
+								double l1 = 1.25D * (double) (j + 1);
+								int m = 1 * j;
+								ghast.conjureFangs(ghast.getX() + (double) MathHelper.cos(f) * l1,
+										ghast.getZ() + (double) MathHelper.sin(f) * l1, d, e, f, m);
+							}
+						}
 					}
+					this.ghast.getLookControl().lookAt(livingEntity, 30.0F, 30.0F);
 					if (!(this.ghast.world.isClient)) {
 						this.ghast.playSound(ModSoundEvents.ARCHVILE_SCREAM, 1.0F,
 								1.2F / (this.ghast.random.nextFloat() * 0.2F + 0.9F));
@@ -161,14 +188,35 @@ public class ArchvileEntity extends DemonEntity {
 		}
 	}
 
-	public Explosion createExplosion(@Nullable Entity entity, @Nullable DamageSource damageSource,
-			@Nullable ExplosionBehavior explosionBehavior, double d, double e, double f, float g, boolean bl,
-			Explosion.DestructionType destructionType) {
-		Explosion explosion = new Explosion(this.world, entity, damageSource, explosionBehavior, d, e, f, g, bl,
-				destructionType);
-		explosion.collectBlocksAndDamageEntities();
-		explosion.affectWorld(false);
-		return explosion;
+	private void conjureFangs(double x, double z, double maxY, double y, float yaw, int warmup) {
+		BlockPos blockPos = new BlockPos(x, y, z);
+		boolean bl = false;
+		double d = 0.0D;
+
+		do {
+			BlockPos blockPos2 = blockPos.down();
+			BlockState blockState = this.world.getBlockState(blockPos2);
+			if (blockState.isSideSolidFullSquare(this.world, blockPos2, Direction.UP)) {
+				if (!this.world.isAir(blockPos)) {
+					BlockState blockState2 = this.world.getBlockState(blockPos);
+					VoxelShape voxelShape = blockState2.getCollisionShape(this.world, blockPos);
+					if (!voxelShape.isEmpty()) {
+						d = voxelShape.getMax(Direction.Axis.Y);
+					}
+				}
+				bl = true;
+				break;
+			}
+			blockPos = blockPos.down();
+		} while (blockPos.getY() >= MathHelper.floor(maxY) - 1);
+
+		if (bl) {
+			ArchvileFiring fang = new ArchvileFiring(this.world, x, (double) blockPos.getY() + d, z, yaw, warmup, this);
+			fang.setFireTicks(age);
+			fang.isInvisible();
+			this.world.spawnEntity(fang);
+		}
+
 	}
 
 	protected void mobTick() {
