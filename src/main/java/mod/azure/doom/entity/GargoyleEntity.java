@@ -166,7 +166,7 @@ public class GargoyleEntity extends DemonEntity implements IAnimatable {
 
 		public void tick() {
 			LivingEntity livingEntity = this.ghast.getTarget();
-			if (livingEntity.squaredDistanceTo(this.ghast) < 4096.0D && this.ghast.canSee(livingEntity)) {
+			if (livingEntity.squaredDistanceTo(livingEntity) < 4096.0D && this.ghast.canSee(livingEntity)) {
 				this.ghast.getLookControl().lookAt(livingEntity, 90.0F, 30.0F);
 				World world = this.ghast.world;
 				++this.cooldown;

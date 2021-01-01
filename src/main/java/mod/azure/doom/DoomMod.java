@@ -7,6 +7,7 @@ import mod.azure.doom.client.render.weapons.ChaingunRender;
 import mod.azure.doom.client.render.weapons.SGRender;
 import mod.azure.doom.client.render.weapons.SSGRender;
 import mod.azure.doom.entity.tileentity.IconBlockEntity;
+import mod.azure.doom.util.DoomVillagerTrades;
 import mod.azure.doom.util.MobAttributes;
 import mod.azure.doom.util.MobSpawn;
 import mod.azure.doom.util.ModSoundEvents;
@@ -19,6 +20,7 @@ import mod.azure.doom.util.registry.ProjectilesEntityRegister;
 import nerdhub.cardinal.components.api.event.ItemComponentCallbackV2;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
 import net.fabricmc.fabric.api.loot.v1.FabricLootPoolBuilder;
 import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
@@ -44,6 +46,7 @@ import top.theillusivec4.curios.api.SlotTypeInfo.BuildScheme;
 import top.theillusivec4.curios.api.SlotTypePreset;
 import top.theillusivec4.curios.api.type.component.ICurio;
 
+@SuppressWarnings("deprecation")
 public class DoomMod implements ModInitializer {
 
 	public static DoomItems ITEMS;
@@ -64,7 +67,6 @@ public class DoomMod implements ModInitializer {
 	public static final ItemGroup DoomPowerUPItemGroup = FabricItemGroupBuilder.create(new Identifier(MODID, "powerup"))
 			.icon(() -> new ItemStack(DoomItems.INMORTAL)).build();
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onInitialize() {
 		DoomBlocks.init();
@@ -83,6 +85,7 @@ public class DoomMod implements ModInitializer {
 		RegistryEntryAddedCallback.event(BuiltinRegistries.BIOME).register((i, id, biome) -> {
 			MobSpawn.addSpawnEntries();
 		});
+		ServerLifecycleEvents.SERVER_STARTED.register(minecraftServer -> DoomVillagerTrades.addTrades());
 		MobAttributes.init();
 		GeckoLib.initialize();
 		GeoItemRenderer.registerItemRenderer(DoomItems.BFG, new BFG9000Render());

@@ -12,6 +12,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.registry.Registry;
 
+@SuppressWarnings("deprecation")
 public class EntityPacketOnClient {
 	@Environment(EnvType.CLIENT)
 	public static void onPacket(PacketContext context, PacketByteBuf byteBuf) {

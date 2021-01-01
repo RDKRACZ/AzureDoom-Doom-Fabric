@@ -29,6 +29,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
+@SuppressWarnings("deprecation")
 @Mixin(ClientPlayerEntity.class)
 public abstract class DoubleJumpMixin extends AbstractClientPlayerEntity {
 

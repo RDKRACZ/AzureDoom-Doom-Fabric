@@ -30,6 +30,7 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -162,17 +163,23 @@ public class MancubusEntity extends DemonEntity implements IAnimatable {
 				double h = livingEntity.getZ() - (this.parentEntity.getZ() + vec3d.z * 4.0D);
 				BarenBlastEntity fireballEntity = new BarenBlastEntity(world, this.parentEntity, f, g, h);
 				double d = Math.min(livingEntity.getY(), parentEntity.getY());
-				double e = Math.max(livingEntity.getY(), parentEntity.getY()) + 1.0D;
+				double e1 = Math.max(livingEntity.getY(), parentEntity.getY()) + 1.0D;
 				float f2 = (float) MathHelper.atan2(livingEntity.getZ() - parentEntity.getZ(),
 						livingEntity.getX() - parentEntity.getX());
 				int j;
+				final Vec3d facing = Vec3d.fromPolar(parentEntity.getRotationClient()).normalize();
+				final Box aabb = new Box(parentEntity.getBlockPos().up()).expand(1D, 1D, 1D)
+						.offset(facing.multiply(1D));
 				if (this.cooldown == 15) {
-					if (parentEntity.distanceTo(livingEntity) < 15.0D) {
+					if (parentEntity.distanceTo(livingEntity) < 3.0D) {
+						parentEntity.getEntityWorld().getOtherEntities(parentEntity, aabb)
+								.forEach(e -> e.setFireTicks(5));
+					} else if (parentEntity.distanceTo(livingEntity) < 13.0D) {
 						for (j = 0; j < 16; ++j) {
 							double l1 = 1.25D * (double) (j + 1);
 							int m = 1 * j;
-							parentEntity.conjureFangs(parentEntity.getX() + (double) MathHelper.cos(f2) * l1,
-									parentEntity.getZ() + (double) MathHelper.sin(f2) * l1, d, e, f2, m);
+							parentEntity.spawnFlames(parentEntity.getX() + (double) MathHelper.cos(f2) * l1,
+									parentEntity.getZ() + (double) MathHelper.sin(f2) * l1, d, e1, f2, m);
 						}
 					} else {
 						fireballEntity.updatePosition(this.parentEntity.getX() + vec3d.x * 1.0D,
@@ -181,16 +188,19 @@ public class MancubusEntity extends DemonEntity implements IAnimatable {
 					}
 				}
 				if (this.cooldown == 20) {
-					if (parentEntity.distanceTo(livingEntity) < 15.0D) {
+					if (parentEntity.distanceTo(livingEntity) < 3.0D) {
+						parentEntity.getEntityWorld().getOtherEntities(parentEntity, aabb)
+								.forEach(e -> e.setFireTicks(5));
+					} else if (parentEntity.distanceTo(livingEntity) < 13.0D) {
 						for (j = 0; j < 16; ++j) {
 							double l1 = 1.25D * (double) (j + 1);
 							int m = 1 * j;
-							parentEntity.conjureFangs(parentEntity.getX() + (double) MathHelper.cos(f2) * l1,
-									parentEntity.getZ() + (double) MathHelper.sin(f2) * l1, d, e, f2, m);
+							parentEntity.spawnFlames(parentEntity.getX() + (double) MathHelper.cos(f2) * l1,
+									parentEntity.getZ() + (double) MathHelper.sin(f2) * l1, d, e1, f2, m);
 						}
 					} else {
 						fireballEntity.updatePosition(this.parentEntity.getX() + vec3d.x * 1.0D,
-								this.parentEntity.getBodyY(0.5D), fireballEntity.getZ() - 1.0D);
+								this.parentEntity.getBodyY(0.5D), fireballEntity.getZ() + 1.0D);
 						world.spawnEntity(fireballEntity);
 					}
 					this.cooldown = -100;
@@ -203,7 +213,7 @@ public class MancubusEntity extends DemonEntity implements IAnimatable {
 		}
 	}
 
-	private void conjureFangs(double x, double z, double maxY, double y, float yaw, int warmup) {
+	public void spawnFlames(double x, double z, double maxY, double y, float yaw, int warmup) {
 		BlockPos blockPos = new BlockPos(x, y, z);
 		boolean bl = false;
 		double d = 0.0D;
