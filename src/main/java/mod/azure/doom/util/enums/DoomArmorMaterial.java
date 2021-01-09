@@ -17,11 +17,11 @@ public enum DoomArmorMaterial implements ArmorMaterial {
 			() -> {
 				return Ingredient.ofItems(DoomItems.ARGENT_ENERGY);
 			}),
-	HOTROD_DOOM_ARMOR("doomweapon:hotrod_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
+	HOTROD_DOOM_ARMOR("hotrod_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
 			SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 8.0F, 0.4F, () -> {
 				return Ingredient.ofItems(DoomItems.ARGENT_ENERGY);
 			}),
-	DEMONCIDE_DOOM_ARMOR("doomweapon:demoncide_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
+	DEMONCIDE_DOOM_ARMOR("demoncide_armor", 50, new int[] { 5, 8, 10, 5 }, 30,
 			SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 8.0F, 0.4F, () -> {
 				return Ingredient.ofItems(DoomItems.ARGENT_ENERGY);
 			}),

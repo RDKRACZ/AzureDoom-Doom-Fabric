@@ -9,6 +9,7 @@ import mod.azure.doom.block.DoomWallBlock;
 import mod.azure.doom.block.E1M1StairsBlock;
 import mod.azure.doom.block.E1M1TurnableBlock;
 import mod.azure.doom.block.E1M1TurnableHurtBlock;
+import mod.azure.doom.block.JumppadBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
@@ -17,6 +18,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class DoomBlocks {
+	public static final Block JUMP_PAD = new JumppadBlock();
 
 	public static final Block E1M1_1 = new ArgentBlock();
 	public static final Block E1M1_2 = new ArgentBlock();
@@ -24,8 +26,10 @@ public class DoomBlocks {
 	public static final Block E1M1_4 = new ArgentBlock();
 	public static final Block E1M1_5 = new ArgentBlock();
 	public static final Block E1M1_6 = new ArgentBlock();
-	public static final Block E1M1_7 = new E1M1StairsBlock(E1M1_5.getDefaultState(), AbstractBlock.Settings.copy(E1M1_5));
-	public static final Block E1M1_8 = new E1M1StairsBlock(E1M1_4.getDefaultState(), AbstractBlock.Settings.copy(E1M1_4));
+	public static final Block E1M1_7 = new E1M1StairsBlock(E1M1_5.getDefaultState(),
+			AbstractBlock.Settings.copy(E1M1_5));
+	public static final Block E1M1_8 = new E1M1StairsBlock(E1M1_4.getDefaultState(),
+			AbstractBlock.Settings.copy(E1M1_4));
 	public static final Block E1M1_9 = new E1M1TurnableBlock();
 	public static final Block E1M1_10 = new E1M1TurnableBlock();
 	public static final Block E1M1_11 = new E1M1TurnableHurtBlock();
@@ -44,7 +48,7 @@ public class DoomBlocks {
 	public static final Block E1M1_24 = new E1M1TurnableBlock();
 	public static final Block E1M1_25 = new E1M1TurnableBlock();
 	public static final Block E1M1_26 = new E1M1TurnableBlock();
-	
+
 	public static final Block DOOM_SAND = new DoomSandBlock();
 	public static final Block ARGENT_BLOCK = new ArgentBlock();
 	public static final Block BARREL_BLOCK = new BarrelBlock();
@@ -70,6 +74,10 @@ public class DoomBlocks {
 		Registry.register(Registry.BLOCK, new Identifier(DoomMod.MODID, "argent_block"), DoomBlocks.ARGENT_BLOCK);
 		Registry.register(Registry.ITEM, new Identifier(DoomMod.MODID, "argent_block"),
 				new BlockItem(DoomBlocks.ARGENT_BLOCK, new Item.Settings().group(DoomMod.DoomBlockItemGroup)));
+
+		Registry.register(Registry.BLOCK, new Identifier(DoomMod.MODID, "jump_pad"), DoomBlocks.JUMP_PAD);
+		Registry.register(Registry.ITEM, new Identifier(DoomMod.MODID, "jump_pad"),
+				new BlockItem(DoomBlocks.JUMP_PAD, new Item.Settings().group(DoomMod.DoomBlockItemGroup)));
 
 		Registry.register(Registry.BLOCK, new Identifier(DoomMod.MODID, "doom_sand"), DoomBlocks.DOOM_SAND);
 		Registry.register(Registry.ITEM, new Identifier(DoomMod.MODID, "doom_sand"),

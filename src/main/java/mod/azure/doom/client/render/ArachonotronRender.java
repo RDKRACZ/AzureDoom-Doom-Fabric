@@ -14,6 +14,7 @@ public class ArachonotronRender extends GeoEntityRenderer<ArachnotronEntity> {
 
 	public ArachonotronRender(EntityRenderDispatcher renderManagerIn) {
 		super(renderManagerIn, new ArachnotronModel());
+	    this.shadowRadius = 0.7F;
 	}
 
 	@Override

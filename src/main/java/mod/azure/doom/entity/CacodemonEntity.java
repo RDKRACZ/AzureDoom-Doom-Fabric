@@ -4,6 +4,9 @@ import java.util.EnumSet;
 import java.util.Random;
 
 import mod.azure.doom.entity.ai.goal.DemonAttackGoal;
+import mod.azure.doom.entity.ai.goal.RandomFlyConvergeOnTargetGoal;
+import mod.azure.doom.entity.ai.goal.RangedStaticAttackGoal;
+import mod.azure.doom.entity.attack.FireballAttack;
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.packets.EntityPacket;
 import net.fabricmc.api.EnvType;
@@ -26,11 +29,9 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.Monster;
+import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.network.Packet;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
@@ -171,20 +172,27 @@ public class CacodemonEntity extends DemonEntity implements Monster, IAnimatable
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
 		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
-				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.15D).add(EntityAttributes.GENERIC_MAX_HEALTH, 80.0D)
+				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25D).add(EntityAttributes.GENERIC_MAX_HEALTH, 80.0D)
 				.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
 	}
 
 	@Override
 	protected void initGoals() {
-		this.goalSelector.add(5, new CacodemonEntity.FlyRandomlyGoal(this));
+		this.goalSelector.add(5, new RandomFlyConvergeOnTargetGoal(this, 2, 15, 0.5));
 		this.goalSelector.add(7, new CacodemonEntity.LookAtTargetGoal(this));
-		this.goalSelector.add(7, new CacodemonEntity.ShootFireballGoal(this));
-		this.goalSelector.add(7, new DemonAttackGoal(this, 1.0D, false));
+		this.goalSelector.add(4, new RangedStaticAttackGoal(this,
+				new FireballAttack(this, true).setDamage(6).setProjectileOriginOffset(1.5, 0.3, 1.5).setSound(
+						ModSoundEvents.CACODEMON_FIREBALL, 1.0F, 1.2F / (this.getRandom().nextFloat() * 0.2F + 0.9F)),
+				60, 20, 30F));
+		this.goalSelector.add(4, new DemonAttackGoal(this, 1.0D, false));
 		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
-		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
-		this.targetSelector.add(3, new FollowTargetGoal<>(this, HostileEntity.class, true));
-		this.targetSelector.add(3, new FollowTargetGoal<>(this, MobEntity.class, true));
+		this.targetSelector.add(1, new FollowTargetGoal<>(this, PlayerEntity.class, 10, true, false, (p_213812_1_) -> {
+			return Math.abs(p_213812_1_.getY() - this.getY()) <= 4.0D;
+		}));
+		this.targetSelector.add(1,
+				new FollowTargetGoal<>(this, MerchantEntity.class, 10, true, false, (p_213812_1_) -> {
+					return Math.abs(p_213812_1_.getY() - this.getY()) <= 4.0D;
+				}));
 	}
 
 	public static boolean canSpawn(EntityType<PainEntity> type, WorldAccess world, SpawnReason spawnReason,
@@ -200,56 +208,6 @@ public class CacodemonEntity extends DemonEntity implements Monster, IAnimatable
 	@Override
 	protected boolean isDisallowedInPeaceful() {
 		return true;
-	}
-
-	static class ShootFireballGoal extends Goal {
-		private final CacodemonEntity ghast;
-		public int cooldown;
-
-		public ShootFireballGoal(CacodemonEntity ghast) {
-			this.ghast = ghast;
-		}
-
-		public boolean canStart() {
-			return this.ghast.getTarget() != null;
-		}
-
-		public void start() {
-			this.cooldown = 0;
-		}
-
-		public void resetTask() {
-			this.ghast.setShooting(false);
-		}
-
-		public void tick() {
-			LivingEntity livingEntity = this.ghast.getTarget();
-			if (livingEntity.squaredDistanceTo(this.ghast) < 4096.0D && this.ghast.canSee(livingEntity)) {
-				this.ghast.getLookControl().lookAt(livingEntity, 90.0F, 30.0F);
-				World world = this.ghast.world;
-				++this.cooldown;
-
-				if (this.cooldown == 20) {
-					Vec3d vec3d = this.ghast.getRotationVec(1.0F);
-					double f = livingEntity.getX() - (this.ghast.getX() + vec3d.x * 6.0D);
-					double g = livingEntity.getBodyY(0.5D) - (0.5D + this.ghast.getBodyY(0.5D));
-					double h = livingEntity.getZ() - (this.ghast.getZ() + vec3d.z * 4.0D);
-
-					FireballEntity fireballEntity = new FireballEntity(world, this.ghast, f, g, h);
-					fireballEntity.explosionPower = this.ghast.getFireballStrength();
-					fireballEntity.updatePosition(this.ghast.getX() + 1D, this.ghast.getBodyY(0.35D), ghast.getZ());
-					this.ghast.playSound(ModSoundEvents.CACODEMON_FIREBALL, 1.0F,
-							1.2F / (this.ghast.random.nextFloat() * 0.2F + 0.9F));
-					world.spawnEntity(fireballEntity);
-					this.cooldown = -40;
-				}
-			} else if (this.cooldown > 0) {
-				--this.cooldown;
-			}
-
-			this.ghast.setShooting(this.cooldown > 10);
-
-		}
 	}
 
 	static class LookAtTargetGoal extends Goal {

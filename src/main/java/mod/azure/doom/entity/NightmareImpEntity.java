@@ -3,6 +3,8 @@ package mod.azure.doom.entity;
 import java.util.Random;
 
 import mod.azure.doom.entity.ai.goal.DemonAttackGoal;
+import mod.azure.doom.entity.ai.goal.RangedStrafeAttackGoal;
+import mod.azure.doom.entity.attack.FireballAttack;
 import mod.azure.doom.util.ModSoundEvents;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -11,7 +13,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.FollowTargetGoal;
-import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
@@ -21,13 +22,11 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.SmallFireballEntity;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -92,6 +91,7 @@ public class NightmareImpEntity extends DemonEntity implements IAnimatable {
 		return (Boolean) this.dataTracker.get(SHOOTING);
 	}
 
+	@Override
 	public void setShooting(boolean shooting) {
 		this.dataTracker.set(SHOOTING, shooting);
 	}
@@ -115,56 +115,14 @@ public class NightmareImpEntity extends DemonEntity implements IAnimatable {
 	}
 
 	protected void initCustomGoals() {
-		this.goalSelector.add(7, new NightmareImpEntity.ShootFireballGoal(this));
-		this.goalSelector.add(7, new DemonAttackGoal(this, 1.0D, false));
+		this.goalSelector.add(4,
+				new RangedStrafeAttackGoal(this,
+						new FireballAttack(this, false).setProjectileOriginOffset(0.8, 0.8, 0.8).setDamage(5).setSound(
+								SoundEvents.ENTITY_BLAZE_SHOOT, 1.0F, 1.4F + this.getRandom().nextFloat() * 0.35F),
+						1.0D, 50, 30, 15, 15F).setMultiShot(2, 3));
+		this.goalSelector.add(4, new DemonAttackGoal(this, 1.0D, false));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
-		this.targetSelector.add(3, new FollowTargetGoal<>(this, HostileEntity.class, true));
-		this.targetSelector.add(3, new FollowTargetGoal<>(this, MobEntity.class, true));
-	}
-
-	static class ShootFireballGoal extends Goal {
-		private final NightmareImpEntity ghast;
-		public int cooldown;
-
-		public ShootFireballGoal(NightmareImpEntity ghast) {
-			this.ghast = ghast;
-		}
-
-		public boolean canStart() {
-			return this.ghast.getTarget() != null;
-		}
-
-		public void start() {
-			this.cooldown = 0;
-		}
-
-		public void resetTask() {
-			this.ghast.setShooting(false);
-		}
-
-		public void tick() {
-			LivingEntity livingEntity = this.ghast.getTarget();
-			if (livingEntity.squaredDistanceTo(this.ghast) < 4096.0D && this.ghast.canSee(livingEntity)) {
-				this.ghast.getLookControl().lookAt(livingEntity, 90.0F, 30.0F);
-				World world = this.ghast.world;
-				++this.cooldown;
-				if (this.cooldown == 20) {
-					Vec3d vec3d = this.ghast.getRotationVec(1.0F);
-					double f = livingEntity.getX() - (this.ghast.getX() + vec3d.x * 4.0D);
-					double g = livingEntity.getBodyY(0.5D) - (0.5D + this.ghast.getBodyY(0.5D));
-					double h = livingEntity.getZ() - (this.ghast.getZ() + vec3d.z * 4.0D);
-					SmallFireballEntity fireballEntity = new SmallFireballEntity(world, this.ghast, f, g, h);
-					fireballEntity.updatePosition(this.ghast.getX() + vec3d.x * 1.0D, this.ghast.getBodyY(0.5D) + 0.5D,
-							fireballEntity.getZ() + vec3d.z * 2.0D);
-					world.spawnEntity(fireballEntity);
-					this.cooldown = -40;
-				}
-			} else if (this.cooldown > 0) {
-				--this.cooldown;
-			}
-
-			this.ghast.setShooting(this.cooldown > 10);
-		}
+		this.targetSelector.add(2, new FollowTargetGoal<>(this, MerchantEntity.class, true));
 	}
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {

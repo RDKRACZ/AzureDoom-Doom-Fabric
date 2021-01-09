@@ -33,7 +33,7 @@ public class DemonAttackGoal extends MeleeAttackGoal {
 		++this.ticks;
 		LivingEntity livingEntity = this.zombie.getTarget();
 		this.zombie.getLookControl().lookAt(livingEntity, 90.0F, 30.0F);
-		if (livingEntity.squaredDistanceTo(this.zombie) < 8.0D) {
+		if (livingEntity.squaredDistanceTo(this.zombie) < 4.0D) {
 			if (this.ticks >= 5 && this.method_28348() < this.method_28349() / 2) {
 				this.zombie.setAttacking(true);
 			} else {

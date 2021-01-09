@@ -6,6 +6,9 @@ import java.util.Random;
 
 import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.annotation.Nullable;
 import mod.azure.doom.entity.ai.goal.DemonAttackGoal;
+import mod.azure.doom.entity.ai.goal.RangedStrafeAttackGoal;
+import mod.azure.doom.entity.attack.AbstractRangedAttack;
+import mod.azure.doom.entity.attack.AttackSound;
 import mod.azure.doom.entity.projectiles.entity.EnergyCellMobEntity;
 import mod.azure.doom.util.ModSoundEvents;
 import net.fabricmc.api.EnvType;
@@ -20,7 +23,6 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.FollowTargetGoal;
-import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.goal.RevengeGoal;
@@ -31,13 +33,14 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -87,6 +90,7 @@ public class ArachnotronEntity extends DemonEntity implements IAnimatable {
 		return (Boolean) this.dataTracker.get(SHOOTING);
 	}
 
+	@Override
 	public void setShooting(boolean shooting) {
 		this.dataTracker.set(SHOOTING, shooting);
 	}
@@ -106,56 +110,36 @@ public class ArachnotronEntity extends DemonEntity implements IAnimatable {
 		this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
 		this.goalSelector.add(6, new LookAroundGoal(this));
 		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
-		this.goalSelector.add(7, new ArachnotronEntity.ShootFireballGoal(this));
-		this.goalSelector.add(7, new DemonAttackGoal(this, 1.0D, false));
+		this.goalSelector.add(4,
+				new RangedStrafeAttackGoal(this, new ArachnotronEntity.FireballAttack(this)
+						.setProjectileOriginOffset(0.8, 0.8, 0.8).setDamage(4), 1.0D, 50, 30, 15, 15F).setMultiShot(2,
+								3));
+		this.goalSelector.add(4, new DemonAttackGoal(this, 1.0D, false));
 		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
-		this.targetSelector.add(3, new FollowTargetGoal<>(this, HostileEntity.class, true));
+		this.targetSelector.add(2, new FollowTargetGoal<>(this, MerchantEntity.class, true));
 	}
 
-	static class ShootFireballGoal extends Goal {
-		private final ArachnotronEntity ghast;
-		public int cooldown;
+	public class FireballAttack extends AbstractRangedAttack {
 
-		public ShootFireballGoal(ArachnotronEntity ghast) {
-			this.ghast = ghast;
+		public FireballAttack(DemonEntity parentEntity, double xOffSetModifier, double entityHeightFraction,
+				double zOffSetModifier, float damage) {
+			super(parentEntity, xOffSetModifier, entityHeightFraction, zOffSetModifier, damage);
 		}
 
-		public boolean canStart() {
-			return this.ghast.getTarget() != null;
+		public FireballAttack(DemonEntity parentEntity) {
+			super(parentEntity);
 		}
 
-		public void start() {
-			this.cooldown = 0;
+		@Override
+		public AttackSound getDefaultAttackSound() {
+			return new AttackSound(SoundEvents.ITEM_ARMOR_EQUIP_IRON, 1, 1);
 		}
 
-		public void resetTask() {
-			this.ghast.setShooting(false);
-		}
+		@Override
+		public ProjectileEntity getProjectile(World world, double d2, double d3, double d4) {
+			return new EnergyCellMobEntity(world, this.parentEntity, d2, d3, d4);
 
-		public void tick() {
-			LivingEntity livingEntity = this.ghast.getTarget();
-			if (livingEntity.squaredDistanceTo(this.ghast) < 4096.0D && this.ghast.canSee(livingEntity)) {
-				this.ghast.getLookControl().lookAt(livingEntity, 90.0F, 30.0F);
-				World world = this.ghast.world;
-				Vec3d vec3d = this.ghast.getRotationVec(1.0F);
-				double f = livingEntity.getX() - (this.ghast.getX() + vec3d.x * 4.0D);
-				double g = livingEntity.getBodyY(0.5D) - (0.5D + this.ghast.getBodyY(0.5D));
-				double h = livingEntity.getZ() - (this.ghast.getZ() + vec3d.z * 4.0D);
-				EnergyCellMobEntity fireballEntity = new EnergyCellMobEntity(world, this.ghast, f, g, h);
-				++this.cooldown;
-				if (this.cooldown == 10) {
-					fireballEntity.updatePosition(this.ghast.getX() + vec3d.x * 2.0D, this.ghast.getBodyY(0.5D) + 0.5D,
-							ghast.getZ() + vec3d.z * 1.0D);
-					world.spawnEntity(fireballEntity);
-					this.cooldown = -10;
-				}
-			} else if (this.cooldown > 0) {
-				this.ghast.getLookControl().lookAt(livingEntity, 90.0F, 30.0F);
-				--this.cooldown;
-			}
-
-			this.ghast.setShooting(this.cooldown > 10);
 		}
 	}
 

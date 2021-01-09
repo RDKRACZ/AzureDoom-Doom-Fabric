@@ -100,9 +100,12 @@ import mod.azure.doom.item.armor.SantaDoomArmor;
 import mod.azure.doom.item.armor.SentinelDoomArmor;
 import mod.azure.doom.item.armor.TwentyFiveDoomArmor;
 import mod.azure.doom.item.armor.ZombieDoomArmor;
+import mod.azure.doom.util.registry.DoomBlocks;
 import mod.azure.doom.util.registry.MobEntityRegister;
 import mod.azure.doom.util.registry.ProjectilesEntityRegister;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
+import net.minecraft.client.render.RenderLayer;
 import software.bernie.geckolib3.renderer.geo.GeoArmorRenderer;
 
 public class DoomRenderRegistry {
@@ -265,5 +268,7 @@ public class DoomRenderRegistry {
 		GeoArmorRenderer.registerArmorRenderer(SentinelDoomArmor.class, new SentinelRender());
 		GeoArmorRenderer.registerArmorRenderer(ZombieDoomArmor.class, new ZombieRender());
 		GeoArmorRenderer.registerArmorRenderer(SantaDoomArmor.class, new SantaRender());
+
+		BlockRenderLayerMap.INSTANCE.putBlock(DoomBlocks.JUMP_PAD, RenderLayer.getCutout());
 	}
 }

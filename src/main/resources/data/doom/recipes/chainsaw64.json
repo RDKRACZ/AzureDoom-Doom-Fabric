@@ -1,6 +1,6 @@
 {
 	"result": {
-		"item": "doomweapon:chainsaw64"
+		"item": "doom:chainsaw64"
 	},
 	"type": "minecraft:crafting_shaped",
 	"pattern": [

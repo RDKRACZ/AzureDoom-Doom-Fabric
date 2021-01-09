@@ -97,7 +97,7 @@ public class MobEntityRegister {
 	public static final EntityType<ArachnotronEntity> ARACHNOTRON = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "arachnotron"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ArachnotronEntity::new)
-					.dimensions(EntityDimensions.fixed(5.0F, 2.0F)).fireImmune().trackRangeBlocks(90)
+					.dimensions(EntityDimensions.fixed(4.0F, 2.0F)).fireImmune().trackRangeBlocks(90)
 					.trackedUpdateRate(4).build());
 
 	public static final EntityType<ZombiemanEntity> ZOMBIEMAN = Registry.register(Registry.ENTITY_TYPE,
@@ -211,6 +211,6 @@ public class MobEntityRegister {
 	public static final EntityType<IconofsinEntity> ICONOFSIN = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "iconofsin"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, IconofsinEntity::new)
-					.dimensions(EntityDimensions.fixed(1.3f, 2.25F)).fireImmune().trackRangeBlocks(90)
+					.dimensions(EntityDimensions.fixed(6.3f, 15.0F)).fireImmune().trackRangeBlocks(90)
 					.trackedUpdateRate(4).build());
 }

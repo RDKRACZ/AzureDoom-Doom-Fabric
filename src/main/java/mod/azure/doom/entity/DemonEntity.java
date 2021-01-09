@@ -30,5 +30,9 @@ public class DemonEntity extends HostileEntity {
 	public boolean shouldRender(double distance) {
 		return true;
 	}
+	
+	public void setShooting(boolean attacking) {
+		
+	}
 
 }

@@ -26,7 +26,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
@@ -65,6 +65,31 @@ public class ArchvileEntity extends DemonEntity {
 		this.dataTracker.startTracking(SHOOTING, false);
 	}
 
+	@Override
+	protected void updatePostDeath() {
+		++this.deathTime;
+		if (!world.isClient) {
+			float q = 200.0F;
+			int k = MathHelper.floor(this.getX() - (double) q - 1.0D);
+			int l = MathHelper.floor(this.getX() + (double) q + 1.0D);
+			int t = MathHelper.floor(this.getY() - (double) q - 1.0D);
+			int u = MathHelper.floor(this.getY() + (double) q + 1.0D);
+			int v = MathHelper.floor(this.getZ() - (double) q - 1.0D);
+			int w = MathHelper.floor(this.getZ() + (double) q + 1.0D);
+			List<Entity> list = this.world.getOtherEntities(this,
+					new Box((double) k, (double) t, (double) v, (double) l, (double) u, (double) w));
+			for (int k2 = 0; k2 < list.size(); ++k2) {
+				Entity entity = list.get(k2);
+				if (entity.isAlive()) {
+					entity.setGlowing(false);
+				}
+			}
+		}
+		if (this.deathTime == 50) {
+			this.remove();
+		}
+	}
+
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
 		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 25.0D)
 				.add(EntityAttributes.GENERIC_MAX_HEALTH, 100.0D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 7.0D)
@@ -87,7 +112,8 @@ public class ArchvileEntity extends DemonEntity {
 		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
 		this.goalSelector.add(7, new ArchvileEntity.AttackGoal(this));
 		this.targetSelector.add(2, new RevengeGoal(this));
-		this.targetSelector.add(3, new FollowTargetGoal<>(this, HostileEntity.class, true));
+		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
+		this.targetSelector.add(2, new FollowTargetGoal<>(this, MerchantEntity.class, true));
 	}
 
 	static class AttackGoal extends Goal {
@@ -134,15 +160,8 @@ public class ArchvileEntity extends DemonEntity {
 								double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d1)) / q);
 								if (y <= 1.0D) {
 									((DemonEntity) entity)
-											.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 1000, 1));
-									((DemonEntity) entity)
 											.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 1000, 1));
 									entity.setGlowing(true);
-								}
-							}
-							if (entity instanceof LivingEntity) {
-								if (entity.isAlive() && ghast.getTarget().canSee(livingEntity)) {
-									entity.setFireTicks(3);
 								}
 							}
 						}
