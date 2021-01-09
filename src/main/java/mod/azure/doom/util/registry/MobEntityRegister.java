@@ -211,6 +211,6 @@ public class MobEntityRegister {
 	public static final EntityType<IconofsinEntity> ICONOFSIN = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "iconofsin"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, IconofsinEntity::new)
-					.dimensions(EntityDimensions.fixed(6.3f, 15.0F)).fireImmune().trackRangeBlocks(90)
+					.dimensions(EntityDimensions.fixed(6.3f, 20.0F)).fireImmune().trackRangeBlocks(90)
 					.trackedUpdateRate(4).build());
 }

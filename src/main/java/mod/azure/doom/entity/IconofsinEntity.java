@@ -133,7 +133,7 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 
 	@Override
 	protected float getActiveEyeHeight(EntityPose pose, EntityDimensions dimensions) {
-		return 13.70F;
+		return 18.70F;
 	}
 
 	protected boolean shouldDrown() {
@@ -196,6 +196,19 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 	protected void mobTick() {
 		super.mobTick();
 		this.bossBar.setPercent(this.getHealth() / this.getMaxHealth());
+	}
+	
+	@Override
+	public void tick() {
+		super.tick();
+		if (this.isAlive()) {
+	         if (this.isInsideWall()) {
+	             this.noClip = true;
+	         }
+	         if (!this.isInsideWall()) {
+	             this.noClip = false;
+	         }
+		}
 	}
 
 	@Override
