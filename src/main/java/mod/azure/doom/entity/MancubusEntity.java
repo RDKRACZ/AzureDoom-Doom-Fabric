@@ -160,7 +160,7 @@ public class MancubusEntity extends DemonEntity implements IAnimatable {
 				double e1 = Math.max(livingEntity.getY(), parentEntity.getY()) + 1.0D;
 				float f2 = (float) MathHelper.atan2(livingEntity.getZ() - parentEntity.getZ(),
 						livingEntity.getX() - parentEntity.getX());
-				fireballEntity.setDirectHitDamage(6);
+				fireballEntity.setDirectHitDamage(13);
 				int j;
 				if (this.cooldown == 15) {
 					if (parentEntity.distanceTo(livingEntity) < 3.0D) {

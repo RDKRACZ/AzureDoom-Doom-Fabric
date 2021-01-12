@@ -20,8 +20,35 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
+import software.bernie.geckolib3.core.AnimationState;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 
-public class PlasmaGun extends RangedWeaponItem {
+public class PlasmaGun extends RangedWeaponItem implements IAnimatable {
+
+	public AnimationFactory factory = new AnimationFactory(this);
+	private String controllerName = "controller";
+
+	private <P extends RangedWeaponItem & IAnimatable> PlayState predicate(AnimationEvent<P> event) {
+		return PlayState.CONTINUE;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public void registerControllers(AnimationData data) {
+		data.addAnimationController(new AnimationController(this, controllerName, 1, this::predicate));
+	}
+
+	@Override
+	public AnimationFactory getFactory() {
+		return this.factory;
+	}
 
 	public PlasmaGun() {
 		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(9000));
@@ -50,27 +77,41 @@ public class PlasmaGun extends RangedWeaponItem {
 					itemstack = new ItemStack(DoomItems.ENERGY_CELLS);
 				}
 
-				if (!worldIn.isClient) {
-					EnergyCell arrowitem = (EnergyCell) (itemstack.getItem() instanceof EnergyCell ? itemstack.getItem()
-							: DoomItems.ENERGY_CELLS);
-					EnergyCellEntity abstractarrowentity = arrowitem.createArrow(worldIn, itemstack, playerentity);
-					abstractarrowentity = customeArrow(abstractarrowentity);
-					abstractarrowentity.setProperties(playerentity, playerentity.pitch, playerentity.yaw, 0.0F,
-							1 * 3.0F, 1.0F);
+				if (playerentity.getMainHandStack().getCooldown() == 0) {
 
-					abstractarrowentity.hasNoGravity();
+					if (!worldIn.isClient) {
+						EnergyCell arrowitem = (EnergyCell) (itemstack.getItem() instanceof EnergyCell
+								? itemstack.getItem()
+								: DoomItems.ENERGY_CELLS);
+						EnergyCellEntity abstractarrowentity = arrowitem.createArrow(worldIn, itemstack, playerentity);
+						abstractarrowentity = customeArrow(abstractarrowentity);
+						abstractarrowentity.setProperties(playerentity, playerentity.pitch, playerentity.yaw, 0.0F,
+								0.15F * 3.0F, 1.0F);
 
-					stack.damage(1, livingEntityIn, p -> p.sendToolBreakStatus(livingEntityIn.getActiveHand()));
-					worldIn.spawnEntity(abstractarrowentity);
-				}
-				worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(), playerentity.getZ(),
-						ModSoundEvents.PLASMA_FIRING, SoundCategory.PLAYERS, 1.0F,
-						1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + 0.10F * 0.5F);
-				if (!playerentity.abilities.creativeMode) {
-					itemstack.decrement(1);
-					if (itemstack.isEmpty()) {
-						playerentity.inventory.removeOne(itemstack);
+						abstractarrowentity.setDamage(abstractarrowentity.getDamage() + 22.0);
+
+
+						abstractarrowentity.hasNoGravity();
+
+						stack.damage(1, livingEntityIn, p -> p.sendToolBreakStatus(livingEntityIn.getActiveHand()));
+						worldIn.spawnEntity(abstractarrowentity);
 					}
+					worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(),
+							playerentity.getZ(), ModSoundEvents.PLASMA_FIRING, SoundCategory.PLAYERS, 1.0F,
+							1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + 0.10F * 0.5F);
+					if (!playerentity.abilities.creativeMode) {
+						itemstack.decrement(1);
+						if (itemstack.isEmpty()) {
+							playerentity.inventory.removeOne(itemstack);
+						}
+					}
+					AnimationController<?> controller = GeckoLibUtil.getControllerForStack(this.factory, stack,
+							controllerName);
+					if (controller.getAnimationState() == AnimationState.Stopped) {
+						controller.markNeedsReload();
+						controller.setAnimation(new AnimationBuilder().addAnimation("firing", false));
+					}
+					playerentity.getMainHandStack().setCooldown(10);
 				}
 			}
 		}
@@ -83,7 +124,7 @@ public class PlasmaGun extends RangedWeaponItem {
 
 	@Override
 	public UseAction getUseAction(ItemStack stack) {
-		return UseAction.BOW;
+		return UseAction.BLOCK;
 	}
 
 	@Override

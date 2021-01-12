@@ -8,35 +8,6 @@ import net.minecraft.util.Identifier;
 public class ModelProviderinit {
 
 	public static void init() {
-		FabricModelPredicateProviderRegistry.register(DoomItems.PISTOL, new Identifier("pull"),
-				(itemStack, clientWorld, livingEntity) -> {
-					if (livingEntity == null) {
-						return 0.0F;
-					} else {
-						return livingEntity.getActiveItem() != itemStack ? 0.0F
-								: (float) (itemStack.getMaxUseTime() - livingEntity.getItemUseTimeLeft()) / 20.0F;
-					}
-				});
-		FabricModelPredicateProviderRegistry.register(DoomItems.PISTOL, new Identifier("pulling"),
-				(itemStack, clientWorld, livingEntity) -> {
-					return livingEntity != null && livingEntity.isUsingItem()
-							&& livingEntity.getActiveItem() == itemStack ? 1.0F : 0.0F;
-				});
-		FabricModelPredicateProviderRegistry.register(DoomItems.PLASMAGUN, new Identifier("pull"),
-				(itemStack, clientWorld, livingEntity) -> {
-					if (livingEntity == null) {
-						return 0.0F;
-					} else {
-						return livingEntity.getActiveItem() != itemStack ? 0.0F
-								: (float) (itemStack.getMaxUseTime() - livingEntity.getItemUseTimeLeft()) / 20.0F;
-					}
-				});
-		FabricModelPredicateProviderRegistry.register(DoomItems.PLASMAGUN, new Identifier("pulling"),
-				(itemStack, clientWorld, livingEntity) -> {
-					return livingEntity != null && livingEntity.isUsingItem()
-							&& livingEntity.getActiveItem() == itemStack ? 1.0F : 0.0F;
-				});
-
 		// Crucible
 		FabricModelPredicateProviderRegistry.register(DoomItems.CRUCIBLESWORD, new Identifier("broken"),
 				(itemStack, clientWorld, livingEntity) -> {

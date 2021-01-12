@@ -13,14 +13,12 @@ import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.RangedWeaponItem;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
-import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.core.AnimationState;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -62,24 +60,6 @@ public class Shotgun extends RangedWeaponItem implements IAnimatable {
 	}
 
 	@Override
-	public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
-		ItemStack stack = new ItemStack(this);
-		stack.hasTag();
-		stack.addEnchantment(Enchantments.PUNCH, 2);
-		stack.addEnchantment(Enchantments.POWER, 3);
-		if (group == DoomMod.DoomWeaponItemGroup) {
-			stacks.add(stack);
-		}
-	}
-
-	@Override
-	public void onCraft(ItemStack stack, World world, PlayerEntity player) {
-		stack.hasTag();
-		stack.addEnchantment(Enchantments.PUNCH, 2);
-		stack.addEnchantment(Enchantments.POWER, 3);
-	}
-
-	@Override
 	public boolean canRepair(ItemStack stack, ItemStack ingredient) {
 		return DoomTier.DOOM.getRepairIngredient().test(ingredient) || super.canRepair(stack, ingredient);
 	}
@@ -96,45 +76,47 @@ public class Shotgun extends RangedWeaponItem implements IAnimatable {
 				if (itemstack.isEmpty()) {
 					itemstack = new ItemStack(DoomItems.SHOTGUN_SHELLS);
 				}
-				if (!worldIn.isClient) {
-					ShellAmmo arrowitem = (ShellAmmo) (itemstack.getItem() instanceof ShellAmmo ? itemstack.getItem()
-							: DoomItems.SHOTGUN_SHELLS);
-					ShotgunShellEntity abstractarrowentity = arrowitem.createArrow(worldIn, itemstack, playerentity);
-					abstractarrowentity = customeArrow(abstractarrowentity);
-					abstractarrowentity.setProperties(playerentity, playerentity.pitch, playerentity.yaw, 0.0F,
-							1.0F * 3.0F, 1.0F);
 
-					int j = EnchantmentHelper.getLevel(Enchantments.POWER, stack);
-					if (j > 0) {
-						abstractarrowentity.setDamage(abstractarrowentity.getDamage() + (double) j * 0.5D + 0.5D);
-					}
+				if (playerentity.getMainHandStack().getCooldown() == 0) {
+					if (!worldIn.isClient) {
+						ShellAmmo arrowitem = (ShellAmmo) (itemstack.getItem() instanceof ShellAmmo
+								? itemstack.getItem()
+								: DoomItems.SHOTGUN_SHELLS);
+						ShotgunShellEntity abstractarrowentity = arrowitem.createArrow(worldIn, itemstack,
+								playerentity);
+						abstractarrowentity = customeArrow(abstractarrowentity);
+						abstractarrowentity.setProperties(playerentity, playerentity.pitch, playerentity.yaw, 0.0F,
+								1.0F * 3.0F, 1.0F);
+						abstractarrowentity.setDamage(abstractarrowentity.getDamage() + 1.8);
 
-					int k = EnchantmentHelper.getLevel(Enchantments.PUNCH, stack);
-					if (k > 0) {
-						abstractarrowentity.setPunch(k);
-					}
+						int k = EnchantmentHelper.getLevel(Enchantments.PUNCH, stack);
+						if (k > 0) {
+							abstractarrowentity.setPunch(k);
+						}
 
-					if (EnchantmentHelper.getLevel(Enchantments.FLAME, stack) > 0) {
-						abstractarrowentity.setFireTicks(100);
-					}
+						if (EnchantmentHelper.getLevel(Enchantments.FLAME, stack) > 0) {
+							abstractarrowentity.setFireTicks(100);
+						}
 
-					stack.damage(1, entityLiving, p -> p.sendToolBreakStatus(entityLiving.getActiveHand()));
-					worldIn.spawnEntity(abstractarrowentity);
-				}
-				worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(), playerentity.getZ(),
-						ModSoundEvents.SHOTGUN_SHOOT, SoundCategory.PLAYERS, 1.0F,
-						1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + 1.0F * 0.5F);
-				if (!playerentity.abilities.creativeMode) {
-					itemstack.decrement(1);
-					if (itemstack.isEmpty()) {
-						playerentity.inventory.removeOne(itemstack);
+						stack.damage(1, entityLiving, p -> p.sendToolBreakStatus(entityLiving.getActiveHand()));
+						worldIn.spawnEntity(abstractarrowentity);
 					}
-				}
-				AnimationController<?> controller = GeckoLibUtil.getControllerForStack(this.factory, stack,
-						controllerName);
-				if (controller.getAnimationState() == AnimationState.Stopped) {
-					controller.markNeedsReload();
-					controller.setAnimation(new AnimationBuilder().addAnimation("firing", false));
+					worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(),
+							playerentity.getZ(), ModSoundEvents.SHOTGUN_SHOOT, SoundCategory.PLAYERS, 1.0F,
+							1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + 1.0F * 0.5F);
+					if (!playerentity.abilities.creativeMode) {
+						itemstack.decrement(1);
+						if (itemstack.isEmpty()) {
+							playerentity.inventory.removeOne(itemstack);
+						}
+					}
+					AnimationController<?> controller = GeckoLibUtil.getControllerForStack(this.factory, stack,
+							controllerName);
+					if (controller.getAnimationState() == AnimationState.Stopped) {
+						controller.markNeedsReload();
+						controller.setAnimation(new AnimationBuilder().addAnimation("firing", false));
+					}
+					playerentity.getMainHandStack().setCooldown(20);
 				}
 			}
 		}

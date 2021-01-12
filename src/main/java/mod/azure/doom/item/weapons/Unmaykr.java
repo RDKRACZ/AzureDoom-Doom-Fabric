@@ -39,8 +39,6 @@ public class Unmaykr extends RangedWeaponItem {
 		ItemStack stack = new ItemStack(this);
 		stack.hasTag();
 		stack.addEnchantment(Enchantments.INFINITY, 1);
-		stack.addEnchantment(Enchantments.FLAME, 1);
-		stack.addEnchantment(Enchantments.PUNCH, 2);
 		if (group == DoomMod.DoomWeaponItemGroup) {
 			stacks.add(stack);
 		}
@@ -50,8 +48,6 @@ public class Unmaykr extends RangedWeaponItem {
 	public void onCraft(ItemStack stack, World world, PlayerEntity player) {
 		stack.hasTag();
 		stack.addEnchantment(Enchantments.INFINITY, 1);
-		stack.addEnchantment(Enchantments.FLAME, 1);
-		stack.addEnchantment(Enchantments.PUNCH, 2);
 	}
 
 	@Override
@@ -71,27 +67,34 @@ public class Unmaykr extends RangedWeaponItem {
 				if (itemstack.isEmpty()) {
 					itemstack = new ItemStack(DoomItems.UNMAKRY_BOLT);
 				}
-				if (!worldIn.isClient) {
-					UnmaykrBolt arrowitem = (UnmaykrBolt) (itemstack.getItem() instanceof UnmaykrBolt ? itemstack.getItem()
-							: DoomItems.UNMAKRY_BOLT);
-					UnmaykrBoltEntity abstractarrowentity = arrowitem.createArrow(worldIn, itemstack, playerentity);
-					abstractarrowentity = customeArrow(abstractarrowentity);
-					abstractarrowentity.setProperties(playerentity, playerentity.pitch, playerentity.yaw, 0.0F,
-							1.0F * 3.0F, 1.0F);
 
-					abstractarrowentity.hasNoGravity();
+				if (playerentity.getMainHandStack().getCooldown() == 0) {
+					if (!worldIn.isClient) {
+						UnmaykrBolt arrowitem = (UnmaykrBolt) (itemstack.getItem() instanceof UnmaykrBolt
+								? itemstack.getItem()
+								: DoomItems.UNMAKRY_BOLT);
+						UnmaykrBoltEntity abstractarrowentity = arrowitem.createArrow(worldIn, itemstack, playerentity);
+						abstractarrowentity = customeArrow(abstractarrowentity);
+						abstractarrowentity.setProperties(playerentity, playerentity.pitch, playerentity.yaw, 0.0F,
+								1.0F * 3.0F, 1.0F);
 
-					stack.damage(1, entityLiving, p -> p.sendToolBreakStatus(entityLiving.getActiveHand()));
-					worldIn.spawnEntity(abstractarrowentity);
-				}
-				worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(), playerentity.getZ(),
-						ModSoundEvents.UNMAKYR_FIRE, SoundCategory.PLAYERS, 1.0F,
-						1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + 0.25F * 0.5F);
-				if (!playerentity.abilities.creativeMode) {
-					itemstack.decrement(1);
-					if (itemstack.isEmpty()) {
-						playerentity.inventory.removeOne(itemstack);
+						abstractarrowentity.setDamage(abstractarrowentity.getDamage() + 1.5);
+
+						abstractarrowentity.hasNoGravity();
+
+						stack.damage(1, entityLiving, p -> p.sendToolBreakStatus(entityLiving.getActiveHand()));
+						worldIn.spawnEntity(abstractarrowentity);
 					}
+					worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(),
+							playerentity.getZ(), ModSoundEvents.UNMAKYR_FIRE, SoundCategory.PLAYERS, 1.0F,
+							1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + 0.25F * 0.5F);
+					if (!playerentity.abilities.creativeMode) {
+						itemstack.decrement(1);
+						if (itemstack.isEmpty()) {
+							playerentity.inventory.removeOne(itemstack);
+						}
+					}
+					playerentity.getMainHandStack().setCooldown(20);
 				}
 			}
 		}

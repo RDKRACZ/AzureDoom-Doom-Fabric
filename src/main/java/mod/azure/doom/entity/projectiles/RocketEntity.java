@@ -11,16 +11,15 @@ import net.fabricmc.api.Environment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
@@ -201,49 +200,39 @@ public class RocketEntity extends PersistentProjectileEntity implements IAnimata
 		}
 	}
 
+	private SoundEvent hitSound = this.getHitSound();
+	private List<Entity> hitEntities;
+
+	@Override
+	public void setSound(SoundEvent soundIn) {
+		this.hitSound = soundIn;
+	}
+
+	@Override
+	protected SoundEvent getHitSound() {
+		return ModSoundEvents.ROCKET_HIT;
+	}
+
 	@Override
 	protected void onBlockHit(BlockHitResult blockHitResult) {
 		super.onBlockHit(blockHitResult);
 		if (!this.world.isClient) {
-			this.doDamage();
 			this.remove();
 		}
-		this.playSound(ModSoundEvents.ROCKET_HIT, 1.0F, 1.0F);
+		this.setSound(ModSoundEvents.ROCKET_HIT);
 	}
 
 	@Override
 	protected void onEntityHit(EntityHitResult entityHitResult) {
 		super.onEntityHit(entityHitResult);
 		if (!this.world.isClient) {
-			this.doDamage();
 			this.remove();
 		}
-		this.playSound(ModSoundEvents.ROCKET_HIT, 1.0F, 1.0F);
 	}
 
 	@Override
 	public ItemStack asItemStack() {
 		return new ItemStack(DoomItems.ROCKET);
-	}
-
-	public void doDamage() {
-		float q = 4.0F;
-		int k = MathHelper.floor(this.getX() - (double) q - 1.0D);
-		int l = MathHelper.floor(this.getX() + (double) q + 1.0D);
-		int t = MathHelper.floor(this.getY() - (double) q - 1.0D);
-		int u = MathHelper.floor(this.getY() + (double) q + 1.0D);
-		int v = MathHelper.floor(this.getZ() - (double) q - 1.0D);
-		int w = MathHelper.floor(this.getZ() + (double) q + 1.0D);
-		List<Entity> list = this.world.getOtherEntities(this,
-				new Box((double) k, (double) t, (double) v, (double) l, (double) u, (double) w));
-		Vec3d vec3d = new Vec3d(this.getX(), this.getY(), this.getZ());
-		for (int x = 0; x < list.size(); ++x) {
-			Entity entity = (Entity) list.get(x);
-			double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d)) / q);
-			if (y <= 1.0D) {
-				entity.damage(DamageSource.badRespawnPoint(), 40);
-			}
-		}
 	}
 
 	@Override

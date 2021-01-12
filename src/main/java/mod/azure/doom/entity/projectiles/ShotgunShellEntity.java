@@ -1,5 +1,7 @@
 package mod.azure.doom.entity.projectiles;
 
+import java.util.List;
+
 import mod.azure.doom.util.packets.EntityPacket;
 import mod.azure.doom.util.registry.DoomItems;
 import mod.azure.doom.util.registry.ProjectilesEntityRegister;
@@ -13,6 +15,8 @@ import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -179,12 +183,26 @@ public class ShotgunShellEntity extends PersistentProjectileEntity {
 		}
 	}
 
+	private SoundEvent hitSound = this.getHitSound();
+	private List<Entity> hitEntities;
+
+	@Override
+	public void setSound(SoundEvent soundIn) {
+		this.hitSound = soundIn;
+	}
+
+	@Override
+	protected SoundEvent getHitSound() {
+		return SoundEvents.ITEM_ARMOR_EQUIP_IRON;
+	}
+
 	@Override
 	protected void onBlockHit(BlockHitResult blockHitResult) {
 		super.onBlockHit(blockHitResult);
 		if (!this.world.isClient) {
 			this.remove();
 		}
+		this.setSound(SoundEvents.ITEM_ARMOR_EQUIP_IRON);
 	}
 
 	@Override

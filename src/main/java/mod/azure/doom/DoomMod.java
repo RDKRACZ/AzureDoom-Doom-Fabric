@@ -4,6 +4,7 @@ import mod.azure.doom.client.render.weapons.BFG9000Render;
 import mod.azure.doom.client.render.weapons.BFGRender;
 import mod.azure.doom.client.render.weapons.BallistaRender;
 import mod.azure.doom.client.render.weapons.ChaingunRender;
+import mod.azure.doom.client.render.weapons.PlasmagunRender;
 import mod.azure.doom.client.render.weapons.SGRender;
 import mod.azure.doom.client.render.weapons.SSGRender;
 import mod.azure.doom.entity.tileentity.IconBlockEntity;
@@ -94,6 +95,7 @@ public class DoomMod implements ModInitializer {
 		GeoItemRenderer.registerItemRenderer(DoomItems.SSG, new SSGRender());
 		GeoItemRenderer.registerItemRenderer(DoomItems.CHAINGUN, new ChaingunRender());
 		GeoItemRenderer.registerItemRenderer(DoomItems.BALLISTA, new BallistaRender());
+		GeoItemRenderer.registerItemRenderer(DoomItems.PLASMAGUN, new PlasmagunRender());
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.BELT.getInfoBuilder().build());
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.CHARM.getInfoBuilder().build());
 		LootTableLoadingCallback.EVENT.register((resourceManager, lootManager, id, supplier, setter) -> {
