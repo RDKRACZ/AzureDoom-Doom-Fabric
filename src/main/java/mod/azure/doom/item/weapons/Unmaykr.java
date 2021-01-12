@@ -94,7 +94,7 @@ public class Unmaykr extends RangedWeaponItem {
 							playerentity.inventory.removeOne(itemstack);
 						}
 					}
-					playerentity.getMainHandStack().setCooldown(20);
+					playerentity.getMainHandStack().setCooldown(10);
 				}
 			}
 		}

@@ -1,7 +1,5 @@
 package mod.azure.doom.entity.projectiles;
 
-import java.util.List;
-
 import mod.azure.doom.util.packets.EntityPacket;
 import mod.azure.doom.util.registry.DoomItems;
 import mod.azure.doom.util.registry.ProjectilesEntityRegister;
@@ -177,8 +175,7 @@ public class ChaingunBulletEntity extends PersistentProjectileEntity {
 		}
 	}
 
-	private SoundEvent hitSound = this.getHitSound();
-	private List<Entity> hitEntities;
+	public SoundEvent hitSound = this.getHitSound();
 
 	@Override
 	public void setSound(SoundEvent soundIn) {

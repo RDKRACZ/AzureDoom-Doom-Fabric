@@ -17,13 +17,18 @@ import net.minecraft.world.World;
 public class Chainsaw extends SwordItem {
 
 	public Chainsaw() {
-		super(DoomTier.DOOM, 2, -2.4F,
+		super(DoomTier.DOOM, 0, -2.4F,
 				new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(600));
 	}
 
 	@Override
 	public boolean hasGlint(ItemStack stack) {
 		return false;
+	}
+
+	@Override
+	public boolean canRepair(ItemStack toRepair, ItemStack repair) {
+		return DoomTier.CHAINSAW.getRepairIngredient().test(repair) || super.canRepair(toRepair, repair);
 	}
 
 	@Override
@@ -34,9 +39,7 @@ public class Chainsaw extends SwordItem {
 		if (player.getMainHandStack().isItemEqualIgnoreDamage(stack) && stack.getDamage() < 599) {
 			final Box aabb = new Box(entityIn.getBlockPos().up()).expand(1D, 1D, 1D).offset(facing.multiply(1D));
 			entityIn.getEntityWorld().getOtherEntities(user, aabb).forEach(e -> doDamage(user, e));
-			entityIn.getEntityWorld().getOtherEntities(user, aabb)
-					.forEach(e -> e.world.addParticle(DustParticleEffect.RED, e.getParticleX(0.5D),
-							e.getRandomBodyY() - 0.25D, e.getParticleZ(0.5D), 0.0D, 0D, 0D));
+			entityIn.getEntityWorld().getOtherEntities(user, aabb).forEach(e -> addParticle(e));
 			if (!player.abilities.creativeMode) {
 				stack.setDamage(stack.getDamage() + 1);
 			}
@@ -44,7 +47,16 @@ public class Chainsaw extends SwordItem {
 	}
 
 	private void doDamage(final LivingEntity user, final Entity target) {
-		target.damage(DamageSource.thorns(target), 2F);
+		if (target instanceof LivingEntity) {
+			target.damage(DamageSource.player((PlayerEntity) user), 2F);
+		}
+	}
+
+	private void addParticle(Entity target) {
+		if (target instanceof LivingEntity) {
+			target.world.addParticle(DustParticleEffect.RED, target.getParticleX(0.5D), target.getRandomBodyY(),
+					target.getParticleZ(0.5D), 0.0D, 0D, 0D);
+		}
 	}
 
 }

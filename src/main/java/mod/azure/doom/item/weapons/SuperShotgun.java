@@ -108,7 +108,7 @@ public class SuperShotgun extends RangedWeaponItem implements IAnimatable {
 						controller.markNeedsReload();
 						controller.setAnimation(new AnimationBuilder().addAnimation("firing", false));
 					}
-					playerentity.getMainHandStack().setCooldown(20);
+					playerentity.getMainHandStack().setCooldown(30);
 				}
 			}
 		}

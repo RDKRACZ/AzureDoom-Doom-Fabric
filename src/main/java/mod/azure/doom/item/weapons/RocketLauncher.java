@@ -70,8 +70,6 @@ public class RocketLauncher extends RangedWeaponItem {
 						abstractarrowentity.setProperties(playerentity, playerentity.pitch, playerentity.yaw, 0.0F,
 								0.25F * 3.0F, 1.0F);
 
-						abstractarrowentity.setDamage(abstractarrowentity.getDamage() + 28.3);
-
 						abstractarrowentity.setNoGravity(true);
 
 						stack.damage(1, entityLiving, p -> p.sendToolBreakStatus(entityLiving.getActiveHand()));
