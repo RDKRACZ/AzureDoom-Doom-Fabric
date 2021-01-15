@@ -111,7 +111,7 @@ public class ArchvileEntity extends DemonEntity {
 		this.goalSelector.add(8, new LookAroundGoal(this));
 		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
 		this.goalSelector.add(7, new ArchvileEntity.AttackGoal(this));
-		this.targetSelector.add(2, new RevengeGoal(this));
+		this.targetSelector.add(2, new RevengeGoal(this).setGroupRevenge());
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, MerchantEntity.class, true));
 	}

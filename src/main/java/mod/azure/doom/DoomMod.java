@@ -1,12 +1,5 @@
 package mod.azure.doom;
 
-import mod.azure.doom.client.render.weapons.BFG9000Render;
-import mod.azure.doom.client.render.weapons.BFGRender;
-import mod.azure.doom.client.render.weapons.BallistaRender;
-import mod.azure.doom.client.render.weapons.ChaingunRender;
-import mod.azure.doom.client.render.weapons.PlasmagunRender;
-import mod.azure.doom.client.render.weapons.SGRender;
-import mod.azure.doom.client.render.weapons.SSGRender;
 import mod.azure.doom.entity.tileentity.IconBlockEntity;
 import mod.azure.doom.util.DoomVillagerTrades;
 import mod.azure.doom.util.MobAttributes;
@@ -40,7 +33,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
 import software.bernie.geckolib3.GeckoLib;
-import software.bernie.geckolib3.renderer.geo.GeoItemRenderer;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.CuriosComponent;
 import top.theillusivec4.curios.api.SlotTypeInfo.BuildScheme;
@@ -89,13 +81,6 @@ public class DoomMod implements ModInitializer {
 		ServerLifecycleEvents.SERVER_STARTED.register(minecraftServer -> DoomVillagerTrades.addTrades());
 		MobAttributes.init();
 		GeckoLib.initialize();
-		GeoItemRenderer.registerItemRenderer(DoomItems.BFG, new BFG9000Render());
-		GeoItemRenderer.registerItemRenderer(DoomItems.BFG_ETERNAL, new BFGRender());
-		GeoItemRenderer.registerItemRenderer(DoomItems.SG, new SGRender());
-		GeoItemRenderer.registerItemRenderer(DoomItems.SSG, new SSGRender());
-		GeoItemRenderer.registerItemRenderer(DoomItems.CHAINGUN, new ChaingunRender());
-		GeoItemRenderer.registerItemRenderer(DoomItems.BALLISTA, new BallistaRender());
-		GeoItemRenderer.registerItemRenderer(DoomItems.PLASMAGUN, new PlasmagunRender());
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.BELT.getInfoBuilder().build());
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.CHARM.getInfoBuilder().build());
 		LootTableLoadingCallback.EVENT.register((resourceManager, lootManager, id, supplier, setter) -> {

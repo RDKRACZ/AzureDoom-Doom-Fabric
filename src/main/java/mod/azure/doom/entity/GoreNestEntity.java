@@ -1,11 +1,14 @@
 package mod.azure.doom.entity;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.annotation.Nullable;
 import mod.azure.doom.util.registry.MobEntityRegister;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -96,21 +99,44 @@ public class GoreNestEntity extends DemonEntity implements IAnimatable {
 	}
 
 	public void spawnWave() {
-		HellknightEntity fireballentity = MobEntityRegister.HELLKNIGHT.create(world);
-		fireballentity.refreshPositionAndAngles(this.getX() + 2.0D, this.getY() + 0.5D, this.getZ() + 2.0D, 0, 0);
-		world.spawnEntity(fireballentity);
+		Random rand = new Random();
+		List<EntityType<?>> givenList = Arrays.asList(MobEntityRegister.HELLKNIGHT,
+				MobEntityRegister.POSSESSEDSCIENTIST, MobEntityRegister.IMP, MobEntityRegister.NIGHTMARE_IMP,
+				MobEntityRegister.PINKY, MobEntityRegister.CACODEMON, MobEntityRegister.CHAINGUNNER,
+				MobEntityRegister.GARGOYLE, MobEntityRegister.HELLKNIGHT2016, MobEntityRegister.IMP2016,
+				MobEntityRegister.LOST_SOUL, MobEntityRegister.POSSESSEDSOLDIER, MobEntityRegister.SHOTGUNGUY,
+				MobEntityRegister.UNWILLING, MobEntityRegister.ZOMBIEMAN, MobEntityRegister.ARACHNOTRON,
+				MobEntityRegister.ARCHVILE, MobEntityRegister.MECHAZOMBIE, MobEntityRegister.PAIN,
+				MobEntityRegister.MANCUBUS);
 
-		PossessedScientistEntity fireballentity1 = MobEntityRegister.POSSESSEDSCIENTIST.create(world);
-		fireballentity1.refreshPositionAndAngles(this.getX() + -2.0D, this.getY() + 0.5D, this.getZ() + -2.0D, 0, 0);
-		world.spawnEntity(fireballentity1);
-
-		ImpEntity fireballentity11 = MobEntityRegister.IMP.create(world);
-		fireballentity11.refreshPositionAndAngles(this.getX() + 1.0D, this.getY() + 0.5D, this.getZ() + 1.0D, 0, 0);
-		world.spawnEntity(fireballentity11);
-
-		NightmareImpEntity fireballentity111 = MobEntityRegister.NIGHTMARE_IMP.create(world);
-		fireballentity111.refreshPositionAndAngles(this.getX() + -1.0D, this.getY() + 0.5D, this.getZ() + -1.0D, 0, 0);
-		world.spawnEntity(fireballentity111);
+		for (int i = 0; i < 1; i++) {
+			int randomIndex = rand.nextInt(givenList.size());
+			EntityType<?> randomElement = givenList.get(randomIndex);
+			Entity fireballentity = randomElement.create(world);
+			fireballentity.updatePosition(this.getX() + 2.0D, this.getY() + 0.5D, this.getZ() + 2.0D);
+			world.spawnEntity(fireballentity);
+		}
+		for (int i = 0; i < 1; i++) {
+			int randomIndex = rand.nextInt(givenList.size());
+			EntityType<?> randomElement = givenList.get(randomIndex);
+			Entity fireballentity1 = randomElement.create(world);
+			fireballentity1.updatePosition(this.getX() + -2.0D, this.getY() + 0.5D, this.getZ() + -2.0D);
+			world.spawnEntity(fireballentity1);
+		}
+		for (int i = 0; i < 1; i++) {
+			int randomIndex = rand.nextInt(givenList.size());
+			EntityType<?> randomElement = givenList.get(randomIndex);
+			Entity fireballentity11 = randomElement.create(world);
+			fireballentity11.updatePosition(this.getX() + 1.0D, this.getY() + 0.5D, this.getZ() + 1.0D);
+			world.spawnEntity(fireballentity11);
+		}
+		for (int i = 0; i < 1; i++) {
+			int randomIndex = rand.nextInt(givenList.size());
+			EntityType<?> randomElement = givenList.get(randomIndex);
+			Entity fireballentity111 = randomElement.create(world);
+			fireballentity111.updatePosition(this.getX() + -1.0D, this.getY() + 0.5D, this.getZ() + -1.0D);
+			world.spawnEntity(fireballentity111);
+		}
 	}
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {

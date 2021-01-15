@@ -116,7 +116,7 @@ public class RevenantEntity extends DemonEntity implements IAnimatable {
 		this.goalSelector.add(5, new WanderAroundFarGoal(this, 1.0D));
 		this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
 		this.goalSelector.add(6, new LookAroundGoal(this));
-		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]));
+		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]).setGroupRevenge());
 		this.goalSelector.add(4,
 				new RangedStrafeAttackGoal(this,
 						new RevenantEntity.FireballAttack(this).setProjectileOriginOffset(0.8, 0.8, 0.8).setDamage(10),

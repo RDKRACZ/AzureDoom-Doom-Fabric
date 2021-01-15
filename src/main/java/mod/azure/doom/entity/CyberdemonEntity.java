@@ -89,7 +89,7 @@ public class CyberdemonEntity extends DemonEntity implements IAnimatable {
 						new CyberdemonEntity.FireballAttack(this).setProjectileOriginOffset(0.8, 0.8, 0.8).setDamage(18),
 						60, 20, 30F));
 		this.goalSelector.add(4, new DemonAttackGoal(this, 1.0D, false));
-		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]));
+		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]).setGroupRevenge());
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, MerchantEntity.class, true));
 	}

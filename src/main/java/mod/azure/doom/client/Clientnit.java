@@ -1,5 +1,12 @@
 package mod.azure.doom.client;
 
+import mod.azure.doom.client.render.weapons.BFG9000Render;
+import mod.azure.doom.client.render.weapons.BFGRender;
+import mod.azure.doom.client.render.weapons.BallistaRender;
+import mod.azure.doom.client.render.weapons.ChaingunRender;
+import mod.azure.doom.client.render.weapons.PlasmagunRender;
+import mod.azure.doom.client.render.weapons.SGRender;
+import mod.azure.doom.client.render.weapons.SSGRender;
 import mod.azure.doom.util.packets.EntityPacket;
 import mod.azure.doom.util.packets.EntityPacketOnClient;
 import mod.azure.doom.util.registry.DoomItems;
@@ -15,6 +22,7 @@ import net.minecraft.client.render.model.json.ModelTransformation.Mode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.Direction;
+import software.bernie.geckolib3.renderer.geo.GeoItemRenderer;
 import top.theillusivec4.curios.api.CuriosComponent;
 import top.theillusivec4.curios.api.type.component.IRenderableCurio;
 
@@ -26,6 +34,13 @@ public class Clientnit implements ClientModInitializer {
 	public void onInitializeClient() {
 		ModelProviderinit.init();
 		DoomRenderRegistry.init();
+		GeoItemRenderer.registerItemRenderer(DoomItems.BFG, new BFG9000Render());
+		GeoItemRenderer.registerItemRenderer(DoomItems.BFG_ETERNAL, new BFGRender());
+		GeoItemRenderer.registerItemRenderer(DoomItems.SG, new SGRender());
+		GeoItemRenderer.registerItemRenderer(DoomItems.SSG, new SSGRender());
+		GeoItemRenderer.registerItemRenderer(DoomItems.CHAINGUN, new ChaingunRender());
+		GeoItemRenderer.registerItemRenderer(DoomItems.BALLISTA, new BallistaRender());
+		GeoItemRenderer.registerItemRenderer(DoomItems.PLASMAGUN, new PlasmagunRender());
 		ClientSidePacketRegistry.INSTANCE.register(EntityPacket.ID, (ctx, buf) -> {
 			EntityPacketOnClient.onPacket(ctx, buf);
 		});

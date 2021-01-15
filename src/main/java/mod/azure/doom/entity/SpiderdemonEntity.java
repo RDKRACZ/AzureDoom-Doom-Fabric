@@ -104,7 +104,7 @@ public class SpiderdemonEntity extends DemonEntity implements IAnimatable {
 				new RangedStrafeAttackGoal(this, new SpiderdemonEntity.FireballAttack(this)
 						.setProjectileOriginOffset(0.8, 0.8, 0.8).setDamage(15), 1.0D, 50, 30, 15, 15F).setMultiShot(5,
 								1));
-		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]));
+		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]).setGroupRevenge());
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, MerchantEntity.class, true));
 	}

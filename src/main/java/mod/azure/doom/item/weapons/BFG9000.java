@@ -76,41 +76,38 @@ public class BFG9000 extends RangedWeaponItem implements IAnimatable {
 				if (itemstack.isEmpty()) {
 					itemstack = new ItemStack(DoomItems.BFG_CELL);
 				}
+				playerentity.getItemCooldownManager().set(this, 20);
+				if (!worldIn.isClient) {
+					BFGCell arrowitem = (BFGCell) (itemstack.getItem() instanceof BFGCell ? itemstack.getItem()
+							: DoomItems.BFG_CELL);
+					BFGEntity abstractarrowentity = arrowitem.createArrow(worldIn, itemstack, playerentity);
+					abstractarrowentity = customeArrow(abstractarrowentity);
+					abstractarrowentity.setProperties(playerentity, playerentity.pitch, playerentity.yaw, 0.0F,
+							0.25F * 3.0F, 1.0F);
 
-				if (playerentity.getMainHandStack().getCooldown() == 0) {
-					if (!worldIn.isClient) {
-						BFGCell arrowitem = (BFGCell) (itemstack.getItem() instanceof BFGCell ? itemstack.getItem()
-								: DoomItems.BFG_CELL);
-						BFGEntity abstractarrowentity = arrowitem.createArrow(worldIn, itemstack, playerentity);
-						abstractarrowentity = customeArrow(abstractarrowentity);
-						abstractarrowentity.setProperties(playerentity, playerentity.pitch, playerentity.yaw, 0.0F,
-								0.25F * 3.0F, 1.0F);
+					abstractarrowentity.hasNoGravity();
 
-						abstractarrowentity.hasNoGravity();
-
-						stack.damage(1, entityLiving, p -> p.sendToolBreakStatus(entityLiving.getActiveHand()));
-						worldIn.spawnEntity(abstractarrowentity);
+					stack.damage(1, entityLiving, p -> p.sendToolBreakStatus(entityLiving.getActiveHand()));
+					worldIn.spawnEntity(abstractarrowentity);
+				}
+				worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(), playerentity.getZ(),
+						ModSoundEvents.BFG_FIRING, SoundCategory.PLAYERS, 1.0F,
+						1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + 0.25F * 0.5F);
+				if (!playerentity.abilities.creativeMode) {
+					itemstack.decrement(1);
+					if (itemstack.isEmpty()) {
+						playerentity.inventory.removeOne(itemstack);
 					}
-					worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(),
-							playerentity.getZ(), ModSoundEvents.BFG_FIRING, SoundCategory.PLAYERS, 1.0F,
-							1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + 0.25F * 0.5F);
-					if (!playerentity.abilities.creativeMode) {
-						itemstack.decrement(1);
-						if (itemstack.isEmpty()) {
-							playerentity.inventory.removeOne(itemstack);
-						}
-					}
+				}
 
-					AnimationController<?> controller = GeckoLibUtil.getControllerForStack(this.factory, stack,
-							controllerName);
+				AnimationController<?> controller = GeckoLibUtil.getControllerForStack(this.factory, stack,
+						controllerName);
 
-					if (controller.getAnimationState() == AnimationState.Stopped) {
-						// playerIn.sendStatusMessage(new StringTextComponent("Opening the jack in the
-						// box!"), true);
-						controller.markNeedsReload();
-						controller.setAnimation(new AnimationBuilder().addAnimation("firing", false));
-					}
-					playerentity.getMainHandStack().setCooldown(20);
+				if (controller.getAnimationState() == AnimationState.Stopped) {
+					// playerIn.sendStatusMessage(new StringTextComponent("Opening the jack in the
+					// box!"), true);
+					controller.markNeedsReload();
+					controller.setAnimation(new AnimationBuilder().addAnimation("firing", false));
 				}
 			}
 		}

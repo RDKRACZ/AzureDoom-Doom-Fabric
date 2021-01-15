@@ -32,6 +32,7 @@ dependencies {
     modImplementation("me.sargunvohra.mcmods:autoconfig1u:3.3.1") {
       exclude module: 'fabric-api'
     }
+    modImplementation "vazkii.patchouli:Patchouli:1.16.4-48-FABRIC"	
     include "me.sargunvohra.mcmods:autoconfig1u:3.3.1"
     modImplementation("io.github.prospector:modmenu:1.14.6+build.31") {
       exclude module: 'fabric-api'
@@ -57,6 +58,7 @@ repositories {
         url = "https://maven.abusedmaster.xyz"
     }
     maven { url 'https://repo.repsy.io/mvn/gandiber/geckolib' }
+    maven { url 'https://maven.blamejared.com' }
 }
 
 processResources {
@@ -109,7 +111,8 @@ curseforge {
         relations {
             requiredDependency 'fabric-api'
             requiredDependency 'geckolib-fabric'
-            requiredDependency 'curios-fabric'        
+            requiredDependency 'curios-fabric'     
+            optionalDependency 'patchouli-fabric'       
         }
         mainArtifact(remapJar)
 

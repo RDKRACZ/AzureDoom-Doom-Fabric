@@ -76,42 +76,36 @@ public class PlasmaGun extends RangedWeaponItem implements IAnimatable {
 				if (itemstack.isEmpty()) {
 					itemstack = new ItemStack(DoomItems.ENERGY_CELLS);
 				}
+				playerentity.getItemCooldownManager().set(this, 15);
+				if (!worldIn.isClient) {
+					EnergyCell arrowitem = (EnergyCell) (itemstack.getItem() instanceof EnergyCell ? itemstack.getItem()
+							: DoomItems.ENERGY_CELLS);
+					EnergyCellEntity abstractarrowentity = arrowitem.createArrow(worldIn, itemstack, playerentity);
+					abstractarrowentity = customeArrow(abstractarrowentity);
+					abstractarrowentity.setProperties(playerentity, playerentity.pitch, playerentity.yaw, 0.0F,
+							0.15F * 3.0F, 1.0F);
 
-				if (playerentity.getMainHandStack().getCooldown() == 0) {
+					abstractarrowentity.setDamage(abstractarrowentity.getDamage() + 22.0);
 
-					if (!worldIn.isClient) {
-						EnergyCell arrowitem = (EnergyCell) (itemstack.getItem() instanceof EnergyCell
-								? itemstack.getItem()
-								: DoomItems.ENERGY_CELLS);
-						EnergyCellEntity abstractarrowentity = arrowitem.createArrow(worldIn, itemstack, playerentity);
-						abstractarrowentity = customeArrow(abstractarrowentity);
-						abstractarrowentity.setProperties(playerentity, playerentity.pitch, playerentity.yaw, 0.0F,
-								0.15F * 3.0F, 1.0F);
+					abstractarrowentity.hasNoGravity();
 
-						abstractarrowentity.setDamage(abstractarrowentity.getDamage() + 22.0);
-
-
-						abstractarrowentity.hasNoGravity();
-
-						stack.damage(1, livingEntityIn, p -> p.sendToolBreakStatus(livingEntityIn.getActiveHand()));
-						worldIn.spawnEntity(abstractarrowentity);
+					stack.damage(1, livingEntityIn, p -> p.sendToolBreakStatus(livingEntityIn.getActiveHand()));
+					worldIn.spawnEntity(abstractarrowentity);
+				}
+				worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(), playerentity.getZ(),
+						ModSoundEvents.PLASMA_FIRING, SoundCategory.PLAYERS, 1.0F,
+						1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + 0.10F * 0.5F);
+				if (!playerentity.abilities.creativeMode) {
+					itemstack.decrement(1);
+					if (itemstack.isEmpty()) {
+						playerentity.inventory.removeOne(itemstack);
 					}
-					worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(),
-							playerentity.getZ(), ModSoundEvents.PLASMA_FIRING, SoundCategory.PLAYERS, 1.0F,
-							1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + 0.10F * 0.5F);
-					if (!playerentity.abilities.creativeMode) {
-						itemstack.decrement(1);
-						if (itemstack.isEmpty()) {
-							playerentity.inventory.removeOne(itemstack);
-						}
-					}
-					AnimationController<?> controller = GeckoLibUtil.getControllerForStack(this.factory, stack,
-							controllerName);
-					if (controller.getAnimationState() == AnimationState.Stopped) {
-						controller.markNeedsReload();
-						controller.setAnimation(new AnimationBuilder().addAnimation("firing", false));
-					}
-					playerentity.getMainHandStack().setCooldown(10);
+				}
+				AnimationController<?> controller = GeckoLibUtil.getControllerForStack(this.factory, stack,
+						controllerName);
+				if (controller.getAnimationState() == AnimationState.Stopped) {
+					controller.markNeedsReload();
+					controller.setAnimation(new AnimationBuilder().addAnimation("firing", false));
 				}
 			}
 		}

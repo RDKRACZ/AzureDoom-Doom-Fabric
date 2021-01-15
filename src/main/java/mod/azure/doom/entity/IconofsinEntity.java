@@ -197,18 +197,33 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 		super.mobTick();
 		this.bossBar.setPercent(this.getHealth() / this.getMaxHealth());
 	}
-	
+
 	@Override
 	public void tick() {
 		super.tick();
 		if (this.isAlive()) {
-	         if (this.isInsideWall()) {
-	             this.noClip = true;
-	         }
-	         if (!this.isInsideWall()) {
-	             this.noClip = false;
-	         }
+			if (this.isInsideWall()) {
+				this.noClip = true;
+			}
+			if (!this.isInsideWall()) {
+				this.noClip = false;
+			}
 		}
+	}
+
+	@Override
+	public int getArmor() {
+		float health = this.getHealth();
+		return (health < 950 && health >= 900 ? 27
+				: health < 900 && health >= 850 ? 24
+						: health < 850 && health >= 800 ? 21
+								: health < 800 && health >= 750 ? 18
+										: health < 750 && health >= 700 ? 15
+												: health < 700 && health >= 650 ? 12
+														: health < 650 && health >= 600 ? 9
+																: health < 600 && health >= 550 ? 6
+																		: health < 550 && health >= 500 ? 3
+																				: health < 500 ? 0 : 30);
 	}
 
 	@Override
@@ -229,8 +244,7 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 		if (!this.world.getDimension().isRespawnAnchorWorking()) {
 			if (!this.world.isClient) {
 				this.setGlowing(true);
-				this.addStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 10000000, this.age + 1));
-				this.addStatusEffect(new StatusEffectInstance(StatusEffects.INSTANT_DAMAGE, 10000000, this.age/ 20 + 1));
+				this.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 10000000, 3));
 			}
 		}
 	}
