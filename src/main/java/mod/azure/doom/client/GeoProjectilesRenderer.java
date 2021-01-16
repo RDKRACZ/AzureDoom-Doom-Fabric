@@ -2,9 +2,13 @@ package mod.azure.doom.client;
 
 import java.awt.Color;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
@@ -60,6 +64,22 @@ public class GeoProjectilesRenderer<T extends Entity & IAnimatable> extends Enti
 				(float) renderColor.getAlpha() / 255);
 		matrixStackIn.pop();
 		super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+	}
+
+	@Override
+	public void render(GeoModel model, T animatable, float partialTicks, RenderLayer type, MatrixStack matrixStackIn,
+			VertexConsumerProvider renderTypeBuffer, VertexConsumer vertexBuilder, int packedLightIn,
+			int packedOverlayIn, float red, float green, float blue, float alpha) {
+		IGeoRenderer.super.render(model, animatable, partialTicks, type, matrixStackIn, renderTypeBuffer, vertexBuilder,
+				packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		matrixStackIn.push();
+		VertexConsumerProvider.Immediate irendertypebuffer$impl = MinecraftClient.getInstance().getBufferBuilders()
+				.getEntityVertexConsumers();
+		DiffuseLighting.disableGuiDepthLighting();
+		irendertypebuffer$impl.draw();
+		RenderSystem.enableDepthTest();
+		DiffuseLighting.enableGuiDepthLighting();
+		matrixStackIn.pop();
 	}
 
 	public static int getPackedOverlay(Entity livingEntityIn, float uIn) {

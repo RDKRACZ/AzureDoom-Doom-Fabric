@@ -1,5 +1,6 @@
 package mod.azure.doom.client.render;
 
+import mod.azure.doom.client.DoomGeoEntityRenderer;
 import mod.azure.doom.client.models.MechaZombieModel;
 import mod.azure.doom.entity.MechaZombieEntity;
 import net.minecraft.client.render.RenderLayer;
@@ -8,9 +9,8 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
 
-public class MechaZombieRender extends GeoEntityRenderer<MechaZombieEntity> {
+public class MechaZombieRender extends DoomGeoEntityRenderer<MechaZombieEntity> {
 
 	public MechaZombieRender(EntityRenderDispatcher renderManagerIn) {
 		super(renderManagerIn, new MechaZombieModel());

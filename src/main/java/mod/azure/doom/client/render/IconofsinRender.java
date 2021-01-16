@@ -1,5 +1,6 @@
 package mod.azure.doom.client.render;
 
+import mod.azure.doom.client.DoomGeoEntityRenderer;
 import mod.azure.doom.client.models.IconofsinModel;
 import mod.azure.doom.entity.IconofsinEntity;
 import net.minecraft.client.render.RenderLayer;
@@ -9,9 +10,8 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.geo.render.built.GeoModel;
-import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
 
-public class IconofsinRender extends GeoEntityRenderer<IconofsinEntity> {
+public class IconofsinRender extends DoomGeoEntityRenderer<IconofsinEntity> {
 
 	public IconofsinRender(EntityRenderDispatcher renderManagerIn) {
 		super(renderManagerIn, new IconofsinModel());
@@ -23,13 +23,13 @@ public class IconofsinRender extends GeoEntityRenderer<IconofsinEntity> {
 			Identifier textureLocation) {
 		return RenderLayer.getEntityTranslucent(getTextureLocation(animatable));
 	}
-	
+
 	@Override
 	public void render(GeoModel model, IconofsinEntity animatable, float partialTicks, RenderLayer type,
 			MatrixStack matrixStackIn, VertexConsumerProvider renderTypeBuffer, VertexConsumer vertexBuilder,
 			int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-		super.render(model, animatable, partialTicks, type, matrixStackIn, renderTypeBuffer, vertexBuilder, packedLightIn,
-				packedOverlayIn, red, green, blue, alpha);
+		super.render(model, animatable, partialTicks, type, matrixStackIn, renderTypeBuffer, vertexBuilder,
+				packedLightIn, packedOverlayIn, red, green, blue, alpha);
 		float health = animatable.getHealth();
 		if (health >= 950) {
 			model.getBone("rShoulderArmor").get().setHidden(false);

@@ -1,5 +1,6 @@
 package mod.azure.doom.client.render;
 
+import mod.azure.doom.client.DoomGeoEntityRenderer;
 import mod.azure.doom.client.models.ShotgunguyModel;
 import mod.azure.doom.entity.ShotgunguyEntity;
 import mod.azure.doom.util.registry.DoomItems;
@@ -14,9 +15,8 @@ import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.geo.render.built.GeoBone;
-import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
 
-public class ShotgunguyRender extends GeoEntityRenderer<ShotgunguyEntity> {
+public class ShotgunguyRender extends DoomGeoEntityRenderer<ShotgunguyEntity> {
 
 	private static final ItemStack chaingun = new ItemStack(DoomItems.SG);
 	private VertexConsumerProvider rtb;

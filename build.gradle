@@ -103,8 +103,8 @@ curseforge {
         releaseType = "${curse_release}"
         changelogType = 'text'
         changelog = file('CHANGELOG.txt')
-        addGameVersion("1.16.3")
         addGameVersion("1.16.4")
+        addGameVersion("1.16.5")
         addGameVersion("Fabric")
         addGameVersion("Java 8")
 
