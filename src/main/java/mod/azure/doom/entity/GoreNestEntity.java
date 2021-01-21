@@ -113,35 +113,38 @@ public class GoreNestEntity extends DemonEntity implements IAnimatable {
 			int randomIndex = rand.nextInt(givenList.size());
 			EntityType<?> randomElement = givenList.get(randomIndex);
 			Entity fireballentity = randomElement.create(world);
-			fireballentity.updatePosition(this.getX() + 2.0D, this.getY() + 0.5D, this.getZ() + 2.0D);
+			fireballentity.refreshPositionAndAngles(this.getX() + 2.0D, this.getY() + 0.5D, this.getZ() + 2.0D, 0, 0);
 			world.spawnEntity(fireballentity);
 		}
 		for (int i = 0; i < 1; i++) {
 			int randomIndex = rand.nextInt(givenList.size());
 			EntityType<?> randomElement = givenList.get(randomIndex);
 			Entity fireballentity1 = randomElement.create(world);
-			fireballentity1.updatePosition(this.getX() + -2.0D, this.getY() + 0.5D, this.getZ() + -2.0D);
+			fireballentity1.refreshPositionAndAngles(this.getX() + -2.0D, this.getY() + 0.5D, this.getZ() + -2.0D, 0,
+					0);
 			world.spawnEntity(fireballentity1);
 		}
 		for (int i = 0; i < 1; i++) {
 			int randomIndex = rand.nextInt(givenList.size());
 			EntityType<?> randomElement = givenList.get(randomIndex);
 			Entity fireballentity11 = randomElement.create(world);
-			fireballentity11.updatePosition(this.getX() + 1.0D, this.getY() + 0.5D, this.getZ() + 1.0D);
+			fireballentity11.refreshPositionAndAngles(this.getX() + 1.0D, this.getY() + 0.5D, this.getZ() + 1.0D, 0, 0);
 			world.spawnEntity(fireballentity11);
 		}
 		for (int i = 0; i < 1; i++) {
 			int randomIndex = rand.nextInt(givenList.size());
 			EntityType<?> randomElement = givenList.get(randomIndex);
 			Entity fireballentity111 = randomElement.create(world);
-			fireballentity111.updatePosition(this.getX() + -1.0D, this.getY() + 0.5D, this.getZ() + -1.0D);
+			fireballentity111.refreshPositionAndAngles(this.getX() + -1.0D, this.getY() + 0.5D, this.getZ() + -1.0D, 0,
+					0);
 			world.spawnEntity(fireballentity111);
 		}
 	}
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
 		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
-				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.15D).add(EntityAttributes.GENERIC_MAX_HEALTH, 5.0D)
+				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.0D)
+				.add(EntityAttributes.GENERIC_MAX_HEALTH, config.gorenest_health)
 				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 0.0D).add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
 	}
 

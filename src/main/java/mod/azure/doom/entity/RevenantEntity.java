@@ -82,8 +82,10 @@ public class RevenantEntity extends DemonEntity implements IAnimatable {
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
 		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
-				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25D).add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
-				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6.0D).add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
+				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25D)
+				.add(EntityAttributes.GENERIC_MAX_HEALTH, config.revenant_health)
+				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, config.revenant_melee_damage)
+				.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
 	}
 
 	@Nullable
@@ -118,9 +120,9 @@ public class RevenantEntity extends DemonEntity implements IAnimatable {
 		this.goalSelector.add(6, new LookAroundGoal(this));
 		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]).setGroupRevenge());
 		this.goalSelector.add(4,
-				new RangedStrafeAttackGoal(this,
-						new RevenantEntity.FireballAttack(this).setProjectileOriginOffset(0.8, 0.8, 0.8).setDamage(10),
-						1.0D, 50, 30, 15, 15F).setMultiShot(2, 3));
+				new RangedStrafeAttackGoal(this, new RevenantEntity.FireballAttack(this)
+						.setProjectileOriginOffset(0.8, 0.8, 0.8).setDamage(config.revenant_ranged_damage), 1.0D, 50,
+						30, 15, 15F).setMultiShot(2, 3));
 		this.goalSelector.add(7, new DemonAttackGoal(this, 1.0D, false));
 		this.targetSelector.add(2, new FollowTargetGoal(this, PlayerEntity.class, true));
 		this.targetSelector.add(3, new FollowTargetGoal<>(this, HostileEntity.class, true));

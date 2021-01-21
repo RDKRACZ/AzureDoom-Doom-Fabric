@@ -1,29 +1,35 @@
 package mod.azure.doom.item.weapons;
 
-import java.util.function.Predicate;
+import java.util.List;
 
+import io.netty.buffer.Unpooled;
 import mod.azure.doom.DoomMod;
+import mod.azure.doom.client.Clientnit;
 import mod.azure.doom.entity.projectiles.UnmaykrBoltEntity;
-import mod.azure.doom.item.ammo.UnmaykrBolt;
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.enums.DoomTier;
 import mod.azure.doom.util.registry.DoomItems;
-import net.minecraft.enchantment.EnchantmentHelper;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.enchantment.Enchantments;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.RangedWeaponItem;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
-public class Unmaykr extends RangedWeaponItem {
+public class Unmaykr extends Item {
 
 	public Unmaykr() {
 		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(9000));
@@ -52,47 +58,29 @@ public class Unmaykr extends RangedWeaponItem {
 
 	@Override
 	public boolean canRepair(ItemStack stack, ItemStack ingredient) {
-		return DoomTier.DOOM.getRepairIngredient().test(ingredient) || super.canRepair(stack, ingredient);
+		return DoomTier.UNMAYKR.getRepairIngredient().test(ingredient) || super.canRepair(stack, ingredient);
 	}
 
 	@Override
 	public void usageTick(World worldIn, LivingEntity entityLiving, ItemStack stack, int count) {
 		if (entityLiving instanceof PlayerEntity) {
 			PlayerEntity playerentity = (PlayerEntity) entityLiving;
-			boolean flag = playerentity.abilities.creativeMode
-					|| EnchantmentHelper.getLevel(Enchantments.INFINITY, stack) > 0;
-			ItemStack itemstack = playerentity.getArrowType(stack);
 
-			if (!itemstack.isEmpty() || flag) {
-				if (itemstack.isEmpty()) {
-					itemstack = new ItemStack(DoomItems.UNMAKRY_BOLT);
-				}
+			if (stack.getDamage() < (stack.getMaxDamage() - 1)) {
 				playerentity.getItemCooldownManager().set(this, 5);
 				if (!worldIn.isClient) {
-					UnmaykrBolt arrowitem = (UnmaykrBolt) (itemstack.getItem() instanceof UnmaykrBolt
-							? itemstack.getItem()
-							: DoomItems.UNMAKRY_BOLT);
-					UnmaykrBoltEntity abstractarrowentity = arrowitem.createArrow(worldIn, itemstack, playerentity);
-					abstractarrowentity = customeArrow(abstractarrowentity);
+					UnmaykrBoltEntity abstractarrowentity = createArrow(worldIn, stack, playerentity);
 					abstractarrowentity.setProperties(playerentity, playerentity.pitch, playerentity.yaw, 0.0F,
 							1.0F * 3.0F, 1.0F);
 
-					abstractarrowentity.setDamage(abstractarrowentity.getDamage() + 1.5);
-
-					abstractarrowentity.hasNoGravity();
+					abstractarrowentity.setDamage(5.7);
 
 					stack.damage(1, entityLiving, p -> p.sendToolBreakStatus(entityLiving.getActiveHand()));
 					worldIn.spawnEntity(abstractarrowentity);
 				}
 				worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(), playerentity.getZ(),
 						ModSoundEvents.UNMAKYR_FIRE, SoundCategory.PLAYERS, 1.0F,
-						1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + 0.25F * 0.5F);
-				if (!playerentity.abilities.creativeMode) {
-					itemstack.decrement(1);
-					if (itemstack.isEmpty()) {
-						playerentity.inventory.removeOne(itemstack);
-					}
-				}
+						1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + 1F * 0.5F);
 			}
 		}
 	}
@@ -123,22 +111,48 @@ public class Unmaykr extends RangedWeaponItem {
 		}
 	}
 
-	@Override
-	public Predicate<ItemStack> getProjectiles() {
-		return itemStack -> itemStack.getItem() instanceof UnmaykrBolt;
+	public void reload(PlayerEntity user, Hand hand) {
+		if (user.getStackInHand(hand).getItem() instanceof Unmaykr) {
+			while (user.getStackInHand(hand).getDamage() != 0 && user.inventory.count(DoomItems.UNMAKRY_BOLT) > 0) {
+				removeAmmo(DoomItems.UNMAKRY_BOLT, user);
+				user.getStackInHand(hand).damage(-1, user, s -> user.sendToolBreakStatus(hand));
+				user.getStackInHand(hand).setCooldown(3);
+			}
+		}
 	}
 
 	@Override
-	public Predicate<ItemStack> getHeldProjectiles() {
-		return getProjectiles();
+	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+		if (world.isClient) {
+			if (((PlayerEntity) entity).getMainHandStack().getItem() instanceof Unmaykr && Clientnit.reload.isPressed()
+					&& selected) {
+				PacketByteBuf passedData = new PacketByteBuf(Unpooled.buffer());
+				passedData.writeBoolean(true);
+				ClientPlayNetworking.send(DoomMod.UNMAYKR, passedData);
+			}
+		}
 	}
 
-	public UnmaykrBoltEntity customeArrow(UnmaykrBoltEntity arrow) {
-		return arrow;
+	private void removeAmmo(Item ammo, PlayerEntity playerEntity) {
+		if (!playerEntity.isCreative()) {
+			for (ItemStack item : playerEntity.inventory.main) {
+				if (item.getItem() == DoomItems.UNMAKRY_BOLT) {
+					item.decrement(1);
+					break;
+				}
+			}
+		}
 	}
 
 	@Override
-	public int getRange() {
-		return 15;
+	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
+		tooltip.add(new TranslatableText(
+				"Ammo: " + (stack.getMaxDamage() - stack.getDamage() - 1) + " / " + (stack.getMaxDamage() - 1))
+						.formatted(Formatting.ITALIC));
+	}
+
+	public UnmaykrBoltEntity createArrow(World worldIn, ItemStack stack, LivingEntity shooter) {
+		UnmaykrBoltEntity arrowentity = new UnmaykrBoltEntity(worldIn, shooter);
+		return arrowentity;
 	}
 }

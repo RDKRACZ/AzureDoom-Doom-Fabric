@@ -20,6 +20,9 @@
 		],
 		"client": [
 			"mod.azure.doom.client.Clientnit"
+		],
+		"modmenu": [
+			"mod.azure.doom.config.ModMenuDoom"
 		]
 	},
 	"mixins": [
@@ -35,5 +38,5 @@
 	"suggests": {
 		"flamingo": "*"
 	},
-	"accessWidener" : "doom.accesswidener"
+	"accessWidener": "doom.accesswidener"
 }

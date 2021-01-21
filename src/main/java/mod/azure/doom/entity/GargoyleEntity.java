@@ -125,8 +125,9 @@ public class GargoyleEntity extends DemonEntity implements IAnimatable {
 	protected void initCustomGoals() {
 		this.goalSelector.add(4,
 				new RangedStrafeAttackGoal(this,
-						new FireballAttack(this, false).setProjectileOriginOffset(0.8, 0.8, 0.8).setDamage(10).setSound(
-								SoundEvents.ENTITY_BLAZE_SHOOT, 1.0F, 1.4F + this.getRandom().nextFloat() * 0.35F),
+						new FireballAttack(this, false).setProjectileOriginOffset(0.8, 0.8, 0.8)
+								.setDamage(config.gargoyle_ranged_damage).setSound(SoundEvents.ENTITY_BLAZE_SHOOT, 1.0F,
+										1.4F + this.getRandom().nextFloat() * 0.35F),
 						1.0D, 50, 30, 15, 15F).setMultiShot(3, 3));
 		this.goalSelector.add(4, new DemonAttackGoal(this, 1.0D, false));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
@@ -151,7 +152,8 @@ public class GargoyleEntity extends DemonEntity implements IAnimatable {
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
 		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 25.0D)
-				.add(EntityAttributes.GENERIC_MAX_HEALTH, 30.0D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 4.0D)
+				.add(EntityAttributes.GENERIC_MAX_HEALTH, config.gargoyle_health)
+				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, config.gargoyle_melee_damage)
 				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25D).add(EntityAttributes.GENERIC_FLYING_SPEED, 2.25D)
 				.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
 	}

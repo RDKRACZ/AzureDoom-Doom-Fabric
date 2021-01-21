@@ -1,21 +1,27 @@
 package mod.azure.doom.item.weapons;
 
-import java.util.function.Predicate;
+import java.util.List;
 
+import io.netty.buffer.Unpooled;
 import mod.azure.doom.DoomMod;
+import mod.azure.doom.client.Clientnit;
 import mod.azure.doom.entity.projectiles.ArgentBoltEntity;
-import mod.azure.doom.item.ammo.ArgentBolt;
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.enums.DoomTier;
 import mod.azure.doom.util.registry.DoomItems;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.item.TooltipContext;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.RangedWeaponItem;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
@@ -30,7 +36,7 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 import software.bernie.geckolib3.util.GeckoLibUtil;
 
-public class Ballista extends RangedWeaponItem implements IAnimatable {
+public class Ballista extends Item implements IAnimatable {
 
 	public AnimationFactory factory = new AnimationFactory(this);
 	private String controllerName = "controller";
@@ -51,7 +57,7 @@ public class Ballista extends RangedWeaponItem implements IAnimatable {
 	}
 
 	public Ballista() {
-		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(9000));
+		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(11));
 	}
 
 	@Override
@@ -61,54 +67,34 @@ public class Ballista extends RangedWeaponItem implements IAnimatable {
 
 	@Override
 	public boolean canRepair(ItemStack stack, ItemStack ingredient) {
-		return DoomTier.DOOM.getRepairIngredient().test(ingredient) || super.canRepair(stack, ingredient);
+		return DoomTier.BALLISTA.getRepairIngredient().test(ingredient) || super.canRepair(stack, ingredient);
 	}
 
 	@Override
 	public void onStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int remainingUseTicks) {
 		if (entityLiving instanceof PlayerEntity) {
 			PlayerEntity playerentity = (PlayerEntity) entityLiving;
-			boolean flag = playerentity.abilities.creativeMode
-					|| EnchantmentHelper.getLevel(Enchantments.INFINITY, stack) > 0;
-			ItemStack itemstack = playerentity.getArrowType(stack);
 
-			if (!itemstack.isEmpty() || flag) {
-				if (itemstack.isEmpty()) {
-					itemstack = new ItemStack(DoomItems.ARGENT_BOLT);
-				}
+			if (stack.getDamage() < (stack.getMaxDamage() - 1)) {
 				playerentity.getItemCooldownManager().set(this, 60);
 				if (!worldIn.isClient) {
-					ArgentBolt arrowitem = (ArgentBolt) (itemstack.getItem() instanceof ArgentBolt ? itemstack.getItem()
-							: DoomItems.ARGENT_BOLT);
-					ArgentBoltEntity abstractarrowentity = arrowitem.createArrow(worldIn, itemstack, playerentity);
-					abstractarrowentity = customeArrow(abstractarrowentity);
+					ArgentBoltEntity abstractarrowentity = createArrow(worldIn, stack, playerentity);
 					abstractarrowentity.setProperties(playerentity, playerentity.pitch, playerentity.yaw, 0.0F,
 							1.0F * 3.0F, 1.0F);
 
-					abstractarrowentity.setDamage(abstractarrowentity.getDamage() + 4.0);
-
-					abstractarrowentity.hasNoGravity();
+					abstractarrowentity.setDamage(6.5);
 
 					stack.damage(1, entityLiving, p -> p.sendToolBreakStatus(entityLiving.getActiveHand()));
 					worldIn.spawnEntity(abstractarrowentity);
 				}
 				worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(), playerentity.getZ(),
 						ModSoundEvents.ROCKET_FIRING, SoundCategory.PLAYERS, 1.0F,
-						1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + 0.25F * 0.5F);
-				if (!playerentity.abilities.creativeMode) {
-					itemstack.decrement(1);
-					if (itemstack.isEmpty()) {
-						playerentity.inventory.removeOne(itemstack);
-					}
-				}
-
-				AnimationController<?> controller = GeckoLibUtil.getControllerForStack(this.factory, stack,
-						controllerName);
-
-				if (controller.getAnimationState() == AnimationState.Stopped) {
-					controller.markNeedsReload();
-					controller.setAnimation(new AnimationBuilder().addAnimation("firing", false));
-				}
+						1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + 1F * 0.5F);
+			}
+			AnimationController<?> controller = GeckoLibUtil.getControllerForStack(this.factory, stack, controllerName);
+			if (controller.getAnimationState() == AnimationState.Stopped) {
+				controller.markNeedsReload();
+				controller.setAnimation(new AnimationBuilder().addAnimation("firing", false));
 			}
 		}
 	}
@@ -136,31 +122,52 @@ public class Ballista extends RangedWeaponItem implements IAnimatable {
 	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
 		ItemStack itemStack = user.getStackInHand(hand);
-		boolean bl = !user.getArrowType(itemStack).isEmpty();
-		if (!user.abilities.creativeMode && !bl) {
-			return TypedActionResult.fail(itemStack);
-		} else {
-			user.setCurrentHand(hand);
-			return TypedActionResult.consume(itemStack);
+		user.setCurrentHand(hand);
+		return TypedActionResult.consume(itemStack);
+	}
+
+	public void reload(PlayerEntity user, Hand hand) {
+		if (user.getStackInHand(hand).getItem() instanceof Ballista) {
+			while (user.getStackInHand(hand).getDamage() != 0 && user.inventory.count(DoomItems.ARGENT_BOLT) > 0) {
+				removeAmmo(DoomItems.ARGENT_BOLT, user);
+				user.getStackInHand(hand).damage(-1, user, s -> user.sendToolBreakStatus(hand));
+				user.getStackInHand(hand).setCooldown(3);
+			}
 		}
 	}
 
 	@Override
-	public Predicate<ItemStack> getProjectiles() {
-		return itemStack -> itemStack.getItem() instanceof ArgentBolt;
+	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+		if (world.isClient) {
+			if (((PlayerEntity) entity).getMainHandStack().getItem() instanceof Ballista && Clientnit.reload.isPressed()
+					&& selected) {
+				PacketByteBuf passedData = new PacketByteBuf(Unpooled.buffer());
+				passedData.writeBoolean(true);
+				ClientPlayNetworking.send(DoomMod.BALLISTA, passedData);
+			}
+		}
+	}
+
+	private void removeAmmo(Item ammo, PlayerEntity playerEntity) {
+		if (!playerEntity.isCreative()) {
+			for (ItemStack item : playerEntity.inventory.main) {
+				if (item.getItem() == DoomItems.ARGENT_BOLT) {
+					item.decrement(1);
+					break;
+				}
+			}
+		}
 	}
 
 	@Override
-	public Predicate<ItemStack> getHeldProjectiles() {
-		return getProjectiles();
+	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
+		tooltip.add(new TranslatableText(
+				"Ammo: " + (stack.getMaxDamage() - stack.getDamage() - 1) + " / " + (stack.getMaxDamage() - 1))
+						.formatted(Formatting.ITALIC));
 	}
 
-	public ArgentBoltEntity customeArrow(ArgentBoltEntity arrow) {
-		return arrow;
-	}
-
-	@Override
-	public int getRange() {
-		return 15;
+	public ArgentBoltEntity createArrow(World worldIn, ItemStack stack, LivingEntity shooter) {
+		ArgentBoltEntity arrowentity = new ArgentBoltEntity(worldIn, shooter);
+		return arrowentity;
 	}
 }

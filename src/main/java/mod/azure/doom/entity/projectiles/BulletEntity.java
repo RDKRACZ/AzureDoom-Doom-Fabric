@@ -205,7 +205,7 @@ public class BulletEntity extends PersistentProjectileEntity {
 
 	@Override
 	public ItemStack asItemStack() {
-		return new ItemStack(DoomItems.ARGENT_BOLT);
+		return new ItemStack(DoomItems.BULLETS);
 	}
 
 	@Override

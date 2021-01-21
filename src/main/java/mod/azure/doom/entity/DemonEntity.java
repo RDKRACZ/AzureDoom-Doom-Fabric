@@ -4,6 +4,8 @@ import java.util.UUID;
 
 import org.jetbrains.annotations.Nullable;
 
+import mod.azure.doom.DoomMod;
+import mod.azure.doom.config.DoomConfig.MobStats;
 import mod.azure.doom.util.packets.EntityPacket;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -25,6 +27,8 @@ public class DemonEntity extends HostileEntity implements Angerable {
 			TrackedDataHandlerRegistry.INTEGER);
 	private static final IntRange ANGER_TIME_RANGE = Durations.betweenSeconds(20, 39);
 	private UUID targetUuid;
+
+	public static MobStats config = DoomMod.config.stats;
 
 	protected DemonEntity(EntityType<? extends HostileEntity> type, World worldIn) {
 		super(type, worldIn);

@@ -1,24 +1,34 @@
 package mod.azure.doom.item.weapons;
 
+import java.util.List;
+
+import io.netty.buffer.Unpooled;
 import mod.azure.doom.DoomMod;
+import mod.azure.doom.client.Clientnit;
 import mod.azure.doom.util.enums.DoomTier;
+import mod.azure.doom.util.registry.DoomItems;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.SwordItem;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.DustParticleEffect;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class Chainsaw extends SwordItem {
+public class Chainsaw extends Item {
 
 	public Chainsaw() {
-		super(DoomTier.DOOM, 0, -2.4F,
-				new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(600));
+		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(600));
 	}
 
 	@Override
@@ -32,23 +42,64 @@ public class Chainsaw extends SwordItem {
 	}
 
 	@Override
+	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
+		tooltip.add(new TranslatableText(
+				"Fuel: " + (stack.getMaxDamage() - stack.getDamage() - 1) + " / " + (stack.getMaxDamage() - 1))
+						.formatted(Formatting.ITALIC));
+	}
+
+	@Override
 	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		LivingEntity user = (LivingEntity) entityIn;
 		PlayerEntity player = (PlayerEntity) entityIn;
 		final Vec3d facing = Vec3d.fromPolar(user.getRotationClient()).normalize();
-		if (player.getMainHandStack().isItemEqualIgnoreDamage(stack) && stack.getDamage() < 599) {
+		if (player.getMainHandStack().isItemEqualIgnoreDamage(stack)
+				&& stack.getDamage() < (stack.getMaxDamage() - 1)) {
 			final Box aabb = new Box(entityIn.getBlockPos().up()).expand(1D, 1D, 1D).offset(facing.multiply(1D));
 			entityIn.getEntityWorld().getOtherEntities(user, aabb).forEach(e -> doDamage(user, e));
+			entityIn.getEntityWorld().getOtherEntities(user, aabb).forEach(e -> damageItem(user, stack));
 			entityIn.getEntityWorld().getOtherEntities(user, aabb).forEach(e -> addParticle(e));
-			if (!player.abilities.creativeMode) {
-				stack.setDamage(stack.getDamage() + 1);
+		}
+		if (worldIn.isClient) {
+			if (player.getMainHandStack().getItem() instanceof Chainsaw && Clientnit.reload.isPressed() && isSelected) {
+				PacketByteBuf passedData = new PacketByteBuf(Unpooled.buffer());
+				passedData.writeBoolean(true);
+				ClientPlayNetworking.send(DoomMod.CHAINSAW, passedData);
 			}
 		}
 	}
 
-	private void doDamage(final LivingEntity user, final Entity target) {
+	public void reload(PlayerEntity user, Hand hand) {
+		if (user.getStackInHand(hand).getItem() instanceof Chainsaw) {
+			while (user.getStackInHand(hand).getDamage() != 0 && user.inventory.count(DoomItems.GAS_BARREL) > 0) {
+				removeAmmo(DoomItems.BULLETS, user);
+				user.getStackInHand(hand).damage(-1, user, s -> user.sendToolBreakStatus(hand));
+				user.getStackInHand(hand).setCooldown(3);
+			}
+		}
+	}
+
+	private void removeAmmo(Item ammo, PlayerEntity playerEntity) {
+		if (!playerEntity.isCreative()) {
+			for (ItemStack item : playerEntity.inventory.main) {
+				if (item.getItem() == DoomItems.GAS_BARREL) {
+					item.decrement(1);
+					break;
+				}
+			}
+		}
+	}
+
+	private void doDamage(LivingEntity user, Entity target) {
 		if (target instanceof LivingEntity) {
 			target.damage(DamageSource.player((PlayerEntity) user), 2F);
+		}
+	}
+
+	private void damageItem(LivingEntity user, ItemStack stack) {
+		PlayerEntity player = (PlayerEntity) user;
+		if (!player.abilities.creativeMode) {
+			stack.setDamage(stack.getDamage() + 1);
 		}
 	}
 

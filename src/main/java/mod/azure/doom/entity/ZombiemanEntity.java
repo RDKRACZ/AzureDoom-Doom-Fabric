@@ -32,8 +32,8 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.RangedWeaponItem;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -120,7 +120,8 @@ public class ZombiemanEntity extends DemonEntity implements RangedAttackMob, IAn
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
 		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
-				.add(EntityAttributes.GENERIC_MAX_HEALTH, 15.0D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 4.0D)
+				.add(EntityAttributes.GENERIC_MAX_HEALTH, config.zombieman_health)
+				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, config.zombieman_melee_damage)
 				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25D)
 				.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
 	}
@@ -189,7 +190,7 @@ public class ZombiemanEntity extends DemonEntity implements RangedAttackMob, IAn
 		return ZombiemanEntity.createArrowProjectile(this, arrow, damageModifier);
 	}
 
-	public boolean canUseRangedWeapon(RangedWeaponItem weapon) {
+	public boolean canUseRangedWeapon(Item weapon) {
 		return weapon == DoomItems.PISTOL;
 	}
 
