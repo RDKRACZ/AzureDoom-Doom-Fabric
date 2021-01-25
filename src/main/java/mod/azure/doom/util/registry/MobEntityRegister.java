@@ -26,6 +26,7 @@ import mod.azure.doom.entity.PossessedScientistEntity;
 import mod.azure.doom.entity.PossessedSoldierEntity;
 import mod.azure.doom.entity.RevenantEntity;
 import mod.azure.doom.entity.ShotgunguyEntity;
+import mod.azure.doom.entity.SpectreEntity;
 import mod.azure.doom.entity.SpiderdemonEntity;
 import mod.azure.doom.entity.UnwillingEntity;
 import mod.azure.doom.entity.ZombiemanEntity;
@@ -55,6 +56,12 @@ public class MobEntityRegister {
 	public static final EntityType<PinkyEntity> PINKY = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "pinky"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, PinkyEntity::new)
+					.dimensions(EntityDimensions.fixed(1.7f, 2.2F)).fireImmune().trackRangeBlocks(90)
+					.trackedUpdateRate(4).build());
+
+	public static final EntityType<SpectreEntity> SPECTRE = Registry.register(Registry.ENTITY_TYPE,
+			new Identifier(DoomMod.MODID, "spectre"),
+			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, SpectreEntity::new)
 					.dimensions(EntityDimensions.fixed(1.7f, 2.2F)).fireImmune().trackRangeBlocks(90)
 					.trackedUpdateRate(4).build());
 
@@ -193,7 +200,7 @@ public class MobEntityRegister {
 	public static final EntityType<MechaZombieEntity> MECHAZOMBIE = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "mechazombie"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, MechaZombieEntity::new)
-					.dimensions(EntityDimensions.fixed(1.5f, 1.95F)).fireImmune().trackRangeBlocks(90)
+					.dimensions(EntityDimensions.fixed(1.2f, 2.3F)).fireImmune().trackRangeBlocks(90)
 					.trackedUpdateRate(4).build());
 
 	public static final EntityType<GoreNestEntity> GORE_NEST = Registry.register(Registry.ENTITY_TYPE,

@@ -1,6 +1,6 @@
 package mod.azure.doom.client.render;
 
-import mod.azure.doom.client.DoomGeoEntityRenderer;
+import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
 import mod.azure.doom.client.models.IconofsinModel;
 import mod.azure.doom.entity.IconofsinEntity;
 import net.minecraft.client.render.RenderLayer;
@@ -11,7 +11,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.geo.render.built.GeoModel;
 
-public class IconofsinRender extends DoomGeoEntityRenderer<IconofsinEntity> {
+public class IconofsinRender extends GeoEntityRenderer<IconofsinEntity> {
 
 	public IconofsinRender(EntityRenderDispatcher renderManagerIn) {
 		super(renderManagerIn, new IconofsinModel());

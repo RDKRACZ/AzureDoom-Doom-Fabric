@@ -26,6 +26,7 @@ import mod.azure.doom.client.render.PossessedScientistRender;
 import mod.azure.doom.client.render.PossessedSoldierRender;
 import mod.azure.doom.client.render.RevenantRender;
 import mod.azure.doom.client.render.ShotgunguyRender;
+import mod.azure.doom.client.render.SpectreRender;
 import mod.azure.doom.client.render.SpiderdemonRender;
 import mod.azure.doom.client.render.UnwillingRender;
 import mod.azure.doom.client.render.ZombiemanRender;
@@ -122,6 +123,9 @@ public class DoomRenderRegistry {
 		});
 		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.PINKY, (dispatcher, context) -> {
 			return new PinkyRender(dispatcher);
+		});
+		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.SPECTRE, (dispatcher, context) -> {
+			return new SpectreRender(dispatcher);
 		});
 		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.LOST_SOUL, (dispatcher, context) -> {
 			return new LostSoulRender(dispatcher);

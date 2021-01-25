@@ -37,6 +37,8 @@ public class SpawnRestrictionMixin {
 				HostileEntity::canSpawnInDark);
 		register(MobEntityRegister.PINKY, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
 				HostileEntity::canSpawnInDark);
+		register(MobEntityRegister.SPECTRE, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+				HostileEntity::canSpawnInDark);
 		register(MobEntityRegister.CACODEMON, SpawnRestriction.Location.IN_LAVA,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
 		register(MobEntityRegister.LOST_SOUL, SpawnRestriction.Location.IN_LAVA,

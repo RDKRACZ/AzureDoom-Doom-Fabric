@@ -54,7 +54,7 @@ public class MancubusEntity extends DemonEntity implements IAnimatable {
 	private AnimationFactory factory = new AnimationFactory(this);
 
 	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-		if (!(lastLimbDistance > -0.15F && lastLimbDistance < 0.15F) && !this.dataTracker.get(SHOOTING)) {
+		if (event.isMoving() && !this.dataTracker.get(SHOOTING)) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
 			return PlayState.CONTINUE;
 		}
@@ -64,7 +64,7 @@ public class MancubusEntity extends DemonEntity implements IAnimatable {
 				return PlayState.CONTINUE;
 			}
 		}
-		if (this.dataTracker.get(SHOOTING)) {
+		if (this.dataTracker.get(SHOOTING) && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking", true));
 			return PlayState.CONTINUE;
 		}

@@ -28,6 +28,8 @@ public class MobSpawn {
 								config.imp_min_group, config.imp_max_group),
 						new SpawnSettings.SpawnEntry(MobEntityRegister.PINKY, config.pinky_spawn_weight,
 								config.pinky_min_group, config.pinky_max_group),
+						new SpawnSettings.SpawnEntry(MobEntityRegister.SPECTRE, config.spectre_spawn_weight,
+								config.spectre_min_group, config.spectre_max_group),
 						new SpawnSettings.SpawnEntry(MobEntityRegister.LOST_SOUL, config.lost_soul_spawn_weight,
 								config.lost_soul_min_group, config.lost_soul_max_group),
 						new SpawnSettings.SpawnEntry(MobEntityRegister.CACODEMON, config.cacodemon_spawn_weight,

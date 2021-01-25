@@ -1,6 +1,6 @@
 package mod.azure.doom.client.render;
 
-import mod.azure.doom.client.DoomGeoEntityRenderer;
+import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
 import mod.azure.doom.client.models.CyberdemonModel;
 import mod.azure.doom.entity.CyberdemonEntity;
 import net.minecraft.client.render.RenderLayer;
@@ -10,7 +10,7 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
-public class CyberdemonRender extends DoomGeoEntityRenderer<CyberdemonEntity> {
+public class CyberdemonRender extends GeoEntityRenderer<CyberdemonEntity> {
 
 	public CyberdemonRender(EntityRenderDispatcher renderManagerIn) {
 		super(renderManagerIn, new CyberdemonModel());

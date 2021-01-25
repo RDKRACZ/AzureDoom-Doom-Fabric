@@ -1,6 +1,6 @@
 package mod.azure.doom.client.render;
 
-import mod.azure.doom.client.DoomGeoEntityRenderer;
+import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
 import mod.azure.doom.client.models.MancubusModel;
 import mod.azure.doom.entity.MancubusEntity;
 import net.minecraft.client.render.RenderLayer;
@@ -10,7 +10,7 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
-public class MancubusRender extends DoomGeoEntityRenderer<MancubusEntity> {
+public class MancubusRender extends GeoEntityRenderer<MancubusEntity> {
 
 	public MancubusRender(EntityRenderDispatcher renderManagerIn) {
 		super(renderManagerIn, new MancubusModel());

@@ -169,6 +169,10 @@ public class DoomItems {
 			new DoomSpawnEgg(MobEntityRegister.MECHAZOMBIE));
 	public static DoomSpawnEgg HELLKNIGHT2016_SPAWN_EGG = item("hellknight2016_spawn_egg",
 			new DoomSpawnEgg(MobEntityRegister.HELLKNIGHT2016));
+	public static DoomSpawnEgg GARGOYLE_SPAWN_EGG = item("gargoyle_spawn_egg",
+			new DoomSpawnEgg(MobEntityRegister.GARGOYLE));
+	public static DoomSpawnEgg SPECTRE_SPAWN_EGG = item("spectre_spawn_egg",
+			new DoomSpawnEgg(MobEntityRegister.SPECTRE));
 
 	// Armor
 	public static DoomArmor DOOM_HELMET = item("doom_helmet",

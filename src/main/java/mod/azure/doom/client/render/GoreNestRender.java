@@ -1,6 +1,6 @@
 package mod.azure.doom.client.render;
 
-import mod.azure.doom.client.DoomGeoEntityRenderer;
+import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
 import mod.azure.doom.client.models.GoreNestModel;
 import mod.azure.doom.entity.GoreNestEntity;
 import net.minecraft.client.render.RenderLayer;
@@ -10,7 +10,7 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
-public class GoreNestRender extends DoomGeoEntityRenderer<GoreNestEntity> {
+public class GoreNestRender extends GeoEntityRenderer<GoreNestEntity> {
 
 	public GoreNestRender(EntityRenderDispatcher renderManagerIn) {
 		super(renderManagerIn, new GoreNestModel());

@@ -31,6 +31,10 @@ public class DoomConfig implements ConfigData {
 		public int pinky_min_group = 2;
 		public int pinky_max_group = 4;
 
+		public int spectre_spawn_weight = 20;
+		public int spectre_min_group = 2;
+		public int spectre_max_group = 4;
+
 		public int lost_soul_spawn_weight = 25;
 		public int lost_soul_min_group = 1;
 		public int lost_soul_max_group = 3;
@@ -139,6 +143,9 @@ public class DoomConfig implements ConfigData {
 
 		public double pinky_health = 75;
 		public double pinky_melee_damage = 6;
+
+		public double spectre_health = 75;
+		public double spectre_melee_damage = 6;
 
 		public double lost_soul_health = 10;
 		public double lost_soul_melee_damage = 1;
