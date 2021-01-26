@@ -1,3 +1,4 @@
-v.3.9.2
+v.3.9.3
 
-- Updated Armor for new Geckolib armor rotation fix.
+- Fixes the issue of the jump boost being given without the needed armor enchantment. Closes #12
+- Rotated how the Chaingunner holds the chaingun.

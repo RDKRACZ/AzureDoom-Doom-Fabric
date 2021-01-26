@@ -40,7 +40,7 @@ public abstract class DoubleJumpMixin extends AbstractClientPlayerEntity {
 	public Input input;
 
 	private int jumpCount = 0;
-	private boolean jumpKey = false;
+	private boolean jumpKey = true;
 
 	public DoubleJumpMixin(ClientWorld world, GameProfile profile) {
 		super(world, profile);
@@ -62,41 +62,48 @@ public abstract class DoubleJumpMixin extends AbstractClientPlayerEntity {
 		Box box = new Box(pos.getX(), pos.getY() + this.getEyeHeight(this.getPose()) * 0.8, pos.getZ(), pos.getX(),
 				pos.getY() + this.getHeight(), pos.getZ());
 
-		if (this.onGround || this.world.containsFluid(box) || this.isRiding() || this.abilities.allowFlying) {
+		ItemStack stack = this.getEquippedStack(EquipmentSlot.FEET);
+		if (!stack.isEmpty()) {
+			Map<Enchantment, Integer> enchantments = EnchantmentHelper.get(stack);
+			if (enchantments.containsKey(DoomEnchantments.LEAPING_DOOM))
 
-			this.jumpCount = this.getMultiJumps();
+				if (this.onGround || this.world.containsFluid(box) || this.isRiding() || this.abilities.allowFlying) {
 
-		} else if (this.input.jumping) {
+					this.jumpCount = this.getMultiJumps();
 
-			if (!this.jumpKey && this.jumpCount > 0 && motion.getY() < 0.333
-					&& this.getHungerManager().getFoodLevel() > 0) {
+				} else if (this.input.jumping) {
 
-				this.jump();
-				this.jumpCount--;
+					if (!this.jumpKey && this.jumpCount > 0 && motion.getY() < 0.333
+							&& this.getHungerManager().getFoodLevel() > 0) {
 
-				this.fallDistance = 0.0F;
-				double d0 = world.random.nextGaussian() * 0.02D;
-				double d1 = world.random.nextGaussian() * 0.02D;
-				double d2 = world.random.nextGaussian() * 0.02D;
-				PacketByteBuf passedData = new PacketByteBuf(Unpooled.buffer());
-				passedData.writeFloat(this.fallDistance);
-				ClientSidePacketRegistry.INSTANCE.sendToServer(DoomMod.FALL_DISTANCE_PACKET_ID, passedData);
-				world.addParticle(ParticleTypes.CRIT,
-						player.getX() + (double) (player.world.random.nextFloat() * player.getWidth() * 2.0F)
-								- (double) player.getWidth() - d0 * 10.0D,
-						player.getY() + (double) (player.world.random.nextFloat() * player.getHeight()) - d1 * 10.0D,
-						player.getZ() + (double) (player.world.random.nextFloat() * player.getWidth() * 2.0F)
-								- (double) player.getWidth() - d2 * 10.0D,
-						d0, d1, d2);
-				player.playSound(SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, 1.0F, 2.0F);
-			}
+						this.jump();
+						this.jumpCount--;
 
-			this.jumpKey = true;
+						this.fallDistance = 0.0F;
+						double d0 = world.random.nextGaussian() * 0.02D;
+						double d1 = world.random.nextGaussian() * 0.02D;
+						double d2 = world.random.nextGaussian() * 0.02D;
+						PacketByteBuf passedData = new PacketByteBuf(Unpooled.buffer());
+						passedData.writeFloat(this.fallDistance);
+						ClientSidePacketRegistry.INSTANCE.sendToServer(DoomMod.FALL_DISTANCE_PACKET_ID, passedData);
+						world.addParticle(ParticleTypes.CRIT,
+								player.getX() + (double) (player.world.random.nextFloat() * player.getWidth() * 2.0F)
+										- (double) player.getWidth() - d0 * 10.0D,
+								player.getY() + (double) (player.world.random.nextFloat() * player.getHeight())
+										- d1 * 10.0D,
+								player.getZ() + (double) (player.world.random.nextFloat() * player.getWidth() * 2.0F)
+										- (double) player.getWidth() - d2 * 10.0D,
+								d0, d1, d2);
+						player.playSound(SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, 1.0F, 2.0F);
+					}
 
-		} else {
+					this.jumpKey = true;
 
-			this.jumpKey = false;
+				} else {
 
+					this.jumpKey = false;
+
+				}
 		}
 	}
 
