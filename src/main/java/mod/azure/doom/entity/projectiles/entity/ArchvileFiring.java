@@ -21,7 +21,6 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -119,9 +118,7 @@ public class ArchvileFiring extends Entity implements IAnimatable {
 				this.remove();
 			}
 		}
-		final Vec3d facing = Vec3d.fromPolar(this.getRotationClient()).normalize();
-		List<Entity> list = this.world.getOtherEntities(this,
-				new Box(this.getBlockPos().up()).expand(5D, 5D, 5D).offset(facing.multiply(1D)));
+		List<Entity> list = this.world.getOtherEntities(this, new Box(this.getBlockPos().up()).expand(5D, 5D, 5D));
 		for (int x = 0; x < list.size(); ++x) {
 			Entity entity = (Entity) list.get(x);
 			if (!(entity instanceof MancubusEntity) && !(entity instanceof ArchvileEntity)) {
