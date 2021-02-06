@@ -1,5 +1,6 @@
 package mod.azure.doom.entity.projectiles;
 
+import mod.azure.doom.entity.IconofsinEntity;
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.packets.EntityPacket;
 import mod.azure.doom.util.registry.DoomItems;
@@ -52,6 +53,14 @@ public class EnergyCellEntity extends PersistentProjectileEntity {
 	}
 
 	@Override
+	protected void onHit(LivingEntity living) {
+		super.onHit(living);
+		if (!(living instanceof PlayerEntity) && !(living instanceof IconofsinEntity)) {
+			living.timeUntilRegen = 0;
+		}
+	}
+
+	@Override
 	public Packet<?> createSpawnPacket() {
 		return EntityPacket.createPacket(this);
 	}
@@ -94,7 +103,7 @@ public class EnergyCellEntity extends PersistentProjectileEntity {
 			this.prevYaw = this.yaw;
 			this.prevPitch = this.pitch;
 		}
-		if (this.age >= 100) {
+		if (this.age >= 60) {
 			this.remove();
 		}
 		if (this.inAir && !bl) {

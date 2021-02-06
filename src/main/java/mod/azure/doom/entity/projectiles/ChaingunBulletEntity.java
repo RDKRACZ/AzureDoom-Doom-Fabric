@@ -1,5 +1,6 @@
 package mod.azure.doom.entity.projectiles;
 
+import mod.azure.doom.entity.IconofsinEntity;
 import mod.azure.doom.util.packets.EntityPacket;
 import mod.azure.doom.util.registry.DoomItems;
 import mod.azure.doom.util.registry.ProjectilesEntityRegister;
@@ -53,6 +54,14 @@ public class ChaingunBulletEntity extends PersistentProjectileEntity {
 	}
 
 	@Override
+	protected void onHit(LivingEntity living) {
+		super.onHit(living);
+		if (!(living instanceof PlayerEntity) && !(living instanceof IconofsinEntity)) {
+			living.timeUntilRegen = 0;
+		}
+	}
+
+	@Override
 	public Packet<?> createSpawnPacket() {
 		return EntityPacket.createPacket(this);
 	}
@@ -95,7 +104,7 @@ public class ChaingunBulletEntity extends PersistentProjectileEntity {
 			this.prevYaw = this.yaw;
 			this.prevPitch = this.pitch;
 		}
-		if (this.age >= 600) {
+		if (this.age >= 40) {
 			this.remove();
 		}
 		if (this.inAir && !bl) {
