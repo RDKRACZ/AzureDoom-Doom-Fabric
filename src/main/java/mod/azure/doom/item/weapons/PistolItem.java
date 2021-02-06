@@ -56,6 +56,8 @@ public class PistolItem extends Item {
 							1.0F * 3.0F, 1.0F);
 
 					abstractarrowentity.setDamage(2.5);
+					abstractarrowentity.age = 35;
+					abstractarrowentity.hasNoGravity();
 
 					stack.damage(1, entityLiving, p -> p.sendToolBreakStatus(entityLiving.getActiveHand()));
 					worldIn.spawnEntity(abstractarrowentity);
@@ -71,7 +73,7 @@ public class PistolItem extends Item {
 		if (user.getStackInHand(hand).getItem() instanceof PistolItem) {
 			while (user.getStackInHand(hand).getDamage() != 0 && user.inventory.count(DoomItems.BULLETS) > 0) {
 				removeAmmo(DoomItems.BULLETS, user);
-				user.getStackInHand(hand).damage(-1, user, s -> user.sendToolBreakStatus(hand));
+				user.getStackInHand(hand).damage(-10, user, s -> user.sendToolBreakStatus(hand));
 				user.getStackInHand(hand).setCooldown(3);
 			}
 		}

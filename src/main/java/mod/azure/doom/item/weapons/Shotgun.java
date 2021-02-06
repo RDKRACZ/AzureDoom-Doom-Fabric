@@ -4,7 +4,7 @@ import java.util.List;
 
 import io.netty.buffer.Unpooled;
 import mod.azure.doom.DoomMod;
-import mod.azure.doom.client.Clientnit;
+import mod.azure.doom.client.ClientInit;
 import mod.azure.doom.entity.projectiles.ShotgunShellEntity;
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.enums.DoomTier;
@@ -134,7 +134,7 @@ public class Shotgun extends Item implements IAnimatable {
 		if (user.getStackInHand(hand).getItem() instanceof Shotgun) {
 			while (user.getStackInHand(hand).getDamage() != 0 && user.inventory.count(DoomItems.SHOTGUN_SHELLS) > 0) {
 				removeAmmo(DoomItems.SHOTGUN_SHELLS, user);
-				user.getStackInHand(hand).damage(-1, user, s -> user.sendToolBreakStatus(hand));
+				user.getStackInHand(hand).damage(-4, user, s -> user.sendToolBreakStatus(hand));
 				user.getStackInHand(hand).setCooldown(3);
 			}
 		}

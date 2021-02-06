@@ -57,7 +57,7 @@ public class BFG extends Item implements IAnimatable {
 	}
 
 	public BFG() {
-		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(301));
+		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(401));
 	}
 
 	@Override
@@ -84,7 +84,7 @@ public class BFG extends Item implements IAnimatable {
 
 					abstractarrowentity.setDamage(2.5);
 
-					stack.damage(1, entityLiving, p -> p.sendToolBreakStatus(entityLiving.getActiveHand()));
+					stack.damage(20, entityLiving, p -> p.sendToolBreakStatus(entityLiving.getActiveHand()));
 					worldIn.spawnEntity(abstractarrowentity);
 				}
 				worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(), playerentity.getZ(),
@@ -135,7 +135,7 @@ public class BFG extends Item implements IAnimatable {
 		if (user.getStackInHand(hand).getItem() instanceof BFG) {
 			while (user.getStackInHand(hand).getDamage() != 0 && user.inventory.count(DoomItems.BFG_CELL) > 0) {
 				removeAmmo(DoomItems.BFG_CELL, user);
-				user.getStackInHand(hand).damage(-1, user, s -> user.sendToolBreakStatus(hand));
+				user.getStackInHand(hand).damage(-20, user, s -> user.sendToolBreakStatus(hand));
 				user.getStackInHand(hand).setCooldown(3);
 			}
 		}

@@ -115,7 +115,7 @@ public class Unmaykr extends Item {
 		if (user.getStackInHand(hand).getItem() instanceof Unmaykr) {
 			while (user.getStackInHand(hand).getDamage() != 0 && user.inventory.count(DoomItems.UNMAKRY_BOLT) > 0) {
 				removeAmmo(DoomItems.UNMAKRY_BOLT, user);
-				user.getStackInHand(hand).damage(-1, user, s -> user.sendToolBreakStatus(hand));
+				user.getStackInHand(hand).damage(-20, user, s -> user.sendToolBreakStatus(hand));
 				user.getStackInHand(hand).setCooldown(3);
 			}
 		}

@@ -59,7 +59,7 @@ public class SwordCrucibleItem extends SwordItem {
 			while (user.getStackInHand(hand).getDamage() != 0
 					&& user.inventory.count(DoomBlocks.ARGENT_BLOCK.asItem()) > 0) {
 				removeAmmo(DoomBlocks.ARGENT_BLOCK.asItem(), user);
-				user.getStackInHand(hand).damage(-1, user, s -> user.sendToolBreakStatus(hand));
+				user.getStackInHand(hand).damage(-5, user, s -> user.sendToolBreakStatus(hand));
 				user.getStackInHand(hand).setCooldown(3);
 			}
 		}

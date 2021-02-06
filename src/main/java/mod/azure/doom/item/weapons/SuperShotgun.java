@@ -134,7 +134,7 @@ public class SuperShotgun extends Item implements IAnimatable {
 		if (user.getStackInHand(hand).getItem() instanceof SuperShotgun) {
 			while (user.getStackInHand(hand).getDamage() != 0 && user.inventory.count(DoomItems.SHOTGUN_SHELLS) > 0) {
 				removeAmmo(DoomItems.SHOTGUN_SHELLS, user);
-				user.getStackInHand(hand).damage(-2, user, s -> user.sendToolBreakStatus(hand));
+				user.getStackInHand(hand).damage(-4, user, s -> user.sendToolBreakStatus(hand));
 				user.getStackInHand(hand).setCooldown(3);
 			}
 		}
