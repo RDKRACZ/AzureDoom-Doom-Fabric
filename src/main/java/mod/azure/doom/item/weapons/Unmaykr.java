@@ -4,7 +4,7 @@ import java.util.List;
 
 import io.netty.buffer.Unpooled;
 import mod.azure.doom.DoomMod;
-import mod.azure.doom.client.Clientnit;
+import mod.azure.doom.client.ClientInit;
 import mod.azure.doom.entity.projectiles.UnmaykrBoltEntity;
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.enums.DoomTier;
@@ -124,7 +124,7 @@ public class Unmaykr extends Item {
 	@Override
 	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
 		if (world.isClient) {
-			if (((PlayerEntity) entity).getMainHandStack().getItem() instanceof Unmaykr && Clientnit.reload.isPressed()
+			if (((PlayerEntity) entity).getMainHandStack().getItem() instanceof Unmaykr && ClientInit.reload.isPressed()
 					&& selected) {
 				PacketByteBuf passedData = new PacketByteBuf(Unpooled.buffer());
 				passedData.writeBoolean(true);

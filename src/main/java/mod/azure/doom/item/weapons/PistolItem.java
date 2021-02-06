@@ -4,7 +4,7 @@ import java.util.List;
 
 import io.netty.buffer.Unpooled;
 import mod.azure.doom.DoomMod;
-import mod.azure.doom.client.Clientnit;
+import mod.azure.doom.client.ClientInit;
 import mod.azure.doom.entity.projectiles.BulletEntity;
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.enums.DoomTier;
@@ -81,7 +81,7 @@ public class PistolItem extends Item {
 	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
 		if (world.isClient) {
 			if (((PlayerEntity) entity).getMainHandStack().getItem() instanceof PistolItem
-					&& Clientnit.reload.isPressed() && selected) {
+					&& ClientInit.reload.isPressed() && selected) {
 				PacketByteBuf passedData = new PacketByteBuf(Unpooled.buffer());
 				passedData.writeBoolean(true);
 				ClientPlayNetworking.send(DoomMod.PISTOL, passedData);

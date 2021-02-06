@@ -4,7 +4,7 @@ import java.util.List;
 
 import io.netty.buffer.Unpooled;
 import mod.azure.doom.DoomMod;
-import mod.azure.doom.client.Clientnit;
+import mod.azure.doom.client.ClientInit;
 import mod.azure.doom.util.enums.DoomTier;
 import mod.azure.doom.util.registry.DoomItems;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -61,7 +61,7 @@ public class Chainsaw extends Item {
 			entityIn.getEntityWorld().getOtherEntities(user, aabb).forEach(e -> addParticle(e));
 		}
 		if (worldIn.isClient) {
-			if (player.getMainHandStack().getItem() instanceof Chainsaw && Clientnit.reload.isPressed() && isSelected) {
+			if (player.getMainHandStack().getItem() instanceof Chainsaw && ClientInit.reload.isPressed() && isSelected) {
 				PacketByteBuf passedData = new PacketByteBuf(Unpooled.buffer());
 				passedData.writeBoolean(true);
 				ClientPlayNetworking.send(DoomMod.CHAINSAW, passedData);

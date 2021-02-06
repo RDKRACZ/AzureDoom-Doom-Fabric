@@ -33,7 +33,7 @@ import top.theillusivec4.curios.api.type.component.IRenderableCurio;
 
 @SuppressWarnings("deprecation")
 @Environment(EnvType.CLIENT)
-public class Clientnit implements ClientModInitializer {
+public class ClientInit implements ClientModInitializer {
 
 	public static KeyBinding reload = new KeyBinding("key.doom.reload", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R,
 			"category.doom.binds");

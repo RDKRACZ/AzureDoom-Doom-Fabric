@@ -143,7 +143,7 @@ public class Shotgun extends Item implements IAnimatable {
 	@Override
 	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
 		if (world.isClient) {
-			if (((PlayerEntity) entity).getMainHandStack().getItem() instanceof Shotgun && Clientnit.reload.isPressed()
+			if (((PlayerEntity) entity).getMainHandStack().getItem() instanceof Shotgun && ClientInit.reload.isPressed()
 					&& selected) {
 				PacketByteBuf passedData = new PacketByteBuf(Unpooled.buffer());
 				passedData.writeBoolean(true);

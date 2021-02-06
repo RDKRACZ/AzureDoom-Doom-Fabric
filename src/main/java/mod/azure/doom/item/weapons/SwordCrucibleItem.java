@@ -4,7 +4,7 @@ import java.util.List;
 
 import io.netty.buffer.Unpooled;
 import mod.azure.doom.DoomMod;
-import mod.azure.doom.client.Clientnit;
+import mod.azure.doom.client.ClientInit;
 import mod.azure.doom.util.enums.DoomTier;
 import mod.azure.doom.util.registry.DoomBlocks;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -69,7 +69,7 @@ public class SwordCrucibleItem extends SwordItem {
 	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
 		if (world.isClient) {
 			if (((PlayerEntity) entity).getMainHandStack().getItem() instanceof SwordCrucibleItem
-					&& Clientnit.reload.isPressed() && selected) {
+					&& ClientInit.reload.isPressed() && selected) {
 				PacketByteBuf passedData = new PacketByteBuf(Unpooled.buffer());
 				passedData.writeBoolean(true);
 				ClientPlayNetworking.send(DoomMod.CRUCIBLE, passedData);
