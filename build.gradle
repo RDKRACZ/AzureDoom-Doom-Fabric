@@ -1,8 +1,18 @@
+buildscript {
+    repositories {
+        jcenter()
+    	maven { url  = 'https://plugins.gradle.org/m2/' }
+    }
+}
+
 plugins {
 	id 'fabric-loom' version '0.5-SNAPSHOT'
 	id 'maven-publish'
     id 'com.matthewprenger.cursegradle' version '1.4.0'
 }
+
+import groovy.json.JsonSlurper
+import groovy.json.JsonOutput
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
@@ -19,7 +29,7 @@ dependencies {
         exclude(module: "fabric-dimensions")
         exclude(module: "fabric-biomes")
     }
-    modImplementation 'software.bernie.geckolib:fabric-1.16.5-geckolib:3.0.7:dev'
+    modImplementation 'software.bernie.geckolib:geckolib-fabric-1.16.5:3.0.16:dev'
 	modImplementation "top.theillusivec4.curios:curios-fabric:${curios_version}"
 	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:${cardinal_version}"
     modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:${cardinal_version}"
@@ -32,6 +42,7 @@ dependencies {
     modImplementation("me.sargunvohra.mcmods:autoconfig1u:3.3.1") {
       exclude module: 'fabric-api'
     }
+	modImplementation 'curse.maven:TDI-245733:3144149'
     //modImplementation "curse.maven:BN-311377:3173627"
     modImplementation "vazkii.patchouli:Patchouli:1.16.4-48-FABRIC"	
     include "me.sargunvohra.mcmods:autoconfig1u:3.3.1"
@@ -57,8 +68,10 @@ repositories {
         name = "OnyxStudios"
         url = "https://maven.abusedmaster.xyz"
     }
+	maven { url  = 'https://plugins.gradle.org/m2/' }
     maven { url 'https://repo.repsy.io/mvn/gandiber/geckolib' }
     maven { url 'https://maven.blamejared.com' }
+    maven { url  = 'https://plugins.gradle.org/m2/' }
 }
 
 processResources {
@@ -72,6 +85,22 @@ processResources {
 	from(sourceSets.main.resources.srcDirs) {
 		exclude "fabric.mod.json"
 	}
+}
+
+processResources {
+	doLast {
+        def jsonMinifyStart = System.currentTimeMillis()
+        def jsonMinified = 0
+        def jsonBytesSaved = 0
+        fileTree(dir: outputs.files.asPath, include: '**/*.json').each { 
+            File file = it
+            jsonMinified++
+            def oldLength = file.length()
+            file.text = JsonOutput.toJson(new JsonSlurper().parse(file))
+            jsonBytesSaved += oldLength - file.length()
+        }
+        println('Minified ' + jsonMinified + ' json files. Saved ' + jsonBytesSaved + ' bytes. Took ' + (System.currentTimeMillis() - jsonMinifyStart) + 'ms.')
+    }
 }
 
 tasks.withType(JavaCompile) {
