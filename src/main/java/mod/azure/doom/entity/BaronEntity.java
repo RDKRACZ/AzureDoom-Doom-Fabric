@@ -62,15 +62,20 @@ public class BaronEntity extends DemonEntity implements IAnimatable {
 	private AnimationFactory factory = new AnimationFactory(this);
 
 	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-		if (event.isMoving()) { //&& !this.dataManager.get(ATTACKING)) {
+		if (event.isMoving() && !this.dataTracker.get(SHOOTING)) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
 			return PlayState.CONTINUE;
 		}
-//		if (this.dataTracker.get(SHOOTING)) {
-//			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking", true));
-//			return PlayState.CONTINUE;
-//		}
-		return PlayState.STOP;
+		if (this.dataTracker.get(SHOOTING) && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking"));
+			return PlayState.CONTINUE;
+		}
+		if ((this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("death", false));
+			return PlayState.CONTINUE;
+		}
+		event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
+		return PlayState.CONTINUE;
 	}
 
 	@Override
@@ -109,10 +114,8 @@ public class BaronEntity extends DemonEntity implements IAnimatable {
 		this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
 		this.goalSelector.add(6, new LookAroundGoal(this));
 		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
-		this.goalSelector.add(4,
-				new RangedStaticAttackGoal(this,
-						new BaronEntity.FireballAttack(this).setProjectileOriginOffset(0.8, 0.8, 0.8).setDamage(config.baron_ranged_damage), 60,
-						20, 30F));
+		this.goalSelector.add(4, new RangedStaticAttackGoal(this, new BaronEntity.FireballAttack(this)
+				.setProjectileOriginOffset(0.8, 0.8, 0.8).setDamage(config.baron_ranged_damage), 60, 20, 30F));
 		this.goalSelector.add(4, new DemonAttackGoal(this, 1.0D, false));
 		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]).setGroupRevenge());
 		this.targetSelector.add(2, new FollowTargetGoal(this, PlayerEntity.class, true));
@@ -144,7 +147,8 @@ public class BaronEntity extends DemonEntity implements IAnimatable {
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
 		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
-				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25D).add(EntityAttributes.GENERIC_MAX_HEALTH, config.baron_health)
+				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25D)
+				.add(EntityAttributes.GENERIC_MAX_HEALTH, config.baron_health)
 				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, config.baron_melee_damage)
 				.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
 	}

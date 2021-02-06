@@ -5,6 +5,7 @@ import java.util.Random;
 
 import org.jetbrains.annotations.Nullable;
 
+import mod.azure.doom.entity.ai.goal.RandomFlyConvergeOnTargetGoal;
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.packets.EntityPacket;
 import net.fabricmc.api.EnvType;
@@ -18,6 +19,7 @@ import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.ai.goal.FollowTargetGoal;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.goal.RevengeGoal;
 import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -153,6 +155,8 @@ public class LostSoulEntity extends DemonEntity implements Monster, IAnimatable 
 
 	@Override
 	protected void initGoals() {
+		this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
+		this.goalSelector.add(5, new RandomFlyConvergeOnTargetGoal(this, 4, 15, 0.5));
 		this.goalSelector.add(7, new LostSoulEntity.LookAtTargetGoal(this));
 		this.goalSelector.add(4, new LostSoulEntity.ChargeTargetGoal());
 		this.goalSelector.add(5, new WanderAroundFarGoal(this, 1.0D));
@@ -204,7 +208,7 @@ public class LostSoulEntity extends DemonEntity implements Monster, IAnimatable 
 		public void start() {
 			LivingEntity livingEntity = LostSoulEntity.this.getTarget();
 			Vec3d vec3d = livingEntity.getCameraPosVec(1.0F);
-			LostSoulEntity.this.moveControl.moveTo(vec3d.x, vec3d.y, vec3d.z, 1.0D);
+			LostSoulEntity.this.moveControl.moveTo(vec3d.x, vec3d.y, vec3d.z, 4.0D);
 			LostSoulEntity.this.setCharging(true);
 			LostSoulEntity.this.playSound(ModSoundEvents.LOST_SOUL_AMBIENT, 1.0F, 1.0F);
 		}

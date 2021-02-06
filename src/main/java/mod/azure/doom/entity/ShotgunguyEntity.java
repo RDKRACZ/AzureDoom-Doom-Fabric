@@ -139,16 +139,6 @@ public class ShotgunguyEntity extends DemonEntity implements RangedAttackMob, IA
 		entityData = super.initialize(serverWorldAccess, difficulty, spawnReason, entityData, entityTag);
 		this.updateAttackType();
 		this.initEquipment(difficulty);
-		if (this.getEquippedStack(EquipmentSlot.HEAD).isEmpty()) {
-			LocalDate localDate = LocalDate.now();
-			int i = localDate.get(ChronoField.DAY_OF_MONTH);
-			int j = localDate.get(ChronoField.MONTH_OF_YEAR);
-			if (j == 10 && i == 31 && this.random.nextFloat() < 0.25F) {
-				this.equipStack(EquipmentSlot.HEAD,
-						new ItemStack(this.random.nextFloat() < 0.1F ? Blocks.JACK_O_LANTERN : Blocks.CARVED_PUMPKIN));
-				this.armorDropChances[EquipmentSlot.HEAD.getEntitySlotId()] = 0.0F;
-			}
-		}
 
 		return entityData;
 	}

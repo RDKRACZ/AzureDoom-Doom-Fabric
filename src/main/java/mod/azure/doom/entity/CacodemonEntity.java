@@ -22,6 +22,7 @@ import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.ai.goal.FollowTargetGoal;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.goal.RevengeGoal;
 import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -175,6 +176,7 @@ public class CacodemonEntity extends DemonEntity implements Monster, IAnimatable
 	protected void initGoals() {
 		this.goalSelector.add(5, new RandomFlyConvergeOnTargetGoal(this, 2, 15, 0.5));
 		this.goalSelector.add(7, new CacodemonEntity.LookAtTargetGoal(this));
+		this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
 		this.goalSelector.add(4, new RangedStaticAttackGoal(this,
 				new FireballAttack(this, true).setDamage(10).setProjectileOriginOffset(1.5, 0.3, 1.5).setSound(
 						ModSoundEvents.CACODEMON_FIREBALL, 1.0F, 1.2F / (this.getRandom().nextFloat() * 0.2F + 0.9F)),

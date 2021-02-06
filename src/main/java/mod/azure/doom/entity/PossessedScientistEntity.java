@@ -53,11 +53,8 @@ public class PossessedScientistEntity extends DemonEntity implements IAnimatable
 				return PlayState.CONTINUE;
 			}
 		}
-		if ((lastLimbDistance > -0.10F && lastLimbDistance < 0.10F) && !this.isAttacking()) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
-			return PlayState.CONTINUE;
-		}
-		return PlayState.STOP;
+		event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
+		return PlayState.CONTINUE;
 	}
 
 	@Override
