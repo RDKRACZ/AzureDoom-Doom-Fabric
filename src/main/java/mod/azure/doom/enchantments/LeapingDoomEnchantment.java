@@ -18,12 +18,12 @@ public class LeapingDoomEnchantment extends Enchantment {
 
 	@Override
 	public int getMaxPower(int level) {
-		return level * 15;
+		return 1;
 	}
 
 	@Override
 	public int getMinPower(int level) {
-		return this.getMinPower(level) + 10;
+		return 1;
 	}
 
 	@Override
