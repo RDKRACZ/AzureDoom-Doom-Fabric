@@ -53,6 +53,8 @@ public class RocketLauncher extends Item {
 					RocketEntity abstractarrowentity = createArrow(worldIn, stack, playerentity);
 					abstractarrowentity.setProperties(playerentity, playerentity.pitch, playerentity.yaw, 0.0F,
 							0.25F * 3.0F, 1.0F);
+					abstractarrowentity.refreshPositionAndAngles(entityLiving.getX(), entityLiving.getBodyY(0.5),
+							entityLiving.getZ(), 0, 0);
 
 					abstractarrowentity.setDamage(2.5);
 
@@ -89,13 +91,8 @@ public class RocketLauncher extends Item {
 	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
 		ItemStack itemStack = user.getStackInHand(hand);
-		boolean bl = !user.getArrowType(itemStack).isEmpty();
-		if (!user.abilities.creativeMode && !bl) {
-			return TypedActionResult.fail(itemStack);
-		} else {
-			user.setCurrentHand(hand);
-			return TypedActionResult.consume(itemStack);
-		}
+		user.setCurrentHand(hand);
+		return TypedActionResult.consume(itemStack);
 	}
 
 	public void reload(PlayerEntity user, Hand hand) {

@@ -42,5 +42,10 @@ public class DemonAttackGoal extends MeleeAttackGoal {
 		}
 
 	}
+	
+	@Override
+	protected double getSquaredMaxAttackDistance(LivingEntity entity) {
+		return (double)(this.mob.getWidth() * 1.0F * this.mob.getWidth() * 1.0F + entity.getWidth());
+	}
 
 }

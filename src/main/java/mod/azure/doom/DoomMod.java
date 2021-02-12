@@ -9,6 +9,8 @@ import mod.azure.doom.item.weapons.BFG9000;
 import mod.azure.doom.item.weapons.Ballista;
 import mod.azure.doom.item.weapons.Chaingun;
 import mod.azure.doom.item.weapons.Chainsaw;
+import mod.azure.doom.item.weapons.ChainsawAnimated;
+import mod.azure.doom.item.weapons.HeavyCannon;
 import mod.azure.doom.item.weapons.PistolItem;
 import mod.azure.doom.item.weapons.PlasmaGun;
 import mod.azure.doom.item.weapons.RocketLauncher;
@@ -89,6 +91,8 @@ public class DoomMod implements ModInitializer {
 	public static final Identifier UNMAYKR = new Identifier(MODID, "unmaykr");
 	public static final Identifier CRUCIBLE = new Identifier(MODID, "crucible");
 	public static final Identifier CHAINSAW = new Identifier(MODID, "chainsaw");
+	public static final Identifier CHAINSAW_ETERNAL = new Identifier(MODID, "chainsaweternal");
+	public static final Identifier HEAVYCANNON = new Identifier(MODID, "heavycannon");
 
 	@Override
 	public void onInitialize() {
@@ -195,6 +199,13 @@ public class DoomMod implements ModInitializer {
 					}
 					;
 				});
+		ServerPlayNetworking.registerGlobalReceiver(CHAINSAW_ETERNAL,
+				(server, player, serverPlayNetworkHandler, inputPacket, packetSender) -> {
+					if (player.getMainHandStack().getItem() instanceof ChainsawAnimated) {
+						((ChainsawAnimated) player.getMainHandStack().getItem()).reload(player, Hand.MAIN_HAND);
+					}
+					;
+				});
 		ServerPlayNetworking.registerGlobalReceiver(CHAINSAW,
 				(server, player, serverPlayNetworkHandler, inputPacket, packetSender) -> {
 					if (player.getMainHandStack().getItem() instanceof Chainsaw) {
@@ -269,6 +280,13 @@ public class DoomMod implements ModInitializer {
 				(server, player, serverPlayNetworkHandler, inputPacket, packetSender) -> {
 					if (player.getMainHandStack().getItem() instanceof Unmaykr) {
 						((Unmaykr) player.getMainHandStack().getItem()).reload(player, Hand.MAIN_HAND);
+					}
+					;
+				});
+		ServerPlayNetworking.registerGlobalReceiver(HEAVYCANNON,
+				(server, player, serverPlayNetworkHandler, inputPacket, packetSender) -> {
+					if (player.getMainHandStack().getItem() instanceof HeavyCannon) {
+						((HeavyCannon) player.getMainHandStack().getItem()).reload(player, Hand.MAIN_HAND);
 					}
 					;
 				});

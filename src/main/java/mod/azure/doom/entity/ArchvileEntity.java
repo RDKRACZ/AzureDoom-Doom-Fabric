@@ -2,16 +2,21 @@ package mod.azure.doom.entity;
 
 import java.util.List;
 import java.util.Random;
+import java.util.function.Predicate;
+
+import org.jetbrains.annotations.Nullable;
 
 import mod.azure.doom.entity.projectiles.entity.ArchvileFiring;
 import mod.azure.doom.util.ModSoundEvents;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.goal.FollowTargetGoal;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
@@ -28,7 +33,9 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
@@ -41,6 +48,7 @@ import net.minecraft.world.World;
 public class ArchvileEntity extends DemonEntity {
 	private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(ArchvileEntity.class,
 			TrackedDataHandlerRegistry.BOOLEAN);
+	private int ageWhenTargetSet;
 
 	public ArchvileEntity(EntityType<ArchvileEntity> entityType, World worldIn) {
 		super(entityType, worldIn);
@@ -112,6 +120,7 @@ public class ArchvileEntity extends DemonEntity {
 		this.goalSelector.add(8, new LookAroundGoal(this));
 		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
 		this.goalSelector.add(7, new ArchvileEntity.AttackGoal(this));
+		this.targetSelector.add(1, new ArchvileEntity.TeleportTowardsPlayerGoal(this, this::shouldAngerAt));
 		this.targetSelector.add(2, new RevengeGoal(this).setGroupRevenge());
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, MerchantEntity.class, true));
@@ -208,6 +217,153 @@ public class ArchvileEntity extends DemonEntity {
 		}
 	}
 
+	static class TeleportTowardsPlayerGoal extends FollowTargetGoal<PlayerEntity> {
+		private final ArchvileEntity enderman;
+		private PlayerEntity targetPlayer;
+		private int lookAtPlayerWarmup;
+		private int ticksSinceUnseenTeleport;
+		private final TargetPredicate staringPlayerPredicate;
+		private final TargetPredicate validTargetPredicate = (new TargetPredicate()).includeHidden();
+
+		public TeleportTowardsPlayerGoal(ArchvileEntity enderman, @Nullable Predicate<LivingEntity> predicate) {
+			super(enderman, PlayerEntity.class, 10, false, false, predicate);
+			this.enderman = enderman;
+			this.staringPlayerPredicate = (new TargetPredicate()).setBaseMaxDistance(this.getFollowRange())
+					.setPredicate((playerEntity) -> {
+						return enderman.isPlayerStaring((PlayerEntity) playerEntity);
+					});
+		}
+
+		public boolean canStart() {
+			this.targetPlayer = this.enderman.world.getClosestPlayer(this.staringPlayerPredicate, this.enderman);
+			return this.targetPlayer != null;
+		}
+
+		public void start() {
+			this.lookAtPlayerWarmup = 5;
+			this.ticksSinceUnseenTeleport = 0;
+		}
+
+		public void stop() {
+			this.targetPlayer = null;
+			super.stop();
+		}
+
+		public boolean shouldContinue() {
+			if (this.targetPlayer != null) {
+				if (!this.enderman.isPlayerStaring(this.targetPlayer)) {
+					return false;
+				} else {
+					this.enderman.lookAtEntity(this.targetPlayer, 10.0F, 10.0F);
+					return true;
+				}
+			} else {
+				return this.targetEntity != null && this.validTargetPredicate.test(this.enderman, this.targetEntity)
+						? true
+						: super.shouldContinue();
+			}
+		}
+
+		public void tick() {
+			if (this.enderman.getTarget() == null) {
+				super.setTargetEntity((LivingEntity) null);
+			}
+
+			if (this.targetPlayer != null) {
+				if (--this.lookAtPlayerWarmup <= 0) {
+					this.targetEntity = this.targetPlayer;
+					this.targetPlayer = null;
+					super.start();
+				}
+			} else {
+				if (this.targetEntity != null && !this.enderman.hasVehicle()) {
+					if (this.enderman.isPlayerStaring((PlayerEntity) this.targetEntity)) {
+						if (this.targetEntity.squaredDistanceTo(this.enderman) < 16.0D) {
+							this.enderman.teleportRandomly();
+						}
+
+						this.ticksSinceUnseenTeleport = 0;
+					} else if (this.targetEntity.squaredDistanceTo(this.enderman) > 256.0D
+							&& this.ticksSinceUnseenTeleport++ >= 30 && this.enderman.teleportTo(this.targetEntity)) {
+						this.ticksSinceUnseenTeleport = 0;
+					}
+				}
+
+				super.tick();
+			}
+
+		}
+	}
+
+	private boolean isPlayerStaring(PlayerEntity player) {
+		ItemStack itemStack = (ItemStack) player.inventory.armor.get(3);
+		if (itemStack.getItem() == Blocks.CARVED_PUMPKIN.asItem()) {
+			return false;
+		} else {
+			Vec3d vec3d = player.getRotationVec(1.0F).normalize();
+			Vec3d vec3d2 = new Vec3d(this.getX() - player.getX(), this.getEyeY() - player.getEyeY(),
+					this.getZ() - player.getZ());
+			double d = vec3d2.length();
+			vec3d2 = vec3d2.normalize();
+			double e = vec3d.dotProduct(vec3d2);
+			return e > 1.0D - 0.025D / d ? player.canSee(this) : false;
+		}
+	}
+
+	@Override
+	protected void mobTick() {
+		if (this.world.isDay() && this.age >= this.ageWhenTargetSet + 600) {
+			float f = this.getBrightnessAtEyes();
+			if (f > 0.5F && this.world.isSkyVisible(this.getBlockPos())
+					&& this.random.nextFloat() * 30.0F < (f - 0.4F) * 2.0F) {
+				this.setTarget((LivingEntity) null);
+				this.teleportRandomly();
+			}
+		}
+
+		super.mobTick();
+	}
+
+	protected boolean teleportRandomly() {
+		if (!this.world.isClient() && this.isAlive()) {
+			double d = this.getX() + (this.random.nextDouble() - 0.5D) * 10.0D;
+			double e = this.getY() + (double) (this.random.nextInt(64) - 10);
+			double f = this.getZ() + (this.random.nextDouble() - 0.5D) * 10.0D;
+			return this.teleportTo(d, e, f);
+		} else {
+			return false;
+		}
+	}
+
+	private boolean teleportTo(Entity entity) {
+		Vec3d vec3d = new Vec3d(this.getX() - entity.getX(), this.getBodyY(0.5D) - entity.getEyeY(),
+				this.getZ() - entity.getZ());
+		vec3d = vec3d.normalize();
+		double e = this.getX() + (this.random.nextDouble() - 0.5D) * 8.0D - vec3d.x * 10.0D;
+		double f = this.getY() + (double) (this.random.nextInt(16) - 8) - vec3d.y * 10.0D;
+		double g = this.getZ() + (this.random.nextDouble() - 0.5D) * 8.0D - vec3d.z * 10.0D;
+		return this.teleportTo(e, f, g);
+	}
+
+	private boolean teleportTo(double x, double y, double z) {
+		BlockPos.Mutable mutable = new BlockPos.Mutable(x, y, z);
+
+		while (mutable.getY() > 0 && !this.world.getBlockState(mutable).getMaterial().blocksMovement()) {
+			mutable.move(Direction.DOWN);
+		}
+
+		BlockState blockState = this.world.getBlockState(mutable);
+		boolean bl = blockState.getMaterial().blocksMovement();
+		boolean bl2 = blockState.getFluidState().isIn(FluidTags.WATER);
+		if (bl && !bl2) {
+			boolean bl3 = this.teleport(x, y, z, true);
+
+			return bl3;
+		} else {
+			return false;
+		}
+	}
+
 	private void conjureFangs(double x, double z, double maxY, double y, float yaw, int warmup) {
 		BlockPos blockPos = new BlockPos(x, y, z);
 		boolean bl = false;
@@ -237,10 +393,6 @@ public class ArchvileEntity extends DemonEntity {
 			this.world.spawnEntity(fang);
 		}
 
-	}
-
-	protected void mobTick() {
-		super.mobTick();
 	}
 
 	@Override

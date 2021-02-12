@@ -17,14 +17,21 @@ public class ModSoundEvents {
 	public static SoundEvent ROCKET_FIRING = of("doom.rocketfire");
 	public static SoundEvent ROCKET_HIT = of("doom.rockethit");
 
+	public static SoundEvent HEAVY_CANNON = of("doom.heavy_cannon");
+
 	public static SoundEvent SHOOT1 = of("doom.shoot1");
+
+	public static SoundEvent CHAINSAW_IDLE = of("doom.chainsaw_idle");
+	public static SoundEvent CHAINSAW_ATTACKING = of("doom.chainsaw_attacking");
 
 	public static SoundEvent CHAINGUN_SHOOT = of("doom.chaingun_fire");
 
 	public static SoundEvent PISTOL_HIT = of("doom.pistol_fire");
 
 	public static SoundEvent SHOTGUN_SHOOT = of("doom.shotgun_fire");
-	
+
+	public static SoundEvent SUPER_SHOTGUN_SHOOT = of("doom.super_shotgun_fire");
+
 	public static SoundEvent UNMAKYR_FIRE = of("doom.unmakyr_fire");
 
 	public static SoundEvent LOADING_END = of("doom.loading_end");
@@ -104,6 +111,20 @@ public class ModSoundEvents {
 	public static SoundEvent ICON_AMBIENT = of("doom.icon_ambient");
 	public static SoundEvent ICON_DEATH = of("doom.icon_death");
 	public static SoundEvent ICON_HURT = of("doom.icon_hurt");
+
+	public static SoundEvent BALLISTA_FIRING = of("doom.ballista_firing");
+
+	public static SoundEvent PSOLDIER_AMBIENT = of("doom.psoldier_idle");
+	public static SoundEvent PSOLDIER_DEATH = of("doom.psoldier_death");
+	public static SoundEvent PSOLDIER_HURT = of("doom.psoldier_hit");
+
+	public static SoundEvent GARGOLYE_AMBIENT = of("doom.gargolye_idle");
+	public static SoundEvent GARGOLYE_DEATH = of("doom.gargolye_death");
+	public static SoundEvent GARGOLYE_HURT = of("doom.gargolye_hit");
+
+	public static SoundEvent MECHA_AMBIENT = of("doom.mecha_idle");
+	public static SoundEvent MECHA_DEATH = of("doom.mecha_death");
+	public static SoundEvent MECHA_HURT = of("doom.mecha_hit");
 
 	static SoundEvent of(String id) {
 		SoundEvent sound = new SoundEvent(new Identifier(DoomMod.MODID, id));

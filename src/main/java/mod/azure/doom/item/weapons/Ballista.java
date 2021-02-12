@@ -76,7 +76,7 @@ public class Ballista extends Item implements IAnimatable {
 			PlayerEntity playerentity = (PlayerEntity) entityLiving;
 
 			if (stack.getDamage() < (stack.getMaxDamage() - 1)) {
-				playerentity.getItemCooldownManager().set(this, 60);
+				playerentity.getItemCooldownManager().set(this, 25);
 				if (!worldIn.isClient) {
 					ArgentBoltEntity abstractarrowentity = createArrow(worldIn, stack, playerentity);
 					abstractarrowentity.setProperties(playerentity, playerentity.pitch, playerentity.yaw, 0.0F,
@@ -88,7 +88,7 @@ public class Ballista extends Item implements IAnimatable {
 					worldIn.spawnEntity(abstractarrowentity);
 				}
 				worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(), playerentity.getZ(),
-						ModSoundEvents.ROCKET_FIRING, SoundCategory.PLAYERS, 1.0F,
+						ModSoundEvents.BALLISTA_FIRING, SoundCategory.PLAYERS, 1.0F,
 						1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + 1F * 0.5F);
 			}
 			AnimationController<?> controller = GeckoLibUtil.getControllerForStack(this.factory, stack, controllerName);

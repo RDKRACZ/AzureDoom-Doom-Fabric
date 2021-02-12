@@ -28,6 +28,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.LocalDifficulty;
@@ -134,21 +135,21 @@ public class MarauderEntity extends DemonEntity implements IAnimatable {
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return ModSoundEvents.BARON_AMBIENT;
+		return ModSoundEvents.ZOMBIEMAN_AMBIENT;
 	}
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-		return ModSoundEvents.BARON_HURT;
+		return ModSoundEvents.ZOMBIEMAN_HURT;
 	}
 
 	@Override
 	protected SoundEvent getDeathSound() {
-		return ModSoundEvents.BARON_DEATH;
+		return ModSoundEvents.ZOMBIEMAN_DEATH;
 	}
 
 	protected SoundEvent getStepSound() {
-		return ModSoundEvents.BARON_STEP;
+		return SoundEvents.ENTITY_ZOMBIE_STEP;
 	}
 
 	@Override

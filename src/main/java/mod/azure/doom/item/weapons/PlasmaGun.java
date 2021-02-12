@@ -113,13 +113,8 @@ public class PlasmaGun extends Item implements IAnimatable {
 	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
 		ItemStack itemStack = user.getStackInHand(hand);
-		boolean bl = !user.getArrowType(itemStack).isEmpty();
-		if (!user.abilities.creativeMode && !bl) {
-			return TypedActionResult.fail(itemStack);
-		} else {
-			user.setCurrentHand(hand);
-			return TypedActionResult.consume(itemStack);
-		}
+		user.setCurrentHand(hand);
+		return TypedActionResult.consume(itemStack);
 	}
 
 	public void reload(PlayerEntity user, Hand hand) {

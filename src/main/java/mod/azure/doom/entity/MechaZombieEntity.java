@@ -8,6 +8,7 @@ import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.annotati
 import mod.azure.doom.entity.ai.goal.DemonAttackGoal;
 import mod.azure.doom.entity.ai.goal.RangedStrafeAttackGoal;
 import mod.azure.doom.entity.attack.FireballAttack;
+import mod.azure.doom.util.ModSoundEvents;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
@@ -162,17 +163,17 @@ public class MechaZombieEntity extends DemonEntity implements IAnimatable {
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return SoundEvents.ENTITY_ZOMBIE_AMBIENT;
+		return ModSoundEvents.MECHA_AMBIENT;
 	}
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-		return SoundEvents.ENTITY_ZOMBIE_HURT;
+		return ModSoundEvents.MECHA_HURT;
 	}
 
 	@Override
 	protected SoundEvent getDeathSound() {
-		return SoundEvents.ENTITY_ZOMBIE_DEATH;
+		return ModSoundEvents.MECHA_DEATH;
 	}
 
 	protected SoundEvent getStepSound() {

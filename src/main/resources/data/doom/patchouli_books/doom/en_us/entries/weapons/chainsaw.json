@@ -13,6 +13,10 @@
 		},
 		{
 			"type": "crafting",
+			"recipe": "doom:chainsaweternal"
+		},
+		{
+			"type": "crafting",
 			"recipe": "doom:gas_barrel"
 		}
 	]

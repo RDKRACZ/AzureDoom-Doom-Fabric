@@ -66,7 +66,7 @@ public class Unmaykr extends Item {
 		if (entityLiving instanceof PlayerEntity) {
 			PlayerEntity playerentity = (PlayerEntity) entityLiving;
 
-			if (stack.getDamage() < (stack.getMaxDamage() - 1)) {
+			if (stack.getDamage() < (stack.getMaxDamage() - 1) && !playerentity.getItemCooldownManager().isCoolingDown(this)) {
 				playerentity.getItemCooldownManager().set(this, 5);
 				if (!worldIn.isClient) {
 					UnmaykrBoltEntity abstractarrowentity = createArrow(worldIn, stack, playerentity);

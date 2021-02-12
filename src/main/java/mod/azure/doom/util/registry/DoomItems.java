@@ -61,6 +61,8 @@ import mod.azure.doom.item.weapons.BFG9000;
 import mod.azure.doom.item.weapons.Ballista;
 import mod.azure.doom.item.weapons.Chaingun;
 import mod.azure.doom.item.weapons.Chainsaw;
+import mod.azure.doom.item.weapons.ChainsawAnimated;
+import mod.azure.doom.item.weapons.HeavyCannon;
 import mod.azure.doom.item.weapons.PistolItem;
 import mod.azure.doom.item.weapons.PlasmaGun;
 import mod.azure.doom.item.weapons.RocketLauncher;
@@ -96,6 +98,7 @@ public class DoomItems {
 	public static SuperShotgun SSG = item(new SuperShotgun(), "supershotgun");
 	public static SoulCubeItem SOULCUBE = item(new SoulCubeItem(), "soulcube");
 	public static MegaSphereItem MEGA = item(new MegaSphereItem(), "megasphere");
+	public static HeavyCannon HEAVYCANNON = item(new HeavyCannon(), "heavycannon");
 	public static ArgentBolt ARGENT_BOLT = item(new ArgentBolt(1.7F), "argent_bolt");
 	public static ArgentPaxel ARGENT_PAXEL = item(new ArgentPaxel(), "argent_paxel");
 	public static ArgentSword ARGENT_SWORD = item(new ArgentSword(), "argent_sword");
@@ -115,8 +118,10 @@ public class DoomItems {
 	public static ChaingunAmmo CHAINGUN_BULLETS = item(new ChaingunAmmo(10.0F), "chaingunbullets");
 	public static SwordCrucibleItem CRUCIBLESWORD = item(new SwordCrucibleItem(), "cruciblesword");
 	public static InvisibleSphereItem INVISIBLE = item(new InvisibleSphereItem(), "invisiblesphere");
+	public static ChainsawAnimated CHAINSAW_ETERNAL = item(new ChainsawAnimated(), "chainsaweternal");
 	public static E1M1MusicDisc E1M1_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E1M1), "e1m1_music_disc");
-	public static Item GAS_BARREL = item(new Item(new Item.Settings().group(DoomMod.DoomWeaponItemGroup)), "gas_barrel");
+	public static Item GAS_BARREL = item(new Item(new Item.Settings().group(DoomMod.DoomWeaponItemGroup)),
+			"gas_barrel");
 
 	// Spawn Eggs
 	public static DoomSpawnEgg ARACHNOTRON_SPAWN_EGG = item(new DoomSpawnEgg(MobEntityRegister.ARACHNOTRON),

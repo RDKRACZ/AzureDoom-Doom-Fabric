@@ -26,6 +26,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
+import net.minecraft.world.explosion.Explosion;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -262,6 +263,8 @@ public class RocketEntity extends PersistentProjectileEntity implements IAnimata
 				if (entity instanceof LivingEntity) {
 					entity.damage(DamageSource.player((PlayerEntity) this.shooter), 20);
 				}
+				this.world.createExplosion(this, this.getX(), this.getBodyY(0.0625D), this.getZ(), 0.0F,
+						Explosion.DestructionType.NONE);
 			}
 		}
 	}

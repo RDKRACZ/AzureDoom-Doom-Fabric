@@ -218,6 +218,7 @@ public class DoomConfig implements ConfigData {
 		public double possessed_scientist_melee_damage = 4;
 
 		public double possessed_soldier_health = 15;
+		public float possessed_ranged_damage = 4;
 		public double possessed_soldier_melee_damage = 4;
 
 		public double mechazombie_health = 25;

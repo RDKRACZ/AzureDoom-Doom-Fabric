@@ -88,7 +88,7 @@ public class Shotgun extends Item implements IAnimatable {
 				}
 				worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(), playerentity.getZ(),
 						ModSoundEvents.SHOTGUN_SHOOT, SoundCategory.PLAYERS, 1.0F,
-						1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + 1F * 0.5F);
+						1.5F);
 			}
 			AnimationController<?> controller = GeckoLibUtil.getControllerForStack(this.factory, stack, controllerName);
 			if (controller.getAnimationState() == AnimationState.Stopped) {
@@ -121,13 +121,8 @@ public class Shotgun extends Item implements IAnimatable {
 	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
 		ItemStack itemStack = user.getStackInHand(hand);
-		boolean bl = !user.getArrowType(itemStack).isEmpty();
-		if (!user.abilities.creativeMode && !bl) {
-			return TypedActionResult.fail(itemStack);
-		} else {
-			user.setCurrentHand(hand);
-			return TypedActionResult.consume(itemStack);
-		}
+		user.setCurrentHand(hand);
+		return TypedActionResult.consume(itemStack);
 	}
 
 	public void reload(PlayerEntity user, Hand hand) {

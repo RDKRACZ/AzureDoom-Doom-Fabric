@@ -75,7 +75,7 @@ public class SuperShotgun extends Item implements IAnimatable {
 		if (entityLiving instanceof PlayerEntity) {
 			PlayerEntity playerentity = (PlayerEntity) entityLiving;
 			if (stack.getDamage() < (stack.getMaxDamage() - 1)) {
-				playerentity.getItemCooldownManager().set(this, 28);
+				playerentity.getItemCooldownManager().set(this, 24);
 				if (!worldIn.isClient) {
 					ShotgunShellEntity abstractarrowentity = createArrow(worldIn, stack, playerentity);
 					abstractarrowentity.setProperties(playerentity, playerentity.pitch, playerentity.yaw, 0.0F,
@@ -87,13 +87,13 @@ public class SuperShotgun extends Item implements IAnimatable {
 					worldIn.spawnEntity(abstractarrowentity);
 				}
 				worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(), playerentity.getZ(),
-						ModSoundEvents.SHOTGUN_SHOOT, SoundCategory.PLAYERS, 1.0F,
-						1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + 1F * 0.5F);
-			}
-			AnimationController<?> controller = GeckoLibUtil.getControllerForStack(this.factory, stack, controllerName);
-			if (controller.getAnimationState() == AnimationState.Stopped) {
-				controller.markNeedsReload();
-				controller.setAnimation(new AnimationBuilder().addAnimation("firing", false));
+						ModSoundEvents.SUPER_SHOTGUN_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F);
+
+				AnimationController<?> controller = GeckoLibUtil.getControllerForStack(this.factory, stack, controllerName);
+				if (controller.getAnimationState() == AnimationState.Stopped) {
+					controller.markNeedsReload();
+					controller.setAnimation(new AnimationBuilder().addAnimation("firing", false));
+				}
 			}
 		}
 	}
@@ -121,13 +121,8 @@ public class SuperShotgun extends Item implements IAnimatable {
 	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
 		ItemStack itemStack = user.getStackInHand(hand);
-		boolean bl = !user.getArrowType(itemStack).isEmpty();
-		if (!user.abilities.creativeMode && !bl) {
-			return TypedActionResult.fail(itemStack);
-		} else {
-			user.setCurrentHand(hand);
-			return TypedActionResult.consume(itemStack);
-		}
+		user.setCurrentHand(hand);
+		return TypedActionResult.consume(itemStack);
 	}
 
 	public void reload(PlayerEntity user, Hand hand) {

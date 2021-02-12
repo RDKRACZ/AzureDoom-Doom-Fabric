@@ -1,22 +1,12 @@
 {
-  "result": {
-    "item": "doom:argent_plate"
-  },
-  "type": "minecraft:crafting_shaped",
-   "pattern": [
-        "AWA",
-        "WGW",
-        "AWA"
-    ],
-    "key": {
-        "G": {
-            "item": "minecraft:ghast_tear"
-        },
-        "A": {
-            "item": "doom:argent_energy"
-        },
-        "W": {
-            "item": "minecraft:wither_skeleton_skull"
-        }
+    "type": "minecraft:smithing",
+    "base": {
+        "item": "doom:argent_energy"
+    },
+    "addition": {
+        "item": "minecraft:iron_ingot"
+    },
+    "result": {
+        "item": "doom:argent_plate"
     }
 }

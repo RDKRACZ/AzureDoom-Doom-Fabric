@@ -1,7 +1,5 @@
 package mod.azure.doom.entity;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoField;
 import java.util.Random;
 
 import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.annotation.Nullable;
@@ -11,7 +9,6 @@ import mod.azure.doom.item.ammo.ShellAmmo;
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.registry.DoomItems;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;

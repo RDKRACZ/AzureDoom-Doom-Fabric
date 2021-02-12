@@ -19,6 +19,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
@@ -105,21 +106,21 @@ public class UnwillingEntity extends DemonEntity implements IAnimatable {
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return ModSoundEvents.IMP_AMBIENT;
+		return ModSoundEvents.ZOMBIEMAN_AMBIENT;
 	}
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-		return ModSoundEvents.IMP_HURT;
+		return ModSoundEvents.ZOMBIEMAN_HURT;
 	}
 
 	@Override
 	protected SoundEvent getDeathSound() {
-		return ModSoundEvents.IMP_DEATH;
+		return ModSoundEvents.ZOMBIEMAN_DEATH;
 	}
 
 	protected SoundEvent getStepSound() {
-		return ModSoundEvents.IMP_STEP;
+		return SoundEvents.ENTITY_ZOMBIE_STEP;
 	}
 
 	@Override

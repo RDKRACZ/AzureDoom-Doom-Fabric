@@ -32,6 +32,7 @@ public class DemonEntity extends HostileEntity implements Angerable {
 
 	protected DemonEntity(EntityType<? extends HostileEntity> type, World worldIn) {
 		super(type, worldIn);
+		this.ignoreCameraFrustum = true;
 	}
 
 	@Override

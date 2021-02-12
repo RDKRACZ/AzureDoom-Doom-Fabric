@@ -188,7 +188,7 @@ public class MobEntityRegister {
 	public static final EntityType<PossessedSoldierEntity> POSSESSEDSOLDIER = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "possessed_soldier"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, PossessedSoldierEntity::new)
-					.dimensions(EntityDimensions.fixed(0.6f, 1.95F)).fireImmune().trackRangeBlocks(90)
+					.dimensions(EntityDimensions.fixed(0.9f, 2.35F)).fireImmune().trackRangeBlocks(90)
 					.trackedUpdateRate(4).build());
 
 	public static final EntityType<PossessedScientistEntity> POSSESSEDSCIENTIST = Registry.register(

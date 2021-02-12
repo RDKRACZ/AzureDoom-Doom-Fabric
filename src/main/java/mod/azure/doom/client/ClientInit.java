@@ -6,6 +6,8 @@ import mod.azure.doom.client.render.weapons.BFG9000Render;
 import mod.azure.doom.client.render.weapons.BFGRender;
 import mod.azure.doom.client.render.weapons.BallistaRender;
 import mod.azure.doom.client.render.weapons.ChaingunRender;
+import mod.azure.doom.client.render.weapons.ChainsawRender;
+import mod.azure.doom.client.render.weapons.HeavyCannonRender;
 import mod.azure.doom.client.render.weapons.PlasmagunRender;
 import mod.azure.doom.client.render.weapons.SGRender;
 import mod.azure.doom.client.render.weapons.SSGRender;
@@ -37,6 +39,8 @@ public class ClientInit implements ClientModInitializer {
 
 	public static KeyBinding reload = new KeyBinding("key.doom.reload", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R,
 			"category.doom.binds");
+//	public static KeyBinding hook = new KeyBinding("key.doom.hook", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_X,
+//			"category.doom.binds");
 
 	@Override
 	public void onInitializeClient() {
@@ -49,10 +53,13 @@ public class ClientInit implements ClientModInitializer {
 		GeoItemRenderer.registerItemRenderer(DoomItems.CHAINGUN, new ChaingunRender());
 		GeoItemRenderer.registerItemRenderer(DoomItems.BALLISTA, new BallistaRender());
 		GeoItemRenderer.registerItemRenderer(DoomItems.PLASMAGUN, new PlasmagunRender());
+		GeoItemRenderer.registerItemRenderer(DoomItems.HEAVYCANNON, new HeavyCannonRender());
+		GeoItemRenderer.registerItemRenderer(DoomItems.CHAINSAW_ETERNAL, new ChainsawRender());
 		ClientSidePacketRegistry.INSTANCE.register(EntityPacket.ID, (ctx, buf) -> {
 			EntityPacketOnClient.onPacket(ctx, buf);
 		});
 		KeyBindingHelper.registerKeyBinding(reload);
+		// KeyBindingHelper.registerKeyBinding(hook);
 		ItemComponentCallbackV2.event(DoomItems.SOULCUBE).register(((item, itemStack,
 				componentContainer) -> componentContainer.put(CuriosComponent.ITEM_RENDER, new IRenderableCurio() {
 					@Override
