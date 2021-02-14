@@ -98,7 +98,6 @@ public class Chainsaw extends Item {
 	private void doDamage(LivingEntity user, Entity target) {
 		if (target instanceof LivingEntity) {
 			target.timeUntilRegen = 0;
-			((LivingEntity) target).takeKnockback(0, 0, 0);
 			target.damage(DamageSource.player((PlayerEntity) user), 2F);
 			user.world.playSound((PlayerEntity) null, user.getX(), user.getY(), user.getZ(),
 					ModSoundEvents.CHAINSAW_ATTACKING, SoundCategory.PLAYERS, 1.0F,

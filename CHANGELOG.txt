@@ -1,4 +1,3 @@
-v.3.9.5b
+v.3.9.6
 
-- Fixed Chainsaw server crash.
-- Fixed guns not firing in survival. 
+- Halfed the spawn weight and damage values of all demons.

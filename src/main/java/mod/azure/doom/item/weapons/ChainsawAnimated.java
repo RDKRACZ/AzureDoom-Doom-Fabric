@@ -24,7 +24,6 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -80,10 +79,9 @@ public class ChainsawAnimated extends Item implements IAnimatable {
 	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		LivingEntity user = (LivingEntity) entityIn;
 		PlayerEntity player = (PlayerEntity) entityIn;
-		final Vec3d facing = Vec3d.fromPolar(user.getRotationClient()).normalize();
 		if (player.getMainHandStack().isItemEqualIgnoreDamage(stack)
 				&& stack.getDamage() < (stack.getMaxDamage() - 1)) {
-			final Box aabb = new Box(entityIn.getBlockPos().up()).expand(1D, 1D, 1D).offset(facing.multiply(1D));
+			final Box aabb = new Box(entityIn.getBlockPos().up()).expand(1D, 1D, 1D);
 			entityIn.getEntityWorld().getOtherEntities(user, aabb).forEach(e -> doDamage(user, e));
 			entityIn.getEntityWorld().getOtherEntities(user, aabb).forEach(e -> damageItem(user, stack));
 			entityIn.getEntityWorld().getOtherEntities(user, aabb).forEach(e -> addParticle(e));
@@ -126,7 +124,6 @@ public class ChainsawAnimated extends Item implements IAnimatable {
 	private void doDamage(LivingEntity user, Entity target) {
 		if (target instanceof LivingEntity) {
 			target.timeUntilRegen = 0;
-			((LivingEntity) target).takeKnockback(0, 0, 0);
 			target.damage(DamageSource.player((PlayerEntity) user), 2F);
 			user.world.playSound((PlayerEntity) null, user.getX(), user.getY(), user.getZ(),
 					ModSoundEvents.CHAINSAW_ATTACKING, SoundCategory.PLAYERS, 1.0F,

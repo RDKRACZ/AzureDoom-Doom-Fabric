@@ -37,7 +37,7 @@ public class ArchvileFiring extends Entity implements IAnimatable {
 	private boolean playingAnimation;
 	private LivingEntity owner;
 	private UUID ownerUuid;
-	private float damage = 14.0F;
+	private float damage = 7.0F;
 
 	public ArchvileFiring(EntityType<ArchvileFiring> entityType, World world) {
 		super(entityType, world);
