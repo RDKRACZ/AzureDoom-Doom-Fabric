@@ -54,15 +54,18 @@ public class Cyberdemon2016Model<T extends Cyberdemon2016Entity> extends BipedEn
 	}
 
 	@SuppressWarnings("unchecked")
+	@Override
 	protected Iterable<ModelPart> getBodyParts() {
 		return Iterables.concat(super.getBodyParts());
 	}
 
-	public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks,
+	@Override
+	public void setAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks,
 			float netHeadYaw, float headPitch) {
 		super.setAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 	}
 
+	@Override
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
 	}
@@ -82,6 +85,7 @@ public class Cyberdemon2016Model<T extends Cyberdemon2016Entity> extends BipedEn
 		return this.ModelParts.get(randomIn.nextInt(this.ModelParts.size()));
 	}
 
+	@Override
 	public void accept(ModelPart p_accept_1_) {
 		if (this.ModelParts == null) {
 			this.ModelParts = Lists.newArrayList();
