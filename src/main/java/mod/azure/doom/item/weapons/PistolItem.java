@@ -26,7 +26,7 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 
-public class PistolItem extends Item {
+public class PistolItem extends DoomBaseItem {
 
 	public double accuracy = 0.95;
 

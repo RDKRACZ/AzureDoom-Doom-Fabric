@@ -26,7 +26,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 
-public class Chainsaw extends Item {
+public class Chainsaw extends DoomBaseItem {
 
 	public Chainsaw() {
 		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(601));

@@ -26,7 +26,7 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 
-public class RocketLauncher extends Item {
+public class RocketLauncher extends DoomBaseItem {
 
 	public RocketLauncher() {
 		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(51));

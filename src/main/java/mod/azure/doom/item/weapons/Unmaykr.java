@@ -29,7 +29,7 @@ import net.minecraft.util.UseAction;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
-public class Unmaykr extends Item {
+public class Unmaykr extends DoomBaseItem {
 
 	public Unmaykr() {
 		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(9000));

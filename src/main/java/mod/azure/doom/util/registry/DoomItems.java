@@ -1,5 +1,8 @@
 package mod.azure.doom.util.registry;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import mod.azure.doom.DoomMod;
 import mod.azure.doom.item.ArgentEnergyItem;
 import mod.azure.doom.item.ArgentPlateItem;
@@ -109,7 +112,7 @@ public class DoomItems {
 	public static UnmaykrBolt UNMAKRY_BOLT = item(new UnmaykrBolt(10.2F), "unmaykr_bolt");
 	public static UnopenedItem AXE_CLOSED = item(new UnopenedItem(), "axe_marauder_closed");
 	public static ArgentPickaxe ARGENT_PICKAXE = item(new ArgentPickaxe(), "argent_pickaxe");
-	public static ArgentPlateItem ARGENT_PLATE = item("argent_plate", new ArgentPlateItem());
+	public static ArgentPlateItem ARGENT_PLATE = item(new ArgentPlateItem(), "argent_plate");
 	public static AxeMarauderItem AXE_OPEN = item(new AxeMarauderItem(), "axe_marauder_open");
 	public static UnopenedItem SWORD_CLOSED = item(new UnopenedItem(), "cruciblesword_closed");
 	public static RocketLauncher ROCKETLAUNCHER = item(new RocketLauncher(), "rocketlauncher");
@@ -122,6 +125,17 @@ public class DoomItems {
 	public static E1M1MusicDisc E1M1_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E1M1), "e1m1_music_disc");
 	public static Item GAS_BARREL = item(new Item(new Item.Settings().group(DoomMod.DoomWeaponItemGroup)),
 			"gas_barrel");
+
+	public static Item[] ITEMS = { CHAINSAW_ETERNAL, CRUCIBLESWORD, ROCKETLAUNCHER, AXE_OPEN, HEAVYCANNON, SSG,
+			PLASMAGUN, CHAINSAW64, CHAINSAW, CHAINGUN, BALLISTA, UNMAKYR, BFG_ETERNAL, BFG, SG, PISTOL };
+
+	public static Map<Item, Item> getItemMap() {
+		Map<Item, Item> vanillaItemMap = new HashMap<>();
+		for (Item i : DoomItems.ITEMS) {
+			vanillaItemMap.put(Registry.ITEM.get(new Identifier(DoomMod.MODID, Registry.ITEM.getId(i).getPath())), i);
+		}
+		return vanillaItemMap;
+	}
 
 	// Spawn Eggs
 	public static DoomSpawnEgg ARACHNOTRON_SPAWN_EGG = item(new DoomSpawnEgg(MobEntityRegister.ARACHNOTRON),
