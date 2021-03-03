@@ -56,7 +56,7 @@ public class MarauderRender extends GeoEntityRenderer<MarauderEntity> {
 			MinecraftClient.getInstance().getItemRenderer().renderItem(chaingun, Mode.THIRD_PERSON_RIGHT_HAND,
 					packedLightIn, packedOverlayIn, stack, this.rtb);
 			stack.pop();
-			bufferIn = rtb.getBuffer(RenderLayer.getEntitySmoothCutout(whTexture));
+			bufferIn = rtb.getBuffer(RenderLayer.getEntityTranslucent(whTexture));
 		}
 		super.renderRecursively(bone, stack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 	}

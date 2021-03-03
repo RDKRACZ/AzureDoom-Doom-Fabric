@@ -1,7 +1,7 @@
 package mod.azure.doom;
 
-import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
-import me.sargunvohra.mcmods.autoconfig1u.serializer.Toml4jConfigSerializer;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import mod.azure.doom.config.DoomConfig;
 import mod.azure.doom.entity.tileentity.IconBlockEntity;
 import mod.azure.doom.item.weapons.BFG;

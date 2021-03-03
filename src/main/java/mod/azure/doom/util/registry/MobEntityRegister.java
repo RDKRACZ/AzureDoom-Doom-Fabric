@@ -80,7 +80,7 @@ public class MobEntityRegister {
 	public static final EntityType<ArchvileEntity> ARCHVILE = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "archvile"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ArchvileEntity::new)
-					.dimensions(EntityDimensions.fixed(0.6F, 2.9F)).fireImmune().trackRangeBlocks(90)
+					.dimensions(EntityDimensions.fixed(0.9F, 3.3F)).fireImmune().trackRangeBlocks(90)
 					.trackedUpdateRate(4).build());
 
 	public static final EntityType<BaronEntity> BARON = Registry.register(Registry.ENTITY_TYPE,

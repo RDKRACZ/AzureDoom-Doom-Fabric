@@ -221,6 +221,7 @@ public class RocketEntity extends PersistentProjectileEntity implements IAnimata
 	protected void onBlockHit(BlockHitResult blockHitResult) {
 		super.onBlockHit(blockHitResult);
 		if (!this.world.isClient) {
+			this.doDamage();
 			this.remove();
 		}
 		this.setSound(ModSoundEvents.ROCKET_HIT);
@@ -230,6 +231,7 @@ public class RocketEntity extends PersistentProjectileEntity implements IAnimata
 	protected void onEntityHit(EntityHitResult entityHitResult) {
 		super.onEntityHit(entityHitResult);
 		if (!this.world.isClient) {
+			this.doDamage();
 			this.remove();
 		}
 	}

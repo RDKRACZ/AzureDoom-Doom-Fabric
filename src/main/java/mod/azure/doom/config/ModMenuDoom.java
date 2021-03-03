@@ -1,9 +1,9 @@
 package mod.azure.doom.config;
 
-import io.github.prospector.modmenu.api.ConfigScreenFactory;
-import io.github.prospector.modmenu.api.ModMenuApi;
-import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
-import mod.azure.doom.DoomMod;
+import com.terraformersmc.modmenu.api.ConfigScreenFactory;
+import com.terraformersmc.modmenu.api.ModMenuApi;
+
+import me.shedaniel.autoconfig.AutoConfig;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
@@ -14,10 +14,5 @@ public class ModMenuDoom implements ModMenuApi {
 		return parent -> {
 			return AutoConfig.getConfigScreen(DoomConfig.class, parent).get();
 		};
-	}
-
-	@Override
-	public String getModId() {
-		return DoomMod.MODID;
 	}
 }

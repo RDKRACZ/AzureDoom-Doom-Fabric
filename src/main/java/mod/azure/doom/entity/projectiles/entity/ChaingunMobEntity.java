@@ -26,8 +26,10 @@ public class ChaingunMobEntity extends ExplosiveProjectileEntity {
 		super(p_i50160_1_, p_i50160_2_);
 	}
 
-	public ChaingunMobEntity(World worldIn, LivingEntity shooter, double accelX, double accelY, double accelZ) {
+	public ChaingunMobEntity(World worldIn, LivingEntity shooter, double accelX, double accelY, double accelZ,
+			float directHitDamage) {
 		super(ProjectilesEntityRegister.CHAINGUN_MOB, shooter, accelX, accelY, accelZ, worldIn);
+		this.directHitDamage = directHitDamage;
 	}
 
 	public ChaingunMobEntity(World worldIn, double x, double y, double z, double accelX, double accelY, double accelZ) {
@@ -70,15 +72,16 @@ public class ChaingunMobEntity extends ExplosiveProjectileEntity {
 	}
 
 	@Override
-	protected void onEntityHit(EntityHitResult p_213868_1_) {
-		super.onEntityHit(p_213868_1_);
+	protected void onEntityHit(EntityHitResult entityHitResult) {
+		super.onEntityHit(entityHitResult);
 		if (!this.world.isClient) {
-			Entity entityHit = p_213868_1_.getEntity();
-			if (entityHit instanceof LivingEntity && directHitDamage > 0)
-				this.damage(DamageSource.magic(this, this.getOwner()), 3);
-			;
-			this.explode();
-			this.remove();
+			Entity entity = entityHitResult.getEntity();
+			Entity entity2 = this.getOwner();
+			entity.setOnFireFor(5);
+			entity.damage(DamageSource.magic(this, entity2), directHitDamage);
+			if (entity2 instanceof LivingEntity) {
+				this.dealDamage((LivingEntity) entity2, entity);
+			}
 		}
 		this.playSound(ModSoundEvents.CHAINGUN_SHOOT, 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
 	}

@@ -147,7 +147,7 @@ public class RevenantEntity extends DemonEntity implements IAnimatable {
 
 		@Override
 		public ProjectileEntity getProjectile(World world, double d2, double d3, double d4) {
-			return new RocketMobEntity(world, this.parentEntity, d2, d3, d4);
+			return new RocketMobEntity(world, this.parentEntity, d2, d3, d4, damage);
 
 		}
 	}
@@ -199,7 +199,7 @@ public class RevenantEntity extends DemonEntity implements IAnimatable {
 				double f = livingEntity.getX() - (this.parentEntity.getX() + vec3d.x * 2.0D);
 				double g = livingEntity.getBodyY(0.5D) - (0.5D + this.parentEntity.getBodyY(0.5D));
 				double h = livingEntity.getZ() - (this.parentEntity.getZ() + vec3d.z * 4.0D);
-				RocketMobEntity fireballEntity = new RocketMobEntity(world, this.parentEntity, f, g, h);
+				RocketMobEntity fireballEntity = new RocketMobEntity(world, this.parentEntity, f, g, h, 2);
 				if (this.cooldown == 15) {
 					fireballEntity.updatePosition(this.parentEntity.getX() + 0.3D + vec3d.x * 1.0D,
 							this.parentEntity.getBodyY(0.8D), fireballEntity.getZ() + 1.0D);

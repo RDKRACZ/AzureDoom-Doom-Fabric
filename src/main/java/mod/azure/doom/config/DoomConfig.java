@@ -1,8 +1,9 @@
 package mod.azure.doom.config;
 
-import me.sargunvohra.mcmods.autoconfig1u.ConfigData;
-import me.sargunvohra.mcmods.autoconfig1u.annotation.Config;
-import me.sargunvohra.mcmods.autoconfig1u.annotation.ConfigEntry;
+
+import me.shedaniel.autoconfig.ConfigData;
+import me.shedaniel.autoconfig.annotation.Config;
+import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import mod.azure.doom.DoomMod;
 
 @Config(name = DoomMod.MODID)
@@ -21,7 +22,7 @@ public class DoomConfig implements ConfigData {
 		public int crucible_marauder_max_damage = 5;
 
 	}
-	
+
 	public static class Spawning {
 		public int imp_spawn_weight = 15;
 		public int imp_min_group = 1;

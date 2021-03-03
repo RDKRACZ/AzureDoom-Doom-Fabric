@@ -1,20 +1,12 @@
 package mod.azure.doom.client.models;
 
-import java.util.List;
-import java.util.Random;
-
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-
 import mod.azure.doom.entity.Cyberdemon2016Entity;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Arm;
+import net.minecraft.util.math.MathHelper;
 
 public class Cyberdemon2016Model<T extends Cyberdemon2016Entity> extends BipedEntityModel<T> {
-	private List<ModelPart> ModelParts = Lists.newArrayList();
 	public final ModelPart hornLeft;
 	public final ModelPart hornLeft_1;
 	public final ModelPart hornLeft_2;
@@ -53,44 +45,19 @@ public class Cyberdemon2016Model<T extends Cyberdemon2016Entity> extends BipedEn
 		this.hornRight.addChild(this.hornRight_1);
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	protected Iterable<ModelPart> getBodyParts() {
-		return Iterables.concat(super.getBodyParts());
-	}
-
-	@Override
-	public void setAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks,
-			float netHeadYaw, float headPitch) {
-		super.setAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-	}
-
-	@Override
-	public void setVisible(boolean visible) {
-		super.setVisible(visible);
-	}
-
 	public void setRotateAngle(ModelPart ModelPart, float x, float y, float z) {
 		ModelPart.pitch = x;
 		ModelPart.yaw = y;
 		ModelPart.roll = z;
 	}
 
-	public void translateHand(Arm sideIn, MatrixStack matrixStackIn) {
-		ModelPart ModelPart = this.getArm(sideIn);
-		ModelPart.rotate(matrixStackIn);
-	}
-
-	public ModelPart getRandomModelPart(Random randomIn) {
-		return this.ModelParts.get(randomIn.nextInt(this.ModelParts.size()));
-	}
-
 	@Override
-	public void accept(ModelPart p_accept_1_) {
-		if (this.ModelParts == null) {
-			this.ModelParts = Lists.newArrayList();
-		}
-
-		this.ModelParts.add(p_accept_1_);
+	public void setAngles(T livingEntity, float f, float g, float h, float i, float j) {
+		super.setAngles(livingEntity, f, g, h, i, j);
+		this.rightArm.pitch = MathHelper.cos(f * 0.6662F + 3.1415927F) * 2.0F * g * 0.5F;
+		this.leftArm.pitch = MathHelper.cos(f * 0.6662F) * 2.0F * g * 0.5F;
+		this.rightLeg.pitch = MathHelper.cos(f * 0.6662F) * 1.4F * g;
+		this.leftLeg.pitch = MathHelper.cos(f * 0.6662F + 3.1415927F) * 1.4F * g;
 	}
+
 }

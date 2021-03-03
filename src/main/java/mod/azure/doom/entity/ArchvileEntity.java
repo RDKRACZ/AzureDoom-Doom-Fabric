@@ -44,11 +44,19 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class ArchvileEntity extends DemonEntity {
+public class ArchvileEntity extends DemonEntity implements IAnimatable {
 	private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(ArchvileEntity.class,
 			TrackedDataHandlerRegistry.BOOLEAN);
 	private int ageWhenTargetSet;
+	public int flameTimer;
 
 	public ArchvileEntity(EntityType<ArchvileEntity> entityType, World worldIn) {
 		super(entityType, worldIn);
@@ -96,6 +104,45 @@ public class ArchvileEntity extends DemonEntity {
 		if (this.deathTime == 50) {
 			this.remove();
 		}
+	}
+
+	private AnimationFactory factory = new AnimationFactory(this);
+
+	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+		if (event.isMoving() && !this.dataTracker.get(SHOOTING)) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
+			return PlayState.CONTINUE;
+		}
+		if (this.dataTracker.get(SHOOTING) && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking"));
+			return PlayState.CONTINUE;
+		}
+		if ((this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("death", false));
+			return PlayState.CONTINUE;
+		}
+		event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
+		return PlayState.CONTINUE;
+	}
+
+	@Override
+	public void registerControllers(AnimationData data) {
+		data.addAnimationController(new AnimationController<ArchvileEntity>(this, "controller", 0, this::predicate));
+	}
+
+	@Override
+	public AnimationFactory getFactory() {
+		return this.factory;
+	}
+
+	@Override
+	public void tick() {
+		super.tick();
+		flameTimer = (flameTimer + 1) % 8;
+	}
+
+	public int getFlameTimer() {
+		return flameTimer;
 	}
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
@@ -149,7 +196,6 @@ public class ArchvileEntity extends DemonEntity {
 		public void tick() {
 			LivingEntity livingEntity = this.ghast.getTarget();
 			if (this.ghast.canSee(livingEntity)) {
-				this.ghast.getLookControl().lookAt(livingEntity, 90.0F, 30.0F);
 				++this.cooldown;
 				if (this.cooldown == 40) {
 					if (!this.ghast.world.isClient) {
@@ -196,24 +242,23 @@ public class ArchvileEntity extends DemonEntity {
 						} else {
 							for (j = 0; j < 16; ++j) {
 								double l1 = 1.25D * (double) (j + 1);
-								int m = 1 * j;
 								ghast.conjureFangs(ghast.getX() + (double) MathHelper.cos(f) * l1,
-										ghast.getZ() + (double) MathHelper.sin(f) * l1, d, e, f, m);
+										ghast.getZ() + (double) MathHelper.sin(f) * l1, d, e, f, 32);
 							}
 						}
 					}
-					this.ghast.getLookControl().lookAt(livingEntity, 30.0F, 30.0F);
 					if (!(this.ghast.world.isClient)) {
 						this.ghast.playSound(ModSoundEvents.ARCHVILE_SCREAM, 1.0F,
 								1.2F / (this.ghast.random.nextFloat() * 0.2F + 0.9F));
 					}
 					this.cooldown = -80;
 				}
+
+				this.ghast.setShooting(this.cooldown > 20);
 			} else if (this.cooldown > 0) {
 				--this.cooldown;
 			}
-
-			this.ghast.setShooting(this.cooldown > 10);
+			this.ghast.lookAtEntity(livingEntity, 30.0F, 30.0F);
 		}
 	}
 

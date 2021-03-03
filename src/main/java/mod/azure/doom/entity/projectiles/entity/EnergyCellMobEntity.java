@@ -32,9 +32,11 @@ public class EnergyCellMobEntity extends ExplosiveProjectileEntity {
 		this.directHitDamage = directHitDamage;
 	}
 
-	public EnergyCellMobEntity(World worldIn, LivingEntity shooter, double accelX, double accelY, double accelZ) {
+	public EnergyCellMobEntity(World worldIn, LivingEntity shooter, double accelX, double accelY, double accelZ,
+			float directHitDamage) {
 		super(ProjectilesEntityRegister.ENERGY_CELL_MOB, shooter, accelX, accelY, accelZ, worldIn);
 		this.shooter = shooter;
+		this.directHitDamage = directHitDamage;
 	}
 
 	public EnergyCellMobEntity(World worldIn, double x, double y, double z, double accelX, double accelY,
@@ -74,13 +76,16 @@ public class EnergyCellMobEntity extends ExplosiveProjectileEntity {
 	}
 
 	@Override
-	protected void onEntityHit(EntityHitResult p_213868_1_) {
-		super.onEntityHit(p_213868_1_);
+	protected void onEntityHit(EntityHitResult entityHitResult) {
+		super.onEntityHit(entityHitResult);
 		if (!this.world.isClient) {
-			Entity entityHit = p_213868_1_.getEntity();
-			if (entityHit instanceof LivingEntity && directHitDamage > 0)
-				p_213868_1_.getEntity().damage(DamageSource.magic(this, shooter), directHitDamage);
-			this.remove();
+			Entity entity = entityHitResult.getEntity();
+			Entity entity2 = this.getOwner();
+			entity.setOnFireFor(5);
+			entity.damage(DamageSource.magic(this, entity2), directHitDamage);
+			if (entity2 instanceof LivingEntity) {
+				this.dealDamage((LivingEntity) entity2, entity);
+			}
 		}
 		this.playSound(ModSoundEvents.PLASMA_HIT, 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
 	}
