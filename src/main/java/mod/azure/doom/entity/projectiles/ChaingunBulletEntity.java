@@ -57,6 +57,7 @@ public class ChaingunBulletEntity extends PersistentProjectileEntity {
 	protected void onHit(LivingEntity living) {
 		super.onHit(living);
 		if (!(living instanceof PlayerEntity) && !(living instanceof IconofsinEntity)) {
+			living.setVelocity(0, 0, 0);
 			living.timeUntilRegen = 0;
 		}
 	}

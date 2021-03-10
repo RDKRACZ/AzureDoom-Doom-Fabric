@@ -131,7 +131,7 @@ public class PistolItem extends DoomBaseItem {
 
 	@Override
 	public UseAction getUseAction(ItemStack stack) {
-		return UseAction.BOW;
+		return UseAction.BLOCK;
 	}
 
 	@Override

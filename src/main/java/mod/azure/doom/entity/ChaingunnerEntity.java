@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoField;
 import java.util.Random;
 
-import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.annotation.Nullable;
+
 import mod.azure.doom.entity.ai.goal.RangedChaingunAttackGoal;
 import mod.azure.doom.entity.projectiles.ChaingunBulletEntity;
 import mod.azure.doom.item.ammo.ChaingunAmmo;
@@ -127,7 +127,7 @@ public class ChaingunnerEntity extends DemonEntity implements RangedAttackMob, I
 		this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(DoomItems.CHAINGUN));
 	}
 
-	@Nullable
+	
 	@Override
 	public EntityData initialize(ServerWorldAccess serverWorldAccess, LocalDifficulty difficulty,
 			SpawnReason spawnReason, EntityData entityData, CompoundTag entityTag) {

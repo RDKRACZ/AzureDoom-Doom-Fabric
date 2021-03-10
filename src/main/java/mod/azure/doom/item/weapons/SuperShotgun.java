@@ -57,7 +57,7 @@ public class SuperShotgun extends DoomBaseItem implements IAnimatable {
 	}
 
 	public SuperShotgun() {
-		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(52));
+		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(53));
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class SuperShotgun extends DoomBaseItem implements IAnimatable {
 	public void onStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int remainingUseTicks) {
 		if (entityLiving instanceof PlayerEntity) {
 			PlayerEntity playerentity = (PlayerEntity) entityLiving;
-			if (stack.getDamage() < (stack.getMaxDamage() - 1)) {
+			if (stack.getDamage() < (stack.getMaxDamage() - 2)) {
 				playerentity.getItemCooldownManager().set(this, 24);
 				if (!worldIn.isClient) {
 					ShotgunShellEntity abstractarrowentity = createArrow(worldIn, stack, playerentity);

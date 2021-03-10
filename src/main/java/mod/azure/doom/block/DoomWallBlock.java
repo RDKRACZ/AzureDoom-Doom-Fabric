@@ -1,6 +1,5 @@
 package mod.azure.doom.block;
 
-import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.annotation.Nullable;
 import mod.azure.doom.entity.IconofsinEntity;
 import mod.azure.doom.entity.tileentity.IconBlockEntity;
 import mod.azure.doom.util.registry.DoomBlocks;
@@ -40,7 +39,6 @@ public class DoomWallBlock extends BlockWithEntity {
 
 	public static final DirectionProperty direction = HorizontalFacingBlock.FACING;
 	public static final BooleanProperty light = RedstoneTorchBlock.LIT;
-	@Nullable
 	private static BlockPattern iconPatternFull;
 
 	public DoomWallBlock() {

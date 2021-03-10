@@ -197,7 +197,7 @@ public class BFGEntity extends PersistentProjectileEntity {
 				double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d1)) / q);
 				if (y <= 1.0D) {
 					if (entity.isAlive()) {
-						entity.damage(DamageSource.magic(this, this), 10);
+						entity.damage(DamageSource.magic(this, this.cachedBeamTarget), 10);
 						setBeamTarget(entity.getEntityId());
 					}
 				}
@@ -268,7 +268,7 @@ public class BFGEntity extends PersistentProjectileEntity {
 					|| (entity instanceof HoglinEntity)) {
 				double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d)) / q);
 				if (y <= 1.0D) {
-					entity.damage(DamageSource.arrow(this, this), 100);
+					entity.damage(DamageSource.arrow(this, this.cachedBeamTarget), 100);
 					if (!this.world.isClient) {
 						List<LivingEntity> list1 = this.world.getEntitiesIncludingUngeneratedChunks(LivingEntity.class,
 								this.getBoundingBox().expand(15.0D, 15.0D, 15.0D));

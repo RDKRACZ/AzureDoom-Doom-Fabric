@@ -153,7 +153,7 @@ public class HeavyCannon extends DoomBaseItem implements IAnimatable {
 
 	@Override
 	public UseAction getUseAction(ItemStack stack) {
-		return UseAction.BOW;
+		return UseAction.BLOCK;
 	}
 
 	@Override

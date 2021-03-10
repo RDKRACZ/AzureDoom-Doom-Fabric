@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoField;
 import java.util.Random;
 
-import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.annotation.Nullable;
+
 import mod.azure.doom.entity.ai.goal.RangedPistolAttackGoal;
 import mod.azure.doom.entity.projectiles.BulletEntity;
 import mod.azure.doom.item.ammo.ClipAmmo;
@@ -132,7 +132,7 @@ public class ZombiemanEntity extends DemonEntity implements RangedAttackMob, IAn
 		this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(DoomItems.PISTOL));
 	}
 
-	@Nullable
+	
 	@Override
 	public EntityData initialize(ServerWorldAccess serverWorldAccess, LocalDifficulty difficulty,
 			SpawnReason spawnReason, EntityData entityData, CompoundTag entityTag) {

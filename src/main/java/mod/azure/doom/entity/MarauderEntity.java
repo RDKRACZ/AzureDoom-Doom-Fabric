@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoField;
 import java.util.Random;
 
-import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.annotation.Nullable;
+
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.registry.DoomItems;
 import net.minecraft.block.BlockState;
@@ -113,7 +113,7 @@ public class MarauderEntity extends DemonEntity implements IAnimatable {
 		this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(DoomItems.ARGENT_AXE));
 	}
 
-	@Nullable
+	
 	@Override
 	public EntityData initialize(ServerWorldAccess serverWorldAccess, LocalDifficulty difficulty,
 			SpawnReason spawnReason, EntityData entityData, CompoundTag entityTag) {

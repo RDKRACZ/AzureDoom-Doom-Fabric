@@ -1,4 +1,4 @@
-package mod.azure.doom.util;
+package mod.azure.doom.util.registry;
 
 import mod.azure.doom.util.packets.EntityPacket;
 import mod.azure.doom.util.packets.EntityPacketOnClient;

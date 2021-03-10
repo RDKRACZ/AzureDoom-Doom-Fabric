@@ -110,7 +110,7 @@ public class Unmaykr extends DoomBaseItem {
 
 	@Override
 	public UseAction getUseAction(ItemStack stack) {
-		return UseAction.NONE;
+		return UseAction.BLOCK;
 	}
 
 	@Override

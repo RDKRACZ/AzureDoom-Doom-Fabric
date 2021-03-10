@@ -31,6 +31,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -212,10 +213,10 @@ public class ArchvileEntity extends DemonEntity implements IAnimatable {
 
 						for (int x = 0; x < list.size(); ++x) {
 							Entity entity = (Entity) list.get(x);
-							if ((entity instanceof DemonEntity)) {
+							if ((entity instanceof MobEntity)) {
 								double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d1)) / q);
 								if (y <= 1.0D) {
-									((DemonEntity) entity)
+									((MobEntity) entity)
 											.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 1000, 1));
 									entity.setGlowing(true);
 								}

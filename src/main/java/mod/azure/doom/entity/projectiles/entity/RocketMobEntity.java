@@ -128,4 +128,12 @@ public class RocketMobEntity extends ExplosiveProjectileEntity implements IAnima
 				Explosion.DestructionType.NONE);
 	}
 
+	public LivingEntity getShooter() {
+		return shooter;
+	}
+
+	public void setShooter(LivingEntity shooter) {
+		this.shooter = shooter;
+	}
+
 }

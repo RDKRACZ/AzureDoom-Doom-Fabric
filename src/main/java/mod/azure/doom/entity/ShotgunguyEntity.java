@@ -2,7 +2,7 @@ package mod.azure.doom.entity;
 
 import java.util.Random;
 
-import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.annotation.Nullable;
+
 import mod.azure.doom.entity.ai.goal.RangedShotgunAttackGoal;
 import mod.azure.doom.entity.projectiles.ShotgunShellEntity;
 import mod.azure.doom.item.ammo.ShellAmmo;
@@ -129,7 +129,7 @@ public class ShotgunguyEntity extends DemonEntity implements RangedAttackMob, IA
 		this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(DoomItems.SG));
 	}
 
-	@Nullable
+	
 	@Override
 	public EntityData initialize(ServerWorldAccess serverWorldAccess, LocalDifficulty difficulty,
 			SpawnReason spawnReason, EntityData entityData, CompoundTag entityTag) {

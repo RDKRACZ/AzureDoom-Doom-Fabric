@@ -1,6 +1,5 @@
 package mod.azure.doom.entity.projectiles;
 
-import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.annotation.Nullable;
 import mod.azure.doom.util.registry.MobEntityRegister;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -15,7 +14,6 @@ import net.minecraft.world.explosion.Explosion;
 
 public class BarrelEntity extends Entity {
 
-	@Nullable
 	private LivingEntity causingEntity;
 
 	public BarrelEntity(EntityType<?> entityTypeIn, World worldIn) {
@@ -27,7 +25,7 @@ public class BarrelEntity extends Entity {
 				Explosion.DestructionType.NONE);
 	}
 
-	public BarrelEntity(World worldIn, double x, double y, double z, @Nullable LivingEntity igniter) {
+	public BarrelEntity(World worldIn, double x, double y, double z, LivingEntity igniter) {
 		this(MobEntityRegister.BARREL, worldIn);
 		this.updatePosition(x, y, z);
 		double d = world.random.nextDouble() * 6.2831854820251465D;
@@ -38,7 +36,6 @@ public class BarrelEntity extends Entity {
 		this.causingEntity = igniter;
 	}
 
-	@Nullable
 	public LivingEntity getCausingEntity() {
 		return this.causingEntity;
 	}

@@ -105,4 +105,12 @@ public class BarenBlastEntity extends ExplosiveProjectileEntity {
 				Explosion.DestructionType.NONE);
 	}
 
+	public LivingEntity getShooter() {
+		return shooter;
+	}
+
+	public void setShooter(LivingEntity shooter) {
+		this.shooter = shooter;
+	}
+
 }
