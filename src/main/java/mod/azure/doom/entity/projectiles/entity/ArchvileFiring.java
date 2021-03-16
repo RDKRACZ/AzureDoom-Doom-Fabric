@@ -126,6 +126,7 @@ public class ArchvileFiring extends Entity implements IAnimatable {
 				if (y <= 1.0D) {
 					if (entity.isAlive()) {
 						entity.damage(DamageSource.magic(this, this), damage);
+						entity.setFireTicks(60);
 					}
 				}
 			}

@@ -1,9 +1,3 @@
-v.3.9.10
+v.3.9.11
 
-- New textures for Argent Energy, Plate, and the power ups thanks to temhotaokeaha.
-- Fixed Super Shotgun breaking.
-- Removed knockback from chaingun.
-- Slowed down BFG projectile.
-- Phobos and Golden Armor now protect you from Piglins.
-- Can now rename weapons at anvil, just not apply enchantment books.
-- Fixed Heavy Cannon, Pistol, Unmakyr, and Rocket Launcher not using the block action.
+- Another around of sound nerfing.
