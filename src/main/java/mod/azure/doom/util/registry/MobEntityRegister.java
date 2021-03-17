@@ -6,6 +6,7 @@ import mod.azure.doom.entity.ArchvileEntity;
 import mod.azure.doom.entity.BaronEntity;
 import mod.azure.doom.entity.CacodemonEntity;
 import mod.azure.doom.entity.ChaingunnerEntity;
+import mod.azure.doom.entity.CueBallEntity;
 import mod.azure.doom.entity.Cyberdemon2016Entity;
 import mod.azure.doom.entity.CyberdemonEntity;
 import mod.azure.doom.entity.GargoyleEntity;
@@ -201,6 +202,12 @@ public class MobEntityRegister {
 			new Identifier(DoomMod.MODID, "mechazombie"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, MechaZombieEntity::new)
 					.dimensions(EntityDimensions.fixed(1.2f, 2.3F)).fireImmune().trackRangeBlocks(90)
+					.trackedUpdateRate(4).build());
+
+	public static final EntityType<CueBallEntity> CUEBALL = Registry.register(Registry.ENTITY_TYPE,
+			new Identifier(DoomMod.MODID, "cueball"),
+			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, CueBallEntity::new)
+					.dimensions(EntityDimensions.fixed(1.1F, 2.1F)).fireImmune().trackRangeBlocks(90)
 					.trackedUpdateRate(4).build());
 
 	public static final EntityType<GoreNestEntity> GORE_NEST = Registry.register(Registry.ENTITY_TYPE,

@@ -127,6 +127,10 @@ public class DoomConfig implements ConfigData {
 		public int mechazombie_min_group = 1;
 		public int mechazombie_max_group = 4;
 
+		public int cueball_spawn_weight = 15;
+		public int cueball_min_group = 1;
+		public int cueball_max_group = 2;
+
 		public int gorenest_spawn_weight = 4;
 		public int gorenest_min_group = 1;
 		public int gorenest_max_group = 1;

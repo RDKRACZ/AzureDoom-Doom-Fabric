@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoField;
 import java.util.Random;
 
-
 import mod.azure.doom.entity.ai.goal.DemonAttackGoal;
 import mod.azure.doom.entity.ai.goal.RangedStaticAttackGoal;
 import mod.azure.doom.entity.attack.AbstractRangedAttack;
@@ -34,7 +33,6 @@ import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.LocalDifficulty;
@@ -80,7 +78,7 @@ public class Cyberdemon2016Entity extends DemonEntity {
 
 		@Override
 		public AttackSound getDefaultAttackSound() {
-			return new AttackSound(SoundEvents.ENTITY_FIREWORK_ROCKET_BLAST, 1, 1);
+			return new AttackSound(ModSoundEvents.PLASMA_FIRING, 1, 1);
 		}
 
 		@Override

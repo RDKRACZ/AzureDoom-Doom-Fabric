@@ -5,6 +5,7 @@ import mod.azure.doom.entity.ArchvileEntity;
 import mod.azure.doom.entity.BaronEntity;
 import mod.azure.doom.entity.CacodemonEntity;
 import mod.azure.doom.entity.ChaingunnerEntity;
+import mod.azure.doom.entity.CueBallEntity;
 import mod.azure.doom.entity.Cyberdemon2016Entity;
 import mod.azure.doom.entity.CyberdemonEntity;
 import mod.azure.doom.entity.GargoyleEntity;
@@ -69,5 +70,6 @@ public class MobAttributes {
 		FabricDefaultAttributeRegistry.register(MobEntityRegister.ZOMBIEMAN, ZombiemanEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(MobEntityRegister.GORE_NEST, GoreNestEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(MobEntityRegister.GARGOYLE, GargoyleEntity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(MobEntityRegister.CUEBALL, CueBallEntity.createMobAttributes());
 	}
 }

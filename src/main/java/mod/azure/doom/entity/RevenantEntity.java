@@ -142,7 +142,7 @@ public class RevenantEntity extends DemonEntity implements IAnimatable {
 
 		@Override
 		public AttackSound getDefaultAttackSound() {
-			return new AttackSound(SoundEvents.ENTITY_FIREWORK_ROCKET_BLAST, 1, 1);
+			return new AttackSound(ModSoundEvents.ROCKET_FIRING, 1, 1);
 		}
 
 		@Override

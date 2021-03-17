@@ -80,6 +80,8 @@ public class MobSpawn {
 								config.possessed_soldier_max_group),
 						new SpawnSettings.SpawnEntry(MobEntityRegister.MECHAZOMBIE, config.mechazombie_spawn_weight,
 								config.mechazombie_min_group, config.mechazombie_max_group),
+						new SpawnSettings.SpawnEntry(MobEntityRegister.CUEBALL, config.cueball_spawn_weight,
+								config.cueball_min_group, config.cueball_max_group),
 						new SpawnSettings.SpawnEntry(MobEntityRegister.GORE_NEST, config.gorenest_spawn_weight,
 								config.gorenest_min_group, config.gorenest_max_group),
 						new SpawnSettings.SpawnEntry(MobEntityRegister.CYBERDEMON2016,

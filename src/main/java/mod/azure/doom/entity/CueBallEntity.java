@@ -2,19 +2,12 @@ package mod.azure.doom.entity;
 
 import java.util.Random;
 
-import mod.azure.doom.entity.ai.goal.DemonAttackGoal;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.FollowTargetGoal;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
-import net.minecraft.entity.ai.goal.LookAtEntityGoal;
-import net.minecraft.entity.ai.goal.RevengeGoal;
-import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.passive.MerchantEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
@@ -30,8 +23,9 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 public class CueBallEntity extends DemonEntity implements IAnimatable {
 
 	private AnimationFactory factory = new AnimationFactory(this);
+	public int flameTimer;
 
-	protected CueBallEntity(EntityType<? extends DemonEntity> type, World worldIn) {
+	public CueBallEntity(EntityType<? extends DemonEntity> type, World worldIn) {
 		super(type, worldIn);
 	}
 
@@ -62,6 +56,16 @@ public class CueBallEntity extends DemonEntity implements IAnimatable {
 	}
 
 	@Override
+	public void tick() {
+		super.tick();
+		flameTimer = (flameTimer + 1) % 2;
+	}
+
+	public int getFlameTimer() {
+		return flameTimer;
+	}
+
+	@Override
 	public void takeKnockback(float strength, double ratioX, double ratioZ) {
 		super.takeKnockback(3, ratioX, ratioZ);
 	}
@@ -78,17 +82,7 @@ public class CueBallEntity extends DemonEntity implements IAnimatable {
 
 	@Override
 	protected void initGoals() {
-		this.goalSelector.add(8, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
 		this.goalSelector.add(8, new LookAroundGoal(this));
-		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
-		this.initCustomGoals();
-	}
-
-	protected void initCustomGoals() {
-		this.goalSelector.add(2, new DemonAttackGoal(this, 1.0D, false));
-		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
-		this.targetSelector.add(2, new FollowTargetGoal<>(this, MerchantEntity.class, true));
-		this.targetSelector.add(2, new RevengeGoal(this).setGroupRevenge());
 	}
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {

@@ -6,6 +6,7 @@ import mod.azure.doom.client.render.BaronRender;
 import mod.azure.doom.client.render.BarrelRender;
 import mod.azure.doom.client.render.CacodemonRender;
 import mod.azure.doom.client.render.ChaingunnerRender;
+import mod.azure.doom.client.render.CueBallRender;
 import mod.azure.doom.client.render.Cyberdemon2016Render;
 import mod.azure.doom.client.render.CyberdemonRender;
 import mod.azure.doom.client.render.GargoyleRender;
@@ -199,10 +200,13 @@ public class DoomRenderRegistry {
 		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.GARGOYLE, (dispatcher, context) -> {
 			return new GargoyleRender(dispatcher);
 		});
-
 		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.MECHAZOMBIE, (dispatcher, context) -> {
 			return new MechaZombieRender(dispatcher);
 		});
+		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.CUEBALL, (dispatcher, context) -> {
+			return new CueBallRender(dispatcher);
+		});
+		
 		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.ARGENT_BOLT, (dispatcher, context) -> {
 			return new ArgentBoltRender(dispatcher);
 		});
