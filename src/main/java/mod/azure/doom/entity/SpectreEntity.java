@@ -63,7 +63,7 @@ public class SpectreEntity extends DemonEntity implements IAnimatable {
 		return this.factory;
 	}
 
-	public static boolean spawning(EntityType<BaronEntity> p_223337_0_, World p_223337_1_, SpawnReason reason,
+	public static boolean spawning(EntityType<SpectreEntity> p_223337_0_, World p_223337_1_, SpawnReason reason,
 			BlockPos p_223337_3_, Random p_223337_4_) {
 		return p_223337_1_.getDifficulty() != Difficulty.PEACEFUL;
 	}

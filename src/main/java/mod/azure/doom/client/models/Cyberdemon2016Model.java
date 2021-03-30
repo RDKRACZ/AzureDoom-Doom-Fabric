@@ -1,63 +1,40 @@
 package mod.azure.doom.client.models;
 
+import mod.azure.doom.DoomMod;
 import mod.azure.doom.entity.Cyberdemon2016Entity;
-import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.entity.model.BipedEntityModel;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.Identifier;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.processor.IBone;
+import software.bernie.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib3.model.provider.data.EntityModelData;
 
-public class Cyberdemon2016Model<T extends Cyberdemon2016Entity> extends BipedEntityModel<T> {
-	public final ModelPart hornLeft;
-	public final ModelPart hornLeft_1;
-	public final ModelPart hornLeft_2;
-	public final ModelPart hornRight;
-	public final ModelPart hornRight_1;
+public class Cyberdemon2016Model extends AnimatedGeoModel<Cyberdemon2016Entity> {
 
-	public Cyberdemon2016Model(float modelSize, boolean smallArmsIn) {
-		super(RenderLayer::getEntityTranslucent, modelSize, 0.0F, 64, 64);
-		this.leftArm = new ModelPart(this, 32, 48);
-		this.leftArm.addCuboid(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, modelSize);
-		this.leftArm.setPivot(5.0F, 2.0F, 0.0F);
-		this.leftLeg = new ModelPart(this, 16, 48);
-		this.leftLeg.addCuboid(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, modelSize);
-		this.leftLeg.setPivot(1.9F, 12.0F, 0.0F);
-		this.hornLeft_2 = new ModelPart(this, 40, 2);
-		this.hornLeft_2.setPivot(0.0F, 0.0F, 0.0F);
-		this.hornLeft_2.addCuboid(3.1F, -9.0F, 9.0F, 0.5F, 0.6F, 0.5F, 1.0F, 1.0F, 1.0F);
-		this.hornLeft_1 = new ModelPart(this, 40, 2);
-		this.hornLeft_1.setPivot(0.0F, 0.0F, 0.0F);
-		this.hornLeft_1.addCuboid(3.1F, -8.0F, 6.5F, 0.5F, 0.6F, 0.5F, 1.0F, 2.0F, 1.0F);
-		this.hornLeft = new ModelPart(this, 40, 2);
-		this.hornLeft.setPivot(0.0F, 0.0F, 0.0F);
-		this.hornLeft.addCuboid(3.1F, -4.7F, 6.5F, 0.5F, 0.6F, 0.5F, 0.8F, 1.0F, 0.8F);
-		this.setRotateAngle(hornLeft, 1.3484414173750743F, 1.5707963267948966F, 0.0F);
-		this.hornRight = new ModelPart(this, 40, 2);
-		this.hornRight.setPivot(0.0F, 0.0F, 0.0F);
-		this.hornRight.addCuboid(-3.6F, -4.7F, 6.5F, 0.5F, 0.6F, 0.5F, 0.8F, 1.0F, 0.8F);
-		this.setRotateAngle(hornRight, 1.3484414173750743F, -1.5707963267948966F, 0.0F);
-		this.hornRight_1 = new ModelPart(this, 40, 2);
-		this.hornRight_1.setPivot(0.0F, 0.0F, 0.0F);
-		this.hornRight_1.addCuboid(-3.6F, -8.0F, 6.5F, 0.5F, 0.6F, 0.5F, 0.7F, 2.0F, 0.8F);
-		this.head.addChild(this.hornRight);
-		this.hornLeft_1.addChild(this.hornLeft_2);
-		this.hornLeft.addChild(this.hornLeft_1);
-		this.head.addChild(this.hornLeft);
-		this.hornRight.addChild(this.hornRight_1);
-	}
-
-	public void setRotateAngle(ModelPart ModelPart, float x, float y, float z) {
-		ModelPart.pitch = x;
-		ModelPart.yaw = y;
-		ModelPart.roll = z;
+	@Override
+	public Identifier getModelLocation(Cyberdemon2016Entity object) {
+		return new Identifier(DoomMod.MODID, "geo/cyberdemon2016.geo.json");
 	}
 
 	@Override
-	public void setAngles(T livingEntity, float f, float g, float h, float i, float j) {
-		super.setAngles(livingEntity, f, g, h, i, j);
-		this.rightArm.pitch = MathHelper.cos(f * 0.6662F + 3.1415927F) * 2.0F * g * 0.5F;
-		this.leftArm.pitch = MathHelper.cos(f * 0.6662F) * 2.0F * g * 0.5F;
-		this.rightLeg.pitch = MathHelper.cos(f * 0.6662F) * 1.4F * g;
-		this.leftLeg.pitch = MathHelper.cos(f * 0.6662F + 3.1415927F) * 1.4F * g;
+	public Identifier getTextureLocation(Cyberdemon2016Entity object) {
+		return new Identifier(DoomMod.MODID, "textures/entity/cyberdemon2016.png");
 	}
 
+	@Override
+	public Identifier getAnimationFileLocation(Cyberdemon2016Entity object) {
+		return new Identifier(DoomMod.MODID, "animations/cyberdemon2016.animation.json");
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public void setLivingAnimations(Cyberdemon2016Entity entity, Integer uniqueID, AnimationEvent customPredicate) {
+		super.setLivingAnimations(entity, uniqueID, customPredicate);
+		IBone head = this.getAnimationProcessor().getBone("neck");
+
+		EntityModelData extraData = (EntityModelData) customPredicate.getExtraDataOfType(EntityModelData.class).get(0);
+		if (head != null) {
+			head.setRotationX((extraData.headPitch - 80) * ((float) Math.PI / 360F));
+			head.setRotationY((extraData.netHeadYaw) * ((float) Math.PI / 360F));
+		}
+	}
 }

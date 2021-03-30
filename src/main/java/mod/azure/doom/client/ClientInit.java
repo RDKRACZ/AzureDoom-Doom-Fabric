@@ -8,9 +8,12 @@ import mod.azure.doom.client.render.weapons.BallistaRender;
 import mod.azure.doom.client.render.weapons.ChaingunRender;
 import mod.azure.doom.client.render.weapons.ChainsawRender;
 import mod.azure.doom.client.render.weapons.HeavyCannonRender;
+import mod.azure.doom.client.render.weapons.PistolRender;
 import mod.azure.doom.client.render.weapons.PlasmagunRender;
+import mod.azure.doom.client.render.weapons.RocketLauncherRender;
 import mod.azure.doom.client.render.weapons.SGRender;
 import mod.azure.doom.client.render.weapons.SSGRender;
+import mod.azure.doom.client.render.weapons.UnmaykrRender;
 import mod.azure.doom.util.packets.EntityPacket;
 import mod.azure.doom.util.packets.EntityPacketOnClient;
 import mod.azure.doom.util.registry.DoomItems;
@@ -55,6 +58,9 @@ public class ClientInit implements ClientModInitializer {
 		GeoItemRenderer.registerItemRenderer(DoomItems.PLASMAGUN, new PlasmagunRender());
 		GeoItemRenderer.registerItemRenderer(DoomItems.HEAVYCANNON, new HeavyCannonRender());
 		GeoItemRenderer.registerItemRenderer(DoomItems.CHAINSAW_ETERNAL, new ChainsawRender());
+		GeoItemRenderer.registerItemRenderer(DoomItems.PISTOL, new PistolRender());
+		GeoItemRenderer.registerItemRenderer(DoomItems.ROCKETLAUNCHER, new RocketLauncherRender());
+		GeoItemRenderer.registerItemRenderer(DoomItems.UNMAKYR, new UnmaykrRender());
 		ClientSidePacketRegistry.INSTANCE.register(EntityPacket.ID, (ctx, buf) -> {
 			EntityPacketOnClient.onPacket(ctx, buf);
 		});

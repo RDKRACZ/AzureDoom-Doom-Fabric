@@ -79,5 +79,11 @@ public class SpawnRestrictionMixin {
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
 		register(MobEntityRegister.CUEBALL, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+		register(MobEntityRegister.PROWLER, SpawnRestriction.Location.ON_GROUND,
+				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+		register(MobEntityRegister.DREADKNIGHT, SpawnRestriction.Location.ON_GROUND,
+				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+		register(MobEntityRegister.IMP_STONE, SpawnRestriction.Location.ON_GROUND,
+				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
 	}
 }

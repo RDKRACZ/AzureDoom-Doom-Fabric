@@ -24,6 +24,7 @@ import mod.azure.doom.entity.PainEntity;
 import mod.azure.doom.entity.PinkyEntity;
 import mod.azure.doom.entity.PossessedScientistEntity;
 import mod.azure.doom.entity.PossessedSoldierEntity;
+import mod.azure.doom.entity.ProwlerEntity;
 import mod.azure.doom.entity.RevenantEntity;
 import mod.azure.doom.entity.ShotgunguyEntity;
 import mod.azure.doom.entity.SpectreEntity;
@@ -71,5 +72,8 @@ public class MobAttributes {
 		FabricDefaultAttributeRegistry.register(MobEntityRegister.GORE_NEST, GoreNestEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(MobEntityRegister.GARGOYLE, GargoyleEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(MobEntityRegister.CUEBALL, CueBallEntity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(MobEntityRegister.PROWLER, ProwlerEntity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(MobEntityRegister.DREADKNIGHT,
+				Hellknight2016Entity.createMobAttributes());
 	}
 }

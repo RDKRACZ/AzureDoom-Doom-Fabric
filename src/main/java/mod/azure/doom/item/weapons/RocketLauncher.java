@@ -16,6 +16,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.RangedWeaponItem;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
@@ -25,8 +26,35 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
+import software.bernie.geckolib3.core.AnimationState;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 
-public class RocketLauncher extends DoomBaseItem {
+public class RocketLauncher extends DoomBaseItem implements IAnimatable {
+
+	public AnimationFactory factory = new AnimationFactory(this);
+	private String controllerName = "controller";
+
+	private <P extends RangedWeaponItem & IAnimatable> PlayState predicate(AnimationEvent<P> event) {
+		return PlayState.CONTINUE;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public void registerControllers(AnimationData data) {
+		data.addAnimationController(new AnimationController(this, controllerName, 1, this::predicate));
+	}
+
+	@Override
+	public AnimationFactory getFactory() {
+		return this.factory;
+	}
 
 	public RocketLauncher() {
 		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(51));
@@ -60,10 +88,17 @@ public class RocketLauncher extends DoomBaseItem {
 
 					stack.damage(1, entityLiving, p -> p.sendToolBreakStatus(entityLiving.getActiveHand()));
 					worldIn.spawnEntity(abstractarrowentity);
+					worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(), playerentity.getZ(),
+							ModSoundEvents.ROCKET_FIRING, SoundCategory.PLAYERS, 1.0F,
+							1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + 1F * 0.5F);
 				}
-				worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(), playerentity.getZ(),
-						ModSoundEvents.UNMAKYR_FIRE, SoundCategory.PLAYERS, 1.0F,
-						1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + 1F * 0.5F);
+				AnimationController<?> controller = GeckoLibUtil.getControllerForStack(this.factory, stack,
+						controllerName);
+
+				if (controller.getAnimationState() == AnimationState.Stopped) {
+					controller.markNeedsReload();
+					controller.setAnimation(new AnimationBuilder().addAnimation("firing", false));
+				}
 			}
 		}
 	}

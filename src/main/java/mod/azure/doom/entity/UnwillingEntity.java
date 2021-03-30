@@ -36,12 +36,12 @@ public class UnwillingEntity extends DemonEntity implements IAnimatable {
 	private AnimationFactory factory = new AnimationFactory(this);
 
 	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-		if (event.isMoving() && !this.isAttacking()) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
+		if (!(lastLimbDistance > -0.10F && lastLimbDistance < 0.10F) && !this.isAttacking()) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("walk", true));
 			return PlayState.CONTINUE;
 		}
-		if (this.isAttacking() && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("attack", false));
+		if (this.isAttacking()) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("attack", true));
 			return PlayState.CONTINUE;
 		}
 		if ((this.dead || this.getHealth() < 0.01 || this.isDead())) {
@@ -92,7 +92,7 @@ public class UnwillingEntity extends DemonEntity implements IAnimatable {
 		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 25.0D)
 				.add(EntityAttributes.GENERIC_MAX_HEALTH, config.unwilling_health)
 				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, config.unwilling_melee_damage)
-				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25D)
+				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.15D)
 				.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
 	}
 

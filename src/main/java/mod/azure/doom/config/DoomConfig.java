@@ -131,6 +131,14 @@ public class DoomConfig implements ConfigData {
 		public int cueball_min_group = 1;
 		public int cueball_max_group = 2;
 
+		public int prowler_spawn_weight = 15;
+		public int prowler_min_group = 1;
+		public int prowler_max_group = 2;
+
+		public int impstone_spawn_weight = 15;
+		public int impstone_min_group = 1;
+		public int impstone_max_group = 2;
+
 		public int gorenest_spawn_weight = 4;
 		public int gorenest_min_group = 1;
 		public int gorenest_max_group = 1;
@@ -159,6 +167,9 @@ public class DoomConfig implements ConfigData {
 		public double archvile_health = 100;
 		public double archvile_melee_damage = 3;
 
+		public double prowler_health = 15;
+		public double prowler_melee_damage = 4;
+
 		public double baron_health = 180;
 		public float baron_ranged_damage = 6;
 		public double baron_melee_damage = 7;
@@ -184,6 +195,9 @@ public class DoomConfig implements ConfigData {
 		public double imp2016_health = 30;
 		public float imp2016_ranged_damage = 4;
 		public double imp2016_melee_damage = 2;
+
+		public double impstone_health = 15;
+		public double impstone_melee_damage = 2;
 
 		public double gargoyle_health = 30;
 		public float gargoyle_ranged_damage = 5;

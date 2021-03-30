@@ -1,7 +1,5 @@
 package mod.azure.doom.entity;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoField;
 import java.util.Random;
 
 import mod.azure.doom.entity.ai.goal.DemonAttackGoal;
@@ -10,13 +8,13 @@ import mod.azure.doom.entity.attack.AbstractRangedAttack;
 import mod.azure.doom.entity.attack.AttackSound;
 import mod.azure.doom.entity.projectiles.entity.RocketMobEntity;
 import mod.azure.doom.util.ModSoundEvents;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.FollowTargetGoal;
@@ -27,10 +25,12 @@ import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
@@ -38,16 +38,79 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class Cyberdemon2016Entity extends DemonEntity {
+public class Cyberdemon2016Entity extends DemonEntity implements IAnimatable {
+
+	private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(Cyberdemon2016Entity.class,
+			TrackedDataHandlerRegistry.BOOLEAN);
+
+	private AnimationFactory factory = new AnimationFactory(this);
 
 	public Cyberdemon2016Entity(EntityType<Cyberdemon2016Entity> entityType, World worldIn) {
 		super(entityType, worldIn);
 	}
 
+	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+		if (event.isMoving() && !this.dataTracker.get(SHOOTING)) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
+			return PlayState.CONTINUE;
+		}
+		if (this.dataTracker.get(SHOOTING) && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking"));
+			return PlayState.CONTINUE;
+		}
+		if ((this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("death", false));
+			return PlayState.CONTINUE;
+		}
+		event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
+		return PlayState.CONTINUE;
+	}
+
+	@Override
+	public void registerControllers(AnimationData data) {
+		data.addAnimationController(new AnimationController<Cyberdemon2016Entity>(this, "controller", 0, this::predicate));
+	}
+
+	@Override
+	public AnimationFactory getFactory() {
+		return this.factory;
+	}
+
+	@Override
+	protected void updatePostDeath() {
+		++this.deathTime;
+		if (this.deathTime == 60) {
+			this.remove();
+			if (world.isClient) {
+			}
+		}
+	}
+
 	public static boolean spawning(EntityType<BaronEntity> p_223337_0_, World p_223337_1_, SpawnReason reason,
 			BlockPos p_223337_3_, Random p_223337_4_) {
 		return p_223337_1_.getDifficulty() != Difficulty.PEACEFUL;
+	}
+
+	@Environment(EnvType.CLIENT)
+	public boolean isShooting() {
+		return (Boolean) this.dataTracker.get(SHOOTING);
+	}
+
+	public void setShooting(boolean shooting) {
+		this.dataTracker.set(SHOOTING, shooting);
+	}
+
+	protected void initDataTracker() {
+		super.initDataTracker();
+		this.dataTracker.startTracking(SHOOTING, false);
 	}
 
 	@Override
@@ -90,46 +153,26 @@ public class Cyberdemon2016Entity extends DemonEntity {
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
 		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
-				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25D)
+				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.15D)
 				.add(EntityAttributes.GENERIC_MAX_HEALTH, config.cyberdemon2016_health)
 				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, config.cyberdemon2016_melee_damage)
 				.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
 	}
 
-	
+	@Override
+	public int getArmor() {
+		return 10;
+	}
+
 	@Override
 	public EntityData initialize(ServerWorldAccess serverWorldAccess, LocalDifficulty difficulty,
 			SpawnReason spawnReason, EntityData entityData, CompoundTag entityTag) {
-		entityData = super.initialize(serverWorldAccess, difficulty, spawnReason, entityData, entityTag);
-		if (this.getEquippedStack(EquipmentSlot.HEAD).isEmpty()) {
-			LocalDate localDate = LocalDate.now();
-			int i = localDate.get(ChronoField.DAY_OF_MONTH);
-			int j = localDate.get(ChronoField.MONTH_OF_YEAR);
-			if (j == 10 && i == 31 && this.random.nextFloat() < 0.25F) {
-				this.equipStack(EquipmentSlot.HEAD,
-						new ItemStack(this.random.nextFloat() < 0.1F ? Blocks.JACK_O_LANTERN : Blocks.CARVED_PUMPKIN));
-				this.armorDropChances[EquipmentSlot.HEAD.getEntitySlotId()] = 0.0F;
-			}
-		}
-
-		return entityData;
-	}
-
-	protected boolean shouldDrown() {
-		return false;
-	}
-
-	protected boolean shouldBurnInDay() {
-		return false;
-	}
-
-	public void readCustomDataFromTag(CompoundTag tag) {
-		super.readCustomDataFromTag(tag);
+		return super.initialize(serverWorldAccess, difficulty, spawnReason, entityData, entityTag);
 	}
 
 	@Override
 	protected float getActiveEyeHeight(EntityPose pose, EntityDimensions dimensions) {
-		return 4.70F;
+		return 6.55F;
 	}
 
 	@Override

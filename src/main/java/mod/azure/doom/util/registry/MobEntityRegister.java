@@ -16,6 +16,7 @@ import mod.azure.doom.entity.HellknightEntity;
 import mod.azure.doom.entity.IconofsinEntity;
 import mod.azure.doom.entity.Imp2016Entity;
 import mod.azure.doom.entity.ImpEntity;
+import mod.azure.doom.entity.ImpStoneEntity;
 import mod.azure.doom.entity.LostSoulEntity;
 import mod.azure.doom.entity.MancubusEntity;
 import mod.azure.doom.entity.MarauderEntity;
@@ -25,6 +26,7 @@ import mod.azure.doom.entity.PainEntity;
 import mod.azure.doom.entity.PinkyEntity;
 import mod.azure.doom.entity.PossessedScientistEntity;
 import mod.azure.doom.entity.PossessedSoldierEntity;
+import mod.azure.doom.entity.ProwlerEntity;
 import mod.azure.doom.entity.RevenantEntity;
 import mod.azure.doom.entity.ShotgunguyEntity;
 import mod.azure.doom.entity.SpectreEntity;
@@ -111,7 +113,7 @@ public class MobEntityRegister {
 	public static final EntityType<ZombiemanEntity> ZOMBIEMAN = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "zombieman"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ZombiemanEntity::new)
-					.dimensions(EntityDimensions.fixed(0.6f, 1.95F)).fireImmune().trackRangeBlocks(90)
+					.dimensions(EntityDimensions.fixed(0.75f, 2.1F)).fireImmune().trackRangeBlocks(90)
 					.trackedUpdateRate(4).build());
 
 	public static final EntityType<RevenantEntity> REVENANT = Registry.register(Registry.ENTITY_TYPE,
@@ -126,6 +128,12 @@ public class MobEntityRegister {
 					.dimensions(EntityDimensions.fixed(0.6f, 1.95F)).fireImmune().trackRangeBlocks(90)
 					.trackedUpdateRate(4).build());
 
+	public static final EntityType<ImpStoneEntity> IMP_STONE = Registry.register(Registry.ENTITY_TYPE,
+			new Identifier(DoomMod.MODID, "stone_imp"),
+			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ImpStoneEntity::new)
+					.dimensions(EntityDimensions.fixed(0.6f, 1.95F)).fireImmune().trackRangeBlocks(90)
+					.trackedUpdateRate(4).build());
+
 	public static final EntityType<NightmareImpEntity> NIGHTMARE_IMP = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "nightmare_imp"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, NightmareImpEntity::new)
@@ -135,19 +143,19 @@ public class MobEntityRegister {
 	public static final EntityType<ChaingunnerEntity> CHAINGUNNER = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "chaingunner"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ChaingunnerEntity::new)
-					.dimensions(EntityDimensions.fixed(0.6f, 1.95F)).fireImmune().trackRangeBlocks(90)
+					.dimensions(EntityDimensions.fixed(0.75f, 2.1F)).fireImmune().trackRangeBlocks(90)
 					.trackedUpdateRate(4).build());
 
 	public static final EntityType<MarauderEntity> MARAUDER = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "marauder"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, MarauderEntity::new)
-					.dimensions(EntityDimensions.fixed(0.6f, 1.95F)).fireImmune().trackRangeBlocks(90)
+					.dimensions(EntityDimensions.fixed(0.75f, 2.1F)).fireImmune().trackRangeBlocks(90)
 					.trackedUpdateRate(4).build());
 
 	public static final EntityType<ShotgunguyEntity> SHOTGUNGUY = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "shotgunguy"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ShotgunguyEntity::new)
-					.dimensions(EntityDimensions.fixed(0.6f, 1.95F)).fireImmune().trackRangeBlocks(90)
+					.dimensions(EntityDimensions.fixed(0.75f, 2.1F)).fireImmune().trackRangeBlocks(90)
 					.trackedUpdateRate(4).build());
 
 	public static final EntityType<PainEntity> PAIN = Registry.register(Registry.ENTITY_TYPE,
@@ -168,6 +176,12 @@ public class MobEntityRegister {
 					.dimensions(EntityDimensions.fixed(1.8F, 3.0F)).fireImmune().trackRangeBlocks(90)
 					.trackedUpdateRate(4).build());
 
+	public static final EntityType<Hellknight2016Entity> DREADKNIGHT = Registry.register(Registry.ENTITY_TYPE,
+			new Identifier(DoomMod.MODID, "dreadknight"),
+			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, Hellknight2016Entity::new)
+					.dimensions(EntityDimensions.fixed(1.8F, 3.0F)).fireImmune().trackRangeBlocks(90)
+					.trackedUpdateRate(4).build());
+
 	public static final EntityType<CyberdemonEntity> CYBERDEMON = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "cyberdemon"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, CyberdemonEntity::new)
@@ -177,7 +191,7 @@ public class MobEntityRegister {
 	public static final EntityType<Cyberdemon2016Entity> CYBERDEMON2016 = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "cyberdemon2016"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, Cyberdemon2016Entity::new)
-					.dimensions(EntityDimensions.fixed(1.6f, 4.75F)).fireImmune().trackRangeBlocks(90)
+					.dimensions(EntityDimensions.fixed(3.0f, 7.0F)).fireImmune().trackRangeBlocks(90)
 					.trackedUpdateRate(4).build());
 
 	public static final EntityType<UnwillingEntity> UNWILLING = Registry.register(Registry.ENTITY_TYPE,
@@ -219,6 +233,12 @@ public class MobEntityRegister {
 	public static final EntityType<GargoyleEntity> GARGOYLE = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "gargoyle"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, GargoyleEntity::new)
+					.dimensions(EntityDimensions.fixed(3.0f, 4.0F)).fireImmune().trackRangeBlocks(90)
+					.trackedUpdateRate(4).build());
+
+	public static final EntityType<ProwlerEntity> PROWLER = Registry.register(Registry.ENTITY_TYPE,
+			new Identifier(DoomMod.MODID, "prowler"),
+			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ProwlerEntity::new)
 					.dimensions(EntityDimensions.fixed(3.0f, 4.0F)).fireImmune().trackRangeBlocks(90)
 					.trackedUpdateRate(4).build());
 

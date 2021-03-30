@@ -194,6 +194,12 @@ public class DoomItems {
 			new DoomSpawnEgg(MobEntityRegister.SPECTRE));
 	public static DoomSpawnEgg CUEBALL_SPAWN_EGG = item("cueball_spawn_egg",
 			new DoomSpawnEgg(MobEntityRegister.CUEBALL));
+	public static DoomSpawnEgg PROWLER_SPAWN_EGG = item("prowler_spawn_egg",
+			new DoomSpawnEgg(MobEntityRegister.PROWLER));
+	public static DoomSpawnEgg DREADKNIGHT_SPAWN_EGG = item("dreadknight_spawn_egg",
+			new DoomSpawnEgg(MobEntityRegister.DREADKNIGHT));
+	public static DoomSpawnEgg STONEIMP_SPAWN_EGG = item("stoneimp_spawn_egg",
+			new DoomSpawnEgg(MobEntityRegister.IMP_STONE));
 
 	// Armor
 	public static DoomArmor DOOM_HELMET = item("doom_helmet",

@@ -18,7 +18,8 @@ import software.bernie.geckolib3.geo.render.built.GeoBone;
 
 public class MarauderRender extends GeoEntityRenderer<MarauderEntity> {
 
-	private static final ItemStack chaingun = new ItemStack(DoomItems.ARGENT_AXE);
+	private static final ItemStack axe = new ItemStack(DoomItems.ARGENT_AXE);
+	private static final ItemStack shotgun = new ItemStack(DoomItems.SG);
 	private VertexConsumerProvider rtb;
 	private Identifier whTexture;
 
@@ -53,7 +54,19 @@ public class MarauderRender extends GeoEntityRenderer<MarauderEntity> {
 			stack.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(-5));
 			stack.translate(0.30D, 0.90D, 0.3D);
 			stack.scale(1.0f, 1.0f, 1.0f);
-			MinecraftClient.getInstance().getItemRenderer().renderItem(chaingun, Mode.THIRD_PERSON_RIGHT_HAND,
+			MinecraftClient.getInstance().getItemRenderer().renderItem(axe, Mode.THIRD_PERSON_RIGHT_HAND,
+					packedLightIn, packedOverlayIn, stack, this.rtb);
+			stack.pop();
+			bufferIn = rtb.getBuffer(RenderLayer.getEntityTranslucent(whTexture));
+		}
+		if (bone.getName().equals("bipedRightArm_1")) {
+			stack.push();
+			stack.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(-40));
+			stack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(0));
+			stack.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(5));
+			stack.translate(-0.33D, 0.80D, 0.3D);
+			stack.scale(1.0f, 1.0f, 1.0f);
+			MinecraftClient.getInstance().getItemRenderer().renderItem(shotgun, Mode.THIRD_PERSON_LEFT_HAND,
 					packedLightIn, packedOverlayIn, stack, this.rtb);
 			stack.pop();
 			bufferIn = rtb.getBuffer(RenderLayer.getEntityTranslucent(whTexture));

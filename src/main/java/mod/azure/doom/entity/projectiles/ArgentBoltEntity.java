@@ -1,5 +1,6 @@
 package mod.azure.doom.entity.projectiles;
 
+import mod.azure.doom.entity.IconofsinEntity;
 import mod.azure.doom.util.packets.EntityPacket;
 import mod.azure.doom.util.registry.DoomItems;
 import mod.azure.doom.util.registry.ProjectilesEntityRegister;
@@ -49,6 +50,15 @@ public class ArgentBoltEntity extends PersistentProjectileEntity {
 			this.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
 		}
 
+	}
+
+	@Override
+	protected void onHit(LivingEntity living) {
+		super.onHit(living);
+		if (!(living instanceof PlayerEntity) && !(living instanceof IconofsinEntity)) {
+			living.setVelocity(0, 0, 0);
+			living.timeUntilRegen = 0;
+		}
 	}
 
 	@Override

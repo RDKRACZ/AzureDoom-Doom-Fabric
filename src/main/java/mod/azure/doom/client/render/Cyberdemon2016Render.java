@@ -1,32 +1,31 @@
 package mod.azure.doom.client.render;
 
-import mod.azure.doom.DoomMod;
 import mod.azure.doom.client.models.Cyberdemon2016Model;
 import mod.azure.doom.entity.Cyberdemon2016Entity;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
-import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.client.render.entity.feature.HeldItemFeatureRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
 
-public class Cyberdemon2016Render
-		extends MobEntityRenderer<Cyberdemon2016Entity, Cyberdemon2016Model<Cyberdemon2016Entity>> {
-
-	protected static final Identifier TEXTURE = new Identifier(DoomMod.MODID, "textures/entity/cyberdemon2016.png");
+public class Cyberdemon2016Render extends GeoEntityRenderer<Cyberdemon2016Entity> {
 
 	public Cyberdemon2016Render(EntityRenderDispatcher renderManagerIn) {
-		super(renderManagerIn, new Cyberdemon2016Model<Cyberdemon2016Entity>(0.5f, false), 0.5f);
-		this.addFeature(new HeldItemFeatureRenderer<>(this));
+		super(renderManagerIn, new Cyberdemon2016Model());
 	}
 
 	@Override
-	public Identifier getTexture(Cyberdemon2016Entity entity) {
-		return TEXTURE;
+	public RenderLayer getRenderType(Cyberdemon2016Entity animatable, float partialTicks, MatrixStack stack,
+			VertexConsumerProvider renderTypeBuffer, VertexConsumer vertexBuilder, int packedLightIn,
+			Identifier textureLocation) {
+		return RenderLayer.getEntityTranslucent(getTextureLocation(animatable));
 	}
 
 	@Override
-	protected void scale(Cyberdemon2016Entity entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
-		matrixStackIn.scale(2.5F, 2.5F, 2.5F);
+	protected float getDeathMaxRotation(Cyberdemon2016Entity entityLivingBaseIn) {
+		return 0.0F;
 	}
 
 }
