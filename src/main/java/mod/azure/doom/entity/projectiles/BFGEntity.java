@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 
+import mod.azure.doom.DoomMod;
 import mod.azure.doom.entity.GoreNestEntity;
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.packets.EntityPacket;
@@ -15,6 +16,7 @@ import net.minecraft.entity.AreaEffectCloudEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -38,8 +40,16 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
+import net.minecraft.world.explosion.Explosion;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class BFGEntity extends PersistentProjectileEntity {
+public class BFGEntity extends PersistentProjectileEntity implements IAnimatable {
 
 	protected int timeInAir;
 	protected boolean inAir;
@@ -55,6 +65,23 @@ public class BFGEntity extends PersistentProjectileEntity {
 
 	public BFGEntity(World world, LivingEntity owner) {
 		super(ProjectilesEntityRegister.BFG_CELL, owner, world);
+	}
+
+	private AnimationFactory factory = new AnimationFactory(this);
+
+	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+		event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
+		return PlayState.CONTINUE;
+	}
+
+	@Override
+	public void registerControllers(AnimationData data) {
+		data.addAnimationController(new AnimationController<BFGEntity>(this, "controller", 0, this::predicate));
+	}
+
+	@Override
+	public AnimationFactory getFactory() {
+		return this.factory;
 	}
 
 	protected BFGEntity(EntityType<? extends BFGEntity> type, double x, double y, double z, World world) {
@@ -197,7 +224,16 @@ public class BFGEntity extends PersistentProjectileEntity {
 				double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d1)) / q);
 				if (y <= 1.0D) {
 					if (entity.isAlive()) {
-						entity.damage(DamageSource.magic(this, this.cachedBeamTarget), 10);
+						entity.damage(DamageSource.player((PlayerEntity) this.cachedBeamTarget), 10);
+						setBeamTarget(entity.getEntityId());
+					}
+				}
+			}
+			if (!(entity instanceof PlayerEntity) && (entity instanceof EnderDragonEntity)) {
+				double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d1)) / q);
+				if (y <= 1.0D) {
+					if (entity.isAlive()) {
+						entity.damage(DamageSource.badRespawnPoint(), 10);
 						setBeamTarget(entity.getEntityId());
 					}
 				}
@@ -229,6 +265,9 @@ public class BFGEntity extends PersistentProjectileEntity {
 		super.onBlockHit(blockHitResult);
 		if (!this.world.isClient) {
 			this.doDamage();
+			this.world.createExplosion(this, this.getX(), this.getBodyY(0.0625D), this.getZ(), 1.0F, false,
+					DoomMod.config.enable_block_breaking ? Explosion.DestructionType.BREAK
+							: Explosion.DestructionType.NONE);
 			this.remove();
 		}
 		this.playSound(ModSoundEvents.BFG_HIT, 1.0F, 1.0F);
@@ -242,6 +281,9 @@ public class BFGEntity extends PersistentProjectileEntity {
 				|| !((EntityHitResult) entityHitResult).getEntity().isPartOf(entity)) {
 			if (!this.world.isClient) {
 				this.doDamage();
+				this.world.createExplosion(this, this.getX(), this.getBodyY(0.0625D), this.getZ(), 1.0F, false,
+						DoomMod.config.enable_block_breaking ? Explosion.DestructionType.BREAK
+								: Explosion.DestructionType.NONE);
 				this.remove();
 			}
 		}
@@ -288,6 +330,16 @@ public class BFGEntity extends PersistentProjectileEntity {
 							}
 						}
 						this.world.spawnEntity(areaeffectcloudentity);
+					}
+				}
+			}
+
+			if (!(entity instanceof PlayerEntity) && (entity instanceof EnderDragonEntity)) {
+				double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d)) / q);
+				if (y <= 1.0D) {
+					if (entity.isAlive()) {
+						entity.damage(DamageSource.badRespawnPoint(), 100);
+						setBeamTarget(entity.getEntityId());
 					}
 				}
 			}

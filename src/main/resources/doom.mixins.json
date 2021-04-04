@@ -9,7 +9,9 @@
 	"mixins": [
 		"LivingEntityMixin",
 		"SpawnRestrictionMixin",
-		"AnvilScreenHandlerMixin"
+		"AnvilScreenHandlerMixin",
+		"NoiseChunkGeneratorMixin",
+		"StructuresConfigAccessor"
 	],
 	"injectors": {
 		"defaultRequire": 1

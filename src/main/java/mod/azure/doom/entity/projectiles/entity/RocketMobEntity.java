@@ -1,5 +1,6 @@
 package mod.azure.doom.entity.projectiles.entity;
 
+import mod.azure.doom.DoomMod;
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.packets.EntityPacket;
 import mod.azure.doom.util.registry.ProjectilesEntityRegister;
@@ -124,8 +125,9 @@ public class RocketMobEntity extends ExplosiveProjectileEntity implements IAnima
 	}
 
 	protected void explode() {
-		this.world.createExplosion(this, this.getX(), this.getBodyY(0.0625D), this.getZ(), 2.0F, false,
-				Explosion.DestructionType.NONE);
+		this.world.createExplosion(this, this.getX(), this.getBodyY(0.0625D), this.getZ(), 1.0F, false,
+				DoomMod.config.enable_block_breaking ? Explosion.DestructionType.BREAK
+						: Explosion.DestructionType.NONE);
 	}
 
 	public LivingEntity getShooter() {

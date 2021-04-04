@@ -10,6 +10,9 @@ public class DoomConfig implements ConfigData {
 
 	@ConfigEntry.Gui.CollapsibleObject
 	public int crucible_marauder_max_damage = 5;
+	
+	@ConfigEntry.Gui.CollapsibleObject
+	public boolean enable_block_breaking = false;
 
 	@ConfigEntry.Gui.CollapsibleObject
 	public Spawning spawn = new Spawning();

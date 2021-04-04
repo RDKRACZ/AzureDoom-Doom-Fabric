@@ -22,8 +22,15 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class ShotgunShellEntity extends PersistentProjectileEntity {
+public class ShotgunShellEntity extends PersistentProjectileEntity implements IAnimatable {
 	protected int timeInAir;
 	protected boolean inAir;
 	private int ticksInAir;
@@ -36,6 +43,25 @@ public class ShotgunShellEntity extends PersistentProjectileEntity {
 	public ShotgunShellEntity(World world, LivingEntity owner) {
 		super(ProjectilesEntityRegister.SHOTGUN_SHELL, owner, world);
 	}
+
+	private AnimationFactory factory = new AnimationFactory(this);
+
+	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+		event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
+		return PlayState.CONTINUE;
+	}
+
+	@Override
+	public void registerControllers(AnimationData data) {
+		data.addAnimationController(
+				new AnimationController<ShotgunShellEntity>(this, "controller", 0, this::predicate));
+	}
+
+	@Override
+	public AnimationFactory getFactory() {
+		return this.factory;
+	}
+
 
 	protected ShotgunShellEntity(EntityType<? extends ShotgunShellEntity> type, double x, double y, double z,
 			World world) {

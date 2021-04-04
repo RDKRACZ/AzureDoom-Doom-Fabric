@@ -24,8 +24,35 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
+import software.bernie.geckolib3.core.AnimationState;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 
-public class SwordCrucibleItem extends SwordItem {
+public class SwordCrucibleItem extends SwordItem implements IAnimatable {
+
+	public AnimationFactory factory = new AnimationFactory(this);
+	private String controllerName = "controller";
+
+	private <P extends SwordItem & IAnimatable> PlayState predicate(AnimationEvent<P> event) {
+		return PlayState.CONTINUE;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public void registerControllers(AnimationData data) {
+		data.addAnimationController(new AnimationController(this, controllerName, 1, this::predicate));
+	}
+
+	@Override
+	public AnimationFactory getFactory() {
+		return this.factory;
+	}
 
 	public SwordCrucibleItem() {
 		super(DoomTier.DOOM_HIGHTEIR, 36, -2.4F, new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1));
@@ -73,6 +100,19 @@ public class SwordCrucibleItem extends SwordItem {
 				PacketByteBuf passedData = new PacketByteBuf(Unpooled.buffer());
 				passedData.writeBoolean(true);
 				ClientPlayNetworking.send(DoomMod.CRUCIBLE, passedData);
+			}
+		}
+		AnimationController<?> controller = GeckoLibUtil.getControllerForStack(this.factory, stack, controllerName);
+		if (selected) {
+			if (controller.getAnimationState() == AnimationState.Stopped) {
+				controller.markNeedsReload();
+				controller.setAnimation(new AnimationBuilder().addAnimation("open_loop", false));
+			}
+		}
+		if (!selected) {
+			if (controller.getAnimationState() == AnimationState.Stopped) {
+				controller.markNeedsReload();
+				controller.setAnimation(new AnimationBuilder().addAnimation("close_loop", false));
 			}
 		}
 	}

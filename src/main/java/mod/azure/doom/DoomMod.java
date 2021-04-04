@@ -1,10 +1,16 @@
 package mod.azure.doom;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import mod.azure.doom.config.DoomConfig;
 import mod.azure.doom.entity.tileentity.IconBlockEntity;
+import mod.azure.doom.mixin.StructuresConfigAccessor;
 import mod.azure.doom.network.PacketHandler;
+import mod.azure.doom.structures.DoomConfiguredStructures;
+import mod.azure.doom.structures.DoomStructures;
 import mod.azure.doom.util.DoomVillagerTrades;
 import mod.azure.doom.util.MobAttributes;
 import mod.azure.doom.util.MobSpawn;
@@ -17,12 +23,17 @@ import mod.azure.doom.util.registry.MobEntityRegister;
 import mod.azure.doom.util.registry.ProjectilesEntityRegister;
 import nerdhub.cardinal.components.api.event.ItemComponentCallbackV2;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
+import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
 import net.fabricmc.fabric.api.loot.v1.FabricLootPoolBuilder;
 import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -32,9 +43,13 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.ConstantLootTableRange;
 import net.minecraft.loot.entry.ItemEntry;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.gen.chunk.StructureConfig;
+import net.minecraft.world.gen.feature.StructureFeature;
 import software.bernie.geckolib3.GeckoLib;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.CuriosComponent;
@@ -75,7 +90,7 @@ public class DoomMod implements ModInitializer {
 	public static final ItemGroup DoomBlockItemGroup = FabricItemGroupBuilder.create(new Identifier(MODID, "blocks"))
 			.icon(() -> new ItemStack(DoomBlocks.BARREL_BLOCK)).build();
 	public static final ItemGroup DoomWeaponItemGroup = FabricItemGroupBuilder.create(new Identifier(MODID, "weapons"))
-			.icon(() -> new ItemStack(DoomItems.CRUCIBLESWORD)).build();
+			.icon(() -> new ItemStack(DoomItems.BFG_ETERNAL)).build();
 	public static final ItemGroup DoomPowerUPItemGroup = FabricItemGroupBuilder.create(new Identifier(MODID, "powerup"))
 			.icon(() -> new ItemStack(DoomItems.INMORTAL)).build();
 
@@ -99,6 +114,15 @@ public class DoomMod implements ModInitializer {
 		ServerLifecycleEvents.SERVER_STARTED.register(minecraftServer -> DoomVillagerTrades.addTrades());
 		MobAttributes.init();
 		GeckoLib.initialize();
+		if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
+			DoomStructures.setupAndRegisterStructureFeatures();
+			DoomConfiguredStructures.registerConfiguredStructures();
+			BiomeModifications.create(new Identifier(MODID, "doom_end")).add(ModificationPhase.ADDITIONS,
+					BiomeSelectors.all(), context -> {
+						context.getGenerationSettings().addBuiltInStructure(DoomConfiguredStructures.CONFIGURED_DOOM1);
+					});
+			removeStructureSpawningFromSelectedDimension();
+		}
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.BELT.getInfoBuilder().build());
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.CHARM.getInfoBuilder().build());
 		LootTableLoadingCallback.EVENT.register((resourceManager, lootManager, id, supplier, setter) -> {
@@ -168,5 +192,21 @@ public class DoomMod implements ModInitializer {
 					}
 				})));
 		PacketHandler.registerMessages();
+	}
+
+	public static void removeStructureSpawningFromSelectedDimension() {
+		ServerWorldEvents.LOAD.register((MinecraftServer minecraftServer, ServerWorld serverWorld) -> {
+			Map<StructureFeature<?>, StructureConfig> tempMap = new HashMap<>(
+					serverWorld.getChunkManager().getChunkGenerator().getStructuresConfig().getStructures());
+			if (!serverWorld.getRegistryKey().getValue().getNamespace().equals("minecraft")) {
+				tempMap.keySet().remove(DoomStructures.DOOM1);
+			}
+			if (!serverWorld.getRegistryKey().getValue().getPath().equals("the_end")) {
+				tempMap.keySet().remove(DoomStructures.DOOM1);
+			}
+
+			((StructuresConfigAccessor) serverWorld.getChunkManager().getChunkGenerator().getStructuresConfig())
+					.setStructures(tempMap);
+		});
 	}
 }

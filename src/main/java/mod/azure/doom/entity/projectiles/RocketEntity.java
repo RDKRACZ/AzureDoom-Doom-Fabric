@@ -2,6 +2,7 @@ package mod.azure.doom.entity.projectiles;
 
 import java.util.List;
 
+import mod.azure.doom.DoomMod;
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.packets.EntityPacket;
 import mod.azure.doom.util.registry.DoomItems;
@@ -222,6 +223,9 @@ public class RocketEntity extends PersistentProjectileEntity implements IAnimata
 		super.onBlockHit(blockHitResult);
 		if (!this.world.isClient) {
 			this.doDamage();
+			this.world.createExplosion(this, this.getX(), this.getBodyY(0.0625D), this.getZ(), 1.0F, false,
+					DoomMod.config.enable_block_breaking ? Explosion.DestructionType.BREAK
+							: Explosion.DestructionType.NONE);
 			this.remove();
 		}
 		this.setSound(ModSoundEvents.ROCKET_HIT);
@@ -232,6 +236,9 @@ public class RocketEntity extends PersistentProjectileEntity implements IAnimata
 		super.onEntityHit(entityHitResult);
 		if (!this.world.isClient) {
 			this.doDamage();
+			this.world.createExplosion(this, this.getX(), this.getBodyY(0.0625D), this.getZ(), 1.0F, false,
+					DoomMod.config.enable_block_breaking ? Explosion.DestructionType.BREAK
+							: Explosion.DestructionType.NONE);
 			this.remove();
 		}
 	}

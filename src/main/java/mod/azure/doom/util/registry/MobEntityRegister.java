@@ -212,6 +212,12 @@ public class MobEntityRegister {
 					.dimensions(EntityDimensions.fixed(1.5f, 1.95F)).fireImmune().trackRangeBlocks(90)
 					.trackedUpdateRate(4).build());
 
+//	public static final EntityType<PossessedScientistEntity> POSSESSEDWORKER = Registry.register(
+//			Registry.ENTITY_TYPE, new Identifier(DoomMod.MODID, "possessed_worker"),
+//			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, PossessedScientistEntity::new)
+//					.dimensions(EntityDimensions.fixed(1.5f, 1.95F)).fireImmune().trackRangeBlocks(90)
+//					.trackedUpdateRate(4).build());
+
 	public static final EntityType<MechaZombieEntity> MECHAZOMBIE = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "mechazombie"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, MechaZombieEntity::new)

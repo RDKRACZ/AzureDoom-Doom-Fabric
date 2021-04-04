@@ -22,8 +22,14 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class BulletEntity extends PersistentProjectileEntity {
+public class BulletEntity extends PersistentProjectileEntity implements IAnimatable {
 
 	protected int timeInAir;
 	protected boolean inAir;
@@ -32,6 +38,23 @@ public class BulletEntity extends PersistentProjectileEntity {
 	public BulletEntity(EntityType<? extends BulletEntity> entityType, World world) {
 		super(entityType, world);
 		this.pickupType = PersistentProjectileEntity.PickupPermission.DISALLOWED;
+	}
+
+	private AnimationFactory factory = new AnimationFactory(this);
+
+	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+		return PlayState.CONTINUE;
+	}
+
+	@Override
+	public void registerControllers(AnimationData data) {
+		data.addAnimationController(
+				new AnimationController<BulletEntity>(this, "controller", 0, this::predicate));
+	}
+
+	@Override
+	public AnimationFactory getFactory() {
+		return this.factory;
 	}
 
 	public BulletEntity(World world, LivingEntity owner) {

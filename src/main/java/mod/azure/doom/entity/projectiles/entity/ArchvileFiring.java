@@ -118,7 +118,7 @@ public class ArchvileFiring extends Entity implements IAnimatable {
 				this.remove();
 			}
 		}
-		List<Entity> list = this.world.getOtherEntities(this, new Box(this.getBlockPos().up()).expand(5D, 5D, 5D));
+		List<Entity> list = this.world.getOtherEntities(this, new Box(this.getBlockPos().up()).expand(1D, 1D, 1D));
 		for (int x = 0; x < list.size(); ++x) {
 			Entity entity = (Entity) list.get(x);
 			if (!(entity instanceof MancubusEntity) && !(entity instanceof ArchvileEntity)) {
