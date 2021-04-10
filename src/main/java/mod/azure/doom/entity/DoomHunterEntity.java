@@ -1,7 +1,5 @@
 package mod.azure.doom.entity;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoField;
 import java.util.Random;
 
 import mod.azure.doom.entity.ai.goal.DemonAttackGoal;
@@ -12,13 +10,10 @@ import mod.azure.doom.entity.projectiles.entity.RocketMobEntity;
 import mod.azure.doom.util.ModSoundEvents;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.FollowTargetGoal;
@@ -32,10 +27,11 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
@@ -51,12 +47,12 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class CyberdemonEntity extends DemonEntity implements IAnimatable {
+public class DoomHunterEntity extends DemonEntity implements IAnimatable {
 
-	private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(CyberdemonEntity.class,
+	private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(DoomHunterEntity.class,
 			TrackedDataHandlerRegistry.BOOLEAN);
 
-	public CyberdemonEntity(EntityType<? extends CyberdemonEntity> entityType, World worldIn) {
+	public DoomHunterEntity(EntityType<? extends DoomHunterEntity> entityType, World worldIn) {
 		super(entityType, worldIn);
 	}
 
@@ -81,7 +77,7 @@ public class CyberdemonEntity extends DemonEntity implements IAnimatable {
 
 	@Override
 	public void registerControllers(AnimationData data) {
-		data.addAnimationController(new AnimationController<CyberdemonEntity>(this, "controller", 0, this::predicate));
+		data.addAnimationController(new AnimationController<DoomHunterEntity>(this, "controller", 0, this::predicate));
 	}
 
 	@Override
@@ -114,8 +110,8 @@ public class CyberdemonEntity extends DemonEntity implements IAnimatable {
 		this.goalSelector.add(6, new LookAroundGoal(this));
 		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
 		this.goalSelector.add(4,
-				new RangedStaticAttackGoal(this, new CyberdemonEntity.FireballAttack(this)
-						.setProjectileOriginOffset(0.8, 0.8, 0.8).setDamage(config.cyberdemon_ranged_damage), 60, 20,
+				new RangedStaticAttackGoal(this, new DoomHunterEntity.FireballAttack(this)
+						.setProjectileOriginOffset(0.8, 0.8, 0.8).setDamage(config.doomhunter_ranged_damage), 60, 20,
 						30F));
 		this.goalSelector.add(4, new DemonAttackGoal(this, 1.0D, false));
 		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]).setGroupRevenge());
@@ -149,27 +145,15 @@ public class CyberdemonEntity extends DemonEntity implements IAnimatable {
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
 		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
 				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25D)
-				.add(EntityAttributes.GENERIC_MAX_HEALTH, config.cyberdemon_health)
-				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, config.cyberdemon_melee_damage)
+				.add(EntityAttributes.GENERIC_MAX_HEALTH, config.doomhunter_health)
+				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, config.doomhunter_melee_damage)
 				.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
 	}
 
-	
 	@Override
 	public EntityData initialize(ServerWorldAccess serverWorldAccess, LocalDifficulty difficulty,
 			SpawnReason spawnReason, EntityData entityData, CompoundTag entityTag) {
 		entityData = super.initialize(serverWorldAccess, difficulty, spawnReason, entityData, entityTag);
-		if (this.getEquippedStack(EquipmentSlot.HEAD).isEmpty()) {
-			LocalDate localDate = LocalDate.now();
-			int i = localDate.get(ChronoField.DAY_OF_MONTH);
-			int j = localDate.get(ChronoField.MONTH_OF_YEAR);
-			if (j == 10 && i == 31 && this.random.nextFloat() < 0.25F) {
-				this.equipStack(EquipmentSlot.HEAD,
-						new ItemStack(this.random.nextFloat() < 0.1F ? Blocks.JACK_O_LANTERN : Blocks.CARVED_PUMPKIN));
-				this.armorDropChances[EquipmentSlot.HEAD.getEntitySlotId()] = 0.0F;
-			}
-		}
-
 		return entityData;
 	}
 
@@ -192,26 +176,36 @@ public class CyberdemonEntity extends DemonEntity implements IAnimatable {
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return ModSoundEvents.CYBERDEMON_AMBIENT;
+		return ModSoundEvents.DOOMHUNTER_AMBIENT;
 	}
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-		return ModSoundEvents.CYBERDEMON_HURT;
+		return ModSoundEvents.DOOMHUNTER_HURT;
 	}
 
 	@Override
 	protected SoundEvent getDeathSound() {
-		return ModSoundEvents.CYBERDEMON_DEATH;
-	}
-
-	protected SoundEvent getStepSound() {
-		return ModSoundEvents.CYBERDEMON_STEP;
+		return ModSoundEvents.DOOMHUNTER_DEATH;
 	}
 
 	@Override
-	protected void playStepSound(BlockPos pos, BlockState blockIn) {
-		this.playSound(this.getStepSound(), 0.15F, 1.0F);
+	public int getArmor() {
+		float health = this.getHealth();
+		return (health < 140 && health >= 150 ? 8
+				: health < 140 && health >= 120 ? 6
+						: health < 120 && health >= 100 ? 4 : health < 100 && health >= 80 ? 2 : health < 75 ? 0 : 10);
+	}
+
+	@Override
+	public void tickMovement() {
+		super.tickMovement();
+		if (this.getHealth() < 75.0D) {
+			if (!this.world.isClient) {
+				this.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 10000000, 2));
+				this.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 10000000, 1));
+			}
+		}
 	}
 
 }

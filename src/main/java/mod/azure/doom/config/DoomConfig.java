@@ -10,7 +10,7 @@ public class DoomConfig implements ConfigData {
 
 	@ConfigEntry.Gui.CollapsibleObject
 	public int crucible_marauder_max_damage = 5;
-	
+
 	@ConfigEntry.Gui.CollapsibleObject
 	public boolean enable_block_breaking = false;
 
@@ -149,6 +149,30 @@ public class DoomConfig implements ConfigData {
 		public int cyberdemon2016_spawn_weight = 4;
 		public int cyberdemon2016_min_group = 1;
 		public int cyberdemon2016_max_group = 1;
+
+		public int tyrant_spawn_weight = 4;
+		public int tyrant_min_group = 1;
+		public int tyrant_max_group = 1;
+
+		public int whiplash_spawn_weight = 4;
+		public int whiplash_min_group = 1;
+		public int whiplash_max_group = 1;
+
+		public int doomhunter_spawn_weight = 4;
+		public int doomhunter_min_group = 1;
+		public int doomhunter_max_group = 1;
+
+		public int possessed_worker_spawn_weight = 15;
+		public int possessed_worker_min_group = 1;
+		public int possessed_worker_max_group = 4;
+
+		public int baron2016_spawn_weight = 4;
+		public int baron2016_min_group = 1;
+		public int baron2016_max_group = 1;
+
+		public int armoredbaron_spawn_weight = 4;
+		public int armoredbaron_min_group = 1;
+		public int armoredbaron_max_group = 1;
 	}
 
 	public static class MobStats {
@@ -173,9 +197,29 @@ public class DoomConfig implements ConfigData {
 		public double prowler_health = 15;
 		public double prowler_melee_damage = 4;
 
+		public double maykrdrone_health = 60;
+		public float maykrdrone_ranged_damage = 3;
+		public double maykrdrone_melee_damage = 2;
+
+		public double bloodmaykr_health = 90;
+		public float bloodmaykr_ranged_damage = 5;
+		public double bloodmaykr_melee_damage = 4;
+
+		public double khanmaykr_health = 400;
+		public float khanmaykr_ranged_damage = 7;
+		public double khanmaykr_melee_damage = 6;
+
 		public double baron_health = 180;
 		public float baron_ranged_damage = 6;
 		public double baron_melee_damage = 7;
+
+		public double baron2016_health = 180;
+		public float baron2016_ranged_damage = 6;
+		public double baron2016_melee_damage = 7;
+
+		public double armoredbaron_health = 240;
+		public float armoredbaron_ranged_damage = 6;
+		public double armoredbaron_melee_damage = 7;
 
 		public double mancubus_health = 80;
 		public double mancubus_melee_damage = 4;
@@ -231,6 +275,14 @@ public class DoomConfig implements ConfigData {
 		public double cyberdemon_health = 300;
 		public float cyberdemon_ranged_damage = 9;
 		public double cyberdemon_melee_damage = 7;
+
+		public double doomhunter_health = 150;
+		public float doomhunter_ranged_damage = 7;
+		public double doomhunter_melee_damage = 5;
+
+		public double whiplash_health = 90;
+		public float whiplash_ranged_damage = 5;
+		public double whiplash_melee_damage = 4;
 
 		public double unwilling_health = 15;
 		public double unwilling_melee_damage = 2;

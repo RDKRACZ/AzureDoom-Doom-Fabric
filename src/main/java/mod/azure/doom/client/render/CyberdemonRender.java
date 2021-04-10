@@ -22,4 +22,14 @@ public class CyberdemonRender extends GeoEntityRenderer<CyberdemonEntity> {
 			Identifier textureLocation) {
 		return RenderLayer.getEntityTranslucent(getTextureLocation(animatable));
 	}
+	
+	@Override
+	public void renderEarly(CyberdemonEntity animatable, MatrixStack stackIn, float ticks,
+			VertexConsumerProvider renderTypeBuffer, VertexConsumer vertexBuilder, int packedLightIn,
+			int packedOverlayIn, float red, float green, float blue, float partialTicks) {
+		super.renderEarly(animatable, stackIn, ticks, renderTypeBuffer, vertexBuilder, packedLightIn, packedOverlayIn, red,
+				green, blue, partialTicks);
+
+		stackIn.scale(1.6F, 1.6F, 1.6F);
+	}
 }

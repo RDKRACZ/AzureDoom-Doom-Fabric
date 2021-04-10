@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 
-import mod.azure.doom.util.registry.MobEntityRegister;
+import mod.azure.doom.util.registry.ModEntityTypes;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.Entity;
@@ -100,14 +100,14 @@ public class GoreNestEntity extends DemonEntity implements IAnimatable {
 
 	public void spawnWave() {
 		Random rand = new Random();
-		List<EntityType<?>> givenList = Arrays.asList(MobEntityRegister.HELLKNIGHT,
-				MobEntityRegister.POSSESSEDSCIENTIST, MobEntityRegister.IMP, MobEntityRegister.NIGHTMARE_IMP,
-				MobEntityRegister.PINKY, MobEntityRegister.CACODEMON, MobEntityRegister.CHAINGUNNER,
-				MobEntityRegister.GARGOYLE, MobEntityRegister.HELLKNIGHT2016, MobEntityRegister.IMP2016,
-				MobEntityRegister.LOST_SOUL, MobEntityRegister.POSSESSEDSOLDIER, MobEntityRegister.SHOTGUNGUY,
-				MobEntityRegister.UNWILLING, MobEntityRegister.ZOMBIEMAN, MobEntityRegister.ARACHNOTRON,
-				MobEntityRegister.ARCHVILE, MobEntityRegister.MECHAZOMBIE, MobEntityRegister.PAIN,
-				MobEntityRegister.MANCUBUS);
+		List<EntityType<?>> givenList = Arrays.asList(ModEntityTypes.HELLKNIGHT,
+				ModEntityTypes.POSSESSEDSCIENTIST, ModEntityTypes.IMP, ModEntityTypes.NIGHTMARE_IMP,
+				ModEntityTypes.PINKY, ModEntityTypes.CACODEMON, ModEntityTypes.CHAINGUNNER,
+				ModEntityTypes.GARGOYLE, ModEntityTypes.HELLKNIGHT2016, ModEntityTypes.IMP2016,
+				ModEntityTypes.LOST_SOUL, ModEntityTypes.POSSESSEDSOLDIER, ModEntityTypes.SHOTGUNGUY,
+				ModEntityTypes.UNWILLING, ModEntityTypes.ZOMBIEMAN, ModEntityTypes.ARACHNOTRON,
+				ModEntityTypes.ARCHVILE, ModEntityTypes.MECHAZOMBIE, ModEntityTypes.PAIN,
+				ModEntityTypes.MANCUBUS);
 
 		for (int i = 0; i < 1; i++) {
 			int randomIndex = rand.nextInt(givenList.size());

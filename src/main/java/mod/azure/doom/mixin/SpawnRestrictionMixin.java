@@ -3,7 +3,7 @@ package mod.azure.doom.mixin;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
-import mod.azure.doom.util.registry.MobEntityRegister;
+import mod.azure.doom.util.registry.ModEntityTypes;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.entity.mob.HostileEntity;
@@ -19,71 +19,100 @@ public class SpawnRestrictionMixin {
 	}
 
 	static {
-		register(MobEntityRegister.ARCHVILE, SpawnRestriction.Location.ON_GROUND,
-				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.ZOMBIEMAN, SpawnRestriction.Location.ON_GROUND,
-				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.SPIDERDEMON, SpawnRestriction.Location.ON_GROUND,
-				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.ARACHNOTRON, SpawnRestriction.Location.ON_GROUND,
-				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.MANCUBUS, SpawnRestriction.Location.ON_GROUND,
-				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.BARON, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+		register(ModEntityTypes.ARCHVILE, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
 				HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.REVENANT, SpawnRestriction.Location.ON_GROUND,
+		register(ModEntityTypes.ZOMBIEMAN, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.IMP, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+		register(ModEntityTypes.SPIDERDEMON, SpawnRestriction.Location.ON_GROUND,
+				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+		register(ModEntityTypes.ARACHNOTRON, SpawnRestriction.Location.ON_GROUND,
+				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+		register(ModEntityTypes.MANCUBUS, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
 				HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.PINKY, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+		register(ModEntityTypes.BARON, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
 				HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.SPECTRE, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+		register(ModEntityTypes.REVENANT, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
 				HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.CACODEMON, SpawnRestriction.Location.IN_LAVA,
-				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.LOST_SOUL, SpawnRestriction.Location.IN_LAVA,
-				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.IMP2016, SpawnRestriction.Location.ON_GROUND,
-				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.NIGHTMARE_IMP, SpawnRestriction.Location.ON_GROUND,
-				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.CHAINGUNNER, SpawnRestriction.Location.ON_GROUND,
-				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.MARAUDER, SpawnRestriction.Location.ON_GROUND,
-				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.SHOTGUNGUY, SpawnRestriction.Location.ON_GROUND,
-				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.PAIN, SpawnRestriction.Location.IN_LAVA, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+		register(ModEntityTypes.IMP, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
 				HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.HELLKNIGHT, SpawnRestriction.Location.ON_GROUND,
+		register(ModEntityTypes.PINKY, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+				HostileEntity::canSpawnInDark);
+		register(ModEntityTypes.SPECTRE, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+				HostileEntity::canSpawnInDark);
+		register(ModEntityTypes.CACODEMON, SpawnRestriction.Location.IN_LAVA, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+				HostileEntity::canSpawnInDark);
+		register(ModEntityTypes.LOST_SOUL, SpawnRestriction.Location.IN_LAVA, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+				HostileEntity::canSpawnInDark);
+		register(ModEntityTypes.IMP2016, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+				HostileEntity::canSpawnInDark);
+		register(ModEntityTypes.NIGHTMARE_IMP, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.HELLKNIGHT2016, SpawnRestriction.Location.ON_GROUND,
+		register(ModEntityTypes.CHAINGUNNER, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.CYBERDEMON, SpawnRestriction.Location.ON_GROUND,
+		register(ModEntityTypes.MARAUDER, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+				HostileEntity::canSpawnInDark);
+		register(ModEntityTypes.SHOTGUNGUY, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.CYBERDEMON2016, SpawnRestriction.Location.ON_GROUND,
+		register(ModEntityTypes.PAIN, SpawnRestriction.Location.IN_LAVA, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+				HostileEntity::canSpawnInDark);
+		register(ModEntityTypes.HELLKNIGHT, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.UNWILLING, SpawnRestriction.Location.ON_GROUND,
+		register(ModEntityTypes.HELLKNIGHT2016, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.POSSESSEDSCIENTIST, SpawnRestriction.Location.ON_GROUND,
+		register(ModEntityTypes.CYBERDEMON, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.POSSESSEDSOLDIER, SpawnRestriction.Location.ON_GROUND,
+		register(ModEntityTypes.CYBERDEMON2016, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.ICONOFSIN, SpawnRestriction.Location.ON_GROUND,
+		register(ModEntityTypes.UNWILLING, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.MECHAZOMBIE, SpawnRestriction.Location.ON_GROUND,
+		register(ModEntityTypes.POSSESSEDSCIENTIST, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.GORE_NEST, SpawnRestriction.Location.ON_GROUND,
+		register(ModEntityTypes.POSSESSEDSOLDIER, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.GARGOYLE, SpawnRestriction.Location.ON_GROUND,
+		register(ModEntityTypes.ICONOFSIN, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.CUEBALL, SpawnRestriction.Location.ON_GROUND,
+		register(ModEntityTypes.MECHAZOMBIE, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.PROWLER, SpawnRestriction.Location.ON_GROUND,
+		register(ModEntityTypes.GORE_NEST, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.DREADKNIGHT, SpawnRestriction.Location.ON_GROUND,
+		register(ModEntityTypes.GARGOYLE, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+				HostileEntity::canSpawnInDark);
+		register(ModEntityTypes.CUEBALL, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+				HostileEntity::canSpawnInDark);
+		register(ModEntityTypes.PROWLER, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+				HostileEntity::canSpawnInDark);
+		register(ModEntityTypes.DREADKNIGHT, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-		register(MobEntityRegister.IMP_STONE, SpawnRestriction.Location.ON_GROUND,
+		register(ModEntityTypes.IMP_STONE, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+		register(ModEntityTypes.TYRANT, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+				HostileEntity::canSpawnInDark);
+		register(ModEntityTypes.POSSESSEDWORKER, SpawnRestriction.Location.ON_GROUND,
+				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+//		register(ModEntityTypes.DOOMHUNTER, SpawnRestriction.Location.ON_GROUND, 
+//				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+//		register(ModEntityTypes.WHIPLASH, SpawnRestriction.Location.ON_GROUND, 
+//				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+//		register(ModEntityTypes.PINKY2016,
+//		SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+//		HostileEntity::canSpawnInDark);
+//		register(ModEntityTypes.FIREBARON,
+//		SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+//		HostileEntity::canSpawnInDark);
+//		register(ModEntityTypes.BARON2016,
+//		SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+//		HostileEntity::canSpawnInDark);
+//		register(ModEntityTypes.ARMORBARON,
+//		SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+//		HostileEntity::canSpawnInDark);
+//		register(ModEntityTypes.MAYKRDRONE,
+//		SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+//		HostileEntity::canSpawnInDark);
+//		register(ModEntityTypes.BLOODMAYKR,
+//		SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+//		HostileEntity::canSpawnInDark);
+//		register(ModEntityTypes.KHANMAKER,
+//		SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+//		HostileEntity::canSpawnInDark);
 	}
 }

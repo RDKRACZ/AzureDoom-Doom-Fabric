@@ -7,7 +7,7 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 
 import mod.azure.doom.DoomMod;
-import mod.azure.doom.util.registry.MobEntityRegister;
+import mod.azure.doom.util.registry.ModEntityTypes;
 import net.minecraft.structure.MarginedStructureStart;
 import net.minecraft.structure.PoolStructurePiece;
 import net.minecraft.structure.StructureManager;
@@ -40,8 +40,8 @@ public class DoomStructure extends StructureFeature<DefaultFeatureConfig> {
 	}
 
 	private static final List<SpawnSettings.SpawnEntry> STRUCTURE_MONSTERS = ImmutableList.of(
-			new SpawnSettings.SpawnEntry(MobEntityRegister.LOST_SOUL, 100, 4, 9),
-			new SpawnSettings.SpawnEntry(MobEntityRegister.ZOMBIEMAN, 100, 4, 9));
+			new SpawnSettings.SpawnEntry(ModEntityTypes.LOST_SOUL, 100, 4, 9),
+			new SpawnSettings.SpawnEntry(ModEntityTypes.ZOMBIEMAN, 100, 4, 9));
 
 	@Override
 	public List<SpawnSettings.SpawnEntry> getMonsterSpawns() {
@@ -49,8 +49,8 @@ public class DoomStructure extends StructureFeature<DefaultFeatureConfig> {
 	}
 
 	private static final List<SpawnSettings.SpawnEntry> STRUCTURE_CREATURES = ImmutableList.of(
-			new SpawnSettings.SpawnEntry(MobEntityRegister.CHAINGUNNER, 30, 10, 15),
-			new SpawnSettings.SpawnEntry(MobEntityRegister.ARCHVILE, 100, 1, 2));
+			new SpawnSettings.SpawnEntry(ModEntityTypes.CHAINGUNNER, 30, 10, 15),
+			new SpawnSettings.SpawnEntry(ModEntityTypes.ARCHVILE, 100, 1, 2));
 
 	@Override
 	public List<SpawnSettings.SpawnEntry> getCreatureSpawns() {

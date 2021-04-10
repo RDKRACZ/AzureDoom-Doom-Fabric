@@ -7,7 +7,7 @@ public class ModRegistry {
 	public static DoomBlocks BLOCKS;
 	public static ModSoundEvents SOUNDS;
 	public static DoomItems ITEMS;
-	public static MobEntityRegister MOBS;
+	public static ModEntityTypes MOBS;
 	public static ProjectilesEntityRegister PROJECTILES;
 
 	public static void init() {
@@ -16,7 +16,7 @@ public class ModRegistry {
 		ITEMS = new DoomItems();
 		SOUNDS = new ModSoundEvents();
 		PROJECTILES = new ProjectilesEntityRegister();
-		MOBS = new MobEntityRegister();
+		MOBS = new ModEntityTypes();
 
 	}
 }

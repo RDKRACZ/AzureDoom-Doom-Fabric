@@ -7,7 +7,7 @@ import mod.azure.doom.entity.ai.goal.DemonAttackGoal;
 import mod.azure.doom.entity.ai.goal.RandomFlyConvergeOnTargetGoal;
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.packets.EntityPacket;
-import mod.azure.doom.util.registry.MobEntityRegister;
+import mod.azure.doom.util.registry.ModEntityTypes;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
@@ -229,7 +229,7 @@ public class PainEntity extends DemonEntity implements Monster, IAnimatable {
 				World world = this.ghast.world;
 				++this.cooldown;
 				if (this.cooldown == 200) {
-					LostSoulEntity lost_soul = MobEntityRegister.LOST_SOUL.create(world);
+					LostSoulEntity lost_soul = ModEntityTypes.LOST_SOUL.create(world);
 					lost_soul.refreshPositionAndAngles(this.ghast.getX(), this.ghast.getY(), this.ghast.getZ(), 0, 0);
 					lost_soul.addVelocity(1.0D, 0.0D, 0.0D);
 					world.spawnEntity(lost_soul);

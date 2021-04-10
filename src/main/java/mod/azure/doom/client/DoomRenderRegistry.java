@@ -27,11 +27,13 @@ import mod.azure.doom.client.render.PainRender;
 import mod.azure.doom.client.render.PinkyRender;
 import mod.azure.doom.client.render.PossessedScientistRender;
 import mod.azure.doom.client.render.PossessedSoldierRender;
+import mod.azure.doom.client.render.PossessedWorkerRender;
 import mod.azure.doom.client.render.ProwlerRender;
 import mod.azure.doom.client.render.RevenantRender;
 import mod.azure.doom.client.render.ShotgunguyRender;
 import mod.azure.doom.client.render.SpectreRender;
 import mod.azure.doom.client.render.SpiderdemonRender;
+import mod.azure.doom.client.render.TyrantRender;
 import mod.azure.doom.client.render.UnwillingRender;
 import mod.azure.doom.client.render.ZombiemanRender;
 import mod.azure.doom.client.render.armors.AstroRender;
@@ -106,7 +108,7 @@ import mod.azure.doom.item.armor.SentinelDoomArmor;
 import mod.azure.doom.item.armor.TwentyFiveDoomArmor;
 import mod.azure.doom.item.armor.ZombieDoomArmor;
 import mod.azure.doom.util.registry.DoomBlocks;
-import mod.azure.doom.util.registry.MobEntityRegister;
+import mod.azure.doom.util.registry.ModEntityTypes;
 import mod.azure.doom.util.registry.ProjectilesEntityRegister;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
@@ -116,107 +118,113 @@ import software.bernie.geckolib3.renderer.geo.GeoArmorRenderer;
 public class DoomRenderRegistry {
 
 	public static void init() {
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.ARCHVILE, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.ARCHVILE, (dispatcher, context) -> {
 			return new ArchvileRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.BARREL, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.BARREL, (dispatcher, context) -> {
 			return new BarrelRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.IMP, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.IMP, (dispatcher, context) -> {
 			return new ImpRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.PINKY, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.PINKY, (dispatcher, context) -> {
 			return new PinkyRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.SPECTRE, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.SPECTRE, (dispatcher, context) -> {
 			return new SpectreRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.LOST_SOUL, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.LOST_SOUL, (dispatcher, context) -> {
 			return new LostSoulRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.CACODEMON, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.CACODEMON, (dispatcher, context) -> {
 			return new CacodemonRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.BARON, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.BARON, (dispatcher, context) -> {
 			return new BaronRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.MANCUBUS, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.MANCUBUS, (dispatcher, context) -> {
 			return new MancubusRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.SPIDERDEMON, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.SPIDERDEMON, (dispatcher, context) -> {
 			return new SpiderdemonRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.ARACHNOTRON, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.ARACHNOTRON, (dispatcher, context) -> {
 			return new ArachonotronRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.ZOMBIEMAN, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.ZOMBIEMAN, (dispatcher, context) -> {
 			return new ZombiemanRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.REVENANT, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.REVENANT, (dispatcher, context) -> {
 			return new RevenantRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.IMP2016, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.IMP2016, (dispatcher, context) -> {
 			return new Imp2016Render(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.GORE_NEST, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.GORE_NEST, (dispatcher, context) -> {
 			return new GoreNestRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.NIGHTMARE_IMP, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.NIGHTMARE_IMP, (dispatcher, context) -> {
 			return new NightmareImpRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.CHAINGUNNER, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.CHAINGUNNER, (dispatcher, context) -> {
 			return new ChaingunnerRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.SHOTGUNGUY, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.SHOTGUNGUY, (dispatcher, context) -> {
 			return new ShotgunguyRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.MARAUDER, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.MARAUDER, (dispatcher, context) -> {
 			return new MarauderRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.PAIN, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.PAIN, (dispatcher, context) -> {
 			return new PainRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.HELLKNIGHT, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.HELLKNIGHT, (dispatcher, context) -> {
 			return new HellknightRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.HELLKNIGHT2016, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.HELLKNIGHT2016, (dispatcher, context) -> {
 			return new Hellknight2016Render(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.CYBERDEMON, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.CYBERDEMON, (dispatcher, context) -> {
 			return new CyberdemonRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.UNWILLING, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.UNWILLING, (dispatcher, context) -> {
 			return new UnwillingRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.CYBERDEMON2016, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.CYBERDEMON2016, (dispatcher, context) -> {
 			return new Cyberdemon2016Render(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.ICONOFSIN, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.ICONOFSIN, (dispatcher, context) -> {
 			return new IconofsinRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.POSSESSEDSCIENTIST, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.POSSESSEDSCIENTIST, (dispatcher, context) -> {
 			return new PossessedScientistRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.POSSESSEDSOLDIER, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.POSSESSEDSOLDIER, (dispatcher, context) -> {
 			return new PossessedSoldierRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.GARGOYLE, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.GARGOYLE, (dispatcher, context) -> {
 			return new GargoyleRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.MECHAZOMBIE, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.MECHAZOMBIE, (dispatcher, context) -> {
 			return new MechaZombieRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.CUEBALL, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.CUEBALL, (dispatcher, context) -> {
 			return new CueBallRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.PROWLER, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.PROWLER, (dispatcher, context) -> {
 			return new ProwlerRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.DREADKNIGHT, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.DREADKNIGHT, (dispatcher, context) -> {
 			return new DreadKnightRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(MobEntityRegister.IMP_STONE, (dispatcher, context) -> {
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.IMP_STONE, (dispatcher, context) -> {
 			return new ImpStoneRender(dispatcher);
+		});
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.TYRANT, (dispatcher, context) -> {
+			return new TyrantRender(dispatcher);
+		});
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.POSSESSEDWORKER, (dispatcher, context) -> {
+			return new PossessedWorkerRender(dispatcher);
 		});
 		
 		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.ARGENT_BOLT, (dispatcher, context) -> {

@@ -126,6 +126,18 @@ public class ModSoundEvents {
 	public static SoundEvent MECHA_DEATH = of("doom.mecha_death");
 	public static SoundEvent MECHA_HURT = of("doom.mecha_hit");
 
+	public static SoundEvent WHIPLASH_AMBIENT = of("doom.whiplash_ambient");
+	public static SoundEvent WHIPLASH_DEATH = of("doom.whiplash_death");
+	public static SoundEvent WHIPLASH_HURT = of("doom.whiplash_hurt");
+
+	public static SoundEvent DOOMHUNTER_AMBIENT = of("doom.doomhunter_ambient");
+	public static SoundEvent DOOMHUNTER_DEATH = of("doom.doomhunter_death");
+	public static SoundEvent DOOMHUNTER_HURT = of("doom.doomhunter_hurt");
+
+	public static SoundEvent MAKYR_AMBIENT = of("doom.maykr_ambient");
+	public static SoundEvent MAKYR_DEATH = of("doom.maykr_death");
+	public static SoundEvent MAKYR_HURT = of("doom.maykr_hurt");
+
 	static SoundEvent of(String id) {
 		SoundEvent sound = new SoundEvent(new Identifier(DoomMod.MODID, id));
 		Registry.register(Registry.SOUND_EVENT, new Identifier(DoomMod.MODID, id), sound);

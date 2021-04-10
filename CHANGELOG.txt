@@ -1,9 +1,19 @@
-v.3.10.1
+v.3.10.2
 
-- New models and textures for the Plasma balls, BFG Ball, Bullets and Shotgun Shells when fired. 
-- Projectiles now wait 1 tick to appear to avoid the look of projectiles coming from the players face.
-- New Texture for the Mecha Zombie!
-- Fixed Arch-vile attack range.
-- Crucible Sword now animates turning on when held, and off when not held.
-- Added config option to turn on BFG balls and Rockets breaking blocks.
-- Changed Doom Weapons icon to BFG.
+- Added the Tyrant, thanks to Creeper2545 for the models base and Pedroca for the texture!
+- Added the Possessed Worker, thanks to Undeadmonkey for the model and Pedroca for the texture!
+- Updated the Unwilling model, thanks to Undeadmonkey for the model and Pedroca for the texture!
+- Scaled up the OG Cyberdemon to match the new Cyberdemon 2016/Tyrant.
+- Fixed the Argent Lamp not being full bright, blame Fabric for being stupid.
+
+## Not yet implemented but assets and code are in-process of models ## 
+- Gargoyle remodel
+- Fireborne Baron
+- Armored Baron
+- Pinky 2016
+- Whiplash
+- Doom Hunter
+- Maykr Drones
+- Blood Maykrs
+- Khan Maykr
+## Not yet implemented but assets and code are in-process of models ## 

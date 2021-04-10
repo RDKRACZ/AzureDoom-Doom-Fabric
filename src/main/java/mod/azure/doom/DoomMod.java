@@ -19,7 +19,7 @@ import mod.azure.doom.util.registry.DoomBlocks;
 import mod.azure.doom.util.registry.DoomEnchantments;
 import mod.azure.doom.util.registry.DoomItems;
 import mod.azure.doom.util.registry.DoomLoot;
-import mod.azure.doom.util.registry.MobEntityRegister;
+import mod.azure.doom.util.registry.ModEntityTypes;
 import mod.azure.doom.util.registry.ProjectilesEntityRegister;
 import nerdhub.cardinal.components.api.event.ItemComponentCallbackV2;
 import net.fabricmc.api.ModInitializer;
@@ -63,7 +63,7 @@ public class DoomMod implements ModInitializer {
 	public static DoomItems ITEMS;
 	public static DoomConfig config;
 	public static ModSoundEvents SOUNDS;
-	public static MobEntityRegister MOBS;
+	public static ModEntityTypes MOBS;
 	public static final String MODID = "doom";
 	public static BlockEntityType<IconBlockEntity> ICON;
 	public static ProjectilesEntityRegister PROJECTILES;
@@ -101,7 +101,7 @@ public class DoomMod implements ModInitializer {
 		DoomBlocks.init();
 		ITEMS = new DoomItems();
 		SOUNDS = new ModSoundEvents();
-		MOBS = new MobEntityRegister();
+		MOBS = new ModEntityTypes();
 		PROJECTILES = new ProjectilesEntityRegister();
 		DoomEnchantments.init();
 		FuelRegistry.INSTANCE.add(DoomItems.ARGENT_ENERGY, 32767);
