@@ -8,6 +8,7 @@ import mod.azure.doom.entity.ChaingunnerEntity;
 import mod.azure.doom.entity.CueBallEntity;
 import mod.azure.doom.entity.Cyberdemon2016Entity;
 import mod.azure.doom.entity.CyberdemonEntity;
+import mod.azure.doom.entity.DoomHunterEntity;
 import mod.azure.doom.entity.GargoyleEntity;
 import mod.azure.doom.entity.GoreNestEntity;
 import mod.azure.doom.entity.Hellknight2016Entity;
@@ -18,6 +19,7 @@ import mod.azure.doom.entity.ImpEntity;
 import mod.azure.doom.entity.LostSoulEntity;
 import mod.azure.doom.entity.MancubusEntity;
 import mod.azure.doom.entity.MarauderEntity;
+import mod.azure.doom.entity.MaykrDroneEntity;
 import mod.azure.doom.entity.MechaZombieEntity;
 import mod.azure.doom.entity.NightmareImpEntity;
 import mod.azure.doom.entity.PainEntity;
@@ -50,8 +52,7 @@ public class MobAttributes {
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.ICONOFSIN, IconofsinEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.IMP2016, Imp2016Entity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.IMP, ImpEntity.createMobAttributes());
-		FabricDefaultAttributeRegistry.register(ModEntityTypes.NIGHTMARE_IMP,
-				NightmareImpEntity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(ModEntityTypes.NIGHTMARE_IMP, NightmareImpEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.ARACHNOTRON, ArachnotronEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.LOST_SOUL, LostSoulEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.MANCUBUS, MancubusEntity.createMobAttributes());
@@ -73,27 +74,27 @@ public class MobAttributes {
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.GARGOYLE, GargoyleEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.CUEBALL, CueBallEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.PROWLER, ProwlerEntity.createMobAttributes());
-		FabricDefaultAttributeRegistry.register(ModEntityTypes.DREADKNIGHT,
-				Hellknight2016Entity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(ModEntityTypes.DREADKNIGHT, Hellknight2016Entity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.TYRANT, Cyberdemon2016Entity.createMobAttributes());
-		FabricDefaultAttributeRegistry.register(ModEntityTypes.POSSESSEDWORKER, PossessedScientistEntity.createMobAttributes());
-//		FabricDefaultAttributeRegistry.register(ModEntityTypes.DOOMHUNTER,
-//		 DoomHunterEntity.createAttributes());
+		FabricDefaultAttributeRegistry.register(ModEntityTypes.POSSESSEDWORKER,
+				PossessedScientistEntity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(ModEntityTypes.DOOMHUNTER, DoomHunterEntity.createMobAttributes());
 //		FabricDefaultAttributeRegistry.register(ModEntityTypes.WHIPLASH,
-//				 WhiplashEntity.createAttributes());
+//				 WhiplashEntity.createMobAttributes());
 //				 FabricDefaultAttributeRegistry.register(ModEntityTypes.PINKY2016,
-//				 PinkyEntity.createAttributes());
+//				 PinkyEntity.createMobAttributes());
 //				 FabricDefaultAttributeRegistry.register(ModEntityTypes.BARON2016,
-//				 BaronEntity.createAttributes());
+//				 BaronEntity.createMobAttributes());
 //				 FabricDefaultAttributeRegistry.register(ModEntityTypes.ARMORBARON,
-//				 ArmorBaronEntity.createAttributes());
-//				 FabricDefaultAttributeRegistry.register(ModEntityTypes.MAYKRDRONE,
-//				 MaykrDroneEntity.createAttributes());
+//				 ArmorBaronEntity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(ModEntityTypes.ARACHNOTRONETERNAL,
+				ArachnotronEntity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(ModEntityTypes.MAYKRDRONE, MaykrDroneEntity.createMobAttributes());
 //				 FabricDefaultAttributeRegistry.register(ModEntityTypes.BLOODMAYKR,
-//				 BloodMaykrEntity.createAttributes());
+//				 BloodMaykrEntity.createMobAttributes());
 //				 FabricDefaultAttributeRegistry.register(ModEntityTypes.KHANMAKER,
-//				 KhanMakyrEntity.createAttributes());
+//				 KhanMakyrEntity.createMobAttributes());
 //				 FabricDefaultAttributeRegistry.register(ModEntityTypes.FIREBARON,
-//				 FireBaronEntity.createAttributes());
+//				 FireBaronEntity.createMobAttributes());
 	}
 }

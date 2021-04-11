@@ -63,7 +63,16 @@ public class SpiderdemonEntity extends DemonEntity implements IAnimatable {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
 			return PlayState.CONTINUE;
 		}
-		return PlayState.STOP;
+		if (this.dataTracker.get(SHOOTING)) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking", true));
+			return PlayState.CONTINUE;
+		}
+		if ((this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("death", false));
+			return PlayState.CONTINUE;
+		}
+		event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
+		return PlayState.CONTINUE;
 	}
 
 	@Override

@@ -29,32 +29,25 @@ import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.StructureFeature;
 import net.minecraft.world.gen.feature.StructurePoolFeatureConfig;
 
-public class DoomStructure extends StructureFeature<DefaultFeatureConfig> {
-	public DoomStructure(Codec<DefaultFeatureConfig> codec) {
+public class MaykrStructure extends StructureFeature<DefaultFeatureConfig> {
+	public MaykrStructure(Codec<DefaultFeatureConfig> codec) {
 		super(codec);
 	}
 
 	@Override
 	public StructureStartFactory<DefaultFeatureConfig> getStructureStartFactory() {
-		return DoomStructure.Start::new;
+		return MaykrStructure.Start::new;
 	}
 
-	private static final List<SpawnSettings.SpawnEntry> STRUCTURE_MONSTERS = ImmutableList.of(
-			new SpawnSettings.SpawnEntry(ModEntityTypes.LOST_SOUL, 100, 4, 9),
-			new SpawnSettings.SpawnEntry(ModEntityTypes.ZOMBIEMAN, 100, 4, 9));
+	private static final List<SpawnSettings.SpawnEntry> STRUCTURE_MONSTERS = ImmutableList
+			.of(new SpawnSettings.SpawnEntry(ModEntityTypes.MAYKRDRONE, 45, 2, 5)
+//					, new SpawnSettings.SpawnEntry(ModEntityTypes.BLOODMAYKR, 45, 1, 2)
+//					, new SpawnSettings.SpawnEntry(ModEntityTypes.KHANMAKER, 10, 1, 1)
+					);
 
 	@Override
 	public List<SpawnSettings.SpawnEntry> getMonsterSpawns() {
 		return STRUCTURE_MONSTERS;
-	}
-
-	private static final List<SpawnSettings.SpawnEntry> STRUCTURE_CREATURES = ImmutableList.of(
-			new SpawnSettings.SpawnEntry(ModEntityTypes.CHAINGUNNER, 30, 10, 15),
-			new SpawnSettings.SpawnEntry(ModEntityTypes.ARCHVILE, 100, 1, 2));
-
-	@Override
-	public List<SpawnSettings.SpawnEntry> getCreatureSpawns() {
-		return STRUCTURE_CREATURES;
 	}
 
 	@Override
@@ -103,7 +96,7 @@ public class DoomStructure extends StructureFeature<DefaultFeatureConfig> {
 			BlockPos.Mutable blockpos = new BlockPos.Mutable(x, 0, z);
 			StructurePoolBasedGenerator.method_30419(dynamicRegistryManager,
 					new StructurePoolFeatureConfig(() -> dynamicRegistryManager.get(Registry.TEMPLATE_POOL_WORLDGEN)
-							.get(new Identifier(DoomMod.MODID, "doom/start_pool")), 10),
+							.get(new Identifier(DoomMod.MODID, "maykr/start_pool")), 10),
 					PoolStructurePiece::new, chunkGenerator, structureManager, blockpos, this.children, this.random,
 					false, true);
 			this.children.forEach(piece -> piece.translate(0, 0, 0));

@@ -51,6 +51,8 @@ public class MobSpawn {
 								config.zombieman_min_group, config.zombieman_max_group),
 						new SpawnSettings.SpawnEntry(ModEntityTypes.ARACHNOTRON, config.arachnotron_spawn_weight,
 								config.arachnotron_min_group, config.arachnotron_max_group),
+						new SpawnSettings.SpawnEntry(ModEntityTypes.ARACHNOTRONETERNAL, config.arachnotron_spawn_weight,
+								config.arachnotron_min_group, config.arachnotron_max_group),
 						new SpawnSettings.SpawnEntry(ModEntityTypes.IMP2016, config.imp2016_spawn_weight,
 								config.imp2016_min_group, config.imp2016_min_group),
 						new SpawnSettings.SpawnEntry(ModEntityTypes.GARGOYLE, config.gargoyle_spawn_weight,

@@ -31,12 +31,12 @@ public class NoiseChunkGeneratorMixin {
 			SpawnGroup group, BlockPos pos) {
 
 		if (group == SpawnGroup.MONSTER) {
-			if (accessor.getStructureAt(pos, true, DoomStructures.DOOM1).hasChildren()) {
-				return DoomStructures.DOOM1.getMonsterSpawns();
+			if (accessor.getStructureAt(pos, true, DoomStructures.MAYKR).hasChildren()) {
+				return DoomStructures.MAYKR.getMonsterSpawns();
 			}
 		} else if (group == SpawnGroup.CREATURE) {
-			if (accessor.getStructureAt(pos, true, DoomStructures.DOOM1).hasChildren()) {
-				return DoomStructures.DOOM1.getCreatureSpawns();
+			if (accessor.getStructureAt(pos, true, DoomStructures.MAYKR).hasChildren()) {
+				return DoomStructures.MAYKR.getCreatureSpawns();
 			}
 		}
 

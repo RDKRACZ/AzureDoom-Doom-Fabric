@@ -1,7 +1,7 @@
 package mod.azure.doom.client.render.projectiles.entity;
 
 import mod.azure.doom.DoomMod;
-import mod.azure.doom.entity.projectiles.entity.ChaingunMobEntity;
+import mod.azure.doom.entity.projectiles.entity.DroneBoltEntity;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -16,26 +16,26 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Matrix3f;
 import net.minecraft.util.math.Matrix4f;
 
-public class ChaingunMobRender extends EntityRenderer<ChaingunMobEntity> {
+public class DroneBoltRender extends EntityRenderer<DroneBoltEntity> {
 
-	private static final Identifier SHELL_TEXTURE = new Identifier(DoomMod.MODID,
-			"textures/entity/projectiles/shotgun_shell.png");
+	private static final Identifier ARGENT_BOLT_TEXTURE = new Identifier(DoomMod.MODID,
+			"textures/entity/projectiles/argent_bolt.png");
 
-	public ChaingunMobRender(EntityRenderDispatcher renderManagerIn) {
+	public DroneBoltRender(EntityRenderDispatcher renderManagerIn) {
 		super(renderManagerIn);
 	}
 
 	@Override
-	public Identifier getTexture(ChaingunMobEntity entity) {
-		return SHELL_TEXTURE;
+	public Identifier getTexture(DroneBoltEntity entity) {
+		return ARGENT_BOLT_TEXTURE;
 	}
 
-	protected int getBlockLight(ChaingunMobEntity entityIn, BlockPos partialTicks) {
+	protected int getBlockLight(DroneBoltEntity entityIn, BlockPos partialTicks) {
 		return 15;
 	}
 
 	@Override
-	public void render(ChaingunMobEntity persistentProjectileEntity, float f, float g, MatrixStack matrixStack,
+	public void render(DroneBoltEntity persistentProjectileEntity, float f, float g, MatrixStack matrixStack,
 			VertexConsumerProvider vertexConsumerProvider, int i) {
 		matrixStack.push();
 		matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(
@@ -77,4 +77,5 @@ public class ChaingunMobRender extends EntityRenderer<ChaingunMobEntity> {
 		vertexConsumer.vertex(matrix4f, (float) i, (float) j, (float) k).color(255, 255, 255, 255).texture(f, g)
 				.overlay(OverlayTexture.DEFAULT_UV).light(o).normal(matrix3f, (float) l, (float) n, (float) m).next();
 	}
+
 }

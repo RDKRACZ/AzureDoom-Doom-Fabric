@@ -89,8 +89,8 @@ public class SpawnRestrictionMixin {
 				HostileEntity::canSpawnInDark);
 		register(ModEntityTypes.POSSESSEDWORKER, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-//		register(ModEntityTypes.DOOMHUNTER, SpawnRestriction.Location.ON_GROUND, 
-//				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+		register(ModEntityTypes.DOOMHUNTER, SpawnRestriction.Location.ON_GROUND,
+				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
 //		register(ModEntityTypes.WHIPLASH, SpawnRestriction.Location.ON_GROUND, 
 //				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
 //		register(ModEntityTypes.PINKY2016,
@@ -105,9 +105,10 @@ public class SpawnRestrictionMixin {
 //		register(ModEntityTypes.ARMORBARON,
 //		SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
 //		HostileEntity::canSpawnInDark);
-//		register(ModEntityTypes.MAYKRDRONE,
-//		SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
-//		HostileEntity::canSpawnInDark);
+		register(ModEntityTypes.ARACHNOTRONETERNAL, SpawnRestriction.Location.ON_GROUND,
+				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+		register(ModEntityTypes.MAYKRDRONE, SpawnRestriction.Location.ON_GROUND,
+				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
 //		register(ModEntityTypes.BLOODMAYKR,
 //		SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
 //		HostileEntity::canSpawnInDark);

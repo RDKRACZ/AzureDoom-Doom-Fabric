@@ -67,11 +67,16 @@ public class ArachnotronEntity extends DemonEntity implements IAnimatable {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
 			return PlayState.CONTINUE;
 		}
-		if (this.dataTracker.get(SHOOTING)) {
+		if (this.dataTracker.get(SHOOTING) && !((this.dead || this.getHealth() < 0.01 || this.isDead()))) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking", true));
 			return PlayState.CONTINUE;
 		}
-		return PlayState.STOP;
+		if ((this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("death", false));
+			return PlayState.CONTINUE;
+		}
+		event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
+		return PlayState.CONTINUE;
 	}
 
 	@Override
@@ -82,6 +87,16 @@ public class ArachnotronEntity extends DemonEntity implements IAnimatable {
 	@Override
 	public AnimationFactory getFactory() {
 		return this.factory;
+	}
+
+	@Override
+	protected void updatePostDeath() {
+		++this.deathTime;
+		if (this.deathTime == 50) {
+			this.remove();
+			if (world.isClient) {
+			}
+		}
 	}
 
 	@Environment(EnvType.CLIENT)
@@ -113,7 +128,7 @@ public class ArachnotronEntity extends DemonEntity implements IAnimatable {
 				new RangedStrafeAttackGoal(this,
 						new ArachnotronEntity.FireballAttack(this).setProjectileOriginOffset(0.8, 0.8, 0.8)
 								.setDamage(config.arachnotron_ranged_damage),
-						1.0D, 50, 30, 15, 15F).setMultiShot(2, 3));
+						1.5D, 15, 30, 15, 15F).setMultiShot(2, 3));
 		this.goalSelector.add(4, new DemonAttackGoal(this, 1.0D, false));
 		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]).setGroupRevenge());
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));

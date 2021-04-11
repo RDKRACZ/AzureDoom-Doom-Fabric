@@ -1,26 +1,35 @@
 package mod.azure.doom.entity;
 
+import java.util.List;
 import java.util.Random;
+import java.util.SplittableRandom;
 
 import org.jetbrains.annotations.Nullable;
 
+import mod.azure.doom.entity.projectiles.entity.ArchvileFiring;
 import mod.azure.doom.util.ModSoundEvents;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.FollowTargetGoal;
+import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.boss.ServerBossBar;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.passive.MerchantEntity;
@@ -31,6 +40,11 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -42,6 +56,9 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class IconofsinEntity extends DemonEntity implements IAnimatable {
+
+	private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(IconofsinEntity.class,
+			TrackedDataHandlerRegistry.BOOLEAN);
 
 	private final ServerBossBar bossBar = (ServerBossBar) (new ServerBossBar(this.getDisplayName(),
 			BossBar.Color.PURPLE, BossBar.Style.PROGRESS)).setDarkenSky(true).setThickenFog(true);
@@ -62,8 +79,8 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
 			return PlayState.CONTINUE;
 		}
-		if (this.isAttacking() && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("attack", true));
+		if (this.dataTracker.get(SHOOTING) && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("summoned", false));
 			return PlayState.CONTINUE;
 		}
 		if ((this.dead || this.getHealth() < 0.01 || this.isDead())) {
@@ -104,9 +121,32 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 		}
 	}
 
+	@Environment(EnvType.CLIENT)
+	public boolean isShooting() {
+		return (Boolean) this.dataTracker.get(SHOOTING);
+	}
+
+	public void setShooting(boolean shooting) {
+		this.dataTracker.set(SHOOTING, shooting);
+	}
+
+	protected void initDataTracker() {
+		super.initDataTracker();
+		this.dataTracker.startTracking(SHOOTING, false);
+	}
+
 	@Override
 	public boolean handleFallDamage(float fallDistance, float damageMultiplier) {
 		return false;
+	}
+
+	@Override
+	public boolean isPushable() {
+		return false;
+	}
+
+	@Override
+	protected void tickCramming() {
 	}
 
 	@Override
@@ -118,9 +158,133 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 	}
 
 	protected void initCustomGoals() {
-		this.goalSelector.add(2, new MeleeAttackGoal(this, 1.0D, false));
+		this.goalSelector.add(2, new IconofsinEntity.ShootFireballGoal(this));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, MerchantEntity.class, true));
+	}
+
+	static class ShootFireballGoal extends Goal {
+		private final IconofsinEntity parentEntity;
+		public int cooldown;
+
+		public ShootFireballGoal(IconofsinEntity parentEntity) {
+			this.parentEntity = parentEntity;
+		}
+
+		public boolean canStart() {
+			return this.parentEntity.getTarget() != null;
+		}
+
+		public void start() {
+			this.cooldown = 0;
+		}
+
+		public void resetTask() {
+			this.parentEntity.setShooting(false);
+		}
+
+		public void tick() {
+			LivingEntity livingEntity = this.parentEntity.getTarget();
+			if (livingEntity.squaredDistanceTo(this.parentEntity) < 4096.0D && this.parentEntity.canSee(livingEntity)) {
+				++this.cooldown;
+				Random rand = new Random();
+				double d = Math.min(livingEntity.getY(), parentEntity.getY());
+				double e1 = Math.max(livingEntity.getY(), parentEntity.getY()) + 1.0D;
+				float f2 = (float) MathHelper.atan2(livingEntity.getZ() - parentEntity.getZ(),
+						livingEntity.getX() - parentEntity.getX());
+				int j;
+				if (this.cooldown == 35) {
+					if (parentEntity.distanceTo(livingEntity) > 11.0D) {
+						float h2;
+
+						SplittableRandom random = new SplittableRandom();
+						boolean r = random.nextInt(1, 101) <= 20;
+						if (r) {
+							for (j = 15; j < 55; ++j) {
+								h2 = f2 + (float) j * 3.1415927F * 0.4F;
+								parentEntity.spawnFlames(
+										parentEntity.getX() + (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
+										parentEntity.getZ() + (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
+										d, e1, h2, 0);
+								parentEntity.spawnFlames(
+										parentEntity.getX() + (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
+										parentEntity.getZ() + (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
+										d, e1, h2, 0);
+								parentEntity.spawnFlames(
+										parentEntity.getX() + (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
+										parentEntity.getZ() + (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
+										d, e1, h2, 0);
+								parentEntity.spawnFlames(
+										parentEntity.getX() + (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
+										parentEntity.getZ() + (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
+										d, e1, h2, 0);
+								parentEntity.spawnFlames(
+										parentEntity.getX() + (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
+										parentEntity.getZ() + (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
+										d, e1, h2, 0);
+							}
+						} else {
+							this.parentEntity.doDamage();
+						}
+						this.parentEntity.setAttacking(this.cooldown >= 15);
+						this.cooldown = -35;
+					}
+				}
+			} else if (this.cooldown > 0) {
+				--this.cooldown;
+			}
+		}
+	}
+
+	public void doDamage() {
+		float q = 4.0F;
+		int k = MathHelper.floor(this.getX() - (double) q - 1.0D);
+		int l = MathHelper.floor(this.getX() + (double) q + 1.0D);
+		int t = MathHelper.floor(this.getY() - (double) q - 1.0D);
+		int u = MathHelper.floor(this.getY() + (double) q + 1.0D);
+		int v = MathHelper.floor(this.getZ() - (double) q - 1.0D);
+		int w = MathHelper.floor(this.getZ() + (double) q + 1.0D);
+		List<Entity> list = this.world.getOtherEntities(this,
+				new Box((double) k, (double) t, (double) v, (double) l, (double) u, (double) w));
+		Vec3d vec3d = new Vec3d(this.getX(), this.getY(), this.getZ());
+		for (int x = 0; x < list.size(); ++x) {
+			Entity entity = (Entity) list.get(x);
+			double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d)) / q);
+			if (y <= 1.0D) {
+				if (entity instanceof LivingEntity) {
+					entity.damage(DamageSource.magic(this, this.getTarget()), 7);
+				}
+			}
+		}
+	}
+
+	public void spawnFlames(double x, double z, double maxY, double y, float yaw, int warmup) {
+		BlockPos blockPos = new BlockPos(x, y, z);
+		boolean bl = false;
+		double d = -0.75D;
+		do {
+			BlockPos blockPos2 = blockPos.down();
+			BlockState blockState = this.world.getBlockState(blockPos2);
+			if (blockState.isSideSolidFullSquare(this.world, blockPos2, Direction.UP)) {
+				if (!this.world.isAir(blockPos)) {
+					BlockState blockState2 = this.world.getBlockState(blockPos);
+					VoxelShape voxelShape = blockState2.getCollisionShape(this.world, blockPos);
+					if (!voxelShape.isEmpty()) {
+						d = voxelShape.getMax(Direction.Axis.Y);
+					}
+				}
+				bl = true;
+				break;
+			}
+			blockPos = blockPos.down();
+		} while (blockPos.getY() >= MathHelper.floor(maxY) - 1);
+
+		if (bl) {
+			ArchvileFiring fang = new ArchvileFiring(this.world, x, (double) blockPos.getY() + d, z, yaw, warmup, this);
+			fang.setFireTicks(age);
+			fang.isInvisible();
+			this.world.spawnEntity(fang);
+		}
 	}
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {

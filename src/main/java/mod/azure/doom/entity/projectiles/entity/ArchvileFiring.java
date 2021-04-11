@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.jetbrains.annotations.Nullable;
 
 import mod.azure.doom.entity.ArchvileEntity;
+import mod.azure.doom.entity.IconofsinEntity;
 import mod.azure.doom.entity.MancubusEntity;
 import mod.azure.doom.util.packets.EntityPacket;
 import mod.azure.doom.util.registry.ProjectilesEntityRegister;
@@ -121,7 +122,8 @@ public class ArchvileFiring extends Entity implements IAnimatable {
 		List<Entity> list = this.world.getOtherEntities(this, new Box(this.getBlockPos().up()).expand(1D, 1D, 1D));
 		for (int x = 0; x < list.size(); ++x) {
 			Entity entity = (Entity) list.get(x);
-			if (!(entity instanceof MancubusEntity) && !(entity instanceof ArchvileEntity)) {
+			if (!(entity instanceof MancubusEntity) && !(entity instanceof ArchvileEntity)
+					&& !(entity instanceof IconofsinEntity)) {
 				double y = (double) (MathHelper.sqrt(entity.distanceTo(this)));
 				if (y <= 1.0D) {
 					if (entity.isAlive()) {

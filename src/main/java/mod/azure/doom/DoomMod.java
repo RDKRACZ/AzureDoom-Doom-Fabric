@@ -119,7 +119,12 @@ public class DoomMod implements ModInitializer {
 			DoomConfiguredStructures.registerConfiguredStructures();
 			BiomeModifications.create(new Identifier(MODID, "doom_end")).add(ModificationPhase.ADDITIONS,
 					BiomeSelectors.all(), context -> {
-						context.getGenerationSettings().addBuiltInStructure(DoomConfiguredStructures.CONFIGURED_DOOM1);
+						context.getGenerationSettings().addBuiltInStructure(DoomConfiguredStructures.CONFIGURED_MAYKR);
+					});
+			BiomeModifications.create(new Identifier(MODID, "doom_icon")).add(ModificationPhase.ADDITIONS,
+					BiomeSelectors.all(), context -> {
+						context.getGenerationSettings()
+								.addBuiltInStructure(DoomConfiguredStructures.CONFIGURED_TITAN_SKULL);
 					});
 			removeStructureSpawningFromSelectedDimension();
 		}
@@ -199,10 +204,14 @@ public class DoomMod implements ModInitializer {
 			Map<StructureFeature<?>, StructureConfig> tempMap = new HashMap<>(
 					serverWorld.getChunkManager().getChunkGenerator().getStructuresConfig().getStructures());
 			if (!serverWorld.getRegistryKey().getValue().getNamespace().equals("minecraft")) {
-				tempMap.keySet().remove(DoomStructures.DOOM1);
+				tempMap.keySet().remove(DoomStructures.MAYKR);
+				tempMap.keySet().remove(DoomStructures.TITAN_SKULL);
 			}
 			if (!serverWorld.getRegistryKey().getValue().getPath().equals("the_end")) {
-				tempMap.keySet().remove(DoomStructures.DOOM1);
+				tempMap.keySet().remove(DoomStructures.MAYKR);
+			}
+			if (!serverWorld.getRegistryKey().getValue().getPath().equals("nether")) {
+				tempMap.keySet().remove(DoomStructures.TITAN_SKULL);
 			}
 
 			((StructuresConfigAccessor) serverWorld.getChunkManager().getChunkGenerator().getStructuresConfig())

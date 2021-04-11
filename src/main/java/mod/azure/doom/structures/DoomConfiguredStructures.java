@@ -9,11 +9,13 @@ import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 
 public class DoomConfiguredStructures {
 
-	public static ConfiguredStructureFeature<?, ?> CONFIGURED_DOOM1 = DoomStructures.DOOM1.configure(DefaultFeatureConfig.DEFAULT);
+	public static ConfiguredStructureFeature<?, ?> CONFIGURED_MAYKR = DoomStructures.MAYKR.configure(DefaultFeatureConfig.DEFAULT);
+	public static ConfiguredStructureFeature<?, ?> CONFIGURED_TITAN_SKULL = DoomStructures.TITAN_SKULL.configure(DefaultFeatureConfig.DEFAULT);
 
 
     public static void registerConfiguredStructures() {
         Registry<ConfiguredStructureFeature<?, ?>> registry = BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE;
-        Registry.register(registry, new Identifier(DoomMod.MODID, "configured_doom1"), CONFIGURED_DOOM1);
+        Registry.register(registry, new Identifier(DoomMod.MODID, "configured_maykr"), CONFIGURED_MAYKR);
+        Registry.register(registry, new Identifier(DoomMod.MODID, "configured_titan_skull"), CONFIGURED_TITAN_SKULL);
     }
 }
