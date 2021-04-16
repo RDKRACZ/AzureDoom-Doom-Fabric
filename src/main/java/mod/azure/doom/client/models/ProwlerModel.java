@@ -35,9 +35,15 @@ public class ProwlerModel extends AnimatedGeoModel<ProwlerEntity> {
 		EntityModelData extraData = (EntityModelData) customPredicate.getExtraDataOfType(EntityModelData.class).get(0);
 		if (head != null) {
 			head.setRotationX(
-					Vector3f.POSITIVE_X.getRadialQuaternion(extraData.headPitch * ((float) Math.PI / 180F)).getX());
+					Vector3f.POSITIVE_X
+							.getRadialQuaternion(Vector3f.POSITIVE_X
+									.getRadialQuaternion(extraData.headPitch * ((float) Math.PI / 180F)).getX())
+							.getX());
 			head.setRotationY(
-					Vector3f.POSITIVE_Y.getRadialQuaternion(extraData.netHeadYaw * ((float) Math.PI / 340F)).getY());
+					Vector3f.POSITIVE_Y
+							.getRadialQuaternion(Vector3f.POSITIVE_Y
+									.getRadialQuaternion(extraData.netHeadYaw * ((float) Math.PI / 340F)).getY())
+							.getY());
 		}
 	}
 }

@@ -61,11 +61,6 @@ public class SuperShotgun extends DoomBaseItem implements IAnimatable {
 	}
 
 	@Override
-	public boolean hasGlint(ItemStack stack) {
-		return false;
-	}
-
-	@Override
 	public boolean canRepair(ItemStack stack, ItemStack ingredient) {
 		return DoomTier.SHOTGUN.getRepairIngredient().test(ingredient) || super.canRepair(stack, ingredient);
 	}
@@ -89,7 +84,8 @@ public class SuperShotgun extends DoomBaseItem implements IAnimatable {
 				worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(), playerentity.getZ(),
 						ModSoundEvents.SUPER_SHOTGUN_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F);
 
-				AnimationController<?> controller = GeckoLibUtil.getControllerForStack(this.factory, stack, controllerName);
+				AnimationController<?> controller = GeckoLibUtil.getControllerForStack(this.factory, stack,
+						controllerName);
 				if (controller.getAnimationState() == AnimationState.Stopped) {
 					controller.markNeedsReload();
 					controller.setAnimation(new AnimationBuilder().addAnimation("firing", false));
@@ -109,13 +105,8 @@ public class SuperShotgun extends DoomBaseItem implements IAnimatable {
 	}
 
 	@Override
-	public int getMaxUseTime(ItemStack stack) {
-		return 72000;
-	}
-
-	@Override
 	public UseAction getUseAction(ItemStack stack) {
-		return UseAction.BLOCK;
+		return UseAction.BOW;
 	}
 
 	@Override
@@ -143,17 +134,6 @@ public class SuperShotgun extends DoomBaseItem implements IAnimatable {
 				PacketByteBuf passedData = new PacketByteBuf(Unpooled.buffer());
 				passedData.writeBoolean(true);
 				ClientPlayNetworking.send(DoomMod.SUPERSHOTGUN, passedData);
-			}
-		}
-	}
-
-	private void removeAmmo(Item ammo, PlayerEntity playerEntity) {
-		if (!playerEntity.isCreative()) {
-			for (ItemStack item : playerEntity.inventory.main) {
-				if (item.getItem() == DoomItems.SHOTGUN_SHELLS) {
-					item.decrement(1);
-					break;
-				}
 			}
 		}
 	}

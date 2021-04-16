@@ -87,7 +87,7 @@ public class DoomItems {
 	public static BFG BFG_ETERNAL = item(new BFG(), "bfg_eternal");
 	public static DaisyItem DAISY = item(new DaisyItem(), "daisy");
 	public static Rocket ROCKET = item(new Rocket(2.2F), "rocket");
-	public static Unmaykr UNMAKYR = item(new Unmaykr(), "unmaykr");
+	public static Unmaykr UNMAYKR = item(new Unmaykr(), "unmaykr");
 	public static Ballista BALLISTA = item(new Ballista(), "ballista");
 	public static Chaingun CHAINGUN = item(new Chaingun(), "chaingun");
 	public static Chainsaw CHAINSAW = item(new Chainsaw(), "chainsaw");
@@ -127,7 +127,7 @@ public class DoomItems {
 			"gas_barrel");
 
 	public static Item[] ITEMS = { CHAINSAW_ETERNAL, CRUCIBLESWORD, ROCKETLAUNCHER, AXE_OPEN, HEAVYCANNON, SSG,
-			PLASMAGUN, CHAINSAW64, CHAINSAW, CHAINGUN, BALLISTA, UNMAKYR, BFG_ETERNAL, BFG, SG, PISTOL };
+			PLASMAGUN, CHAINSAW64, CHAINSAW, CHAINGUN, BALLISTA, UNMAYKR, BFG_ETERNAL, BFG, SG, PISTOL };
 
 	public static Map<Item, Item> getItemMap() {
 		Map<Item, Item> vanillaItemMap = new HashMap<>();

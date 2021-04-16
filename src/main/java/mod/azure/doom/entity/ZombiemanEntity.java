@@ -119,7 +119,7 @@ public class ZombiemanEntity extends DemonEntity implements RangedAttackMob, IAn
 	}
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
-		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
+		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 25.0D)
 				.add(EntityAttributes.GENERIC_MAX_HEALTH, config.zombieman_health)
 				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, config.zombieman_melee_damage)
 				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25D)

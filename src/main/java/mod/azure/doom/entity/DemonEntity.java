@@ -1,5 +1,6 @@
 package mod.azure.doom.entity;
 
+import java.util.Random;
 import java.util.UUID;
 
 import org.jetbrains.annotations.Nullable;
@@ -11,14 +12,19 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.Durations;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.Angerable;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.network.Packet;
+import net.minecraft.tag.FluidTags;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.IntRange;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 
 public class DemonEntity extends HostileEntity implements Angerable {
@@ -45,6 +51,10 @@ public class DemonEntity extends HostileEntity implements Angerable {
 		return EntityGroup.UNDEAD;
 	}
 
+	public boolean canWalkOnFluid(Fluid fluid) {
+		return fluid.isIn(FluidTags.LAVA);
+	}
+
 	@Override
 	@Environment(EnvType.CLIENT)
 	public boolean shouldRender(double distance) {
@@ -53,6 +63,11 @@ public class DemonEntity extends HostileEntity implements Angerable {
 
 	public void setShooting(boolean attacking) {
 
+	}
+
+	public static boolean canSpawnInDark(EntityType<? extends HostileEntity> type, ServerWorldAccess serverWorldAccess,
+			SpawnReason spawnReason, BlockPos pos, Random random) {
+		return true;
 	}
 
 	@Override

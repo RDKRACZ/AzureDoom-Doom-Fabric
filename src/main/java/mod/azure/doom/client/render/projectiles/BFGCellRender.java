@@ -1,7 +1,6 @@
 package mod.azure.doom.client.render.projectiles;
 
 import mod.azure.doom.DoomMod;
-import mod.azure.doom.client.GeoProjectilesRenderer;
 import mod.azure.doom.client.models.projectiles.BFGBallModel;
 import mod.azure.doom.entity.projectiles.BFGEntity;
 import net.minecraft.client.render.OverlayTexture;
@@ -18,6 +17,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Matrix3f;
 import net.minecraft.util.math.Matrix4f;
 import software.bernie.geckolib3.geo.render.built.GeoModel;
+import software.bernie.geckolib3.renderer.geo.GeoProjectilesRenderer;
 
 public class BFGCellRender extends GeoProjectilesRenderer<BFGEntity> {
 

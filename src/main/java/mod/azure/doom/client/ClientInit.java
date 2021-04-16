@@ -61,7 +61,7 @@ public class ClientInit implements ClientModInitializer {
 		GeoItemRenderer.registerItemRenderer(DoomItems.CHAINSAW_ETERNAL, new ChainsawRender());
 		GeoItemRenderer.registerItemRenderer(DoomItems.PISTOL, new PistolRender());
 		GeoItemRenderer.registerItemRenderer(DoomItems.ROCKETLAUNCHER, new RocketLauncherRender());
-		GeoItemRenderer.registerItemRenderer(DoomItems.UNMAKYR, new UnmaykrRender());
+		GeoItemRenderer.registerItemRenderer(DoomItems.UNMAYKR, new UnmaykrRender());
 		GeoItemRenderer.registerItemRenderer(DoomItems.CRUCIBLESWORD, new CrucibleRender());
 		ClientSidePacketRegistry.INSTANCE.register(EntityPacket.ID, (ctx, buf) -> {
 			EntityPacketOnClient.onPacket(ctx, buf);

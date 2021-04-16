@@ -35,11 +35,12 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class GoreNestEntity extends DemonEntity implements IAnimatable {
 
+	private AnimationFactory factory = new AnimationFactory(this);
+	public int spawnTimer = 0;
+
 	public GoreNestEntity(EntityType<? extends GoreNestEntity> entityType, World worldIn) {
 		super(entityType, worldIn);
 	}
-
-	private AnimationFactory factory = new AnimationFactory(this);
 
 	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 		if ((this.dead || this.getHealth() < 0.01 || this.isDead())) {
@@ -142,7 +143,7 @@ public class GoreNestEntity extends DemonEntity implements IAnimatable {
 	}
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
-		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
+		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 25.0D)
 				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.0D)
 				.add(EntityAttributes.GENERIC_MAX_HEALTH, config.gorenest_health)
 				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 0.0D).add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
@@ -165,13 +166,19 @@ public class GoreNestEntity extends DemonEntity implements IAnimatable {
 			this.world.addParticle(ParticleTypes.SOUL, this.getParticleX(0.2D), this.getRandomBodyY(),
 					this.getParticleZ(0.5D), 0.0D, 0D, 0D);
 		}
+		spawnTimer = (spawnTimer + 1) % 8;
 		if (!world.isClient) {
-			if (this.age % 800 == 0) {
+			if (this.age % 2400 == 0 && this.getSpawnTimer() <= 3) {
 				this.spawnWave();
 			}
 		}
 		super.tickMovement();
 	}
+
+	public int getSpawnTimer() {
+		return spawnTimer;
+	}
+
 
 	protected boolean shouldDrown() {
 		return false;

@@ -2,6 +2,7 @@ package mod.azure.doom.client.models;
 
 import mod.azure.doom.DoomMod;
 import mod.azure.doom.entity.IconofsinEntity;
+import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.processor.IBone;
@@ -36,8 +37,10 @@ public class IconofsinModel extends AnimatedGeoModel<IconofsinEntity> {
 
 		EntityModelData extraData = (EntityModelData) customPredicate.getExtraDataOfType(EntityModelData.class).get(0);
 		if (head != null) {
-			head.setRotationX((extraData.headPitch - 20) * ((float) Math.PI / 360F));
-			head.setRotationY((extraData.netHeadYaw) * ((float) Math.PI / 360F));
+			head.setRotationX(Vector3f.POSITIVE_X
+					.getRadialQuaternion((extraData.headPitch - 20) * ((float) Math.PI / 360F)).getX());
+			head.setRotationY(
+					Vector3f.POSITIVE_Y.getRadialQuaternion(extraData.netHeadYaw * ((float) Math.PI / 360F)).getY());
 		}
 	}
 }

@@ -72,7 +72,7 @@ public class SentinelDoomArmor extends GeoArmorItem implements IAnimatable {
 		ItemStack stack = new ItemStack(this);
 		stack.hasTag();
 		stack.addEnchantment(Enchantments.FIRE_PROTECTION, 1);
-		if (group == DoomMod.DoomArmorItemGroup) {
+		if ((group == DoomMod.DoomArmorItemGroup) || (group == ItemGroup.SEARCH)) {
 			stacks.add(stack);
 		}
 	}

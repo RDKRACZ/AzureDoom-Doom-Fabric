@@ -15,13 +15,19 @@ public class DoomStructures {
 
 	public static StructureFeature<DefaultFeatureConfig> TITAN_SKULL = new TitanSkullStructure(DefaultFeatureConfig.CODEC);
 
+	public static StructureFeature<DefaultFeatureConfig> PORTAL = new PortalStructure(DefaultFeatureConfig.CODEC);
+
 	public static void setupAndRegisterStructureFeatures() {
 
-		FabricStructureBuilder.create(new Identifier(DoomMod.MODID, "doom1"), MAYKR)
+		FabricStructureBuilder.create(new Identifier(DoomMod.MODID, "maykr"), MAYKR)
 				.step(GenerationStep.Feature.SURFACE_STRUCTURES).defaultConfig(new StructureConfig(20, 11, 1234567890))
 				.superflatFeature(MAYKR.configure(FeatureConfig.DEFAULT)).adjustsSurface().register();
 
 		FabricStructureBuilder.create(new Identifier(DoomMod.MODID, "titan_skull"), TITAN_SKULL)
+				.step(GenerationStep.Feature.SURFACE_STRUCTURES).defaultConfig(new StructureConfig(80, 20, 1234567890))
+				.superflatFeature(MAYKR.configure(FeatureConfig.DEFAULT)).adjustsSurface().register();
+
+		FabricStructureBuilder.create(new Identifier(DoomMod.MODID, "portal"), PORTAL)
 				.step(GenerationStep.Feature.SURFACE_STRUCTURES).defaultConfig(new StructureConfig(80, 20, 1234567890))
 				.superflatFeature(MAYKR.configure(FeatureConfig.DEFAULT)).adjustsSurface().register();
 	}

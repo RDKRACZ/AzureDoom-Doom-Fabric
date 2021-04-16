@@ -7,7 +7,7 @@ import net.minecraft.client.item.TooltipContext;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ArmorMaterial ;
+import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -44,15 +44,15 @@ public class AstroDoomArmor extends GeoArmorItem implements IAnimatable {
 		return this.factory;
 	}
 
-	public AstroDoomArmor(ArmorMaterial  materialIn, EquipmentSlot  slot) {
+	public AstroDoomArmor(ArmorMaterial materialIn, EquipmentSlot slot) {
 		super(materialIn, slot, new Item.Settings().group(DoomMod.DoomArmorItemGroup).maxCount(1));
 
 	}
 
 	@Override
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-		tooltip.add(new TranslatableText("doom.astroarmor.text").formatted(Formatting.YELLOW)
-				.formatted(Formatting.ITALIC));
+		tooltip.add(
+				new TranslatableText("doom.astroarmor.text").formatted(Formatting.YELLOW).formatted(Formatting.ITALIC));
 		super.appendTooltip(stack, world, tooltip, context);
 	}
 
@@ -66,7 +66,7 @@ public class AstroDoomArmor extends GeoArmorItem implements IAnimatable {
 		ItemStack stack = new ItemStack(this);
 		stack.hasTag();
 		stack.addEnchantment(Enchantments.FIRE_PROTECTION, 1);
-		if (group == DoomMod.DoomArmorItemGroup) {
+		if ((group == DoomMod.DoomArmorItemGroup) || (group == ItemGroup.SEARCH)) {
 			stacks.add(stack);
 		}
 	}

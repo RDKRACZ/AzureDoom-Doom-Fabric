@@ -16,6 +16,7 @@ import mod.azure.doom.entity.HellknightEntity;
 import mod.azure.doom.entity.IconofsinEntity;
 import mod.azure.doom.entity.Imp2016Entity;
 import mod.azure.doom.entity.ImpEntity;
+import mod.azure.doom.entity.ImpStoneEntity;
 import mod.azure.doom.entity.LostSoulEntity;
 import mod.azure.doom.entity.MancubusEntity;
 import mod.azure.doom.entity.MarauderEntity;
@@ -52,6 +53,7 @@ public class MobAttributes {
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.ICONOFSIN, IconofsinEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.IMP2016, Imp2016Entity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.IMP, ImpEntity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(ModEntityTypes.IMP_STONE, ImpStoneEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.NIGHTMARE_IMP, NightmareImpEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.ARACHNOTRON, ArachnotronEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.LOST_SOUL, LostSoulEntity.createMobAttributes());

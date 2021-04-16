@@ -59,7 +59,7 @@ public abstract class DoubleJumpMixin extends AbstractClientPlayerEntity {
 		Vec3d motion = this.getVelocity();
 		ClientPlayerEntity player = mc.player;
 
-		Box box = new Box(pos.getX(), pos.getY() + this.getEyeHeight(this.getPose()) * 0.8, pos.getZ(), pos.getX(),
+		Box box = new Box(pos.getX(), pos.getY() + this.getEyeHeight(this.getPose()) * 1.6D, pos.getZ(), pos.getX(),
 				pos.getY() + this.getHeight(), pos.getZ());
 
 		ItemStack stack = this.getEquippedStack(EquipmentSlot.FEET);
@@ -94,6 +94,9 @@ public abstract class DoubleJumpMixin extends AbstractClientPlayerEntity {
 								player.getZ() + (double) (player.world.random.nextFloat() * player.getWidth() * 2.0F)
 										- (double) player.getWidth() - d2 * 10.0D,
 								d0, d1, d2);
+						Vec3d playerLook = player.getRotationVec(1);
+						Vec3d dashVec = new Vec3d(playerLook.x, player.getVelocity().y, playerLook.z);
+						player.setVelocity(dashVec);
 						player.playSound(SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, 1.0F, 2.0F);
 					}
 

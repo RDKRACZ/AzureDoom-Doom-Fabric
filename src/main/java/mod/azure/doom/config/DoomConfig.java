@@ -197,10 +197,10 @@ public class DoomConfig implements ConfigData {
 		public double prowler_health = 15;
 		public double prowler_melee_damage = 4;
 
-		public double maykrdrone_health = 60;
+		public double maykrdrone_health = 20;
 		public float maykrdrone_ranged_damage = 2;
 
-		public double bloodmaykr_health = 90;
+		public double bloodmaykr_health = 45;
 		public float bloodmaykr_ranged_damage = 5;
 		public double bloodmaykr_melee_damage = 4;
 

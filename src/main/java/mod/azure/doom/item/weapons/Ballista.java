@@ -1,7 +1,5 @@
 package mod.azure.doom.item.weapons;
 
-import java.util.List;
-
 import io.netty.buffer.Unpooled;
 import mod.azure.doom.DoomMod;
 import mod.azure.doom.client.ClientInit;
@@ -10,7 +8,6 @@ import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.enums.DoomTier;
 import mod.azure.doom.util.registry.DoomItems;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -19,9 +16,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.RangedWeaponItem;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
@@ -58,11 +52,6 @@ public class Ballista extends DoomBaseItem implements IAnimatable {
 
 	public Ballista() {
 		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(11));
-	}
-
-	@Override
-	public boolean hasGlint(ItemStack stack) {
-		return false;
 	}
 
 	@Override
@@ -110,11 +99,6 @@ public class Ballista extends DoomBaseItem implements IAnimatable {
 	}
 
 	@Override
-	public int getMaxUseTime(ItemStack stack) {
-		return 72000;
-	}
-
-	@Override
 	public UseAction getUseAction(ItemStack stack) {
 		return UseAction.BLOCK;
 	}
@@ -139,31 +123,13 @@ public class Ballista extends DoomBaseItem implements IAnimatable {
 	@Override
 	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
 		if (world.isClient) {
-			if (((PlayerEntity) entity).getMainHandStack().getItem() instanceof Ballista && ClientInit.reload.isPressed()
-					&& selected) {
+			if (((PlayerEntity) entity).getMainHandStack().getItem() instanceof Ballista
+					&& ClientInit.reload.isPressed() && selected) {
 				PacketByteBuf passedData = new PacketByteBuf(Unpooled.buffer());
 				passedData.writeBoolean(true);
 				ClientPlayNetworking.send(DoomMod.BALLISTA, passedData);
 			}
 		}
-	}
-
-	private void removeAmmo(Item ammo, PlayerEntity playerEntity) {
-		if (!playerEntity.isCreative()) {
-			for (ItemStack item : playerEntity.inventory.main) {
-				if (item.getItem() == DoomItems.ARGENT_BOLT) {
-					item.decrement(1);
-					break;
-				}
-			}
-		}
-	}
-
-	@Override
-	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-		tooltip.add(new TranslatableText(
-				"Ammo: " + (stack.getMaxDamage() - stack.getDamage() - 1) + " / " + (stack.getMaxDamage() - 1))
-						.formatted(Formatting.ITALIC));
 	}
 
 	public ArgentBoltEntity createArrow(World worldIn, ItemStack stack, LivingEntity shooter) {

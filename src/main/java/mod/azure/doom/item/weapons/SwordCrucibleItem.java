@@ -11,7 +11,6 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -24,7 +23,6 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
-import software.bernie.geckolib3.core.AnimationState;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -73,14 +71,6 @@ public class SwordCrucibleItem extends SwordItem implements IAnimatable {
 		super.appendTooltip(stack, world, tooltip, context);
 	}
 
-	@Override
-	public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-		if (stack.getDamage() < (stack.getMaxDamage() - 1)) {
-			stack.damage(1, target, p -> p.sendToolBreakStatus(target.getActiveHand()));
-		}
-		return (stack.getDamage() < (stack.getMaxDamage() - 1)) ? true : false;
-	}
-
 	public void reload(PlayerEntity user, Hand hand) {
 		if (user.getStackInHand(hand).getItem() instanceof SwordCrucibleItem) {
 			while (user.getStackInHand(hand).getDamage() != 0
@@ -94,35 +84,33 @@ public class SwordCrucibleItem extends SwordItem implements IAnimatable {
 
 	@Override
 	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+		PlayerEntity playerentity = (PlayerEntity) entity;
+		boolean activestate = playerentity.getMainHandStack().getItem() instanceof SwordCrucibleItem && selected;
+		AnimationController<?> controller = GeckoLibUtil.getControllerForStack(this.factory, stack, controllerName);
+		controller.markNeedsReload();
+		controller.setAnimation(new AnimationBuilder().addAnimation((activestate ? "open_loop" : "close_loop"), false));
 		if (world.isClient) {
-			if (((PlayerEntity) entity).getMainHandStack().getItem() instanceof SwordCrucibleItem
-					&& ClientInit.reload.isPressed() && selected) {
+			if (playerentity.getMainHandStack().getItem() instanceof SwordCrucibleItem && ClientInit.reload.isPressed()
+					&& selected) {
 				PacketByteBuf passedData = new PacketByteBuf(Unpooled.buffer());
 				passedData.writeBoolean(true);
 				ClientPlayNetworking.send(DoomMod.CRUCIBLE, passedData);
 			}
 		}
-		AnimationController<?> controller = GeckoLibUtil.getControllerForStack(this.factory, stack, controllerName);
-		if (selected) {
-			if (controller.getAnimationState() == AnimationState.Stopped) {
-				controller.markNeedsReload();
-				controller.setAnimation(new AnimationBuilder().addAnimation("open_loop", false));
-			}
-		}
-		if (!selected) {
-			if (controller.getAnimationState() == AnimationState.Stopped) {
-				controller.markNeedsReload();
-				controller.setAnimation(new AnimationBuilder().addAnimation("close_loop", false));
-			}
-		}
 	}
 
-	private void removeAmmo(Item ammo, PlayerEntity playerEntity) {
+	public void removeAmmo(Item ammo, PlayerEntity playerEntity) {
 		if (!playerEntity.isCreative()) {
-			for (ItemStack item : playerEntity.inventory.main) {
-				if (item.getItem() == DoomBlocks.ARGENT_BLOCK.asItem()) {
+			for (ItemStack item : playerEntity.inventory.offHand) {
+				if (item.getItem() == ammo) {
 					item.decrement(1);
 					break;
+				}
+				for (ItemStack item1 : playerEntity.inventory.main) {
+					if (item1.getItem() == ammo) {
+						item1.decrement(1);
+						break;
+					}
 				}
 			}
 		}
@@ -136,7 +124,7 @@ public class SwordCrucibleItem extends SwordItem implements IAnimatable {
 		stack.addEnchantment(Enchantments.LOOTING, 10);
 		stack.addEnchantment(Enchantments.SHARPNESS, 10);
 		stack.addEnchantment(Enchantments.SWEEPING, 10);
-		if (group == DoomMod.DoomWeaponItemGroup) {
+		if ((group == DoomMod.DoomWeaponItemGroup) || (group == ItemGroup.SEARCH)) {
 			stacks.add(stack);
 		}
 	}

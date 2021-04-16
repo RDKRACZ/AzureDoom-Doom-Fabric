@@ -78,7 +78,7 @@ public class TitanSkullStructure extends StructureFeature<DefaultFeatureConfig> 
 							.get(new Identifier(DoomMod.MODID, "titan_skull/start_pool")), 10),
 					PoolStructurePiece::new, chunkGenerator, structureManager, blockpos, this.children, this.random,
 					false, false);
-			this.children.forEach(piece -> piece.translate(0, 0, 0));
+			this.children.forEach(piece -> piece.translate(0, 1, 0));
 			this.children.forEach(piece -> piece.getBoundingBox().minY -= 1);
 			this.setBoundingBoxFromChildren();
 		}

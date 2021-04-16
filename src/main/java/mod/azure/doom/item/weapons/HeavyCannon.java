@@ -113,17 +113,6 @@ public class HeavyCannon extends DoomBaseItem implements IAnimatable {
 		}
 	}
 
-	private void removeAmmo(Item ammo, PlayerEntity playerEntity) {
-		if (!playerEntity.isCreative()) {
-			for (ItemStack item : playerEntity.inventory.main) {
-				if (item.getItem() == DoomItems.BULLETS) {
-					item.decrement(1);
-					break;
-				}
-			}
-		}
-	}
-
 	@Override
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
 		tooltip.add(new TranslatableText(
@@ -153,7 +142,7 @@ public class HeavyCannon extends DoomBaseItem implements IAnimatable {
 
 	@Override
 	public UseAction getUseAction(ItemStack stack) {
-		return UseAction.BLOCK;
+		return UseAction.BOW;
 	}
 
 	@Override

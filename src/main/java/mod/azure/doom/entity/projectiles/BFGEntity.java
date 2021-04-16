@@ -57,6 +57,7 @@ public class BFGEntity extends PersistentProjectileEntity implements IAnimatable
 	private static final TrackedData<Integer> BEAM_TARGET_ID = DataTracker.registerData(BFGEntity.class,
 			TrackedDataHandlerRegistry.INTEGER);
 	private LivingEntity cachedBeamTarget;
+	private LivingEntity shooter;
 
 	public BFGEntity(EntityType<? extends BFGEntity> entityType, World world) {
 		super(entityType, world);
@@ -65,6 +66,7 @@ public class BFGEntity extends PersistentProjectileEntity implements IAnimatable
 
 	public BFGEntity(World world, LivingEntity owner) {
 		super(ProjectilesEntityRegister.BFG_CELL, owner, world);
+		this.shooter = owner;
 	}
 
 	private AnimationFactory factory = new AnimationFactory(this);
@@ -224,7 +226,7 @@ public class BFGEntity extends PersistentProjectileEntity implements IAnimatable
 				double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d1)) / q);
 				if (y <= 1.0D) {
 					if (entity.isAlive()) {
-						entity.damage(DamageSource.player((PlayerEntity) this.cachedBeamTarget), 10);
+						entity.damage(DamageSource.player((PlayerEntity) this.shooter), 10);
 						setBeamTarget(entity.getEntityId());
 					}
 				}
@@ -310,7 +312,7 @@ public class BFGEntity extends PersistentProjectileEntity implements IAnimatable
 					|| (entity instanceof HoglinEntity)) {
 				double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d)) / q);
 				if (y <= 1.0D) {
-					entity.damage(DamageSource.arrow(this, this.cachedBeamTarget), 100);
+					entity.damage(DamageSource.player((PlayerEntity) this.shooter), 100);
 					if (!this.world.isClient) {
 						List<LivingEntity> list1 = this.world.getEntitiesIncludingUngeneratedChunks(LivingEntity.class,
 								this.getBoundingBox().expand(15.0D, 15.0D, 15.0D));

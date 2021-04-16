@@ -114,7 +114,7 @@ public class ArachnotronEntity extends DemonEntity implements IAnimatable {
 		this.dataTracker.startTracking(SHOOTING, false);
 	}
 
-	public static boolean spawning(EntityType<BaronEntity> p_223337_0_, World p_223337_1_, SpawnReason reason,
+	public static boolean spawning(EntityType<ArachnotronEntity> p_223337_0_, World p_223337_1_, SpawnReason reason,
 			BlockPos p_223337_3_, Random p_223337_4_) {
 		return p_223337_1_.getDifficulty() != Difficulty.PEACEFUL;
 	}
@@ -159,7 +159,7 @@ public class ArachnotronEntity extends DemonEntity implements IAnimatable {
 	}
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
-		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
+		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 25.0D)
 				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25D)
 				.add(EntityAttributes.GENERIC_MAX_HEALTH, config.arachnotron_health)
 				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, config.arachnotron_melee_damage)

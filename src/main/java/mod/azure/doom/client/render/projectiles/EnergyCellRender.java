@@ -1,6 +1,5 @@
 package mod.azure.doom.client.render.projectiles;
 
-import mod.azure.doom.client.GeoProjectilesRenderer;
 import mod.azure.doom.client.models.projectiles.EnergyModel;
 import mod.azure.doom.entity.projectiles.EnergyCellEntity;
 import net.minecraft.client.render.RenderLayer;
@@ -10,6 +9,7 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import software.bernie.geckolib3.renderer.geo.GeoProjectilesRenderer;
 
 public class EnergyCellRender extends GeoProjectilesRenderer<EnergyCellEntity> {
 

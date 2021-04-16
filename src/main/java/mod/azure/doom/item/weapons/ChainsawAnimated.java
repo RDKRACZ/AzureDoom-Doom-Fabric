@@ -59,11 +59,6 @@ public class ChainsawAnimated extends DoomBaseItem implements IAnimatable {
 	}
 
 	@Override
-	public boolean hasGlint(ItemStack stack) {
-		return false;
-	}
-
-	@Override
 	public boolean canRepair(ItemStack toRepair, ItemStack repair) {
 		return DoomTier.CHAINSAW.getRepairIngredient().test(repair) || super.canRepair(toRepair, repair);
 	}
@@ -88,7 +83,7 @@ public class ChainsawAnimated extends DoomBaseItem implements IAnimatable {
 		}
 		if (isSelected) {
 			worldIn.playSound((PlayerEntity) null, user.getX(), user.getY(), user.getZ(), ModSoundEvents.CHAINSAW_IDLE,
-					SoundCategory.PLAYERS, 1.0F, 1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + 0.25F * 0.5F);
+					SoundCategory.PLAYERS, 0.05F, 1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + 0.25F * 0.5F);
 		}
 		if (worldIn.isClient) {
 			if (player.getMainHandStack().getItem() instanceof ChainsawAnimated && ClientInit.reload.isPressed()
@@ -110,23 +105,12 @@ public class ChainsawAnimated extends DoomBaseItem implements IAnimatable {
 		}
 	}
 
-	private void removeAmmo(Item ammo, PlayerEntity playerEntity) {
-		if (!playerEntity.isCreative()) {
-			for (ItemStack item : playerEntity.inventory.main) {
-				if (item.getItem() == DoomItems.GAS_BARREL) {
-					item.decrement(1);
-					break;
-				}
-			}
-		}
-	}
-
 	private void doDamage(LivingEntity user, Entity target) {
 		if (target instanceof LivingEntity) {
 			target.timeUntilRegen = 0;
 			target.damage(DamageSource.player((PlayerEntity) user), 2F);
 			user.world.playSound((PlayerEntity) null, user.getX(), user.getY(), user.getZ(),
-					ModSoundEvents.CHAINSAW_ATTACKING, SoundCategory.PLAYERS, 1.0F,
+					ModSoundEvents.CHAINSAW_ATTACKING, SoundCategory.PLAYERS, 0.05F,
 					1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + 0.25F * 0.5F);
 		}
 	}
