@@ -300,7 +300,7 @@ public class ModEntityTypes {
 //			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, BloodMaykrEntity::new).dimensions(EntityDimensions.fixed(1.7f, 2.2F))
 //					.fireImmune().trackedUpdateRate(9).trackRangeBlocks(90).build());
 //
-//	public static final EntityType<KhanMakyrEntity> KHANMAKER = Registry.register(Registry.ENTITY_TYPE,new Identifier(DoomMod.MODID, "khan_maykr"),
-//			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, KhanMakyrEntity::new).dimensions(EntityDimensions.fixed(1.7f, 2.2F))
+//	public static final EntityType<ArchMakyrEntity> ARCHMAKER = Registry.register(Registry.ENTITY_TYPE,new Identifier(DoomMod.MODID, "arch_maykr"),
+//			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ArchMakyrEntity::new).dimensions(EntityDimensions.fixed(1.7f, 2.2F))
 //					.fireImmune().trackedUpdateRate(9).trackRangeBlocks(90).build());
 }

@@ -76,6 +76,7 @@ public class DoomMod implements ModInitializer {
 	public static final Identifier CHAINGUN = new Identifier(MODID, "chaingun");
 	public static final Identifier CHAINSAW = new Identifier(MODID, "chainsaw");
 	public static final Identifier CRUCIBLE = new Identifier(MODID, "crucible");
+	public static final Identifier MARAUDERAXE = new Identifier(MODID, "marauderaxe");
 	public static final Identifier RELOAD_GUN = new Identifier(MODID, "gun_reload");
 	public static final Identifier HEAVYCANNON = new Identifier(MODID, "heavycannon");
 	public static final Identifier SUPERSHOTGUN = new Identifier(MODID, "supershotgun");

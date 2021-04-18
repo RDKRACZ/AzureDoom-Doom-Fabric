@@ -1,6 +1,7 @@
 package mod.azure.doom.network;
 
 import mod.azure.doom.DoomMod;
+import mod.azure.doom.item.weapons.AxeMarauderItem;
 import mod.azure.doom.item.weapons.BFG;
 import mod.azure.doom.item.weapons.BFG9000;
 import mod.azure.doom.item.weapons.Ballista;
@@ -30,6 +31,13 @@ public class PacketHandler {
 				(server, player, serverPlayNetworkHandler, inputPacket, packetSender) -> {
 					if (player.getMainHandStack().getItem() instanceof SwordCrucibleItem) {
 						((SwordCrucibleItem) player.getMainHandStack().getItem()).reload(player, Hand.MAIN_HAND);
+					}
+					;
+				});
+		ServerPlayNetworking.registerGlobalReceiver(DoomMod.MARAUDERAXE,
+				(server, player, serverPlayNetworkHandler, inputPacket, packetSender) -> {
+					if (player.getMainHandStack().getItem() instanceof AxeMarauderItem) {
+						((AxeMarauderItem) player.getMainHandStack().getItem()).reload(player, Hand.MAIN_HAND);
 					}
 					;
 				});

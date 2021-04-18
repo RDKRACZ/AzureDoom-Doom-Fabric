@@ -24,6 +24,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.IntRange;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 
@@ -67,6 +68,10 @@ public class DemonEntity extends HostileEntity implements Angerable {
 
 	public static boolean canSpawnInDark(EntityType<? extends HostileEntity> type, ServerWorldAccess serverWorldAccess,
 			SpawnReason spawnReason, BlockPos pos, Random random) {
+		if (serverWorldAccess.getDifficulty() == Difficulty.PEACEFUL)
+			return false;
+		if ((spawnReason != SpawnReason.CHUNK_GENERATION && spawnReason != SpawnReason.NATURAL))
+			return true;
 		return true;
 	}
 

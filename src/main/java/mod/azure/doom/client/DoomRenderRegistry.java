@@ -254,8 +254,8 @@ public class DoomRenderRegistry {
 //		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.BLOODMAYKR, (dispatcher, context) -> {
 //			return new BloodMaykrRender(dispatcher);
 //		});
-//		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.KHANMAKER, (dispatcher, context) -> {
-//			return new KhanMaykrRender(dispatcher);
+//		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.ARCHMAKER, (dispatcher, context) -> {
+//			return new ArchMaykrRender(dispatcher);
 //		});
 		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.ARACHNOTRONETERNAL, (dispatcher, context) -> {
 			return new ArachonotronEternalRender(dispatcher);

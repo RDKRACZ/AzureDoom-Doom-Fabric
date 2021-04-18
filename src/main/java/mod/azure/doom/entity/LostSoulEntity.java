@@ -53,6 +53,8 @@ public class LostSoulEntity extends DemonEntity implements Monster, IAnimatable 
 
 	private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(LostSoulEntity.class,
 			TrackedDataHandlerRegistry.BOOLEAN);
+	protected static final TrackedData<Byte> VEX_FLAGS = DataTracker.registerData(LostSoulEntity.class,
+			TrackedDataHandlerRegistry.BYTE);
 	public int explosionPower = 1;
 	public int flameTimer;
 	@Nullable
@@ -96,6 +98,7 @@ public class LostSoulEntity extends DemonEntity implements Monster, IAnimatable 
 	protected void initDataTracker() {
 		super.initDataTracker();
 		this.dataTracker.startTracking(SHOOTING, false);
+		this.dataTracker.startTracking(VEX_FLAGS, (byte) 0);
 	}
 
 	public boolean handleFallDamage(float fallDistance, float damageMultiplier) {
@@ -171,12 +174,28 @@ public class LostSoulEntity extends DemonEntity implements Monster, IAnimatable 
 				&& canMobSpawn(type, world, spawnReason, pos, random);
 	}
 
+	private boolean areFlagsSet(int mask) {
+		int i = (Byte) this.dataTracker.get(VEX_FLAGS);
+		return (i & mask) != 0;
+	}
+
+	private void setVexFlag(int mask, boolean value) {
+		int i = (Byte) this.dataTracker.get(VEX_FLAGS);
+		if (value) {
+			i = i | mask;
+		} else {
+			i = i & ~mask;
+		}
+
+		this.dataTracker.set(VEX_FLAGS, (byte) (i & 255));
+	}
+
 	public boolean isCharging() {
-		return true;
+		return this.areFlagsSet(1);
 	}
 
 	public void setCharging(boolean charging) {
-		return;
+		this.setVexFlag(1, charging);
 	}
 
 	@Nullable
@@ -192,8 +211,7 @@ public class LostSoulEntity extends DemonEntity implements Monster, IAnimatable 
 		}
 
 		public boolean canStart() {
-			if (LostSoulEntity.this.getTarget() != null && !LostSoulEntity.this.getMoveControl().isMoving()
-					&& LostSoulEntity.this.random.nextInt(7) == 0) {
+			if (LostSoulEntity.this.getTarget() != null && !LostSoulEntity.this.getMoveControl().isMoving()) {
 				return LostSoulEntity.this.squaredDistanceTo(LostSoulEntity.this.getTarget()) > 4.0D;
 			} else {
 				return false;
@@ -229,10 +247,10 @@ public class LostSoulEntity extends DemonEntity implements Monster, IAnimatable 
 				--this.attackTimer;
 			} else {
 				double d = LostSoulEntity.this.squaredDistanceTo(livingEntity);
-				if (d < 30.0D) {
+				if (d < 400.0D) {
 					Vec3d vec3d = livingEntity.getCameraPosVec(1.0F);
 					LostSoulEntity.this.moveControl.moveTo(vec3d.x, vec3d.y, vec3d.z, 1.0D);
-					this.attackTimer = -40;
+					this.attackTimer = -10;
 				}
 			}
 
