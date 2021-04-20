@@ -25,10 +25,10 @@ public class DoomStructures {
 
 		FabricStructureBuilder.create(new Identifier(DoomMod.MODID, "titan_skull"), TITAN_SKULL)
 				.step(GenerationStep.Feature.SURFACE_STRUCTURES).defaultConfig(new StructureConfig(80, 20, 1234567890))
-				.superflatFeature(MAYKR.configure(FeatureConfig.DEFAULT)).adjustsSurface().register();
+				.superflatFeature(TITAN_SKULL.configure(FeatureConfig.DEFAULT)).adjustsSurface().register();
 
 		FabricStructureBuilder.create(new Identifier(DoomMod.MODID, "portal"), PORTAL)
 				.step(GenerationStep.Feature.SURFACE_STRUCTURES).defaultConfig(new StructureConfig(80, 20, 1234567890))
-				.superflatFeature(MAYKR.configure(FeatureConfig.DEFAULT)).adjustsSurface().register();
+				.superflatFeature(PORTAL.configure(FeatureConfig.DEFAULT)).adjustsSurface().register();
 	}
 }

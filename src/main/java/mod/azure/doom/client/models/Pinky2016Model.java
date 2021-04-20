@@ -1,7 +1,7 @@
 package mod.azure.doom.client.models;
 
 import mod.azure.doom.DoomMod;
-import mod.azure.doom.entity.PinkyEntity;
+import mod.azure.doom.entity.Pinky2016;
 import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
@@ -9,29 +9,26 @@ import software.bernie.geckolib3.core.processor.IBone;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 import software.bernie.geckolib3.model.provider.data.EntityModelData;
 
-public class Pinky2016Model extends AnimatedGeoModel<PinkyEntity> {
-
-	public Pinky2016Model() {
-	}
-
+public class Pinky2016Model extends AnimatedGeoModel<Pinky2016> {
+	
 	@Override
-	public Identifier getModelLocation(PinkyEntity object) {
+	public Identifier getModelLocation(Pinky2016 object) {
 		return new Identifier(DoomMod.MODID, "geo/pinky2016.geo.json");
 	}
 
 	@Override
-	public Identifier getTextureLocation(PinkyEntity object) {
+	public Identifier getTextureLocation(Pinky2016 object) {
 		return new Identifier(DoomMod.MODID, "textures/entity/pinky2016.png");
 	}
 
 	@Override
-	public Identifier getAnimationFileLocation(PinkyEntity object) {
+	public Identifier getAnimationFileLocation(Pinky2016 object) {
 		return new Identifier(DoomMod.MODID, "animations/pinky2016.animation.json");
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public void setLivingAnimations(PinkyEntity entity, Integer uniqueID, AnimationEvent customPredicate) {
+	public void setLivingAnimations(Pinky2016 entity, Integer uniqueID, AnimationEvent customPredicate) {
 		super.setLivingAnimations(entity, uniqueID, customPredicate);
 		IBone head = this.getAnimationProcessor().getBone("neck");
 

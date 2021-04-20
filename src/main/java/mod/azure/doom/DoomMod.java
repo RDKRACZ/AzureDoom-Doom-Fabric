@@ -214,10 +214,10 @@ public class DoomMod implements ModInitializer {
 			if (!serverWorld.getRegistryKey().getValue().getPath().equals("the_end")) {
 				tempMap.keySet().remove(DoomStructures.MAYKR);
 			}
-			if (!serverWorld.getRegistryKey().getValue().getPath().equals("nether")) {
+			if (!serverWorld.getRegistryKey().getValue().getPath().equals("the_nether")) {
 				tempMap.keySet().remove(DoomStructures.TITAN_SKULL);
 			}
-			if ((serverWorld.getRegistryKey().getValue().getPath().equals("nether"))
+			if ((serverWorld.getRegistryKey().getValue().getPath().equals("the_nether"))
 					|| serverWorld.getRegistryKey().getValue().getPath().equals("the_end")) {
 				tempMap.keySet().remove(DoomStructures.PORTAL);
 			}

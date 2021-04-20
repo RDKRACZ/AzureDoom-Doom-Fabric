@@ -112,7 +112,7 @@ public class SpawnRestrictionMixin {
 //		register(ModEntityTypes.BLOODMAYKR,
 //		SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
 //		DemonEntity::canSpawnInDark);
-//		register(ModEntityTypes.KHANMAKER,
+//		register(ModEntityTypes.ARCHMAKER,
 //		SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
 //		DemonEntity::canSpawnInDark);
 	}

@@ -84,7 +84,7 @@ public class MobAttributes {
 //		FabricDefaultAttributeRegistry.register(ModEntityTypes.WHIPLASH,
 //				 WhiplashEntity.createMobAttributes());
 //				 FabricDefaultAttributeRegistry.register(ModEntityTypes.PINKY2016,
-//				 PinkyEntity.createMobAttributes());
+//				 Pinky2016.createMobAttributes());
 //				 FabricDefaultAttributeRegistry.register(ModEntityTypes.BARON2016,
 //				 BaronEntity.createMobAttributes());
 //				 FabricDefaultAttributeRegistry.register(ModEntityTypes.ARMORBARON,
@@ -94,8 +94,8 @@ public class MobAttributes {
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.MAYKRDRONE, MaykrDroneEntity.createMobAttributes());
 //				 FabricDefaultAttributeRegistry.register(ModEntityTypes.BLOODMAYKR,
 //				 BloodMaykrEntity.createMobAttributes());
-//				 FabricDefaultAttributeRegistry.register(ModEntityTypes.KHANMAKER,
-//				 KhanMakyrEntity.createMobAttributes());
+//				 FabricDefaultAttributeRegistry.register(ARCHMAKER.KHANMAKER,
+//				 ArchMakyrEntity.createMobAttributes());
 //				 FabricDefaultAttributeRegistry.register(ModEntityTypes.FIREBARON,
 //				 FireBaronEntity.createMobAttributes());
 	}

@@ -272,8 +272,8 @@ public class ModEntityTypes {
 					.dimensions(EntityDimensions.fixed(4.0F, 3.0F)).fireImmune().trackRangeBlocks(90)
 					.trackedUpdateRate(4).build());
 
-//	public static final EntityType<PinkyEntity> PINKY2016 = Registry.register(Registry.ENTITY_TYPE,new Identifier(DoomMod.MODID, "pinky2016"),
-//			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, PinkyEntity::new).dimensions(EntityDimensions.fixed(1.7f, 2.2F))
+//	public static final EntityType<Pinky2016> PINKY2016 = Registry.register(Registry.ENTITY_TYPE,new Identifier(DoomMod.MODID, "pinky2016"),
+//			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, Pinky2016::new).dimensions(EntityDimensions.fixed(1.7f, 2.2F))
 //					.fireImmune().trackedUpdateRate(9).trackRangeBlocks(90).build());
 //
 //	public static final EntityType<WhiplashEntity> WHIPLASH = Registry.register(Registry.ENTITY_TYPE,new Identifier(DoomMod.MODID, "whiplash"),

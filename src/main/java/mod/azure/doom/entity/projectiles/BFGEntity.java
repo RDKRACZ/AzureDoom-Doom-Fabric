@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nullable;
 
 import mod.azure.doom.DoomMod;
 import mod.azure.doom.entity.GoreNestEntity;
+import mod.azure.doom.entity.IconofsinEntity;
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.packets.EntityPacket;
 import mod.azure.doom.util.registry.DoomItems;
@@ -109,6 +110,15 @@ public class BFGEntity extends PersistentProjectileEntity implements IAnimatable
 		++this.ticksInAir;
 		if (this.ticksInAir >= 40) {
 			this.remove();
+		}
+	}
+
+	@Override
+	protected void onHit(LivingEntity living) {
+		super.onHit(living);
+		if (!(living instanceof PlayerEntity) && !(living instanceof IconofsinEntity)) {
+			living.setVelocity(0, 0, 0);
+			living.timeUntilRegen = 0;
 		}
 	}
 
@@ -222,20 +232,11 @@ public class BFGEntity extends PersistentProjectileEntity implements IAnimatable
 			if (!(entity instanceof PlayerEntity) && !(entity instanceof GoreNestEntity)
 					&& (entity instanceof HostileEntity) || (entity instanceof SlimeEntity)
 					|| (entity instanceof PhantomEntity) || (entity instanceof ShulkerEntity)
-					|| (entity instanceof HoglinEntity)) {
+					|| (entity instanceof HoglinEntity || entity instanceof EnderDragonEntity)) {
 				double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d1)) / q);
 				if (y <= 1.0D) {
 					if (entity.isAlive()) {
 						entity.damage(DamageSource.player((PlayerEntity) this.shooter), 10);
-						setBeamTarget(entity.getEntityId());
-					}
-				}
-			}
-			if (!(entity instanceof PlayerEntity) && (entity instanceof EnderDragonEntity)) {
-				double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d1)) / q);
-				if (y <= 1.0D) {
-					if (entity.isAlive()) {
-						entity.damage(DamageSource.badRespawnPoint(), 10);
 						setBeamTarget(entity.getEntityId());
 					}
 				}
@@ -309,7 +310,7 @@ public class BFGEntity extends PersistentProjectileEntity implements IAnimatable
 			if (!(entity instanceof PlayerEntity) && !(entity instanceof GoreNestEntity)
 					&& (entity instanceof HostileEntity) || (entity instanceof SlimeEntity)
 					|| (entity instanceof PhantomEntity) || (entity instanceof ShulkerEntity)
-					|| (entity instanceof HoglinEntity)) {
+					|| (entity instanceof HoglinEntity || entity instanceof EnderDragonEntity)) {
 				double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d)) / q);
 				if (y <= 1.0D) {
 					entity.damage(DamageSource.player((PlayerEntity) this.shooter), 100);
@@ -332,16 +333,6 @@ public class BFGEntity extends PersistentProjectileEntity implements IAnimatable
 							}
 						}
 						this.world.spawnEntity(areaeffectcloudentity);
-					}
-				}
-			}
-
-			if (!(entity instanceof PlayerEntity) && (entity instanceof EnderDragonEntity)) {
-				double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d)) / q);
-				if (y <= 1.0D) {
-					if (entity.isAlive()) {
-						entity.damage(DamageSource.badRespawnPoint(), 100);
-						setBeamTarget(entity.getEntityId());
 					}
 				}
 			}

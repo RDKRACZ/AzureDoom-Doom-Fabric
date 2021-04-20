@@ -13,6 +13,7 @@ import net.minecraft.entity.ai.goal.FollowTargetGoal;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.PounceAtTargetGoal;
 import net.minecraft.entity.ai.goal.RevengeGoal;
 import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -42,12 +43,16 @@ public class Hellknight2016Entity extends DemonEntity implements IAnimatable {
 	private AnimationFactory factory = new AnimationFactory(this);
 
 	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-		if (!(lastLimbDistance > -0.15F && lastLimbDistance < 0.15F) && !this.isAttacking()) {
+		if (event.isMoving() && !this.isAttacking()&& this.onGround) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
 			return PlayState.CONTINUE;
 		}
-		if (this.isAttacking()) {
+		if (this.isAttacking() && lastLimbDistance > 0.35F && this.onGround) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("run", true));
+			return PlayState.CONTINUE;
+		}
+		if (!this.onGround) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("jumpattack", true));
 			return PlayState.CONTINUE;
 		}
 		event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
@@ -74,7 +79,7 @@ public class Hellknight2016Entity extends DemonEntity implements IAnimatable {
 	protected void initGoals() {
 		this.goalSelector.add(8, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
 		this.goalSelector.add(8, new LookAroundGoal(this));
-		// this.goalSelector.add(2, new LeapAtTargetGoal());
+		this.goalSelector.add(2, new PounceAtTargetGoal(this, 0.3F));
 		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
 		this.initCustomGoals();
 	}
@@ -84,6 +89,11 @@ public class Hellknight2016Entity extends DemonEntity implements IAnimatable {
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, MerchantEntity.class, true));
 		this.targetSelector.add(2, new RevengeGoal(this).setGroupRevenge());
+	}
+	
+	@Override
+	public int getSafeFallDistance() {
+		return 99;
 	}
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
