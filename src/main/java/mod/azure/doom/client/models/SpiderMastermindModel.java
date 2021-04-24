@@ -5,9 +5,9 @@ import mod.azure.doom.entity.tierboss.SpiderMastermindEntity;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 
-public class SpiderdemonModel extends AnimatedGeoModel<SpiderMastermindEntity> {
+public class SpiderMastermindModel extends AnimatedGeoModel<SpiderMastermindEntity> {
 
-	public SpiderdemonModel() {
+	public SpiderMastermindModel() {
 	}
 
 	@Override

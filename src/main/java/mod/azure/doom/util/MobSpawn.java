@@ -44,7 +44,7 @@ public class MobSpawn {
 								config.mancubus_min_group, config.mancubus_max_group),
 						new SpawnSettings.SpawnEntry(ModEntityTypes.REVENANT, config.revenant_spawn_weight,
 								config.revenant_min_group, config.revenant_max_group),
-						new SpawnSettings.SpawnEntry(ModEntityTypes.SPIDERDEMON,
+						new SpawnSettings.SpawnEntry(ModEntityTypes.SPIDERMASTERMIND,
 								config.spider_mastermind_spawn_weight, config.spider_mastermind_min_group,
 								config.spider_mastermind_max_group),
 						new SpawnSettings.SpawnEntry(ModEntityTypes.ZOMBIEMAN, config.zombieman_spawn_weight,

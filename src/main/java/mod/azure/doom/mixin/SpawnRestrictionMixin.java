@@ -23,7 +23,7 @@ public class SpawnRestrictionMixin {
 				DemonEntity::canSpawnInDark);
 		register(ModEntityTypes.ZOMBIEMAN, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, DemonEntity::canSpawnInDark);
-		register(ModEntityTypes.SPIDERDEMON, SpawnRestriction.Location.ON_GROUND,
+		register(ModEntityTypes.SPIDERMASTERMIND, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, DemonEntity::canSpawnInDark);
 		register(ModEntityTypes.ARACHNOTRON, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, DemonEntity::canSpawnInDark);
@@ -109,6 +109,8 @@ public class SpawnRestrictionMixin {
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, DemonEntity::canSpawnInDark);
 		register(ModEntityTypes.MAYKRDRONE, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, DemonEntity::canSpawnInDark);
+//		register(ModEntityTypes.SPIDERMASTERMIND2016, SpawnRestriction.Location.ON_GROUND,
+//				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, DemonEntity::canSpawnInDark);
 //		register(ModEntityTypes.BLOODMAYKR,
 //		SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
 //		DemonEntity::canSpawnInDark);

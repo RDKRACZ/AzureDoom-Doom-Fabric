@@ -34,7 +34,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.LocalDifficulty;
@@ -144,7 +143,7 @@ public class ArachnotronEntity extends DemonEntity implements IAnimatable {
 
 		@Override
 		public AttackSound getDefaultAttackSound() {
-			return new AttackSound(SoundEvents.ITEM_ARMOR_EQUIP_IRON, 1, 1);
+			return new AttackSound(ModSoundEvents.PLASMA_FIRING, 1, 1);
 		}
 
 		@Override

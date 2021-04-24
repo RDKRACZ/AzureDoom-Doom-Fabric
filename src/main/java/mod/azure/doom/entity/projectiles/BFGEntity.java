@@ -324,7 +324,7 @@ public class BFGEntity extends PersistentProjectileEntity implements IAnimatable
 					entity.damage(DamageSource.player((PlayerEntity) this.shooter), 100);
 					if (!this.world.isClient) {
 						List<LivingEntity> list1 = this.world.getEntitiesIncludingUngeneratedChunks(LivingEntity.class,
-								this.getBoundingBox().expand(15.0D, 15.0D, 15.0D));
+								this.getBoundingBox().expand(4.0D, 2.0D, 4.0D));
 						AreaEffectCloudEntity areaeffectcloudentity = new AreaEffectCloudEntity(entity.world,
 								entity.getX(), entity.getY(), entity.getZ());
 						areaeffectcloudentity.setParticleType(ParticleTypes.TOTEM_OF_UNDYING);

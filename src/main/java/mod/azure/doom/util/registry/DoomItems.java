@@ -153,8 +153,8 @@ public class DoomItems {
 			new DoomSpawnEgg(ModEntityTypes.MANCUBUS));
 	public static DoomSpawnEgg LOST_SOUL_SPAWN_EGG = item("lost_soul_spawn_egg",
 			new DoomSpawnEgg(ModEntityTypes.LOST_SOUL));
-	public static DoomSpawnEgg SPIDERDEMON_SPAWN_EGG = item("spiderdemon_spawn_egg",
-			new DoomSpawnEgg(ModEntityTypes.SPIDERDEMON));
+	public static DoomSpawnEgg SPIDERMASTERMIND_SPAWN_EGG = item("spidermastermind_spawn_egg",
+			new DoomSpawnEgg(ModEntityTypes.SPIDERMASTERMIND));
 	public static DoomSpawnEgg ZOMBIEMAN_SPAWN_EGG = item("zombieman_spawn_egg",
 			new DoomSpawnEgg(ModEntityTypes.ZOMBIEMAN));
 	public static DoomSpawnEgg CHAINGUNNER_SPAWN_EGG = item("chaingunner_spawn_egg",
@@ -219,6 +219,8 @@ public class DoomItems {
 //			new DoomSpawnEgg(ModEntityTypes.KHANMAKER));
 	public static DoomSpawnEgg ARACHNOTRONETERNAL_SPAWN_EGG = item("arachnotroneternal_spawn_egg",
 			new DoomSpawnEgg(ModEntityTypes.ARACHNOTRONETERNAL));
+//	public static DoomSpawnEgg SPIDERMASTERMIND2016_SPAWN_EGG = item("spidermastermind2016_spawn_egg",
+//			new DoomSpawnEgg(ModEntityTypes.SPIDERMASTERMIND2016));
 
 	// Armor
 	public static DoomArmor DOOM_HELMET = item("doom_helmet",

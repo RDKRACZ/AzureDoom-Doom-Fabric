@@ -69,7 +69,8 @@ public class MobAttributes {
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.MECHAZOMBIE, MechaZombieEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.REVENANT, RevenantEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.SHOTGUNGUY, ShotgunguyEntity.createMobAttributes());
-		FabricDefaultAttributeRegistry.register(ModEntityTypes.SPIDERDEMON, SpiderMastermindEntity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(ModEntityTypes.SPIDERMASTERMIND,
+				SpiderMastermindEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.UNWILLING, UnwillingEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.ZOMBIEMAN, ZombiemanEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.GORE_NEST, GoreNestEntity.createMobAttributes());
@@ -92,6 +93,8 @@ public class MobAttributes {
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.ARACHNOTRONETERNAL,
 				ArachnotronEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.MAYKRDRONE, MaykrDroneEntity.createMobAttributes());
+//		FabricDefaultAttributeRegistry.register(ModEntityTypes.SPIDERMASTERMIND2016,
+//				SpiderMastermind2016Entity.createMobAttributes());
 //				 FabricDefaultAttributeRegistry.register(ModEntityTypes.BLOODMAYKR,
 //				 BloodMaykrEntity.createMobAttributes());
 //				 FabricDefaultAttributeRegistry.register(ARCHMAKER.KHANMAKER,

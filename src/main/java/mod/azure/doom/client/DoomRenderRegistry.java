@@ -35,7 +35,7 @@ import mod.azure.doom.client.render.ProwlerRender;
 import mod.azure.doom.client.render.RevenantRender;
 import mod.azure.doom.client.render.ShotgunguyRender;
 import mod.azure.doom.client.render.SpectreRender;
-import mod.azure.doom.client.render.SpiderdemonRender;
+import mod.azure.doom.client.render.SpiderMastermindRender;
 import mod.azure.doom.client.render.TyrantRender;
 import mod.azure.doom.client.render.UnwillingRender;
 import mod.azure.doom.client.render.ZombiemanRender;
@@ -149,8 +149,8 @@ public class DoomRenderRegistry {
 		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.MANCUBUS, (dispatcher, context) -> {
 			return new MancubusRender(dispatcher);
 		});
-		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.SPIDERDEMON, (dispatcher, context) -> {
-			return new SpiderdemonRender(dispatcher);
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.SPIDERMASTERMIND, (dispatcher, context) -> {
+			return new SpiderMastermindRender(dispatcher);
 		});
 		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.ARACHNOTRON, (dispatcher, context) -> {
 			return new ArachonotronRender(dispatcher);
@@ -260,6 +260,9 @@ public class DoomRenderRegistry {
 		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.ARACHNOTRONETERNAL, (dispatcher, context) -> {
 			return new ArachonotronEternalRender(dispatcher);
 		});
+//		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.SPIDERMASTERMIND2016, (dispatcher, context) -> {
+//			return new SpiderMastermind2016Render(dispatcher);
+//		});
 
 		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.ARGENT_BOLT, (dispatcher, context) -> {
 			return new ArgentBoltRender(dispatcher);
