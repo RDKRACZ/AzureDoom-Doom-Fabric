@@ -229,16 +229,23 @@ public class BFGEntity extends PersistentProjectileEntity implements IAnimatable
 
 		for (int x = 0; x < list.size(); ++x) {
 			Entity entity = (Entity) list.get(x);
-			if (!(entity instanceof PlayerEntity) && !(entity instanceof GoreNestEntity)
-					&& (entity instanceof HostileEntity) || (entity instanceof SlimeEntity)
-					|| (entity instanceof PhantomEntity) || (entity instanceof ShulkerEntity)
-					|| (entity instanceof HoglinEntity || entity instanceof EnderDragonEntity)) {
-				double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d1)) / q);
+			double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d1)) / q);
+			if (!(entity instanceof PlayerEntity || entity instanceof EnderDragonEntity
+					|| entity instanceof GoreNestEntity)
+					&& (entity instanceof HostileEntity || entity instanceof SlimeEntity
+							|| entity instanceof PhantomEntity || entity instanceof ShulkerEntity
+							|| entity instanceof HoglinEntity)) {
 				if (y <= 1.0D) {
 					if (entity.isAlive()) {
 						entity.damage(DamageSource.player((PlayerEntity) this.shooter), 10);
 						setBeamTarget(entity.getEntityId());
 					}
+				}
+			}
+			if (!(entity instanceof PlayerEntity) && entity instanceof EnderDragonEntity) {
+				if (entity.isAlive()) {
+					((EnderDragonEntity) entity).partHead.damage(DamageSource.player((PlayerEntity) this.shooter), 10);
+					setBeamTarget(entity.getEntityId());
 				}
 			}
 		}
@@ -307,11 +314,12 @@ public class BFGEntity extends PersistentProjectileEntity implements IAnimatable
 
 		for (int x = 0; x < list.size(); ++x) {
 			Entity entity = (Entity) list.get(x);
-			if (!(entity instanceof PlayerEntity) && !(entity instanceof GoreNestEntity)
-					&& (entity instanceof HostileEntity) || (entity instanceof SlimeEntity)
-					|| (entity instanceof PhantomEntity) || (entity instanceof ShulkerEntity)
-					|| (entity instanceof HoglinEntity || entity instanceof EnderDragonEntity)) {
-				double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d)) / q);
+			double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d)) / q);
+			if (!(entity instanceof PlayerEntity || entity instanceof EnderDragonEntity
+					|| entity instanceof GoreNestEntity)
+					&& (entity instanceof HostileEntity || entity instanceof SlimeEntity
+							|| entity instanceof PhantomEntity || entity instanceof ShulkerEntity
+							|| entity instanceof HoglinEntity)) {
 				if (y <= 1.0D) {
 					entity.damage(DamageSource.player((PlayerEntity) this.shooter), 100);
 					if (!this.world.isClient) {
@@ -334,6 +342,11 @@ public class BFGEntity extends PersistentProjectileEntity implements IAnimatable
 						}
 						this.world.spawnEntity(areaeffectcloudentity);
 					}
+				}
+			}
+			if (entity instanceof EnderDragonEntity) {
+				if (entity.isAlive()) {
+					((EnderDragonEntity) entity).partHead.damage(DamageSource.player((PlayerEntity) this.shooter), 30);
 				}
 			}
 		}

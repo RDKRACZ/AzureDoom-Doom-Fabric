@@ -22,7 +22,7 @@ import software.bernie.geckolib3.renderer.geo.GeoProjectilesRenderer;
 public class BFGCellRender extends GeoProjectilesRenderer<BFGEntity> {
 
 	private static final RenderLayer CRYSTAL_BEAM_LAYER = RenderLayer
-			.getEntitySmoothCutout(new Identifier(DoomMod.MODID, "textures/entity/projectiles/bfg_beam.png"));
+			.getEntityTranslucent(new Identifier(DoomMod.MODID, "textures/entity/projectiles/bfg_beam.png"));
 
 	public BFGCellRender(EntityRenderDispatcher renderManagerIn) {
 		super(renderManagerIn, new BFGBallModel());
@@ -46,11 +46,11 @@ public class BFGCellRender extends GeoProjectilesRenderer<BFGEntity> {
 		super.render(model, animatable, partialTicks, type, matrixStackIn, renderTypeBuffer, vertexBuilder,
 				packedLightIn, packedOverlayIn, red, green, blue, alpha);
 		float h = getYOffset(animatable, partialTicks);
-		LivingEntity blockPos = animatable.getBeamTarget();
-		if (blockPos != null) {
-			float m = (float) blockPos.getX() + 0.5F;
-			float n = (float) blockPos.getY() + 0.5F;
-			float o = (float) blockPos.getZ() + 0.5F;
+		LivingEntity target = animatable.getBeamTarget();
+		if (target != null) {
+			float m = (float) target.getX();
+			float n = (float) target.getY();
+			float o = (float) target.getZ();
 			float p = (float) ((double) m - animatable.getX());
 			float q = (float) ((double) n - animatable.getY());
 			float r = (float) ((double) o - animatable.getZ());
@@ -82,7 +82,7 @@ public class BFGCellRender extends GeoProjectilesRenderer<BFGEntity> {
 		float f = MathHelper.sqrt(dx * dx + dz * dz);
 		float g = MathHelper.sqrt(dx * dx + dy * dy + dz * dz);
 		matrices.push();
-		matrices.translate(0.0D, 2.0D, 0.0D);
+		matrices.translate(0.0D, 1.0D, 0.0D);
 		matrices.multiply(
 				Vector3f.POSITIVE_Y.getRadialQuaternion((float) (-Math.atan2((double) dz, (double) dx)) - 1.5707964F));
 		matrices.multiply(

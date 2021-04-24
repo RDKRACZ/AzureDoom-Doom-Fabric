@@ -241,50 +241,14 @@
 			}
 		}
 	],
-	"overrides": [
-		{
-			"predicate": {
-				"pulling": 1
-			},
-			"model": "item/bow_pulling_3"
-		},
-		{
-			"predicate": {
-				"pulling": 1,
-				"pull": 0.1
-			},
-			"model": "item/bow_pulling_0"
-		},
-		{
-			"predicate": {
-				"pulling": 1,
-				"pull": 0.4
-			},
-			"model": "item/bow_pulling_1"
-		},
-		{
-			"predicate": {
-				"pulling": 1,
-				"pull": 0.8
-			},
-			"model": "item/bow_pulling_2"
-		},
-		{
-			"predicate": {
-				"pulling": 1,
-				"pull": 0.99
-			},
-			"model": "item/bow_pulling_3"
-		}
-	],
 	"display": {
 		"thirdperson_righthand": {
-			"translation": [-0.25, 7, 1.5],
-			"scale": [0.6, 0.6, 0.6]
+			"translation": [0.5, 10.5, 2],
+			"scale": [0.8, 0.8, 0.8]
 		},
 		"thirdperson_lefthand": {
-			"translation": [-0.25, 7, 1.5],
-			"scale": [0.6, 0.6, 0.6]
+			"translation": [-0.25, 10.5, 2],
+			"scale": [0.8, 0.8, 0.8]
 		},
 		"firstperson_righthand": {
 			"rotation": [4, 11, -9],
