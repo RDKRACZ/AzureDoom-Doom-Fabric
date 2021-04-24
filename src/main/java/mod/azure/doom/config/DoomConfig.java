@@ -9,10 +9,10 @@ import mod.azure.doom.DoomMod;
 public class DoomConfig implements ConfigData {
 
 	@ConfigEntry.Gui.CollapsibleObject
-	public int crucible_marauder_max_damage = 5;
+	public Structures structures = new Structures();
 
 	@ConfigEntry.Gui.CollapsibleObject
-	public boolean enable_block_breaking = false;
+	public Weapons weapons = new Weapons();
 
 	@ConfigEntry.Gui.CollapsibleObject
 	public Spawning spawn = new Spawning();
@@ -20,9 +20,13 @@ public class DoomConfig implements ConfigData {
 	@ConfigEntry.Gui.CollapsibleObject
 	public MobStats stats = new MobStats();
 
+	public static class Structures {
+		public boolean enable_structures = true;
+	}
+
 	public static class Weapons {
 		public int crucible_marauder_max_damage = 5;
-
+		public boolean enable_block_breaking = false;
 	}
 
 	public static class Spawning {

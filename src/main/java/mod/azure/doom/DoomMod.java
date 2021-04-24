@@ -114,22 +114,24 @@ public class DoomMod implements ModInitializer {
 		ServerLifecycleEvents.SERVER_STARTED.register(minecraftServer -> DoomVillagerTrades.addTrades());
 		MobAttributes.init();
 		GeckoLib.initialize();
-		DoomStructures.setupAndRegisterStructureFeatures();
-		DoomConfiguredStructures.registerConfiguredStructures();
-		BiomeModifications.create(new Identifier(MODID, "maykr_addition")).add(ModificationPhase.ADDITIONS,
-				BiomeSelectors.all(), context -> {
-					context.getGenerationSettings().addBuiltInStructure(DoomConfiguredStructures.CONFIGURED_MAYKR);
-				});
-		BiomeModifications.create(new Identifier(MODID, "titan_skull_addition")).add(ModificationPhase.ADDITIONS,
-				BiomeSelectors.all(), context -> {
-					context.getGenerationSettings()
-							.addBuiltInStructure(DoomConfiguredStructures.CONFIGURED_TITAN_SKULL);
-				});
-		BiomeModifications.create(new Identifier(MODID, "portal_addition")).add(ModificationPhase.ADDITIONS,
-				BiomeSelectors.all(), context -> {
-					context.getGenerationSettings().addBuiltInStructure(DoomConfiguredStructures.CONFIGURED_PORTAL);
-				});
-		removeStructureSpawningFromSelectedDimension();
+		if (DoomMod.config.structures.enable_structures) {
+			DoomStructures.setupAndRegisterStructureFeatures();
+			DoomConfiguredStructures.registerConfiguredStructures();
+			BiomeModifications.create(new Identifier(MODID, "maykr_addition")).add(ModificationPhase.ADDITIONS,
+					BiomeSelectors.all(), context -> {
+						context.getGenerationSettings().addBuiltInStructure(DoomConfiguredStructures.CONFIGURED_MAYKR);
+					});
+			BiomeModifications.create(new Identifier(MODID, "titan_skull_addition")).add(ModificationPhase.ADDITIONS,
+					BiomeSelectors.all(), context -> {
+						context.getGenerationSettings()
+								.addBuiltInStructure(DoomConfiguredStructures.CONFIGURED_TITAN_SKULL);
+					});
+			BiomeModifications.create(new Identifier(MODID, "portal_addition")).add(ModificationPhase.ADDITIONS,
+					BiomeSelectors.all(), context -> {
+						context.getGenerationSettings().addBuiltInStructure(DoomConfiguredStructures.CONFIGURED_PORTAL);
+					});
+			removeStructureSpawningFromSelectedDimension();
+		}
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.BELT.getInfoBuilder().build());
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.CHARM.getInfoBuilder().build());
 		LootTableLoadingCallback.EVENT.register((resourceManager, lootManager, id, supplier, setter) -> {

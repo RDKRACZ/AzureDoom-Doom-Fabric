@@ -224,7 +224,7 @@ public class RocketEntity extends PersistentProjectileEntity implements IAnimata
 		if (!this.world.isClient) {
 			this.doDamage();
 			this.world.createExplosion(this, this.getX(), this.getBodyY(0.0625D), this.getZ(), 1.0F, false,
-					DoomMod.config.enable_block_breaking ? Explosion.DestructionType.BREAK
+					DoomMod.config.weapons.enable_block_breaking ? Explosion.DestructionType.BREAK
 							: Explosion.DestructionType.NONE);
 			this.remove();
 		}
@@ -237,7 +237,7 @@ public class RocketEntity extends PersistentProjectileEntity implements IAnimata
 		if (!this.world.isClient) {
 			this.doDamage();
 			this.world.createExplosion(this, this.getX(), this.getBodyY(0.0625D), this.getZ(), 1.0F, false,
-					DoomMod.config.enable_block_breaking ? Explosion.DestructionType.BREAK
+					DoomMod.config.weapons.enable_block_breaking ? Explosion.DestructionType.BREAK
 							: Explosion.DestructionType.NONE);
 			this.remove();
 		}
