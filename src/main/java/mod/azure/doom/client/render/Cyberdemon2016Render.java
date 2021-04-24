@@ -1,7 +1,7 @@
 package mod.azure.doom.client.render;
 
 import mod.azure.doom.client.models.Cyberdemon2016Model;
-import mod.azure.doom.entity.Cyberdemon2016Entity;
+import mod.azure.doom.entity.tiersuperheavy.Cyberdemon2016Entity;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;

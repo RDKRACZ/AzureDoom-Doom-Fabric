@@ -1,7 +1,7 @@
 package mod.azure.doom.client.render;
 
 import mod.azure.doom.client.models.DoomHunterModel;
-import mod.azure.doom.entity.DoomHunterEntity;
+import mod.azure.doom.entity.tiersuperheavy.DoomHunterEntity;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;

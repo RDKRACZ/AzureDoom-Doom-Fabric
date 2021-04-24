@@ -1,7 +1,7 @@
 package mod.azure.doom.client.render;
 
 import mod.azure.doom.client.models.CueballModel;
-import mod.azure.doom.entity.CueBallEntity;
+import mod.azure.doom.entity.tierambient.CueBallEntity;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;

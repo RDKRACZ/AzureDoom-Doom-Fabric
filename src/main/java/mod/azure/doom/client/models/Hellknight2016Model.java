@@ -1,7 +1,7 @@
 package mod.azure.doom.client.models;
 
 import mod.azure.doom.DoomMod;
-import mod.azure.doom.entity.Hellknight2016Entity;
+import mod.azure.doom.entity.tierheavy.Hellknight2016Entity;
 import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;

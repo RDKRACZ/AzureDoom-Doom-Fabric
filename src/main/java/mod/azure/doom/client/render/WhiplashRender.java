@@ -1,7 +1,7 @@
 package mod.azure.doom.client.render;
 
 import mod.azure.doom.client.models.WhiplashModel;
-import mod.azure.doom.entity.WhiplashEntity;
+import mod.azure.doom.entity.tierheavy.WhiplashEntity;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;

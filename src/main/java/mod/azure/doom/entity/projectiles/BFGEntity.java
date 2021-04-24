@@ -5,8 +5,8 @@ import java.util.List;
 import org.jetbrains.annotations.Nullable;
 
 import mod.azure.doom.DoomMod;
-import mod.azure.doom.entity.GoreNestEntity;
-import mod.azure.doom.entity.IconofsinEntity;
+import mod.azure.doom.entity.tierambient.GoreNestEntity;
+import mod.azure.doom.entity.tierboss.IconofsinEntity;
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.packets.EntityPacket;
 import mod.azure.doom.util.registry.DoomItems;

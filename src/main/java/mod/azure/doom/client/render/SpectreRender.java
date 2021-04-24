@@ -1,7 +1,7 @@
 package mod.azure.doom.client.render;
 
 import mod.azure.doom.client.models.SpectreModel;
-import mod.azure.doom.entity.SpectreEntity;
+import mod.azure.doom.entity.tierheavy.SpectreEntity;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;

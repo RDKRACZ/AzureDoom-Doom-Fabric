@@ -2,7 +2,7 @@ package mod.azure.doom.client.render;
 
 import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
 import mod.azure.doom.client.models.GargoyleModel;
-import mod.azure.doom.entity.GargoyleEntity;
+import mod.azure.doom.entity.tierfodder.GargoyleEntity;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;

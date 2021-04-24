@@ -2,7 +2,7 @@ package mod.azure.doom.client.render;
 
 import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
 import mod.azure.doom.client.models.ArachnotronModel;
-import mod.azure.doom.entity.ArachnotronEntity;
+import mod.azure.doom.entity.tierheavy.ArachnotronEntity;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;

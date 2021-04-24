@@ -5,9 +5,9 @@ import java.util.UUID;
 
 import org.jetbrains.annotations.Nullable;
 
-import mod.azure.doom.entity.ArchvileEntity;
-import mod.azure.doom.entity.IconofsinEntity;
-import mod.azure.doom.entity.MancubusEntity;
+import mod.azure.doom.entity.tierboss.IconofsinEntity;
+import mod.azure.doom.entity.tierheavy.MancubusEntity;
+import mod.azure.doom.entity.tiersuperheavy.ArchvileEntity;
 import mod.azure.doom.util.packets.EntityPacket;
 import mod.azure.doom.util.registry.ProjectilesEntityRegister;
 import net.fabricmc.api.EnvType;

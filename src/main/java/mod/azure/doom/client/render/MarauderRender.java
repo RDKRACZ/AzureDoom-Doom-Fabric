@@ -2,7 +2,7 @@ package mod.azure.doom.client.render;
 
 import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
 import mod.azure.doom.client.models.MarauderModel;
-import mod.azure.doom.entity.MarauderEntity;
+import mod.azure.doom.entity.tiersuperheavy.MarauderEntity;
 import mod.azure.doom.util.registry.DoomItems;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;

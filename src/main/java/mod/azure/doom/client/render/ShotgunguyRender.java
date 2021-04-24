@@ -2,7 +2,7 @@ package mod.azure.doom.client.render;
 
 import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
 import mod.azure.doom.client.models.ShotgunguyModel;
-import mod.azure.doom.entity.ShotgunguyEntity;
+import mod.azure.doom.entity.tierfodder.ShotgunguyEntity;
 import mod.azure.doom.util.registry.DoomItems;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
