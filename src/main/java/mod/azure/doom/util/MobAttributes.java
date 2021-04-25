@@ -3,6 +3,7 @@ package mod.azure.doom.util;
 import mod.azure.doom.entity.tierambient.CueBallEntity;
 import mod.azure.doom.entity.tierambient.GoreNestEntity;
 import mod.azure.doom.entity.tierboss.IconofsinEntity;
+import mod.azure.doom.entity.tierboss.SpiderMastermind2016Entity;
 import mod.azure.doom.entity.tierboss.SpiderMastermindEntity;
 import mod.azure.doom.entity.tierfodder.ChaingunnerEntity;
 import mod.azure.doom.entity.tierfodder.GargoyleEntity;
@@ -93,8 +94,8 @@ public class MobAttributes {
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.ARACHNOTRONETERNAL,
 				ArachnotronEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.MAYKRDRONE, MaykrDroneEntity.createMobAttributes());
-//		FabricDefaultAttributeRegistry.register(ModEntityTypes.SPIDERMASTERMIND2016,
-//				SpiderMastermind2016Entity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(ModEntityTypes.SPIDERMASTERMIND2016,
+				SpiderMastermind2016Entity.createMobAttributes());
 //				 FabricDefaultAttributeRegistry.register(ModEntityTypes.BLOODMAYKR,
 //				 BloodMaykrEntity.createMobAttributes());
 //				 FabricDefaultAttributeRegistry.register(ARCHMAKER.KHANMAKER,

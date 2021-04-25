@@ -34,7 +34,7 @@ public class SpiderMastermind2016Entity extends SpiderMastermindEntity {
 		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
 		this.goalSelector.add(4,
 				new RangedStrafeAttackGoal(this, new SpiderMastermind2016Entity.FireballAttack(this)
-						.setProjectileOriginOffset(0.8, 0.8, 0.8).setDamage(7), 1.0D, 50, 30, 15, 15F).setMultiShot(5,
+						.setProjectileOriginOffset(0.8, 0.2, 0.8).setDamage(7), 1.0D, 50, 30, 15, 15F).setMultiShot(5,
 								1));
 		this.targetSelector.add(4, new DemonAttackGoal(this, 1.0D, false));
 		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]).setGroupRevenge());
@@ -67,6 +67,6 @@ public class SpiderMastermind2016Entity extends SpiderMastermindEntity {
 
 	@Override
 	protected float getActiveEyeHeight(EntityPose pose, EntityDimensions dimensions) {
-		return 1.74F;
+		return 2.5F;
 	}
 }

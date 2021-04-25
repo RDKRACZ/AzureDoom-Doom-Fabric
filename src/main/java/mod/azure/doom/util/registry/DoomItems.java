@@ -219,8 +219,8 @@ public class DoomItems {
 //			new DoomSpawnEgg(ModEntityTypes.KHANMAKER));
 	public static DoomSpawnEgg ARACHNOTRONETERNAL_SPAWN_EGG = item("arachnotroneternal_spawn_egg",
 			new DoomSpawnEgg(ModEntityTypes.ARACHNOTRONETERNAL));
-//	public static DoomSpawnEgg SPIDERMASTERMIND2016_SPAWN_EGG = item("spidermastermind2016_spawn_egg",
-//			new DoomSpawnEgg(ModEntityTypes.SPIDERMASTERMIND2016));
+	public static DoomSpawnEgg SPIDERMASTERMIND2016_SPAWN_EGG = item("spidermastermind2016_spawn_egg",
+			new DoomSpawnEgg(ModEntityTypes.SPIDERMASTERMIND2016));
 
 	// Armor
 	public static DoomArmor DOOM_HELMET = item("doom_helmet",

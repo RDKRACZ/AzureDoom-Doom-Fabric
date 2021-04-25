@@ -109,8 +109,8 @@ public class SpawnRestrictionMixin {
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, DemonEntity::canSpawnInDark);
 		register(ModEntityTypes.MAYKRDRONE, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, DemonEntity::canSpawnInDark);
-//		register(ModEntityTypes.SPIDERMASTERMIND2016, SpawnRestriction.Location.ON_GROUND,
-//				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, DemonEntity::canSpawnInDark);
+		register(ModEntityTypes.SPIDERMASTERMIND2016, SpawnRestriction.Location.ON_GROUND,
+				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, DemonEntity::canSpawnInDark);
 //		register(ModEntityTypes.BLOODMAYKR,
 //		SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
 //		DemonEntity::canSpawnInDark);

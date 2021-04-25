@@ -5,6 +5,7 @@ import mod.azure.doom.entity.projectiles.BarrelEntity;
 import mod.azure.doom.entity.tierambient.CueBallEntity;
 import mod.azure.doom.entity.tierambient.GoreNestEntity;
 import mod.azure.doom.entity.tierboss.IconofsinEntity;
+import mod.azure.doom.entity.tierboss.SpiderMastermind2016Entity;
 import mod.azure.doom.entity.tierboss.SpiderMastermindEntity;
 import mod.azure.doom.entity.tierfodder.ChaingunnerEntity;
 import mod.azure.doom.entity.tierfodder.GargoyleEntity;
@@ -262,15 +263,15 @@ public class ModEntityTypes {
 					.dimensions(EntityDimensions.fixed(6.3f, 20.0F)).fireImmune().trackRangeBlocks(90)
 					.trackedUpdateRate(4).build());
 
-	public static final EntityType<DoomHunterEntity> DOOMHUNTER = Registry.register(Registry.ENTITY_TYPE,new Identifier(DoomMod.MODID, "doom_hunter"),
-			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, DoomHunterEntity::new).dimensions(EntityDimensions.fixed(3.0f, 7.0F))
-					.fireImmune().trackedUpdateRate(9).trackRangeBlocks(90).build());
-
 	public static final EntityType<ArachnotronEntity> ARACHNOTRONETERNAL = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "arachnotroneternal"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ArachnotronEntity::new)
 					.dimensions(EntityDimensions.fixed(4.0F, 3.0F)).fireImmune().trackRangeBlocks(90)
 					.trackedUpdateRate(4).build());
+
+	public static final EntityType<DoomHunterEntity> DOOMHUNTER = Registry.register(Registry.ENTITY_TYPE,new Identifier(DoomMod.MODID, "doom_hunter"),
+			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, DoomHunterEntity::new).dimensions(EntityDimensions.fixed(3.0f, 7.0F))
+					.fireImmune().trackedUpdateRate(9).trackRangeBlocks(90).build());
 
 //	public static final EntityType<Pinky2016> PINKY2016 = Registry.register(Registry.ENTITY_TYPE,new Identifier(DoomMod.MODID, "pinky2016"),
 //			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, Pinky2016::new).dimensions(EntityDimensions.fixed(1.7f, 2.2F))
@@ -292,15 +293,15 @@ public class ModEntityTypes {
 //			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ArmorBaronEntity::new).dimensions(EntityDimensions.fixed(1.7f, 2.2F))
 //					.fireImmune().trackedUpdateRate(9).trackRangeBlocks(90).build());
 
+	public static final EntityType<SpiderMastermind2016Entity> SPIDERMASTERMIND2016 = Registry.register(Registry.ENTITY_TYPE,
+			new Identifier(DoomMod.MODID, "spidermastermind2016"),
+			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, SpiderMastermind2016Entity::new)
+					.dimensions(EntityDimensions.fixed(6.0F, 4.0F)).fireImmune().trackRangeBlocks(90)
+					.trackedUpdateRate(4).build());
+	
 	public static final EntityType<MaykrDroneEntity> MAYKRDRONE = Registry.register(Registry.ENTITY_TYPE,new Identifier(DoomMod.MODID, "maykr_drone"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, MaykrDroneEntity::new).dimensions(EntityDimensions.fixed(1.7f, 2.2F))
 					.fireImmune().trackedUpdateRate(9).trackRangeBlocks(90).build());
-
-//	public static final EntityType<SpiderMastermind2016Entity> SPIDERMASTERMIND2016 = Registry.register(Registry.ENTITY_TYPE,
-//			new Identifier(DoomMod.MODID, "spidermastermind2016"),
-//			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, SpiderMastermind2016Entity::new)
-//					.dimensions(EntityDimensions.fixed(6.0F, 4.0F)).fireImmune().trackRangeBlocks(90)
-//					.trackedUpdateRate(4).build());
 
 //	public static final EntityType<BloodMaykrEntity> BLOODMAYKR = Registry.register(Registry.ENTITY_TYPE,new Identifier(DoomMod.MODID, "blood_maykr"),
 //			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, BloodMaykrEntity::new).dimensions(EntityDimensions.fixed(1.7f, 2.2F))

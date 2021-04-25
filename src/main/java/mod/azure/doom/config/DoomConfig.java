@@ -66,10 +66,6 @@ public class DoomConfig implements ConfigData {
 		public int revenant_min_group = 1;
 		public int revenant_max_group = 4;
 
-		public int spider_mastermind_spawn_weight = 4;
-		public int spider_mastermind_min_group = 1;
-		public int spider_mastermind_max_group = 1;
-
 		public int zombieman_spawn_weight = 15;
 		public int zombieman_min_group = 1;
 		public int zombieman_max_group = 4;
@@ -158,6 +154,10 @@ public class DoomConfig implements ConfigData {
 		public int tyrant_min_group = 1;
 		public int tyrant_max_group = 1;
 
+		public int spider_mastermind_spawn_weight = 4;
+		public int spider_mastermind_min_group = 1;
+		public int spider_mastermind_max_group = 1;
+
 		public int whiplash_spawn_weight = 4;
 		public int whiplash_min_group = 1;
 		public int whiplash_max_group = 1;
@@ -169,10 +169,6 @@ public class DoomConfig implements ConfigData {
 		public int possessed_worker_spawn_weight = 15;
 		public int possessed_worker_min_group = 1;
 		public int possessed_worker_max_group = 4;
-
-		public int baron2016_spawn_weight = 4;
-		public int baron2016_min_group = 1;
-		public int baron2016_max_group = 1;
 
 		public int armoredbaron_spawn_weight = 4;
 		public int armoredbaron_min_group = 1;
@@ -208,21 +204,13 @@ public class DoomConfig implements ConfigData {
 		public float bloodmaykr_ranged_damage = 5;
 		public double bloodmaykr_melee_damage = 4;
 
-		public double khanmaykr_health = 400;
-		public float khanmaykr_ranged_damage = 7;
-		public double khanmaykr_melee_damage = 6;
+		public double archmaykr_health = 400;
+		public float archmaykr_ranged_damage = 7;
+		public double archmaykr_melee_damage = 6;
 
 		public double baron_health = 180;
 		public float baron_ranged_damage = 6;
 		public double baron_melee_damage = 7;
-
-		public double baron2016_health = 180;
-		public float baron2016_ranged_damage = 6;
-		public double baron2016_melee_damage = 7;
-
-		public double armoredbaron_health = 240;
-		public float armoredbaron_ranged_damage = 6;
-		public double armoredbaron_melee_damage = 7;
 
 		public double mancubus_health = 80;
 		public double mancubus_melee_damage = 4;
@@ -287,6 +275,10 @@ public class DoomConfig implements ConfigData {
 		public float whiplash_ranged_damage = 5;
 		public double whiplash_melee_damage = 4;
 
+		public double armoredbaron_health = 240;
+		public float armoredbaron_ranged_damage = 6;
+		public double armoredbaron_melee_damage = 7;
+
 		public double unwilling_health = 15;
 		public double unwilling_melee_damage = 2;
 
@@ -294,7 +286,7 @@ public class DoomConfig implements ConfigData {
 		public double possessed_scientist_melee_damage = 2;
 
 		public double possessed_soldier_health = 15;
-		public float possessed_ranged_damage = 2;
+		public float possessed_soldier_ranged_damage = 2;
 		public double possessed_soldier_melee_damage = 2;
 
 		public double mechazombie_health = 25;
