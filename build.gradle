@@ -26,7 +26,7 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modImplementation("software.bernie.geckolib:geckolib-fabric-1.16.5:3.0.31:dev") {
+    modImplementation("software.bernie.geckolib:geckolib-fabric-1.16.5:3.0.32:dev") {
     	exclude(group: "com.terraformersmc.modmenu")
         exclude(group: "io.github.prospector")
         exclude(group: "me.shedaniel")
@@ -108,7 +108,7 @@ repositories {
     }
     maven { url "https://maven.shedaniel.me/" }
     maven { url = 'https://maven.terraformersmc.com/' }
-    maven { url 'https://repo.repsy.io/mvn/gandiber/geckolib' }
+    maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
     maven { url 'https://maven.blamejared.com' }
     maven { url  = 'https://plugins.gradle.org/m2/' }
     maven { url 'https://jitpack.io' }

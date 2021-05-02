@@ -2,9 +2,13 @@ package mod.azure.doom.client;
 
 import mod.azure.doom.client.render.ArachonotronEternalRender;
 import mod.azure.doom.client.render.ArachonotronRender;
+import mod.azure.doom.client.render.ArchMaykrRender;
 import mod.azure.doom.client.render.ArchvileRender;
+import mod.azure.doom.client.render.ArmoredBaronRender;
+import mod.azure.doom.client.render.Baron2016Render;
 import mod.azure.doom.client.render.BaronRender;
 import mod.azure.doom.client.render.BarrelRender;
+import mod.azure.doom.client.render.BloodMaykrRender;
 import mod.azure.doom.client.render.CacodemonRender;
 import mod.azure.doom.client.render.ChaingunnerRender;
 import mod.azure.doom.client.render.CueBallRender;
@@ -12,6 +16,7 @@ import mod.azure.doom.client.render.Cyberdemon2016Render;
 import mod.azure.doom.client.render.CyberdemonRender;
 import mod.azure.doom.client.render.DoomHunterRender;
 import mod.azure.doom.client.render.DreadKnightRender;
+import mod.azure.doom.client.render.FireBaronRender;
 import mod.azure.doom.client.render.GargoyleRender;
 import mod.azure.doom.client.render.GoreNestRender;
 import mod.azure.doom.client.render.Hellknight2016Render;
@@ -27,6 +32,7 @@ import mod.azure.doom.client.render.MaykrDroneRender;
 import mod.azure.doom.client.render.MechaZombieRender;
 import mod.azure.doom.client.render.NightmareImpRender;
 import mod.azure.doom.client.render.PainRender;
+import mod.azure.doom.client.render.Pinky2016Render;
 import mod.azure.doom.client.render.PinkyRender;
 import mod.azure.doom.client.render.PossessedScientistRender;
 import mod.azure.doom.client.render.PossessedSoldierRender;
@@ -39,6 +45,7 @@ import mod.azure.doom.client.render.SpiderMastermind2016Render;
 import mod.azure.doom.client.render.SpiderMastermindRender;
 import mod.azure.doom.client.render.TyrantRender;
 import mod.azure.doom.client.render.UnwillingRender;
+import mod.azure.doom.client.render.WhiplashRender;
 import mod.azure.doom.client.render.ZombiemanRender;
 import mod.azure.doom.client.render.armors.AstroRender;
 import mod.azure.doom.client.render.armors.BronzeRender;
@@ -79,6 +86,7 @@ import mod.azure.doom.client.render.projectiles.RocketRender;
 import mod.azure.doom.client.render.projectiles.ShotgunShellRender;
 import mod.azure.doom.client.render.projectiles.UnmaykrBulletRender;
 import mod.azure.doom.client.render.projectiles.entity.ArchvileFiringRender;
+import mod.azure.doom.client.render.projectiles.entity.BloodBoltRender;
 import mod.azure.doom.client.render.projectiles.entity.ChaingunMobRender;
 import mod.azure.doom.client.render.projectiles.entity.DroneBoltRender;
 import mod.azure.doom.client.render.projectiles.entity.EnergyCellMobRender;
@@ -237,27 +245,27 @@ public class DoomRenderRegistry {
 		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.MAYKRDRONE, (dispatcher, context) -> {
 			return new MaykrDroneRender(dispatcher);
 		});
-//		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.PINKY2016, (dispatcher, context) -> {
-//			return new Pinky2016Render(dispatcher);
-//		});
-//		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.WHIPLASH, (dispatcher, context) -> {
-//			return new WhiplashRender(dispatcher);
-//		});
-//		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.BARON2016, (dispatcher, context) -> {
-//			return new Baron2016Render(dispatcher);
-//		});
-//		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.FIREBARON, (dispatcher, context) -> {
-//			return new FireBaronRender(dispatcher);
-//		});
-//		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.ARMORBARON, (dispatcher, context) -> {
-//			return new ArmorBaronRender(dispatcher);
-//		});
-//		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.BLOODMAYKR, (dispatcher, context) -> {
-//			return new BloodMaykrRender(dispatcher);
-//		});
-//		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.ARCHMAKER, (dispatcher, context) -> {
-//			return new ArchMaykrRender(dispatcher);
-//		});
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.PINKY2016, (dispatcher, context) -> {
+			return new Pinky2016Render(dispatcher);
+		});
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.WHIPLASH, (dispatcher, context) -> {
+			return new WhiplashRender(dispatcher);
+		});
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.BARON2016, (dispatcher, context) -> {
+			return new Baron2016Render(dispatcher);
+		});
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.FIREBARON, (dispatcher, context) -> {
+			return new FireBaronRender(dispatcher);
+		});
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.ARMORBARON, (dispatcher, context) -> {
+			return new ArmoredBaronRender(dispatcher);
+		});
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.BLOODMAYKR, (dispatcher, context) -> {
+			return new BloodMaykrRender(dispatcher);
+		});
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.ARCHMAKER, (dispatcher, context) -> {
+			return new ArchMaykrRender(dispatcher);
+		});
 		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.ARACHNOTRONETERNAL, (dispatcher, context) -> {
 			return new ArachonotronEternalRender(dispatcher);
 		});
@@ -306,6 +314,9 @@ public class DoomRenderRegistry {
 		});
 		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.DRONEBOLT_MOB, (dispatcher, context) -> {
 			return new DroneBoltRender(dispatcher);
+		});
+		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.BLOODBOLT_MOB, (dispatcher, context) -> {
+			return new BloodBoltRender(dispatcher);
 		});
 
 		GeoArmorRenderer.registerArmorRenderer(DoomicornDoomArmor.class, new DoomicornRender());

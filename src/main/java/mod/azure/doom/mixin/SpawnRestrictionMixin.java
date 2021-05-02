@@ -91,31 +91,25 @@ public class SpawnRestrictionMixin {
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, DemonEntity::canSpawnInDark);
 		register(ModEntityTypes.DOOMHUNTER, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, DemonEntity::canSpawnInDark);
-//		register(ModEntityTypes.WHIPLASH, SpawnRestriction.Location.ON_GROUND, 
-//				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, DemonEntity::canSpawnInDark);
-//		register(ModEntityTypes.PINKY2016,
-//		SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
-//		DemonEntity::canSpawnInDark);
-//		register(ModEntityTypes.FIREBARON,
-//		SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
-//		DemonEntity::canSpawnInDark);
-//		register(ModEntityTypes.BARON2016,
-//		SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
-//		DemonEntity::canSpawnInDark);
-//		register(ModEntityTypes.ARMORBARON,
-//		SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
-//		DemonEntity::canSpawnInDark);
+		register(ModEntityTypes.WHIPLASH, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+				DemonEntity::canSpawnInDark);
+		register(ModEntityTypes.PINKY2016, SpawnRestriction.Location.ON_GROUND,
+				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, DemonEntity::canSpawnInDark);
+		register(ModEntityTypes.FIREBARON, SpawnRestriction.Location.ON_GROUND,
+				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, DemonEntity::canSpawnInDark);
+		register(ModEntityTypes.BARON2016, SpawnRestriction.Location.ON_GROUND,
+				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, DemonEntity::canSpawnInDark);
+		register(ModEntityTypes.ARMORBARON, SpawnRestriction.Location.ON_GROUND,
+				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, DemonEntity::canSpawnInDark);
 		register(ModEntityTypes.ARACHNOTRONETERNAL, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, DemonEntity::canSpawnInDark);
 		register(ModEntityTypes.MAYKRDRONE, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, DemonEntity::canSpawnInDark);
 		register(ModEntityTypes.SPIDERMASTERMIND2016, SpawnRestriction.Location.ON_GROUND,
 				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, DemonEntity::canSpawnInDark);
-//		register(ModEntityTypes.BLOODMAYKR,
-//		SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
-//		DemonEntity::canSpawnInDark);
-//		register(ModEntityTypes.ARCHMAKER,
-//		SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
-//		DemonEntity::canSpawnInDark);
+		register(ModEntityTypes.BLOODMAYKR, SpawnRestriction.Location.ON_GROUND,
+				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, DemonEntity::canSpawnInDark);
+		register(ModEntityTypes.ARCHMAKER, SpawnRestriction.Location.ON_GROUND,
+				Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, DemonEntity::canSpawnInDark);
 	}
 }

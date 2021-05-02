@@ -26,7 +26,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 
-public class Chainsaw extends DoomBaseItem {
+public class Chainsaw extends Item {
 
 	public Chainsaw() {
 		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(601));
@@ -65,6 +65,28 @@ public class Chainsaw extends DoomBaseItem {
 				PacketByteBuf passedData = new PacketByteBuf(Unpooled.buffer());
 				passedData.writeBoolean(true);
 				ClientPlayNetworking.send(DoomMod.CHAINSAW, passedData);
+			}
+		}
+	}
+
+	@Override
+	public boolean hasGlint(ItemStack stack) {
+		return false;
+	}
+
+	public void removeAmmo(Item ammo, PlayerEntity playerEntity) {
+		if (!playerEntity.isCreative()) {
+			for (ItemStack item : playerEntity.inventory.offHand) {
+				if (item.getItem() == ammo) {
+					item.decrement(1);
+					break;
+				}
+				for (ItemStack item1 : playerEntity.inventory.main) {
+					if (item1.getItem() == ammo) {
+						item1.decrement(1);
+						break;
+					}
+				}
 			}
 		}
 	}

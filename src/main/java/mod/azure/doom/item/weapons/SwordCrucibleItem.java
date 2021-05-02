@@ -23,34 +23,8 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
-import software.bernie.geckolib3.util.GeckoLibUtil;
 
-public class SwordCrucibleItem extends SwordItem implements IAnimatable {
-
-	public AnimationFactory factory = new AnimationFactory(this);
-	private String controllerName = "controller";
-
-	private <P extends SwordItem & IAnimatable> PlayState predicate(AnimationEvent<P> event) {
-		return PlayState.CONTINUE;
-	}
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Override
-	public void registerControllers(AnimationData data) {
-		data.addAnimationController(new AnimationController(this, controllerName, 1, this::predicate));
-	}
-
-	@Override
-	public AnimationFactory getFactory() {
-		return this.factory;
-	}
+public class SwordCrucibleItem extends SwordItem {
 
 	public SwordCrucibleItem() {
 		super(DoomTier.DOOM_HIGHTEIR, 36, -2.4F, new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1));
@@ -85,11 +59,6 @@ public class SwordCrucibleItem extends SwordItem implements IAnimatable {
 	@Override
 	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
 		PlayerEntity playerentity = (PlayerEntity) entity;
-		boolean activestate = playerentity.getMainHandStack().getItem() instanceof SwordCrucibleItem && selected;
-		AnimationController<?> controller = GeckoLibUtil.getControllerForStack(this.factory, stack, controllerName);
-		controller.markNeedsReload();
-		controller.setAnimation(new AnimationBuilder().addAnimation((activestate ? "close" : "open"), false)
-				.addAnimation((activestate ? "open_loop" : "close_loop"), false));
 		if (world.isClient) {
 			if (playerentity.getMainHandStack().getItem() instanceof SwordCrucibleItem && ClientInit.reload.isPressed()
 					&& selected) {

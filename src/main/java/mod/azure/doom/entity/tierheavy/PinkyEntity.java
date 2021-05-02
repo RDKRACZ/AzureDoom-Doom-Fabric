@@ -3,7 +3,6 @@ package mod.azure.doom.entity.tierheavy;
 import java.util.Random;
 
 import mod.azure.doom.entity.DemonEntity;
-import mod.azure.doom.entity.tiersuperheavy.BaronEntity;
 import mod.azure.doom.util.ModSoundEvents;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
@@ -65,7 +64,7 @@ public class PinkyEntity extends DemonEntity implements IAnimatable {
 		return this.factory;
 	}
 
-	public static boolean spawning(EntityType<BaronEntity> p_223337_0_, World p_223337_1_, SpawnReason reason,
+	public static boolean spawning(EntityType<PinkyEntity> p_223337_0_, World p_223337_1_, SpawnReason reason,
 			BlockPos p_223337_3_, Random p_223337_4_) {
 		return p_223337_1_.getDifficulty() != Difficulty.PEACEFUL;
 	}

@@ -2,6 +2,7 @@ package mod.azure.doom.util;
 
 import mod.azure.doom.entity.tierambient.CueBallEntity;
 import mod.azure.doom.entity.tierambient.GoreNestEntity;
+import mod.azure.doom.entity.tierboss.ArchMakyrEntity;
 import mod.azure.doom.entity.tierboss.IconofsinEntity;
 import mod.azure.doom.entity.tierboss.SpiderMastermind2016Entity;
 import mod.azure.doom.entity.tierboss.SpiderMastermindEntity;
@@ -19,21 +20,26 @@ import mod.azure.doom.entity.tierfodder.ShotgunguyEntity;
 import mod.azure.doom.entity.tierfodder.UnwillingEntity;
 import mod.azure.doom.entity.tierfodder.ZombiemanEntity;
 import mod.azure.doom.entity.tierheavy.ArachnotronEntity;
+import mod.azure.doom.entity.tierheavy.BloodMaykrEntity;
 import mod.azure.doom.entity.tierheavy.CacodemonEntity;
 import mod.azure.doom.entity.tierheavy.Hellknight2016Entity;
 import mod.azure.doom.entity.tierheavy.HellknightEntity;
 import mod.azure.doom.entity.tierheavy.MancubusEntity;
 import mod.azure.doom.entity.tierheavy.MaykrDroneEntity;
 import mod.azure.doom.entity.tierheavy.PainEntity;
+import mod.azure.doom.entity.tierheavy.Pinky2016;
 import mod.azure.doom.entity.tierheavy.PinkyEntity;
 import mod.azure.doom.entity.tierheavy.ProwlerEntity;
 import mod.azure.doom.entity.tierheavy.RevenantEntity;
 import mod.azure.doom.entity.tierheavy.SpectreEntity;
+import mod.azure.doom.entity.tierheavy.WhiplashEntity;
 import mod.azure.doom.entity.tiersuperheavy.ArchvileEntity;
+import mod.azure.doom.entity.tiersuperheavy.ArmoredBaronEntity;
 import mod.azure.doom.entity.tiersuperheavy.BaronEntity;
 import mod.azure.doom.entity.tiersuperheavy.Cyberdemon2016Entity;
 import mod.azure.doom.entity.tiersuperheavy.CyberdemonEntity;
 import mod.azure.doom.entity.tiersuperheavy.DoomHunterEntity;
+import mod.azure.doom.entity.tiersuperheavy.FireBaronEntity;
 import mod.azure.doom.entity.tiersuperheavy.MarauderEntity;
 import mod.azure.doom.util.registry.ModEntityTypes;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
@@ -83,24 +89,17 @@ public class MobAttributes {
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.POSSESSEDWORKER,
 				PossessedScientistEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.DOOMHUNTER, DoomHunterEntity.createMobAttributes());
-//		FabricDefaultAttributeRegistry.register(ModEntityTypes.WHIPLASH,
-//				 WhiplashEntity.createMobAttributes());
-//				 FabricDefaultAttributeRegistry.register(ModEntityTypes.PINKY2016,
-//				 Pinky2016.createMobAttributes());
-//				 FabricDefaultAttributeRegistry.register(ModEntityTypes.BARON2016,
-//				 BaronEntity.createMobAttributes());
-//				 FabricDefaultAttributeRegistry.register(ModEntityTypes.ARMORBARON,
-//				 ArmorBaronEntity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(ModEntityTypes.WHIPLASH, WhiplashEntity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(ModEntityTypes.PINKY2016, Pinky2016.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(ModEntityTypes.BARON2016, BaronEntity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(ModEntityTypes.ARMORBARON, ArmoredBaronEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.ARACHNOTRONETERNAL,
 				ArachnotronEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.MAYKRDRONE, MaykrDroneEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.SPIDERMASTERMIND2016,
 				SpiderMastermind2016Entity.createMobAttributes());
-//				 FabricDefaultAttributeRegistry.register(ModEntityTypes.BLOODMAYKR,
-//				 BloodMaykrEntity.createMobAttributes());
-//				 FabricDefaultAttributeRegistry.register(ARCHMAKER.KHANMAKER,
-//				 ArchMakyrEntity.createMobAttributes());
-//				 FabricDefaultAttributeRegistry.register(ModEntityTypes.FIREBARON,
-//				 FireBaronEntity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(ModEntityTypes.BLOODMAYKR, BloodMaykrEntity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(ModEntityTypes.ARCHMAKER, ArchMakyrEntity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(ModEntityTypes.FIREBARON, FireBaronEntity.createMobAttributes());
 	}
 }

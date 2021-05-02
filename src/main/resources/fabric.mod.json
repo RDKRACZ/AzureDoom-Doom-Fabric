@@ -32,7 +32,7 @@
 		"fabricloader": ">=0.7.4",
 		"fabric": "*",
 		"minecraft": "1.16.x",
-		"geckolib3": ">=3.0.30"
+		"geckolib3": ">=3.0.32"
 	},
 	"suggests": {
 		"flamingo": "*"

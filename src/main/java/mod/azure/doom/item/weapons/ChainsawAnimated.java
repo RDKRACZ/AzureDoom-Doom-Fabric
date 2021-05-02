@@ -33,7 +33,7 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class ChainsawAnimated extends DoomBaseItem implements IAnimatable {
+public class ChainsawAnimated extends Item implements IAnimatable {
 
 	public AnimationFactory factory = new AnimationFactory(this);
 	private String controllerName = "controller";
@@ -91,6 +91,28 @@ public class ChainsawAnimated extends DoomBaseItem implements IAnimatable {
 				PacketByteBuf passedData = new PacketByteBuf(Unpooled.buffer());
 				passedData.writeBoolean(true);
 				ClientPlayNetworking.send(DoomMod.CHAINSAW_ETERNAL, passedData);
+			}
+		}
+	}
+
+	@Override
+	public boolean hasGlint(ItemStack stack) {
+		return false;
+	}
+
+	public void removeAmmo(Item ammo, PlayerEntity playerEntity) {
+		if (!playerEntity.isCreative()) {
+			for (ItemStack item : playerEntity.inventory.offHand) {
+				if (item.getItem() == ammo) {
+					item.decrement(1);
+					break;
+				}
+				for (ItemStack item1 : playerEntity.inventory.main) {
+					if (item1.getItem() == ammo) {
+						item1.decrement(1);
+						break;
+					}
+				}
 			}
 		}
 	}

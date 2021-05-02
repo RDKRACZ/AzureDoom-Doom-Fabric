@@ -14,6 +14,7 @@ import mod.azure.doom.entity.projectiles.ShotgunShellEntity;
 import mod.azure.doom.entity.projectiles.UnmaykrBoltEntity;
 import mod.azure.doom.entity.projectiles.entity.ArchvileFiring;
 import mod.azure.doom.entity.projectiles.entity.BarenBlastEntity;
+import mod.azure.doom.entity.projectiles.entity.BloodBoltEntity;
 import mod.azure.doom.entity.projectiles.entity.ChaingunMobEntity;
 import mod.azure.doom.entity.projectiles.entity.DroneBoltEntity;
 import mod.azure.doom.entity.projectiles.entity.EnergyCellMobEntity;
@@ -36,6 +37,7 @@ public class ProjectilesEntityRegister {
 	public static EntityType<ArchvileFiring> FIRING = projectile(ArchvileFiring::new, "archvile_firing");
 	public static EntityType<ArgentBoltEntity> ARGENT_BOLT = projectile(ArgentBoltEntity::new, "argent_bolt");
 	public static EntityType<DroneBoltEntity> DRONEBOLT_MOB = projectile(DroneBoltEntity::new, "dronebolt_mob");
+	public static EntityType<BloodBoltEntity> BLOODBOLT_MOB = projectile(BloodBoltEntity::new, "bloodbolt_mob");
 	public static EntityType<UnmaykrBoltEntity> UNMAYKR = projectile(UnmaykrBoltEntity::new, "unmaykr_bolt");
 	public static EntityType<ShotgunShellEntity> SHOTGUN_SHELL = projectile(ShotgunShellEntity::new, "shotgun_shell");
 	public static EntityType<EnergyCellEntity> ENERGY_CELL = projectile(EnergyCellEntity::new, "energy_cell");

@@ -3,7 +3,7 @@ package mod.azure.doom.entity.tierheavy;
 import java.util.Random;
 
 import mod.azure.doom.entity.DemonEntity;
-import mod.azure.doom.entity.ai.goal.RangedStaticAttackGoal;
+import mod.azure.doom.entity.ai.goal.RangedStrafeAttackGoal;
 import mod.azure.doom.entity.attack.AbstractRangedAttack;
 import mod.azure.doom.entity.attack.AttackSound;
 import mod.azure.doom.entity.projectiles.entity.DroneBoltEntity;
@@ -79,16 +79,15 @@ public class MaykrDroneEntity extends DemonEntity implements IAnimatable {
 				.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
 	}
 
-
 	@Override
 	protected void initGoals() {
 		this.goalSelector.add(8, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
 		this.goalSelector.add(8, new LookAroundGoal(this));
 		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
 		this.goalSelector.add(4,
-				new RangedStaticAttackGoal(this, new MaykrDroneEntity.FireballAttack(this)
-						.setProjectileOriginOffset(0.8, 0.8, 0.8).setDamage(config.maykrdrone_ranged_damage), 60, 20,
-						30F));
+				new RangedStrafeAttackGoal(this, new MaykrDroneEntity.FireballAttack(this)
+						.setProjectileOriginOffset(0.8, 0.8, 0.8).setDamage(config.maykrdrone_ranged_damage), 1.0D, 50,
+						30, 15, 15F).setMultiShot(2, 3));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, MerchantEntity.class, true));
 		this.targetSelector.add(2, new RevengeGoal(this).setGroupRevenge());

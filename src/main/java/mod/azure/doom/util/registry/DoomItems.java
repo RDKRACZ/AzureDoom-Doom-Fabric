@@ -201,22 +201,22 @@ public class DoomItems {
 			new DoomSpawnEgg(ModEntityTypes.POSSESSEDWORKER));
 	public static DoomSpawnEgg DOOMHUNTER_SPAWN_EGG = item("doom_hunter_spawn_egg",
 			new DoomSpawnEgg(ModEntityTypes.DOOMHUNTER));
-//	public static DoomSpawnEgg PINKY2016_SPAWN_EGG = item("pinky2016_spawn_egg",
-//			new DoomSpawnEgg(ModEntityTypes.PINKY2016));
-//	public static DoomSpawnEgg WHIPLASH_SPAWN_EGG = item("whiplash_worker_spawn_egg",
-//			new DoomSpawnEgg(ModEntityTypes.WHIPLASH));
-//	public static DoomSpawnEgg BARON2016_SPAWN_EGG = item("baron2016_spawn_egg",
-//			new DoomSpawnEgg(ModEntityTypes.BARON2016));
-//	public static DoomSpawnEgg FIREBORNE_BARON_SPAWN_EGG = item("firebronebaron_spawn_egg",
-//			new DoomSpawnEgg(ModEntityTypes.FIREBARON));
-//	public static DoomSpawnEgg ARMORED_BARON_SPAWN_EGG = item("armoredbaron_spawn_egg",
-//			new DoomSpawnEgg(ModEntityTypes.ARMORBARON));
+	public static DoomSpawnEgg PINKY2016_SPAWN_EGG = item("pinky2016_spawn_egg",
+			new DoomSpawnEgg(ModEntityTypes.PINKY2016));
+	public static DoomSpawnEgg WHIPLASH_SPAWN_EGG = item("whiplash_spawn_egg",
+			new DoomSpawnEgg(ModEntityTypes.WHIPLASH));
+	public static DoomSpawnEgg BARON2016_SPAWN_EGG = item("baron2016_spawn_egg",
+			new DoomSpawnEgg(ModEntityTypes.BARON2016));
+	public static DoomSpawnEgg FIREBORNE_BARON_SPAWN_EGG = item("firebronebaron_spawn_egg",
+			new DoomSpawnEgg(ModEntityTypes.FIREBARON));
+	public static DoomSpawnEgg ARMORED_BARON_SPAWN_EGG = item("armoredbaron_spawn_egg",
+			new DoomSpawnEgg(ModEntityTypes.ARMORBARON));
 	public static DoomSpawnEgg MAYKR_DRONE_SPAWN_EGG = item("maykr_drone_spawn_egg",
 			new DoomSpawnEgg(ModEntityTypes.MAYKRDRONE));
-//	public static DoomSpawnEgg BLOOD_MAYKR_SPAWN_EGG = item("blood_maykr_spawn_egg",
-//			new DoomSpawnEgg(ModEntityTypes.BLOODMAYKR));
-//	public static DoomSpawnEgg KHAN_MAKYR_SPAWN_EGG = item("khan_maykr_spawn_egg",
-//			new DoomSpawnEgg(ModEntityTypes.KHANMAKER));
+	public static DoomSpawnEgg BLOOD_MAYKR_SPAWN_EGG = item("blood_maykr_spawn_egg",
+			new DoomSpawnEgg(ModEntityTypes.BLOODMAYKR));
+	public static DoomSpawnEgg ARCH_MAKYR_SPAWN_EGG = item("arch_maykr_spawn_egg",
+			new DoomSpawnEgg(ModEntityTypes.ARCHMAKER));
 	public static DoomSpawnEgg ARACHNOTRONETERNAL_SPAWN_EGG = item("arachnotroneternal_spawn_egg",
 			new DoomSpawnEgg(ModEntityTypes.ARACHNOTRONETERNAL));
 	public static DoomSpawnEgg SPIDERMASTERMIND2016_SPAWN_EGG = item("spidermastermind2016_spawn_egg",
