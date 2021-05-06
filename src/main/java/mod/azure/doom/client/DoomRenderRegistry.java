@@ -3,6 +3,7 @@ package mod.azure.doom.client;
 import mod.azure.doom.client.render.ArachonotronEternalRender;
 import mod.azure.doom.client.render.ArachonotronRender;
 import mod.azure.doom.client.render.ArchMaykrRender;
+import mod.azure.doom.client.render.ArchvileEternalRender;
 import mod.azure.doom.client.render.ArchvileRender;
 import mod.azure.doom.client.render.ArmoredBaronRender;
 import mod.azure.doom.client.render.Baron2016Render;
@@ -271,6 +272,9 @@ public class DoomRenderRegistry {
 		});
 		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.SPIDERMASTERMIND2016, (dispatcher, context) -> {
 			return new SpiderMastermind2016Render(dispatcher);
+		});
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.ARCHVILEETERNAL, (dispatcher, context) -> {
+			return new ArchvileEternalRender(dispatcher);
 		});
 
 		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.ARGENT_BOLT, (dispatcher, context) -> {

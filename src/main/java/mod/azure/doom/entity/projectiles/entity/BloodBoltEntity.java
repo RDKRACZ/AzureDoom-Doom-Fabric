@@ -10,6 +10,8 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.projectile.ExplosiveProjectileEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -70,6 +72,11 @@ public class BloodBoltEntity extends ExplosiveProjectileEntity implements IAnima
 
 	public void setDirectHitDamage(float directHitDamage) {
 		this.directHitDamage = directHitDamage;
+	}
+
+	@Override
+	protected ParticleEffect getParticleType() {
+		return ParticleTypes.PORTAL;
 	}
 
 	@Override

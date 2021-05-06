@@ -18,7 +18,6 @@ import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.registry.DoomBlocks;
 import mod.azure.doom.util.registry.DoomEnchantments;
 import mod.azure.doom.util.registry.DoomItems;
-import mod.azure.doom.util.registry.DoomLoot;
 import mod.azure.doom.util.registry.ModEntityTypes;
 import mod.azure.doom.util.registry.ProjectilesEntityRegister;
 import nerdhub.cardinal.components.api.event.ItemComponentCallbackV2;
@@ -30,8 +29,6 @@ import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
-import net.fabricmc.fabric.api.loot.v1.FabricLootPoolBuilder;
-import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.LivingEntity;
@@ -40,8 +37,6 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.loot.ConstantLootTableRange;
-import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
@@ -134,23 +129,6 @@ public class DoomMod implements ModInitializer {
 		}
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.BELT.getInfoBuilder().build());
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.CHARM.getInfoBuilder().build());
-		LootTableLoadingCallback.EVENT.register((resourceManager, lootManager, id, supplier, setter) -> {
-			if (DoomLoot.BASTION_BRIDGE.equals(id) || DoomLoot.BASTION_HOGLIN_STABLE.equals(id)
-					|| DoomLoot.BASTION_OTHER.equals(id) || DoomLoot.BASTION_TREASURE.equals(id)
-					|| DoomLoot.NETHER_BRIDGE.equals(id) || DoomLoot.RUINED_PORTAL.equals(id)
-					|| DoomLoot.SPAWN_BONUS_CHEST.equals(id)) {
-				FabricLootPoolBuilder poolBuilder = FabricLootPoolBuilder.builder()
-						.rolls(ConstantLootTableRange.create(1))
-						.withEntry(ItemEntry.builder(DoomItems.INMORTAL).build())
-						.withEntry(ItemEntry.builder(DoomItems.INVISIBLE).build())
-						.withEntry(ItemEntry.builder(DoomItems.MEGA).build())
-						.withEntry(ItemEntry.builder(DoomItems.POWER).build())
-						.withEntry(ItemEntry.builder(DoomItems.SOULCUBE).build())
-						// .withEntry(ItemEntry.builder(Items.ENCHANTED_BOOK).build())
-						.withEntry(ItemEntry.builder(DoomItems.DAISY).build());
-				supplier.pool(poolBuilder);
-			}
-		});
 		ItemComponentCallbackV2.event(DoomItems.SOULCUBE).register(
 				((item, itemStack, componentContainer) -> componentContainer.put(CuriosComponent.ITEM, new ICurio() {
 					@Override

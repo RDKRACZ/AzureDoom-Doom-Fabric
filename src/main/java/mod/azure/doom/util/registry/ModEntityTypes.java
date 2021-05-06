@@ -275,16 +275,22 @@ public class ModEntityTypes {
 					.dimensions(EntityDimensions.fixed(4.0F, 3.0F)).fireImmune().trackRangeBlocks(90)
 					.trackedUpdateRate(4).build());
 
-	public static final EntityType<DoomHunterEntity> DOOMHUNTER = Registry.register(Registry.ENTITY_TYPE,
-			new Identifier(DoomMod.MODID, "doom_hunter"),
-			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, DoomHunterEntity::new)
-					.dimensions(EntityDimensions.fixed(3.0f, 7.0F)).fireImmune().trackedUpdateRate(9)
-					.trackRangeBlocks(90).build());
-
 	public static final EntityType<Pinky2016> PINKY2016 = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "pinky2016"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, Pinky2016::new)
 					.dimensions(EntityDimensions.fixed(1.7f, 2.2F)).fireImmune().trackedUpdateRate(9)
+					.trackRangeBlocks(90).build());
+
+	public static final EntityType<ArchvileEntity> ARCHVILEETERNAL = Registry.register(Registry.ENTITY_TYPE,
+			new Identifier(DoomMod.MODID, "archvileeternal"),
+			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ArchvileEntity::new)
+					.dimensions(EntityDimensions.fixed(0.9F, 3.3F)).fireImmune().trackRangeBlocks(90)
+					.trackedUpdateRate(4).build());
+
+	public static final EntityType<DoomHunterEntity> DOOMHUNTER = Registry.register(Registry.ENTITY_TYPE,
+			new Identifier(DoomMod.MODID, "doom_hunter"),
+			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, DoomHunterEntity::new)
+					.dimensions(EntityDimensions.fixed(3.0f, 7.0F)).fireImmune().trackedUpdateRate(9)
 					.trackRangeBlocks(90).build());
 
 	public static final EntityType<WhiplashEntity> WHIPLASH = Registry.register(Registry.ENTITY_TYPE,

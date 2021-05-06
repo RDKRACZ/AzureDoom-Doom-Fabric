@@ -101,5 +101,6 @@ public class MobAttributes {
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.BLOODMAYKR, BloodMaykrEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.ARCHMAKER, ArchMakyrEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.FIREBARON, FireBaronEntity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(ModEntityTypes.ARCHVILEETERNAL, ArchvileEntity.createMobAttributes());
 	}
 }

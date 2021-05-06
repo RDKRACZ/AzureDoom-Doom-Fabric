@@ -11,6 +11,10 @@
 		"SpawnRestrictionMixin",
 		"AnvilScreenHandlerMixin",
 		"NoiseChunkGeneratorMixin",
+		"BuilderAccessor",
+		"LootContextAccessor",
+		"LootManagerAccessor",
+		"LootTableMixin",
 		"StructuresConfigAccessor"
 	],
 	"injectors": {
