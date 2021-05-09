@@ -6,12 +6,14 @@ import java.util.function.Predicate;
 import org.jetbrains.annotations.Nullable;
 
 import mod.azure.doom.entity.DemonEntity;
-import mod.azure.doom.entity.ai.goal.RangedStrafeAttackGoal;
+import mod.azure.doom.entity.ai.goal.RangedStaticAttackGoal;
 import mod.azure.doom.entity.attack.AbstractRangedAttack;
 import mod.azure.doom.entity.attack.AttackSound;
 import mod.azure.doom.entity.projectiles.ShotgunShellEntity;
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.registry.DoomItems;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
@@ -29,6 +31,9 @@ import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
@@ -56,23 +61,31 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class MarauderEntity extends DemonEntity implements IAnimatable {
 
+	private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(MarauderEntity.class,
+			TrackedDataHandlerRegistry.BOOLEAN);
+	private static final TrackedData<Boolean> MELEE = DataTracker.registerData(MarauderEntity.class,
+			TrackedDataHandlerRegistry.BOOLEAN);
 	private AnimationFactory factory = new AnimationFactory(this);
 	private int ageWhenTargetSet;
 
 	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-		if (event.isMoving() && !this.isAttacking()) {
+		if (event.isMoving() && !this.dataTracker.get(SHOOTING) && !this.dataTracker.get(MELEE)) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
 			return PlayState.CONTINUE;
 		}
-		if (this.isAttacking() && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("attack", false));
+		if (this.dataTracker.get(MELEE) && !this.dataTracker.get(SHOOTING)
+				&& !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking", true));
+			return PlayState.CONTINUE;
+		}
+		if (this.dataTracker.get(SHOOTING) && !this.dataTracker.get(MELEE)
+				&& !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("ranged", true));
 			return PlayState.CONTINUE;
 		}
 		if ((this.dead || this.getHealth() < 0.01 || this.isDead())) {
-			if (world.isClient) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("death", false));
-				return PlayState.CONTINUE;
-			}
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("death", false));
+			return PlayState.CONTINUE;
 		}
 		event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
 		return PlayState.CONTINUE;
@@ -97,6 +110,28 @@ public class MarauderEntity extends DemonEntity implements IAnimatable {
 		return p_223337_1_.getDifficulty() != Difficulty.PEACEFUL;
 	}
 
+	@Environment(EnvType.CLIENT)
+	public boolean isShooting() {
+		return (Boolean) this.dataTracker.get(SHOOTING);
+	}
+
+	@Override
+	public void setMeleeAttacking(boolean attacking) {
+		this.dataTracker.set(MELEE, attacking);
+	}
+
+	@Override
+	public void setShooting(boolean shooting) {
+		this.dataTracker.set(SHOOTING, shooting);
+	}
+
+	@Override
+	protected void initDataTracker() {
+		super.initDataTracker();
+		this.dataTracker.startTracking(SHOOTING, false);
+		this.dataTracker.startTracking(MELEE, false);
+	}
+
 	@Override
 	protected void initGoals() {
 		this.goalSelector.add(8, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
@@ -109,9 +144,9 @@ public class MarauderEntity extends DemonEntity implements IAnimatable {
 		this.targetSelector.add(1, new MarauderEntity.TeleportTowardsPlayerGoal(this, this::shouldAngerAt));
 		this.goalSelector.add(4, new MeleeAttackGoal(this, 1.0D, false));
 		this.goalSelector.add(4,
-				new RangedStrafeAttackGoal(this,
+				new RangedStaticAttackGoal(this,
 						new MarauderEntity.FireballAttack(this).setProjectileOriginOffset(0.8, 0.8, 0.8).setDamage(3),
-						1.0D, 50, 30, 15, 15F).setMultiShot(3, 2));
+						60, 20, 30F));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, MerchantEntity.class, true));
 		this.targetSelector.add(2, new RevengeGoal(this).setGroupRevenge());

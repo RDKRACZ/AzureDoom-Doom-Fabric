@@ -66,6 +66,10 @@ public class DemonEntity extends HostileEntity implements Angerable {
 
 	}
 
+	public void setMeleeAttacking(boolean attacking) {
+
+	}
+
 	public static boolean canSpawnInDark(EntityType<? extends HostileEntity> type, ServerWorldAccess serverWorldAccess,
 			SpawnReason spawnReason, BlockPos pos, Random random) {
 		if (serverWorldAccess.getDifficulty() == Difficulty.PEACEFUL)

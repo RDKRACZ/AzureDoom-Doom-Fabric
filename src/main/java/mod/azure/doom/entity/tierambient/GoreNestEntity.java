@@ -167,6 +167,7 @@ public class GoreNestEntity extends DemonEntity implements IAnimatable {
 					this.getParticleZ(0.5D), 0.0D, 0D, 0D);
 		}
 		spawnTimer = (spawnTimer + 1) % 8;
+		++this.age;
 		if (!world.isClient) {
 			if (this.age % 2400 == 0 && this.getSpawnTimer() <= 3) {
 				this.spawnWave();

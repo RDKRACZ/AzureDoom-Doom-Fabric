@@ -388,14 +388,6 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 	@Override
 	public void tick() {
 		super.tick();
-		if (this.isAlive()) {
-			if (this.isInsideWall()) {
-				this.noClip = true;
-			}
-			if (!this.isInsideWall()) {
-				this.noClip = false;
-			}
-		}
 	}
 
 	@Override
@@ -416,6 +408,7 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 	@Override
 	public void tickMovement() {
 		super.tickMovement();
+		++this.age;
 		if (this.getHealth() > 500.0D) {
 			if (!this.world.isClient) {
 				this.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 1000000, 1));
@@ -434,5 +427,15 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 				this.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 10000000, 3));
 			}
 		}
+		if (!world.isClient) {
+			if (this.age % 2400 == 0) {
+				this.heal(40F);
+			}
+		}
+	}
+
+	@Override
+	public boolean damage(DamageSource source, float amount) {
+		return source == DamageSource.IN_WALL ? false : super.damage(source, amount);
 	}
 }

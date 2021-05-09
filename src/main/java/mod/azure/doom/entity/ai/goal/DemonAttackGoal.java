@@ -37,8 +37,10 @@ public class DemonAttackGoal extends MeleeAttackGoal {
 			if (livingEntity.squaredDistanceTo(this.actor) < 4.0D) {
 				if (this.ticks >= 5 && this.method_28348() < this.method_28349() / 2) {
 					this.actor.setAttacking(true);
+					this.actor.setMeleeAttacking(true);
 				} else {
 					this.actor.setAttacking(false);
+					this.actor.setMeleeAttacking(false);
 				}
 			}
 		}
