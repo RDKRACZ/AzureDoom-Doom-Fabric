@@ -1,10 +1,13 @@
 package mod.azure.doom.block;
 
+import java.util.Iterator;
+
 import mod.azure.doom.entity.tierboss.IconofsinEntity;
 import mod.azure.doom.entity.tileentity.IconBlockEntity;
 import mod.azure.doom.util.registry.DoomBlocks;
 import mod.azure.doom.util.registry.ModEntityTypes;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -21,6 +24,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.predicate.block.BlockStatePredicate;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
@@ -92,6 +96,13 @@ public class DoomWallBlock extends BlockWithEntity {
 					witherentity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 200, 4));
 					witherentity.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 200, 4));
 					world.spawnEntity(witherentity);
+
+					Iterator<ServerPlayerEntity> var13 = world.getNonSpectatingEntities(ServerPlayerEntity.class,
+							witherentity.getBoundingBox().expand(50.0D)).iterator();
+					while (var13.hasNext()) {
+						ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) var13.next();
+						Criteria.SUMMONED_ENTITY.trigger(serverPlayerEntity, witherentity);
+					}
 
 					for (int k = 0; k < blockPattern.getWidth(); ++k) {
 						for (int l = 0; l < blockPattern.getHeight(); ++l) {
