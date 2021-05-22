@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 public class ArgentPlateItem extends Item {
 
 	public ArgentPlateItem() {
-		super(new Item.Settings().group(DoomMod.DoomBlockItemGroup).maxCount(64));
+		super(new Item.Settings().group(DoomMod.DoomPowerUPItemGroup).maxCount(64));
 	}
 
 	@Override
