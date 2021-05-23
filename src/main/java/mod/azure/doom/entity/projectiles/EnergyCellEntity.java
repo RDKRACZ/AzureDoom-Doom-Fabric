@@ -81,6 +81,7 @@ public class EnergyCellEntity extends PersistentProjectileEntity implements IAni
 		super.onHit(living);
 		if (!(living instanceof PlayerEntity) && !(living instanceof IconofsinEntity)) {
 			living.setVelocity(0, 0, 0);
+			living.timeUntilRegen = 0;
 		}
 	}
 

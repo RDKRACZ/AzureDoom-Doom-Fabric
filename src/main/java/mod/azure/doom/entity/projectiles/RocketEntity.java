@@ -3,6 +3,7 @@ package mod.azure.doom.entity.projectiles;
 import java.util.List;
 
 import mod.azure.doom.DoomMod;
+import mod.azure.doom.entity.tierboss.IconofsinEntity;
 import mod.azure.doom.util.ModSoundEvents;
 import mod.azure.doom.util.packets.EntityPacket;
 import mod.azure.doom.util.registry.DoomItems;
@@ -93,6 +94,15 @@ public class RocketEntity extends PersistentProjectileEntity implements IAnimata
 		++this.ticksInAir;
 		if (this.ticksInAir >= 40) {
 			this.remove();
+		}
+	}
+
+	@Override
+	protected void onHit(LivingEntity living) {
+		super.onHit(living);
+		if (!(living instanceof PlayerEntity) && !(living instanceof IconofsinEntity)) {
+			living.setVelocity(0, 0, 0);
+			living.timeUntilRegen = 0;
 		}
 	}
 
