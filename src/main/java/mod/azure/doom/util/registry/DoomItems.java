@@ -88,6 +88,7 @@ public class DoomItems {
 	public static DaisyItem DAISY = item(new DaisyItem(), "daisy");
 	public static Rocket ROCKET = item(new Rocket(2.2F), "rocket");
 	public static Unmaykr UNMAYKR = item(new Unmaykr(), "unmaykr");
+	public static Item ICON_ICON = item(new Item(null), "icon_icon");
 	public static Ballista BALLISTA = item(new Ballista(), "ballista");
 	public static Chaingun CHAINGUN = item(new Chaingun(), "chaingun");
 	public static Chainsaw CHAINSAW = item(new Chainsaw(), "chainsaw");
