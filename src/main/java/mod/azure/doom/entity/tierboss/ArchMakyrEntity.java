@@ -140,7 +140,7 @@ public class ArchMakyrEntity extends DemonEntity implements IAnimatable {
 	public EntityData initialize(ServerWorldAccess serverWorldAccess, LocalDifficulty difficulty,
 			SpawnReason spawnReason, EntityData entityData, CompoundTag entityTag) {
 		entityData = super.initialize(serverWorldAccess, difficulty, spawnReason, entityData, entityTag);
-
+		this.setVariant(this.random.nextInt());
 		return entityData;
 	}
 
