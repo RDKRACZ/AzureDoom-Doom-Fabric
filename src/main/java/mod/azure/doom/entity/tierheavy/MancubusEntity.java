@@ -205,7 +205,7 @@ public class MancubusEntity extends DemonEntity implements IAnimatable {
 								this.parentEntity.getBodyY(0.5D) + 0.5D, parentEntity.getZ() + vec3d.z * 2.0D);
 						world.spawnEntity(fireballEntity);
 					}
-					this.cooldown = -100;
+					this.cooldown = -50;
 				}
 			} else if (this.cooldown > 0) {
 				--this.cooldown;
