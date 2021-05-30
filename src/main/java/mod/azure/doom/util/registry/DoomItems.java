@@ -88,7 +88,6 @@ public class DoomItems {
 	public static DaisyItem DAISY = item(new DaisyItem(), "daisy");
 	public static Rocket ROCKET = item(new Rocket(2.2F), "rocket");
 	public static Unmaykr UNMAYKR = item(new Unmaykr(), "unmaykr");
-	public static Item ICON_ICON = item(new Item(null), "icon_icon");
 	public static Ballista BALLISTA = item(new Ballista(), "ballista");
 	public static Chaingun CHAINGUN = item(new Chaingun(), "chaingun");
 	public static Chainsaw CHAINSAW = item(new Chainsaw(), "chainsaw");
@@ -103,6 +102,7 @@ public class DoomItems {
 	public static SoulCubeItem SOULCUBE = item(new SoulCubeItem(), "soulcube");
 	public static MegaSphereItem MEGA = item(new MegaSphereItem(), "megasphere");
 	public static HeavyCannon HEAVYCANNON = item(new HeavyCannon(), "heavycannon");
+	public static Item ICON_ICON = item(new Item(new Item.Settings()), "icon_icon");
 	public static ArgentBolt ARGENT_BOLT = item(new ArgentBolt(1.7F), "argent_bolt");
 	public static ArgentPaxel ARGENT_PAXEL = item(new ArgentPaxel(), "argent_paxel");
 	public static ArgentSword ARGENT_SWORD = item(new ArgentSword(), "argent_sword");
@@ -224,6 +224,8 @@ public class DoomItems {
 			new DoomSpawnEgg(ModEntityTypes.SPIDERMASTERMIND2016));
 	public static DoomSpawnEgg ARCHVILEETERNAL_SPAWN_EGG = item("archvileeternal_spawn_egg",
 			new DoomSpawnEgg(ModEntityTypes.ARCHVILEETERNAL));
+	public static DoomSpawnEgg TENTACLE_SPAWN_EGG = item("tentacle_spawn_egg",
+			new DoomSpawnEgg(ModEntityTypes.TENTACLE));
 
 	// Armor
 	public static DoomArmor DOOM_HELMET = item("doom_helmet",

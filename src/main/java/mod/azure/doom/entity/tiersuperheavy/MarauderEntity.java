@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 import org.jetbrains.annotations.Nullable;
 
 import mod.azure.doom.entity.DemonEntity;
+import mod.azure.doom.entity.ai.goal.DemonAttackGoal;
 import mod.azure.doom.entity.ai.goal.RangedStaticAttackGoal;
 import mod.azure.doom.entity.attack.AbstractRangedAttack;
 import mod.azure.doom.entity.attack.AttackSound;
@@ -25,7 +26,6 @@ import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.goal.FollowTargetGoal;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.RevengeGoal;
 import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -142,7 +142,7 @@ public class MarauderEntity extends DemonEntity implements IAnimatable {
 
 	protected void initCustomGoals() {
 		this.targetSelector.add(1, new MarauderEntity.TeleportTowardsPlayerGoal(this, this::shouldAngerAt));
-		this.goalSelector.add(4, new MeleeAttackGoal(this, 1.0D, false));
+		this.goalSelector.add(4, new DemonAttackGoal(this, 1.0D, false));
 		this.goalSelector.add(4,
 				new RangedStaticAttackGoal(this,
 						new MarauderEntity.FireballAttack(this).setProjectileOriginOffset(0.8, 0.8, 0.8).setDamage(3),

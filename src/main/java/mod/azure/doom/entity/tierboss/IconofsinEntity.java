@@ -188,53 +188,66 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 
 		public void tick() {
 			LivingEntity livingEntity = this.parentEntity.getTarget();
-			if (livingEntity.squaredDistanceTo(this.parentEntity) < 4096.0D && this.parentEntity.canSee(livingEntity)) {
-				++this.cooldown;
-				Random rand = new Random();
-				double d = Math.min(livingEntity.getY(), parentEntity.getY());
-				double e1 = Math.max(livingEntity.getY(), parentEntity.getY()) + 1.0D;
-				float f2 = (float) MathHelper.atan2(livingEntity.getZ() - parentEntity.getZ(),
-						livingEntity.getX() - parentEntity.getX());
-				int j;
-				if (this.cooldown == 35) {
-					if (parentEntity.distanceTo(livingEntity) > 11.0D) {
-						float h2;
+			if (livingEntity != null) {
+				if (livingEntity.squaredDistanceTo(this.parentEntity) < 4096.0D
+						&& this.parentEntity.canSee(livingEntity)) {
+					++this.cooldown;
+					Random rand = new Random();
+					double d = Math.min(livingEntity.getY(), parentEntity.getY());
+					double e1 = Math.max(livingEntity.getY(), parentEntity.getY()) + 1.0D;
+					float f2 = (float) MathHelper.atan2(livingEntity.getZ() - parentEntity.getZ(),
+							livingEntity.getX() - parentEntity.getX());
+					int j;
+					if (this.cooldown == 35) {
+						if (parentEntity.distanceTo(livingEntity) > 11.0D) {
+							float h2;
 
-						SplittableRandom random = new SplittableRandom();
-						boolean r = random.nextInt(1, 101) <= 20;
-						if (r) {
-							for (j = 15; j < 55; ++j) {
-								h2 = f2 + (float) j * 3.1415927F * 0.4F;
-								parentEntity.spawnFlames(
-										parentEntity.getX() + (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
-										parentEntity.getZ() + (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
-										d, e1, h2, 0);
-								parentEntity.spawnFlames(
-										parentEntity.getX() + (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
-										parentEntity.getZ() + (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
-										d, e1, h2, 0);
-								parentEntity.spawnFlames(
-										parentEntity.getX() + (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
-										parentEntity.getZ() + (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
-										d, e1, h2, 0);
-								parentEntity.spawnFlames(
-										parentEntity.getX() + (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
-										parentEntity.getZ() + (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
-										d, e1, h2, 0);
-								parentEntity.spawnFlames(
-										parentEntity.getX() + (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
-										parentEntity.getZ() + (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
-										d, e1, h2, 0);
+							SplittableRandom random = new SplittableRandom();
+							boolean r = random.nextInt(1, 101) <= 20;
+							if (r) {
+								for (j = 15; j < 55; ++j) {
+									h2 = f2 + (float) j * 3.1415927F * 0.4F;
+									parentEntity.spawnFlames(
+											parentEntity.getX()
+													+ (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
+											parentEntity.getZ()
+													+ (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
+											d, e1, h2, 0);
+									parentEntity.spawnFlames(
+											parentEntity.getX()
+													+ (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
+											parentEntity.getZ()
+													+ (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
+											d, e1, h2, 0);
+									parentEntity.spawnFlames(
+											parentEntity.getX()
+													+ (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
+											parentEntity.getZ()
+													+ (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
+											d, e1, h2, 0);
+									parentEntity.spawnFlames(
+											parentEntity.getX()
+													+ (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
+											parentEntity.getZ()
+													+ (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
+											d, e1, h2, 0);
+									parentEntity.spawnFlames(
+											parentEntity.getX()
+													+ (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
+											parentEntity.getZ()
+													+ (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
+											d, e1, h2, 0);
+								}
+							} else {
+								this.parentEntity.doDamage();
 							}
-						} else {
-							this.parentEntity.doDamage();
+							this.parentEntity.setAttacking(this.cooldown >= 15);
+							this.cooldown = -35;
 						}
-						this.parentEntity.setAttacking(this.cooldown >= 15);
-						this.cooldown = -35;
 					}
+				} else if (this.cooldown > 0) {
+					--this.cooldown;
 				}
-			} else if (this.cooldown > 0) {
-				--this.cooldown;
 			}
 		}
 	}

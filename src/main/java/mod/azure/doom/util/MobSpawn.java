@@ -106,6 +106,8 @@ public class MobSpawn {
 								config.pinky_min_group, config.pinky_max_group),
 						new SpawnSettings.SpawnEntry(ModEntityTypes.ARCHVILEETERNAL, config.archvile_spawn_weight,
 								config.archvile_min_group, config.archvile_max_group),
+						new SpawnSettings.SpawnEntry(ModEntityTypes.TENTACLE, config.tentacle_spawn_weight,
+								config.tentacle_min_group, config.tentacle_max_group),
 //						new SpawnSettings.SpawnEntry(ModEntityTypes.WHIPLASH,
 //								config.whiplash_spawn_weight,
 //								config.whiplash_min_group, config.whiplash_max_group),

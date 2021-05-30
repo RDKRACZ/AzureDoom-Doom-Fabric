@@ -44,6 +44,7 @@ import mod.azure.doom.client.render.ShotgunguyRender;
 import mod.azure.doom.client.render.SpectreRender;
 import mod.azure.doom.client.render.SpiderMastermind2016Render;
 import mod.azure.doom.client.render.SpiderMastermindRender;
+import mod.azure.doom.client.render.TentacleRender;
 import mod.azure.doom.client.render.TyrantRender;
 import mod.azure.doom.client.render.UnwillingRender;
 import mod.azure.doom.client.render.WhiplashRender;
@@ -275,6 +276,9 @@ public class DoomRenderRegistry {
 		});
 		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.ARCHVILEETERNAL, (dispatcher, context) -> {
 			return new ArchvileEternalRender(dispatcher);
+		});
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.TENTACLE, (dispatcher, context) -> {
+			return new TentacleRender(dispatcher);
 		});
 
 		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.ARGENT_BOLT, (dispatcher, context) -> {

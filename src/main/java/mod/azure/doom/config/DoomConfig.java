@@ -146,6 +146,10 @@ public class DoomConfig implements ConfigData {
 		public int gorenest_min_group = 1;
 		public int gorenest_max_group = 1;
 
+		public int tentacle_spawn_weight = 4;
+		public int tentacle_min_group = 1;
+		public int tentacle_max_group = 1;
+
 		public int cyberdemon2016_spawn_weight = 4;
 		public int cyberdemon2016_min_group = 1;
 		public int cyberdemon2016_max_group = 1;
