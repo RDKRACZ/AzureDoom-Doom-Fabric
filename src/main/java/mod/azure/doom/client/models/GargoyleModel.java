@@ -37,8 +37,6 @@ public class GargoyleModel extends AnimatedGeoModel<GargoyleEntity> {
 
 		EntityModelData extraData = (EntityModelData) customPredicate.getExtraDataOfType(EntityModelData.class).get(0);
 		if (head != null) {
-			head.setRotationX(Vector3f.POSITIVE_X
-					.getRadialQuaternion((extraData.headPitch + 20) * ((float) Math.PI / 360F)).getX());
 			head.setRotationY(
 					Vector3f.POSITIVE_Y.getRadialQuaternion(extraData.netHeadYaw * ((float) Math.PI / 340F)).getY());
 		}
