@@ -280,40 +280,6 @@ public class CacodemonEntity extends DemonEntity implements Monster, IAnimatable
 		}
 	}
 
-	static class FlyRandomlyGoal extends Goal {
-		private final CacodemonEntity ghast;
-
-		public FlyRandomlyGoal(CacodemonEntity ghast) {
-			this.ghast = ghast;
-			this.setControls(EnumSet.of(Goal.Control.MOVE));
-		}
-
-		public boolean canStart() {
-			MoveControl moveControl = this.ghast.getMoveControl();
-			if (!moveControl.isMoving()) {
-				return true;
-			} else {
-				double d = moveControl.getTargetX() - this.ghast.getX();
-				double e = moveControl.getTargetY() - this.ghast.getY();
-				double f = moveControl.getTargetZ() - this.ghast.getZ();
-				double g = d * d + e * e + f * f;
-				return g < 1.0D || g > 10.0D;
-			}
-		}
-
-		public boolean shouldContinue() {
-			return false;
-		}
-
-		public void start() {
-			Random random = this.ghast.getRandom();
-			double d = this.ghast.getX() + (double) ((random.nextFloat() * 2.0F - 1.0F) * 2.0F);
-			double e = this.ghast.getY() + (double) ((random.nextFloat() * 2.0F - 1.0F) * 2.0F);
-			double f = this.ghast.getZ() + (double) ((random.nextFloat() * 2.0F - 1.0F) * 2.0F);
-			this.ghast.getMoveControl().moveTo(d, e, f, 1.0D);
-		}
-	}
-
 	@Override
 	protected float getActiveEyeHeight(EntityPose pose, EntityDimensions dimensions) {
 		return 1.0F;
