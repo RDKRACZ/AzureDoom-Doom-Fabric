@@ -11,9 +11,11 @@ import mod.azure.doom.DoomMod;
 import mod.azure.doom.config.DoomConfig.Spawning;
 import mod.azure.doom.util.registry.ModEntityTypes;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.util.collection.Pool;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.SpawnSettings;
+import net.minecraft.world.biome.SpawnSettings.SpawnEntry;
 
 public class MobSpawn {
 
@@ -126,13 +128,14 @@ public class MobSpawn {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public static void addMobSpawnToBiome(Biome biome, SpawnGroup classification,
 			SpawnSettings.SpawnEntry... spawnInfos) {
 		convertImmutableSpawners(biome);
 		List<SpawnSettings.SpawnEntry> spawnersList = new ArrayList<>(
 				biome.getSpawnSettings().spawners.get(classification));
 		spawnersList.addAll(Arrays.asList(spawnInfos));
-		biome.getSpawnSettings().spawners.put(classification, spawnersList);
+		biome.getSpawnSettings().spawners.put(classification, (Pool<SpawnEntry>) spawnersList);
 	}
 
 	private static void convertImmutableSpawners(Biome biome) {

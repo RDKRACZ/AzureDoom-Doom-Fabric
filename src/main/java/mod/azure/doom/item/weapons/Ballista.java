@@ -51,7 +51,7 @@ public class Ballista extends DoomBaseItem {
 					worldIn.spawnEntity(abstractarrowentity);
 					worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(),
 							playerentity.getZ(), ModSoundEvents.BALLISTA_FIRING, SoundCategory.PLAYERS, 1.0F,
-							1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + 1F * 0.5F);
+							1.0F / (worldIn.random.nextFloat() * 0.4F + 1.2F) + 1F * 0.5F);
 				}
 				if (!worldIn.isClient) {
 					final int id = GeckoLibUtil.guaranteeIDForStack(stack, (ServerWorld) worldIn);
@@ -88,7 +88,7 @@ public class Ballista extends DoomBaseItem {
 
 	public void reload(PlayerEntity user, Hand hand) {
 		if (user.getStackInHand(hand).getItem() instanceof Ballista) {
-			while (user.getStackInHand(hand).getDamage() != 0 && user.inventory.count(DoomItems.ARGENT_BOLT) > 0) {
+			while (user.getStackInHand(hand).getDamage() != 0 && user.getInventory().count(DoomItems.ARGENT_BOLT) > 0) {
 				removeAmmo(DoomItems.ARGENT_BOLT, user);
 				user.getStackInHand(hand).damage(-1, user, s -> user.sendToolBreakStatus(hand));
 				user.getStackInHand(hand).setCooldown(3);

@@ -6,18 +6,18 @@ import mod.azure.doom.entity.projectiles.entity.EnergyCellMobEntity;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import software.bernie.geckolib3.renderer.geo.GeoProjectilesRenderer;
+import software.bernie.geckolib3.renderers.geo.GeoProjectilesRenderer;
 
 public class EnergyCellMobRender extends GeoProjectilesRenderer<EnergyCellMobEntity> {
 
-	public EnergyCellMobRender(EntityRenderDispatcher renderManagerIn) {
+	public EnergyCellMobRender(EntityRendererFactory.Context renderManagerIn) {
 		super(renderManagerIn, new EnergyMobModel());
 	}
-	
+
 	protected int getBlockLight(EnergyCellEntity entityIn, BlockPos partialTicks) {
 		return 15;
 	}

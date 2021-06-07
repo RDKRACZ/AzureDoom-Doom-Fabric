@@ -20,7 +20,6 @@ import mod.azure.doom.util.registry.DoomEnchantments;
 import mod.azure.doom.util.registry.DoomItems;
 import mod.azure.doom.util.registry.ModEntityTypes;
 import mod.azure.doom.util.registry.ProjectilesEntityRegister;
-import nerdhub.cardinal.components.api.event.ItemComponentCallbackV2;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
@@ -31,10 +30,6 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
@@ -45,11 +40,6 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.chunk.StructureConfig;
 import net.minecraft.world.gen.feature.StructureFeature;
 import software.bernie.geckolib3.GeckoLib;
-import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.CuriosComponent;
-import top.theillusivec4.curios.api.SlotTypeInfo.BuildScheme;
-import top.theillusivec4.curios.api.SlotTypePreset;
-import top.theillusivec4.curios.api.type.component.ICurio;
 
 @SuppressWarnings("deprecation")
 public class DoomMod implements ModInitializer {
@@ -127,58 +117,58 @@ public class DoomMod implements ModInitializer {
 					});
 			removeStructureSpawningFromSelectedDimension();
 		}
-		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.BELT.getInfoBuilder().build());
-		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.CHARM.getInfoBuilder().build());
-		ItemComponentCallbackV2.event(DoomItems.SOULCUBE).register(
-				((item, itemStack, componentContainer) -> componentContainer.put(CuriosComponent.ITEM, new ICurio() {
-					@Override
-					public boolean canRightClickEquip() {
-						return true;
-					}
-				})));
-		ItemComponentCallbackV2.event(DoomItems.DAISY).register(
-				((item, itemStack, componentContainer) -> componentContainer.put(CuriosComponent.ITEM, new ICurio() {
-					@Override
-					public boolean canRightClickEquip() {
-						return true;
-					}
-
-					@Override
-					public void onEquip(String identifier, int index, LivingEntity livingEntity) {
-						if (livingEntity instanceof PlayerEntity) {
-							startPowers((PlayerEntity) livingEntity);
-						}
-					}
-
-					@Override
-					public void onUnequip(String identifier, int index, LivingEntity livingEntity) {
-						if (livingEntity instanceof PlayerEntity) {
-							stopPowers((PlayerEntity) livingEntity);
-						}
-					}
-
-					private void startPowers(PlayerEntity player) {
-						player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 10000000, 2));
-					}
-
-					private void stopPowers(PlayerEntity player) {
-						player.removeStatusEffect(StatusEffects.SPEED);
-					}
-
-					@Override
-					public void curioTick(String identifier, int index, LivingEntity livingEntity) {
-						if (livingEntity instanceof PlayerEntity) {
-							PlayerEntity player = ((PlayerEntity) livingEntity);
-							startPowers(player);
-						}
-					}
-
-					@Override
-					public boolean canEquip(String identifier, LivingEntity entityLivingBase) {
-						return !CuriosApi.getCuriosHelper().findEquippedCurio(DoomItems.DAISY, entityLivingBase)
-								.isPresent();
-					}
-				})));
+//		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.BELT.getInfoBuilder().build());
+//		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.CHARM.getInfoBuilder().build());
+//		ItemComponentCallbackV2.event(DoomItems.SOULCUBE).register(
+//				((item, itemStack, componentContainer) -> componentContainer.put(CuriosComponent.ITEM, new ICurio() {
+//					@Override
+//					public boolean canRightClickEquip() {
+//						return true;
+//					}
+//				})));
+//		ItemComponentCallbackV2.event(DoomItems.DAISY).register(
+//				((item, itemStack, componentContainer) -> componentContainer.put(CuriosComponent.ITEM, new ICurio() {
+//					@Override
+//					public boolean canRightClickEquip() {
+//						return true;
+//					}
+//
+//					@Override
+//					public void onEquip(String identifier, int index, LivingEntity livingEntity) {
+//						if (livingEntity instanceof PlayerEntity) {
+//							startPowers((PlayerEntity) livingEntity);
+//						}
+//					}
+//
+//					@Override
+//					public void onUnequip(String identifier, int index, LivingEntity livingEntity) {
+//						if (livingEntity instanceof PlayerEntity) {
+//							stopPowers((PlayerEntity) livingEntity);
+//						}
+//					}
+//
+//					private void startPowers(PlayerEntity player) {
+//						player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 10000000, 2));
+//					}
+//
+//					private void stopPowers(PlayerEntity player) {
+//						player.removeStatusEffect(StatusEffects.SPEED);
+//					}
+//
+//					@Override
+//					public void curioTick(String identifier, int index, LivingEntity livingEntity) {
+//						if (livingEntity instanceof PlayerEntity) {
+//							PlayerEntity player = ((PlayerEntity) livingEntity);
+//							startPowers(player);
+//						}
+//					}
+//
+//					@Override
+//					public boolean canEquip(String identifier, LivingEntity entityLivingBase) {
+//						return !CuriosApi.getCuriosHelper().findEquippedCurio(DoomItems.DAISY, entityLivingBase)
+//								.isPresent();
+//					}
+//				})));
 		PacketHandler.registerMessages();
 	}
 

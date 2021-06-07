@@ -6,22 +6,22 @@ import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Matrix3f;
 import net.minecraft.util.math.Matrix4f;
+import net.minecraft.util.math.Vec3f;
 
 public class DroneBoltRender extends EntityRenderer<DroneBoltEntity> {
 
 	private static final Identifier ARGENT_BOLT_TEXTURE = new Identifier(DoomMod.MODID,
 			"textures/entity/projectiles/argent_bolt.png");
 
-	public DroneBoltRender(EntityRenderDispatcher renderManagerIn) {
+	public DroneBoltRender(EntityRendererFactory.Context renderManagerIn) {
 		super(renderManagerIn);
 	}
 
@@ -38,12 +38,12 @@ public class DroneBoltRender extends EntityRenderer<DroneBoltEntity> {
 	public void render(DroneBoltEntity persistentProjectileEntity, float f, float g, MatrixStack matrixStack,
 			VertexConsumerProvider vertexConsumerProvider, int i) {
 		matrixStack.push();
-		matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(
+		matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(
 				MathHelper.lerp(g, persistentProjectileEntity.prevYaw, persistentProjectileEntity.yaw) - 90.0F));
-		matrixStack.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(
+		matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(
 				MathHelper.lerp(g, persistentProjectileEntity.prevPitch, persistentProjectileEntity.pitch)));
 
-		matrixStack.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(45.0F));
+		matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(45.0F));
 		matrixStack.scale(0.05625F, 0.05625F, 0.05625F);
 		matrixStack.translate(-4.0D, 0.0D, 0.0D);
 		VertexConsumer vertexConsumer = vertexConsumerProvider
@@ -61,7 +61,7 @@ public class DroneBoltRender extends EntityRenderer<DroneBoltEntity> {
 		this.method_23153(matrix4f, matrix3f, vertexConsumer, -7, -2, -2, 0.0F, 0.3125F, 1, 0, 0, i);
 
 		for (int u = 0; u < 4; ++u) {
-			matrixStack.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(90.0F));
+			matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(90.0F));
 			this.method_23153(matrix4f, matrix3f, vertexConsumer, -8, -2, 0, 0.0F, 0.0F, 0, 1, 0, i);
 			this.method_23153(matrix4f, matrix3f, vertexConsumer, 8, -2, 0, 0.5F, 0.0F, 0, 1, 0, i);
 			this.method_23153(matrix4f, matrix3f, vertexConsumer, 8, 2, 0, 0.5F, 0.15625F, 0, 1, 0, i);

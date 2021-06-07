@@ -53,7 +53,7 @@ public class PistolItem extends DoomBaseItem {
 					worldIn.spawnEntity(abstractarrowentity);
 					worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(),
 							playerentity.getZ(), ModSoundEvents.PISTOL_HIT, SoundCategory.PLAYERS, 1.0F,
-							1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + 1F * 0.5F);
+							1.0F / (worldIn.random.nextFloat() * 0.4F + 1.2F) + 1F * 0.5F);
 				}
 				if (!worldIn.isClient) {
 					final int id = GeckoLibUtil.guaranteeIDForStack(stack, (ServerWorld) worldIn);
@@ -68,7 +68,7 @@ public class PistolItem extends DoomBaseItem {
 
 	public void reload(PlayerEntity user, Hand hand) {
 		if (user.getStackInHand(hand).getItem() instanceof PistolItem) {
-			while (user.getStackInHand(hand).getDamage() != 0 && user.inventory.count(DoomItems.BULLETS) > 0) {
+			while (user.getStackInHand(hand).getDamage() != 0 && user.getInventory().count(DoomItems.BULLETS) > 0) {
 				removeAmmo(DoomItems.BULLETS, user);
 				user.getStackInHand(hand).damage(-10, user, s -> user.sendToolBreakStatus(hand));
 				user.getStackInHand(hand).setCooldown(3);

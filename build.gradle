@@ -6,7 +6,7 @@ buildscript {
 }
 
 plugins {
-	id 'fabric-loom' version '0.6-SNAPSHOT'
+	id 'fabric-loom' version '0.8-SNAPSHOT'
 	id 'maven-publish'
     id 'com.matthewprenger.cursegradle' version '1.4.0'
 }
@@ -14,8 +14,8 @@ plugins {
 import groovy.json.JsonSlurper
 import groovy.json.JsonOutput
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = JavaVersion.VERSION_16
+targetCompatibility = JavaVersion.VERSION_16
 
 archivesBaseName = project.archives_base_name
 version = project.mod_version
@@ -26,57 +26,22 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modImplementation("software.bernie.geckolib:geckolib-fabric-1.16.5:3.0.39:dev") {
-    	exclude(group: "com.terraformersmc.modmenu")
-        exclude(group: "io.github.prospector")
-        exclude(group: "me.shedaniel")
-    }
-	modImplementation("top.theillusivec4.curios:curios-fabric:${curios_version}") {
-    	exclude(group: "com.terraformersmc.modmenu")
-        exclude(group: "io.github.prospector")
-        exclude(group: "me.shedaniel")
-    }
-	modImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:${cardinal_version}") {
-    	exclude(group: "com.terraformersmc.modmenu")
-        exclude(group: "io.github.prospector")
-        exclude(group: "me.shedaniel")
-    }
-    modImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:${cardinal_version}") {
-    	exclude(group: "com.terraformersmc.modmenu")
-        exclude(group: "io.github.prospector")
-        exclude(group: "me.shedaniel")
-    }
-    modImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-world:${cardinal_version}") {
-    	exclude(group: "com.terraformersmc.modmenu")
-        exclude(group: "io.github.prospector")
-        exclude(group: "me.shedaniel")
-    }
-	modImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-chunk:${cardinal_version}") {
-    	exclude(group: "com.terraformersmc.modmenu")
-        exclude(group: "io.github.prospector")
-        exclude(group: "me.shedaniel")
-    }
-    modApi "me.shedaniel.cloth:cloth-config-fabric:4.11.19"
-    include "me.shedaniel.cloth:cloth-config-fabric:4.11.19"
+    modImplementation "software.bernie.geckolib:geckolib-fabric-1.17:3.0.3:dev"
+	
+	//modImplementation("top.theillusivec4.curios:curios-fabric:${curios_version}") {
+    //	exclude(group: "com.terraformersmc.modmenu")
+    //    exclude(group: "io.github.prospector")
+    //    exclude(group: "me.shedaniel")
+    //}
 
-	modImplementation("de.siphalor:nbtcrafting-1.16:2+") {
-    	exclude(group: "com.terraformersmc.modmenu")
-        exclude(group: "io.github.prospector")
-        exclude(group: "me.shedaniel")
-    }
-	include "de.siphalor:nbtcrafting-1.16:2+"	
-    modImplementation("com.terraformersmc:modmenu:1.16.9") {
-    	exclude(group: "com.terraformersmc.modmenu")
-        exclude(group: "io.github.prospector")
-        exclude(group: "me.shedaniel")
-    }
+    modApi "me.shedaniel.cloth:cloth-config-fabric:5.0.34"
+    include "me.shedaniel.cloth:cloth-config-fabric:5.0.34"
+	modCompileOnly "de.siphalor:nbtcrafting-1.17:2.0.15+mc1.17-rc1"
+	include "de.siphalor:nbtcrafting-1.17:2.0.15+mc1.17-rc1+"	
+    modCompileOnly "com.terraformersmc:modmenu:2.0.0-beta.5"
 	//modImplementation 'curse.maven:TDI-245733:3144149'
 	//modImplementation 'curse.maven:HWG-448106:3230994'
-    modApi("com.github.Shnupbups:Piglib:1.0.2-1.16") {
-    	exclude(group: "com.terraformersmc.modmenu")
-        exclude(group: "io.github.prospector")
-        exclude(group: "me.shedaniel")
-    }
+    modCompileOnly "com.github.Shnupbups:Piglib:1.0.2-1.16"
 	include "com.github.Shnupbups:Piglib:1.0.2-1.16"
 }
 
@@ -111,15 +76,10 @@ repositories {
 }
 
 processResources {
-	inputs.property "version", project.version
+    inputs.property "version", project.version
 
-	from(sourceSets.main.resources.srcDirs) {
-		include "fabric.mod.json"
+	filesMatching("fabric.mod.json") {
 		expand "version": project.version
-	}
-
-	from(sourceSets.main.resources.srcDirs) {
-		exclude "fabric.mod.json"
 	}
 }
 
@@ -169,9 +129,9 @@ if (file('key.properties').exists()) {
         	releaseType = "${curse_release}"
         	changelogType = 'text'
         	changelog = file('CHANGELOG.txt')
-        	addGameVersion("1.16.5")
-        	addGameVersion("Fabric")
-        	addGameVersion("Java 8")
+			addGameVersion("1.17")
+			addGameVersion("Fabric")
+			addGameVersion("Java 16")
 
         	relations {
             	requiredDependency 'fabric-api'  

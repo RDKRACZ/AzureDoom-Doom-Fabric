@@ -63,7 +63,7 @@ public class AxeMarauderItem extends AxeItem {
 	public void reload(PlayerEntity user, Hand hand) {
 		if (user.getStackInHand(hand).getItem() instanceof AxeMarauderItem) {
 			while (user.getStackInHand(hand).getDamage() != 0
-					&& user.inventory.count(DoomBlocks.ARGENT_BLOCK.asItem()) > 0) {
+					&& user.getInventory().count(DoomBlocks.ARGENT_BLOCK.asItem()) > 0) {
 				removeAmmo(DoomBlocks.ARGENT_BLOCK.asItem(), user);
 				user.getStackInHand(hand).damage(-5, user, s -> user.sendToolBreakStatus(hand));
 				user.getStackInHand(hand).setCooldown(3);
@@ -73,12 +73,12 @@ public class AxeMarauderItem extends AxeItem {
 
 	public void removeAmmo(Item ammo, PlayerEntity playerEntity) {
 		if (!playerEntity.isCreative()) {
-			for (ItemStack item : playerEntity.inventory.offHand) {
+			for (ItemStack item : playerEntity.getInventory().offHand) {
 				if (item.getItem() == ammo) {
 					item.decrement(1);
 					break;
 				}
-				for (ItemStack item1 : playerEntity.inventory.main) {
+				for (ItemStack item1 : playerEntity.getInventory().main) {
 					if (item1.getItem() == ammo) {
 						item1.decrement(1);
 						break;

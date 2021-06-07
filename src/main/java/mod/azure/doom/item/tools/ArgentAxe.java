@@ -2,11 +2,9 @@ package mod.azure.doom.item.tools;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Consumer;
 
 import com.google.common.collect.ImmutableMap.Builder;
-import com.google.common.collect.Sets;
 
 import mod.azure.doom.DoomMod;
 import mod.azure.doom.util.enums.DoomTier;
@@ -23,6 +21,7 @@ import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.MiningToolItem;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
@@ -31,8 +30,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class ArgentAxe extends MiningToolItem {
-
-	private static final Set<Block> EFFECTIVE_BLOCKS;
 
 	protected static final Map<Block, Block> BLOCK_STRIPPING_MAP = (new Builder<Block, Block>())
 			.put(Blocks.OAK_WOOD, Blocks.STRIPPED_OAK_WOOD).put(Blocks.OAK_LOG, Blocks.STRIPPED_OAK_LOG)
@@ -47,7 +44,8 @@ public class ArgentAxe extends MiningToolItem {
 			.put(Blocks.CRIMSON_HYPHAE, Blocks.STRIPPED_CRIMSON_HYPHAE).build();
 
 	public ArgentAxe() {
-		super(8, -2.4F, DoomTier.DOOM, EFFECTIVE_BLOCKS, new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1));
+		super(8, -2.4F, DoomTier.DOOM, BlockTags.AXE_MINEABLE,
+				new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1));
 	}
 
 	@Override
@@ -86,12 +84,6 @@ public class ArgentAxe extends MiningToolItem {
 		tooltip.add(new TranslatableText("doom.argent_powered.text").formatted(Formatting.RED)
 				.formatted(Formatting.ITALIC));
 		super.appendTooltip(stack, world, tooltip, context);
-	}
-
-	static {
-		EFFECTIVE_BLOCKS = Sets.newHashSet(new Block[] { Blocks.LADDER, Blocks.SCAFFOLDING, Blocks.OAK_BUTTON,
-				Blocks.SPRUCE_BUTTON, Blocks.BIRCH_BUTTON, Blocks.JUNGLE_BUTTON, Blocks.DARK_OAK_BUTTON,
-				Blocks.ACACIA_BUTTON, Blocks.CRIMSON_BUTTON, Blocks.WARPED_BUTTON });
 	}
 
 }

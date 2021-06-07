@@ -156,12 +156,12 @@ public class DoomWallBlock extends BlockWithEntity {
 	}
 
 	@Override
-	public BlockEntity createBlockEntity(BlockView world) {
-		return new IconBlockEntity();
+	public BlockRenderType getRenderType(BlockState state) {
+		return BlockRenderType.MODEL;
 	}
 
 	@Override
-	public BlockRenderType getRenderType(BlockState state) {
-		return BlockRenderType.MODEL;
+	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+		return new IconBlockEntity(pos, state);
 	}
 }

@@ -17,7 +17,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.hit.BlockHitResult;
@@ -93,7 +93,7 @@ public class RocketEntity extends PersistentProjectileEntity implements IAnimata
 	protected void age() {
 		++this.ticksInAir;
 		if (this.ticksInAir >= 40) {
-			this.remove();
+			this.remove(Entity.RemovalReason.DISCARDED);
 		}
 	}
 
@@ -113,14 +113,14 @@ public class RocketEntity extends PersistentProjectileEntity implements IAnimata
 	}
 
 	@Override
-	public void writeCustomDataToTag(CompoundTag tag) {
-		super.writeCustomDataToTag(tag);
+	public void writeCustomDataToNbt(NbtCompound tag) {
+		super.writeCustomDataToNbt(tag);
 		tag.putShort("life", (short) this.ticksInAir);
 	}
 
 	@Override
-	public void readCustomDataFromTag(CompoundTag tag) {
-		super.readCustomDataFromTag(tag);
+	public void readCustomDataFromNbt(NbtCompound tag) {
+		super.readCustomDataFromNbt(tag);
 		this.ticksInAir = tag.getShort("life");
 	}
 
@@ -130,14 +130,14 @@ public class RocketEntity extends PersistentProjectileEntity implements IAnimata
 		boolean bl = this.isNoClip();
 		Vec3d vec3d = this.getVelocity();
 		if (this.prevPitch == 0.0F && this.prevYaw == 0.0F) {
-			float f = MathHelper.sqrt(squaredHorizontalLength(vec3d));
+			double f = vec3d.horizontalLength();
 			this.yaw = (float) (MathHelper.atan2(vec3d.x, vec3d.z) * 57.2957763671875D);
 			this.pitch = (float) (MathHelper.atan2(vec3d.y, (double) f) * 57.2957763671875D);
 			this.prevYaw = this.yaw;
 			this.prevPitch = this.pitch;
 		}
 		if (this.age >= 100) {
-			this.remove();
+			this.remove(Entity.RemovalReason.DISCARDED);
 		}
 		if (this.inAir && !bl) {
 			this.age();
@@ -151,7 +151,7 @@ public class RocketEntity extends PersistentProjectileEntity implements IAnimata
 			if (((HitResult) hitResult).getType() != HitResult.Type.MISS) {
 				vector3d3 = ((HitResult) hitResult).getPos();
 			}
-			while (!this.removed) {
+			while (!this.isRemoved()) {
 				EntityHitResult entityHitResult = this.getEntityCollision(vec3d3, vector3d3);
 				if (entityHitResult != null) {
 					hitResult = entityHitResult;
@@ -181,7 +181,7 @@ public class RocketEntity extends PersistentProjectileEntity implements IAnimata
 			double h = this.getX() + d;
 			double j = this.getY() + e;
 			double k = this.getZ() + g;
-			float l = MathHelper.sqrt(squaredHorizontalLength(vec3d));
+			double l = vec3d.horizontalLength();
 			if (bl) {
 				this.yaw = (float) (MathHelper.atan2(-d, -g) * 57.2957763671875D);
 			} else {
@@ -236,7 +236,7 @@ public class RocketEntity extends PersistentProjectileEntity implements IAnimata
 			this.world.createExplosion(this, this.getX(), this.getBodyY(0.0625D), this.getZ(), 1.0F, false,
 					DoomMod.config.weapons.enable_block_breaking ? Explosion.DestructionType.BREAK
 							: Explosion.DestructionType.NONE);
-			this.remove();
+			this.remove(Entity.RemovalReason.DISCARDED);
 		}
 		this.setSound(ModSoundEvents.ROCKET_HIT);
 	}
@@ -249,7 +249,7 @@ public class RocketEntity extends PersistentProjectileEntity implements IAnimata
 			this.world.createExplosion(this, this.getX(), this.getBodyY(0.0625D), this.getZ(), 1.0F, false,
 					DoomMod.config.weapons.enable_block_breaking ? Explosion.DestructionType.BREAK
 							: Explosion.DestructionType.NONE);
-			this.remove();
+			this.remove(Entity.RemovalReason.DISCARDED);
 		}
 	}
 
@@ -277,7 +277,7 @@ public class RocketEntity extends PersistentProjectileEntity implements IAnimata
 		Vec3d vec3d = new Vec3d(this.getX(), this.getY(), this.getZ());
 		for (int x = 0; x < list.size(); ++x) {
 			Entity entity = (Entity) list.get(x);
-			double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d)) / q);
+			double y = (double) (MathHelper.sqrt((float) entity.squaredDistanceTo(vec3d)) / q);
 			if (y <= 1.0D) {
 				if (entity instanceof LivingEntity) {
 					entity.damage(DamageSource.player((PlayerEntity) this.shooter), 20);

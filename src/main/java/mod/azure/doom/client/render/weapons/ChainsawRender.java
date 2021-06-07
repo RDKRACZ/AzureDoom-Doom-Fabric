@@ -10,7 +10,7 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
-import software.bernie.geckolib3.renderer.geo.GeoItemRenderer;
+import software.bernie.geckolib3.renderers.geo.GeoItemRenderer;
 
 public class ChainsawRender extends GeoItemRenderer<ChainsawAnimated> {
 
@@ -22,7 +22,7 @@ public class ChainsawRender extends GeoItemRenderer<ChainsawAnimated> {
 	public void render(ItemStack itemStack, ModelTransformation.Mode mode, MatrixStack matrixStackIn,
 			VertexConsumerProvider bufferIn, int combinedLightIn, int combinedOverlayIn) {
 		if (mode == ModelTransformation.Mode.GUI) {
-			RenderSystem.pushMatrix();
+			matrixStackIn.push();
 			VertexConsumerProvider.Immediate irendertypebuffer$impl = MinecraftClient.getInstance().getBufferBuilders()
 					.getEntityVertexConsumers();
 			DiffuseLighting.disableGuiDepthLighting();
@@ -30,7 +30,7 @@ public class ChainsawRender extends GeoItemRenderer<ChainsawAnimated> {
 			irendertypebuffer$impl.draw();
 			RenderSystem.enableDepthTest();
 			DiffuseLighting.enableGuiDepthLighting();
-			RenderSystem.popMatrix();
+			matrixStackIn.pop();
 		} else {
 			super.render(itemStack, mode, matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn);
 		}

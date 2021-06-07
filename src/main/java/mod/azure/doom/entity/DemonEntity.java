@@ -23,7 +23,7 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.network.Packet;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.IntRange;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
@@ -32,7 +32,7 @@ public class DemonEntity extends HostileEntity implements Angerable {
 
 	private static final TrackedData<Integer> ANGER_TIME = DataTracker.registerData(DemonEntity.class,
 			TrackedDataHandlerRegistry.INTEGER);
-	private static final IntRange ANGER_TIME_RANGE = Durations.betweenSeconds(20, 39);
+	private static final UniformIntProvider ANGER_TIME_RANGE = Durations.betweenSeconds(20, 39);
 	private UUID targetUuid;
 
 	public static MobStats config = DoomMod.config.stats;
@@ -107,7 +107,7 @@ public class DemonEntity extends HostileEntity implements Angerable {
 
 	@Override
 	public void chooseRandomAngerTime() {
-		this.setAngerTime(ANGER_TIME_RANGE.choose(this.random));
+		this.setAngerTime(ANGER_TIME_RANGE.get(this.random));
 	}
 
 }

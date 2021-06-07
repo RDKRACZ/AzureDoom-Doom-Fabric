@@ -52,7 +52,7 @@ public class BFG extends DoomBaseItem {
 					worldIn.spawnEntity(abstractarrowentity);
 					worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(),
 							playerentity.getZ(), ModSoundEvents.BFG_FIRING, SoundCategory.PLAYERS, 1.0F,
-							1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + 1F * 0.5F);
+							1.0F / (worldIn.random.nextFloat() * 0.4F + 1.2F) + 1F * 0.5F);
 				}
 				if (!worldIn.isClient) {
 					final int id = GeckoLibUtil.guaranteeIDForStack(stack, (ServerWorld) worldIn);
@@ -82,7 +82,7 @@ public class BFG extends DoomBaseItem {
 
 	public void reload(PlayerEntity user, Hand hand) {
 		if (user.getStackInHand(hand).getItem() instanceof BFG) {
-			while (user.getStackInHand(hand).getDamage() != 0 && user.inventory.count(DoomItems.BFG_CELL) > 0) {
+			while (user.getStackInHand(hand).getDamage() != 0 && user.getInventory().count(DoomItems.BFG_CELL) > 0) {
 				removeAmmo(DoomItems.BFG_CELL, user);
 				user.getStackInHand(hand).damage(-20, user, s -> user.sendToolBreakStatus(hand));
 				user.getStackInHand(hand).setCooldown(3);

@@ -17,7 +17,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.particle.DustParticleEffect;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -57,7 +57,7 @@ public class Chainsaw extends Item {
 		}
 		if (isSelected) {
 			worldIn.playSound((PlayerEntity) null, user.getX(), user.getY(), user.getZ(), ModSoundEvents.CHAINSAW_IDLE,
-					SoundCategory.PLAYERS, 0.05F, 1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + 0.25F * 0.5F);
+					SoundCategory.PLAYERS, 0.05F, 1.0F / (worldIn.random.nextFloat() * 0.4F + 1.2F) + 0.25F * 0.5F);
 		}
 		if (worldIn.isClient) {
 			if (player.getMainHandStack().getItem() instanceof Chainsaw && ClientInit.reload.isPressed()
@@ -76,12 +76,12 @@ public class Chainsaw extends Item {
 
 	public void removeAmmo(Item ammo, PlayerEntity playerEntity) {
 		if (!playerEntity.isCreative()) {
-			for (ItemStack item : playerEntity.inventory.offHand) {
+			for (ItemStack item : playerEntity.getInventory().offHand) {
 				if (item.getItem() == ammo) {
 					item.decrement(1);
 					break;
 				}
-				for (ItemStack item1 : playerEntity.inventory.main) {
+				for (ItemStack item1 : playerEntity.getInventory().main) {
 					if (item1.getItem() == ammo) {
 						item1.decrement(1);
 						break;
@@ -93,7 +93,7 @@ public class Chainsaw extends Item {
 
 	public void reload(PlayerEntity user, Hand hand) {
 		if (user.getStackInHand(hand).getItem() instanceof Chainsaw) {
-			while (user.getStackInHand(hand).getDamage() != 0 && user.inventory.count(DoomItems.GAS_BARREL) > 0) {
+			while (user.getStackInHand(hand).getDamage() != 0 && user.getInventory().count(DoomItems.GAS_BARREL) > 0) {
 				removeAmmo(DoomItems.BULLETS, user);
 				user.getStackInHand(hand).damage(-200, user, s -> user.sendToolBreakStatus(hand));
 				user.getStackInHand(hand).setCooldown(3);
@@ -107,7 +107,7 @@ public class Chainsaw extends Item {
 			target.damage(DamageSource.player((PlayerEntity) user), 2F);
 			user.world.playSound((PlayerEntity) null, user.getX(), user.getY(), user.getZ(),
 					ModSoundEvents.CHAINSAW_ATTACKING, SoundCategory.PLAYERS, 0.05F,
-					1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + 0.25F * 0.5F);
+					1.0F / (target.world.random.nextFloat() * 0.4F + 1.2F) + 0.25F * 0.5F);
 		}
 	}
 
@@ -120,7 +120,7 @@ public class Chainsaw extends Item {
 
 	private void addParticle(Entity target) {
 		if (target instanceof LivingEntity) {
-			target.world.addParticle(DustParticleEffect.RED, target.getParticleX(0.5D), target.getRandomBodyY(),
+			target.world.addParticle(ParticleTypes.CRIMSON_SPORE, target.getParticleX(0.5D), target.getRandomBodyY(),
 					target.getParticleZ(0.5D), 0.0D, 0D, 0D);
 		}
 	}

@@ -2,7 +2,7 @@ package mod.azure.doom.client.models;
 
 import mod.azure.doom.DoomMod;
 import mod.azure.doom.entity.tierfodder.Imp2016Entity;
-import net.minecraft.client.util.math.Vector3f;
+import net.minecraft.util.math.Vec3f;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.processor.IBone;
@@ -38,13 +38,13 @@ public class Imp2016Model extends AnimatedGeoModel<Imp2016Entity> {
 		EntityModelData extraData = (EntityModelData) customPredicate.getExtraDataOfType(EntityModelData.class).get(0);
 		if (head != null) {
 			head.setRotationX(
-					Vector3f.POSITIVE_X
-							.getRadialQuaternion(Vector3f.POSITIVE_X
+					Vec3f.POSITIVE_X
+							.getRadialQuaternion(Vec3f.POSITIVE_X
 									.getRadialQuaternion(extraData.headPitch * ((float) Math.PI / 180F)).getX())
 							.getX());
 			head.setRotationY(
-					Vector3f.POSITIVE_Y
-							.getRadialQuaternion(Vector3f.POSITIVE_Y
+					Vec3f.POSITIVE_Y
+							.getRadialQuaternion(Vec3f.POSITIVE_Y
 									.getRadialQuaternion(extraData.netHeadYaw * ((float) Math.PI / 340F)).getY())
 							.getY());
 		}

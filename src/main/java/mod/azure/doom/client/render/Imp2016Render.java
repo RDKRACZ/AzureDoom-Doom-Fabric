@@ -1,18 +1,18 @@
 package mod.azure.doom.client.render;
 
-import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
+import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 import mod.azure.doom.client.models.Imp2016Model;
 import mod.azure.doom.entity.tierfodder.Imp2016Entity;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 public class Imp2016Render extends GeoEntityRenderer<Imp2016Entity> {
 
-	public Imp2016Render(EntityRenderDispatcher renderManagerIn) {
+	public Imp2016Render(EntityRendererFactory.Context renderManagerIn) {
 		super(renderManagerIn, new Imp2016Model());
 	}
 

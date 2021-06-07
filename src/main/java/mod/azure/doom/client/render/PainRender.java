@@ -1,19 +1,19 @@
 package mod.azure.doom.client.render;
 
-import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
+import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 import mod.azure.doom.client.models.PainModel;
 import mod.azure.doom.entity.tierheavy.PainEntity;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
 public class PainRender extends GeoEntityRenderer<PainEntity> {
 
-	public PainRender(EntityRenderDispatcher renderManagerIn) {
+	public PainRender(EntityRendererFactory.Context renderManagerIn) {
 		super(renderManagerIn, new PainModel());
 	}
 
