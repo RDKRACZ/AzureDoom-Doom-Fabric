@@ -63,7 +63,7 @@ public class StructureModdedLootImporter {
 			return originalLoot;
 
 		LootContext newContext = copyLootContextWithNewQueryID(context);
-		List<ItemStack> newlyGeneratedLoot = newContext.getSupplier(tableToImportLoot).generateLoot(newContext);
+		List<ItemStack> newlyGeneratedLoot = newContext.getTable(tableToImportLoot).generateLoot(newContext);
 
 		newlyGeneratedLoot.removeIf(itemStack -> {
 			RegistryKey<Item> itemKey = Registry.ITEM.getKey(itemStack.getItem()).orElse(null);

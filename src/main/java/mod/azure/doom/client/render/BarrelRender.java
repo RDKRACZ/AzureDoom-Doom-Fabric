@@ -13,8 +13,9 @@ public class BarrelRender extends EntityRenderer<BarrelEntity> {
 
 	protected static final Identifier TEXTURE = new Identifier(DoomMod.MODID, "textures/blocks/barrel_explode.png");
 
-	public BarrelRender(EntityRendererFactory.Context renderManagerIn) {
-		super(renderManagerIn);
+	public BarrelRender(EntityRendererFactory.Context context) {
+		super(context);
+		this.shadowRadius = 0.5F;
 	}
 
 	@Override

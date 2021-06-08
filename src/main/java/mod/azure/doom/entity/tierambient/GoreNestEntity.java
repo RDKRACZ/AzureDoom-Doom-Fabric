@@ -17,8 +17,7 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.particle.DustParticleEffect;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
@@ -52,9 +51,9 @@ public class GoreNestEntity extends DemonEntity implements IAnimatable {
 		event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
 		return PlayState.CONTINUE;
 	}
-
+	
 	@Override
-	public void takeKnockback(float f, double d, double e) {
+	public void takeKnockback(double strength, double x, double z) {
 		super.takeKnockback(0, 0, 0);
 	}
 
@@ -86,7 +85,7 @@ public class GoreNestEntity extends DemonEntity implements IAnimatable {
 	protected void updatePostDeath() {
 		++this.deathTime;
 		if (this.deathTime == 80) {
-			this.remove();
+			this.remove(Entity.RemovalReason.KILLED);
 		}
 	}
 
@@ -95,19 +94,18 @@ public class GoreNestEntity extends DemonEntity implements IAnimatable {
 		if (!(source.getSource() instanceof PlayerEntity)) {
 			this.setHealth(5.0F);
 		} else {
-			this.remove();
+			this.remove(Entity.RemovalReason.KILLED);
 		}
 	}
 
 	public void spawnWave() {
 		Random rand = new Random();
-		List<EntityType<?>> givenList = Arrays.asList(ModEntityTypes.HELLKNIGHT,
-				ModEntityTypes.POSSESSEDSCIENTIST, ModEntityTypes.IMP, ModEntityTypes.NIGHTMARE_IMP,
-				ModEntityTypes.PINKY, ModEntityTypes.CACODEMON, ModEntityTypes.CHAINGUNNER,
-				ModEntityTypes.GARGOYLE, ModEntityTypes.HELLKNIGHT2016, ModEntityTypes.IMP2016,
-				ModEntityTypes.LOST_SOUL, ModEntityTypes.POSSESSEDSOLDIER, ModEntityTypes.SHOTGUNGUY,
-				ModEntityTypes.UNWILLING, ModEntityTypes.ZOMBIEMAN, ModEntityTypes.ARACHNOTRON,
-				ModEntityTypes.ARCHVILE, ModEntityTypes.MECHAZOMBIE, ModEntityTypes.PAIN,
+		List<EntityType<?>> givenList = Arrays.asList(ModEntityTypes.HELLKNIGHT, ModEntityTypes.POSSESSEDSCIENTIST,
+				ModEntityTypes.IMP, ModEntityTypes.NIGHTMARE_IMP, ModEntityTypes.PINKY, ModEntityTypes.CACODEMON,
+				ModEntityTypes.CHAINGUNNER, ModEntityTypes.GARGOYLE, ModEntityTypes.HELLKNIGHT2016,
+				ModEntityTypes.IMP2016, ModEntityTypes.LOST_SOUL, ModEntityTypes.POSSESSEDSOLDIER,
+				ModEntityTypes.SHOTGUNGUY, ModEntityTypes.UNWILLING, ModEntityTypes.ZOMBIEMAN,
+				ModEntityTypes.ARACHNOTRON, ModEntityTypes.ARCHVILE, ModEntityTypes.MECHAZOMBIE, ModEntityTypes.PAIN,
 				ModEntityTypes.MANCUBUS);
 
 		for (int i = 0; i < 1; i++) {
@@ -149,10 +147,9 @@ public class GoreNestEntity extends DemonEntity implements IAnimatable {
 				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 0.0D).add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
 	}
 
-	
 	@Override
 	public EntityData initialize(ServerWorldAccess serverWorldAccess, LocalDifficulty difficulty,
-			SpawnReason spawnReason, EntityData entityData, CompoundTag entityTag) {
+			SpawnReason spawnReason, EntityData entityData, NbtCompound entityTag) {
 		entityData = super.initialize(serverWorldAccess, difficulty, spawnReason, entityData, entityTag);
 		return entityData;
 	}
@@ -160,9 +157,9 @@ public class GoreNestEntity extends DemonEntity implements IAnimatable {
 	@Override
 	public void tickMovement() {
 		if (this.world.isClient) {
-			this.world.addParticle(DustParticleEffect.RED, this.getParticleX(0.5D), this.getRandomBodyY() - 0.25D,
-					this.getParticleZ(0.5D), (this.random.nextDouble() - 0.5D) * 2.0D, -this.random.nextDouble(),
-					(this.random.nextDouble() - 0.5D) * 2.0D);
+			this.world.addParticle(ParticleTypes.SOUL_FIRE_FLAME, this.getParticleX(0.5D),
+					this.getRandomBodyY() - 0.25D, this.getParticleZ(0.5D), (this.random.nextDouble() - 0.5D) * 2.0D,
+					-this.random.nextDouble(), (this.random.nextDouble() - 0.5D) * 2.0D);
 			this.world.addParticle(ParticleTypes.SOUL, this.getParticleX(0.2D), this.getRandomBodyY(),
 					this.getParticleZ(0.5D), 0.0D, 0D, 0D);
 		}
@@ -179,7 +176,6 @@ public class GoreNestEntity extends DemonEntity implements IAnimatable {
 	public int getSpawnTimer() {
 		return spawnTimer;
 	}
-
 
 	protected boolean shouldDrown() {
 		return false;

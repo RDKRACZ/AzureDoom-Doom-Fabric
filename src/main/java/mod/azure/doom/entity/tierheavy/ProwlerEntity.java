@@ -94,7 +94,7 @@ public class ProwlerEntity extends DemonEntity implements IAnimatable {
 	protected void updatePostDeath() {
 		++this.deathTime;
 		if (this.deathTime == 50) {
-			this.remove();
+			this.remove(Entity.RemovalReason.KILLED);
 			if (world.isClient) {
 			}
 		}
@@ -346,12 +346,12 @@ public class ProwlerEntity extends DemonEntity implements IAnimatable {
 		private int lookAtPlayerWarmup;
 		private int ticksSinceUnseenTeleport;
 		private final TargetPredicate staringPlayerPredicate;
-		private final TargetPredicate validTargetPredicate = (new TargetPredicate()).includeHidden();
+		private final TargetPredicate validTargetPredicate = TargetPredicate.createAttackable().visibleOnly();
 
 		public TeleportTowardsPlayerGoal(ProwlerEntity enderman, @Nullable Predicate<LivingEntity> predicate) {
 			super(enderman, PlayerEntity.class, 10, false, false, predicate);
 			this.enderman = enderman;
-			this.staringPlayerPredicate = (new TargetPredicate()).setBaseMaxDistance(this.getFollowRange())
+			this.staringPlayerPredicate = TargetPredicate.createAttackable().setBaseMaxDistance(this.getFollowRange())
 					.setPredicate((playerEntity) -> {
 						return enderman.isPlayerStaring((PlayerEntity) playerEntity);
 					});

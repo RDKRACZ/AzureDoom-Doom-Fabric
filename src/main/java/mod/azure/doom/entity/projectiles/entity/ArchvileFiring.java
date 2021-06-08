@@ -16,7 +16,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
@@ -75,7 +75,7 @@ public class ArchvileFiring extends Entity implements IAnimatable {
 	}
 
 	@Override
-	protected void readCustomDataFromTag(CompoundTag tag) {
+	protected void readCustomDataFromNbt(NbtCompound tag) {
 		this.warmup = tag.getInt("Warmup");
 		if (tag.containsUuid("Owner")) {
 			this.ownerUuid = tag.getUuid("Owner");
@@ -83,7 +83,8 @@ public class ArchvileFiring extends Entity implements IAnimatable {
 
 	}
 
-	protected void writeCustomDataToTag(CompoundTag tag) {
+	@Override
+	protected void writeCustomDataToNbt(NbtCompound tag) {
 		tag.putInt("Warmup", this.warmup);
 		if (this.ownerUuid != null) {
 			tag.putUuid("Owner", this.ownerUuid);
@@ -116,7 +117,7 @@ public class ArchvileFiring extends Entity implements IAnimatable {
 				this.startedAttack = true;
 			}
 			if (--this.ticksLeft < 0) {
-				this.remove();
+				this.remove(Entity.RemovalReason.DISCARDED);
 			}
 		}
 		List<Entity> list = this.world.getOtherEntities(this, new Box(this.getBlockPos().up()).expand(1D, 1D, 1D));

@@ -13,6 +13,7 @@ import mod.azure.doom.util.packets.EntityPacket;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityPose;
@@ -97,7 +98,7 @@ public class CacodemonEntity extends DemonEntity implements Monster, IAnimatable
 	protected void updatePostDeath() {
 		++this.deathTime;
 		if (this.deathTime == 60) {
-			this.remove();
+			this.remove(Entity.RemovalReason.KILLED);
 			for (int i = 0; i < 20; ++i) {
 				if (world.isClient) {
 				}
@@ -153,8 +154,7 @@ public class CacodemonEntity extends DemonEntity implements Monster, IAnimatable
 			this.move(MovementType.SELF, this.getVelocity());
 			this.setVelocity(this.getVelocity().multiply((double) f));
 		}
-
-		this.method_29242(this, false);
+		this.updateLimbs(this, false);
 	}
 
 	public boolean isClimbing() {

@@ -76,7 +76,7 @@ public class DoomRenderRegistry {
 	public static void init() {
 		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.ARCHVILE, (ctx) -> new ArchvileRender(ctx));
 
-		//EntityRendererRegistry.INSTANCE.register(ModEntityTypes.BARREL, (ctx) -> new BarrelRender(ctx));
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.BARREL, (ctx) -> new BarrelRender(ctx));
 
 		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.IMP, (ctx) -> new ImpRender(ctx));
 

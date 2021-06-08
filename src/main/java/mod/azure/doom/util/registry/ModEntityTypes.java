@@ -45,7 +45,6 @@ import mod.azure.doom.entity.tiersuperheavy.DoomHunterEntity;
 import mod.azure.doom.entity.tiersuperheavy.FireBaronEntity;
 import mod.azure.doom.entity.tiersuperheavy.MarauderEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -54,9 +53,9 @@ import net.minecraft.util.registry.Registry;
 
 public class ModEntityTypes {
 
-	public static final EntityType<Entity> BARREL = Registry.register(Registry.ENTITY_TYPE,
+	public static final EntityType<BarrelEntity> BARREL = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "barrel"),
-			FabricEntityTypeBuilder.create(SpawnGroup.MISC, BarrelEntity::new)
+			FabricEntityTypeBuilder.<BarrelEntity>create(SpawnGroup.MISC, BarrelEntity::new)
 					.dimensions(EntityDimensions.fixed(0.98F, 0.98F)).trackRangeBlocks(90).trackedUpdateRate(4)
 					.build());
 

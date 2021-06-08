@@ -74,7 +74,7 @@ public class TentacleEntity extends DemonEntity implements IAnimatable {
 	protected void updatePostDeath() {
 		++this.deathTime;
 		if (this.deathTime == 30) {
-			this.remove();
+			this.remove(Entity.RemovalReason.KILLED);
 		}
 	}
 
@@ -100,7 +100,7 @@ public class TentacleEntity extends DemonEntity implements IAnimatable {
 	}
 
 	@Override
-	public void takeKnockback(float f, double d, double e) {
+	public void takeKnockback(double strength, double x, double z) {
 		super.takeKnockback(0, 0, 0);
 	}
 
@@ -176,7 +176,7 @@ public class TentacleEntity extends DemonEntity implements IAnimatable {
 		Vec3d vec3d = new Vec3d(this.getX(), this.getY(), this.getZ());
 		for (int x = 0; x < list.size(); ++x) {
 			Entity entity = (Entity) list.get(x);
-			double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d)) / q);
+			double y = (double) (MathHelper.sqrt((float) entity.squaredDistanceTo(vec3d)) / q);
 			if (y <= 1.0D) {
 				if (entity instanceof LivingEntity) {
 					entity.damage(DamageSource.magic(this, this.getTarget()), 1);

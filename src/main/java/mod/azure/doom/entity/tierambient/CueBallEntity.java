@@ -4,6 +4,7 @@ import java.util.Random;
 
 import mod.azure.doom.entity.DemonEntity;
 import mod.azure.doom.entity.tierfodder.PossessedScientistEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
@@ -50,7 +51,7 @@ public class CueBallEntity extends DemonEntity implements IAnimatable {
 	protected void updatePostDeath() {
 		++this.deathTime;
 		if (this.deathTime == 30) {
-			this.remove();
+			this.remove(Entity.RemovalReason.KILLED);
 			if (!world.isClient) {
 				this.explode();
 			}
@@ -68,8 +69,8 @@ public class CueBallEntity extends DemonEntity implements IAnimatable {
 	}
 
 	@Override
-	public void takeKnockback(float strength, double ratioX, double ratioZ) {
-		super.takeKnockback(3, ratioX, ratioZ);
+	public void takeKnockback(double strength, double x, double z) {
+		super.takeKnockback(3, x, z);
 	}
 
 	protected void explode() {

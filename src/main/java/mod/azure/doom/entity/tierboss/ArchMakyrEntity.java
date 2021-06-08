@@ -6,6 +6,7 @@ import mod.azure.doom.entity.DemonEntity;
 import mod.azure.doom.util.ModSoundEvents;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
@@ -18,7 +19,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -35,7 +36,7 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class ArchMakyrEntity extends DemonEntity implements IAnimatable {
-	
+
 	private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(ArchMakyrEntity.class,
 			TrackedDataHandlerRegistry.BOOLEAN);
 	private AnimationFactory factory = new AnimationFactory(this);
@@ -77,7 +78,7 @@ public class ArchMakyrEntity extends DemonEntity implements IAnimatable {
 	protected void updatePostDeath() {
 		++this.deathTime;
 		if (this.deathTime == 50) {
-			this.remove();
+			this.remove(Entity.RemovalReason.KILLED);
 			if (world.isClient) {
 			}
 		}
@@ -100,15 +101,15 @@ public class ArchMakyrEntity extends DemonEntity implements IAnimatable {
 	}
 
 	@Override
-	public void readCustomDataFromTag(CompoundTag tag) {
-		super.readCustomDataFromTag(tag);
-		this.setVariant(tag.getInt("Variant"));
+	public void writeCustomDataToNbt(NbtCompound tag) {
+		super.writeCustomDataToNbt(tag);
+		tag.putInt("Variant", this.getVariant());
 	}
 
 	@Override
-	public void writeCustomDataToTag(CompoundTag tag) {
-		super.writeCustomDataToTag(tag);
-		tag.putInt("Variant", this.getVariant());
+	public void readCustomDataFromNbt(NbtCompound tag) {
+		super.readCustomDataFromNbt(tag);
+		this.setVariant(tag.getInt("Variant"));
 	}
 
 	public int getVariant() {
@@ -138,7 +139,7 @@ public class ArchMakyrEntity extends DemonEntity implements IAnimatable {
 
 	@Override
 	public EntityData initialize(ServerWorldAccess serverWorldAccess, LocalDifficulty difficulty,
-			SpawnReason spawnReason, EntityData entityData, CompoundTag entityTag) {
+			SpawnReason spawnReason, EntityData entityData, NbtCompound entityTag) {
 		entityData = super.initialize(serverWorldAccess, difficulty, spawnReason, entityData, entityTag);
 		this.setVariant(this.random.nextInt());
 		return entityData;
@@ -174,6 +175,5 @@ public class ArchMakyrEntity extends DemonEntity implements IAnimatable {
 	public int getLimitPerChunk() {
 		return 1;
 	}
-
 
 }

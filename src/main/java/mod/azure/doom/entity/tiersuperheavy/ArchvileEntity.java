@@ -104,7 +104,7 @@ public class ArchvileEntity extends DemonEntity implements IAnimatable {
 			}
 		}
 		if (this.deathTime == 50) {
-			this.remove();
+			this.remove(Entity.RemovalReason.KILLED);
 		}
 	}
 
@@ -215,7 +215,7 @@ public class ArchvileEntity extends DemonEntity implements IAnimatable {
 						for (int x = 0; x < list.size(); ++x) {
 							Entity entity = (Entity) list.get(x);
 							if ((entity instanceof MobEntity)) {
-								double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d1)) / q);
+								float y = (MathHelper.sqrt((float) entity.squaredDistanceTo(vec3d1)) / q);
 								if (y <= 1.0D) {
 									((MobEntity) entity)
 											.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 1000, 1));
@@ -270,12 +270,12 @@ public class ArchvileEntity extends DemonEntity implements IAnimatable {
 		private int lookAtPlayerWarmup;
 		private int ticksSinceUnseenTeleport;
 		private final TargetPredicate staringPlayerPredicate;
-		private final TargetPredicate validTargetPredicate = (new TargetPredicate()).includeHidden();
+		private final TargetPredicate validTargetPredicate = TargetPredicate.createAttackable().visibleOnly();
 
 		public TeleportTowardsPlayerGoal(ArchvileEntity enderman, @Nullable Predicate<LivingEntity> predicate) {
 			super(enderman, PlayerEntity.class, 10, false, false, predicate);
 			this.enderman = enderman;
-			this.staringPlayerPredicate = (new TargetPredicate()).setBaseMaxDistance(this.getFollowRange())
+			this.staringPlayerPredicate = TargetPredicate.createAttackable().setBaseMaxDistance(this.getFollowRange())
 					.setPredicate((playerEntity) -> {
 						return enderman.isPlayerStaring((PlayerEntity) playerEntity);
 					});
@@ -343,7 +343,7 @@ public class ArchvileEntity extends DemonEntity implements IAnimatable {
 	}
 
 	private boolean isPlayerStaring(PlayerEntity player) {
-		ItemStack itemStack = (ItemStack) player.inventory.armor.get(3);
+		ItemStack itemStack = (ItemStack) player.getInventory().armor.get(3);
 		if (itemStack.getItem() == Blocks.CARVED_PUMPKIN.asItem()) {
 			return false;
 		} else {

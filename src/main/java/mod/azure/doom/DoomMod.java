@@ -115,7 +115,7 @@ public class DoomMod implements ModInitializer {
 					BiomeSelectors.all(), context -> {
 						context.getGenerationSettings().addBuiltInStructure(DoomConfiguredStructures.CONFIGURED_PORTAL);
 					});
-			removeStructureSpawningFromSelectedDimension();
+			//removeStructureSpawningFromSelectedDimension();
 		}
 //		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.BELT.getInfoBuilder().build());
 //		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.CHARM.getInfoBuilder().build());

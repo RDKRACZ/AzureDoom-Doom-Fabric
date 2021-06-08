@@ -6,6 +6,7 @@ import mod.azure.doom.entity.DemonEntity;
 import mod.azure.doom.entity.ai.goal.DemonAttackGoal;
 import mod.azure.doom.util.ModSoundEvents;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
@@ -72,7 +73,7 @@ public class PossessedScientistEntity extends DemonEntity implements IAnimatable
 	protected void updatePostDeath() {
 		++this.deathTime;
 		if (this.deathTime == 80) {
-			this.remove();
+			this.remove(Entity.RemovalReason.KILLED);
 			for (int i = 0; i < 20; ++i) {
 				if (world.isClient) {
 				}

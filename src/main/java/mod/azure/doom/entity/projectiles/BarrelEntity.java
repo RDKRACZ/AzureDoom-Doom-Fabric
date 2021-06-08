@@ -16,8 +16,9 @@ public class BarrelEntity extends Entity {
 
 	private LivingEntity causingEntity;
 
-	public BarrelEntity(EntityType<?> entityTypeIn, World worldIn) {
-		super(entityTypeIn, worldIn);
+	public BarrelEntity(EntityType<? extends BarrelEntity> entityType, World world) {
+		super(entityType, world);
+		this.inanimate = true;
 	}
 
 	protected void explode() {

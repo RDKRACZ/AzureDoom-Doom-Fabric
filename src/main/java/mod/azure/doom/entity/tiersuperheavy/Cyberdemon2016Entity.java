@@ -12,6 +12,7 @@ import mod.azure.doom.util.ModSoundEvents;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
@@ -32,7 +33,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
@@ -77,7 +78,8 @@ public class Cyberdemon2016Entity extends DemonEntity implements IAnimatable {
 
 	@Override
 	public void registerControllers(AnimationData data) {
-		data.addAnimationController(new AnimationController<Cyberdemon2016Entity>(this, "controller", 0, this::predicate));
+		data.addAnimationController(
+				new AnimationController<Cyberdemon2016Entity>(this, "controller", 0, this::predicate));
 	}
 
 	@Override
@@ -89,7 +91,7 @@ public class Cyberdemon2016Entity extends DemonEntity implements IAnimatable {
 	protected void updatePostDeath() {
 		++this.deathTime;
 		if (this.deathTime == 60) {
-			this.remove();
+			this.remove(Entity.RemovalReason.KILLED);
 			if (world.isClient) {
 			}
 		}
@@ -167,7 +169,7 @@ public class Cyberdemon2016Entity extends DemonEntity implements IAnimatable {
 
 	@Override
 	public EntityData initialize(ServerWorldAccess serverWorldAccess, LocalDifficulty difficulty,
-			SpawnReason spawnReason, EntityData entityData, CompoundTag entityTag) {
+			SpawnReason spawnReason, EntityData entityData, NbtCompound entityTag) {
 		return super.initialize(serverWorldAccess, difficulty, spawnReason, entityData, entityTag);
 	}
 

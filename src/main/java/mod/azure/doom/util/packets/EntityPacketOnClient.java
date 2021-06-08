@@ -25,6 +25,7 @@ public class EntityPacketOnClient {
 		float pitch = (byteBuf.readByte() * 360) / 256.0F;
 		float yaw = (byteBuf.readByte() * 360) / 256.0F;
 		context.getTaskQueue().execute(() -> {
+			@SuppressWarnings("resource")
 			ClientWorld world = MinecraftClient.getInstance().world;
 			Entity entity = type.create(world);
 			if (entity != null) {

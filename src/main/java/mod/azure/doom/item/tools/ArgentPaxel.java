@@ -27,7 +27,6 @@ import net.minecraft.item.MiningToolItem;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.BlockTags;
-import net.minecraft.tag.Tag;
 import net.minecraft.tag.Tag.Identified;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -56,9 +55,8 @@ public class ArgentPaxel extends MiningToolItem {
 	private static final List<Identified<Block>> MINEABLE = ImmutableList.of(BlockTags.AXE_MINEABLE,
 			BlockTags.PICKAXE_MINEABLE, BlockTags.SHOVEL_MINEABLE);
 
-	@SuppressWarnings("unchecked")
 	public ArgentPaxel() {
-		super(9, -2.4F, DoomTier.DOOM, (Tag<Block>) MINEABLE,
+		super(9, -2.4F, DoomTier.DOOM, BlockTags.AXE_MINEABLE,
 				new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1));
 	}
 

@@ -13,7 +13,7 @@ public class LivingEntityMixin {
 
 	@Inject(method = "tryUseTotem", at = @At(value = "HEAD"), cancellable = true)
 	private void tryUseTotem(DamageSource source, CallbackInfoReturnable<Boolean> ci) {
-		LivingEntity livingEntity = (LivingEntity) (Object) this;
+//		LivingEntity livingEntity = (LivingEntity) (Object) this;
 		if (source.isOutOfWorld()) {
 			ci.setReturnValue(false);
 		} else {
