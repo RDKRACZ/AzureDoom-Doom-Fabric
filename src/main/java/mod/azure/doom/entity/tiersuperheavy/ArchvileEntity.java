@@ -270,7 +270,7 @@ public class ArchvileEntity extends DemonEntity implements IAnimatable {
 		private int lookAtPlayerWarmup;
 		private int ticksSinceUnseenTeleport;
 		private final TargetPredicate staringPlayerPredicate;
-		private final TargetPredicate validTargetPredicate = TargetPredicate.createAttackable().visibleOnly();
+		private final TargetPredicate validTargetPredicate = TargetPredicate.createAttackable().ignoreVisibility();
 
 		public TeleportTowardsPlayerGoal(ArchvileEntity enderman, @Nullable Predicate<LivingEntity> predicate) {
 			super(enderman, PlayerEntity.class, 10, false, false, predicate);

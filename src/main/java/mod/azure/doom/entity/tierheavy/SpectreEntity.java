@@ -89,7 +89,7 @@ public class SpectreEntity extends DemonEntity implements IAnimatable {
 	@Override
 	public void writeCustomDataToNbt(NbtCompound tag) {
 		super.writeCustomDataToNbt(tag);
-		this.setVariant(tag.getInt("Variant"));
+		tag.putInt("Variant", this.getVariant());
 	}
 
 	@Override

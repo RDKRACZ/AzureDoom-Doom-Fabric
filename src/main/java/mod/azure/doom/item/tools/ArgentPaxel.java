@@ -52,6 +52,7 @@ public class ArgentPaxel extends MiningToolItem {
 			.put(Blocks.CRIMSON_STEM, Blocks.STRIPPED_CRIMSON_STEM)
 			.put(Blocks.CRIMSON_HYPHAE, Blocks.STRIPPED_CRIMSON_HYPHAE).build();
 
+	@SuppressWarnings("unused")
 	private static final List<Identified<Block>> MINEABLE = ImmutableList.of(BlockTags.AXE_MINEABLE,
 			BlockTags.PICKAXE_MINEABLE, BlockTags.SHOVEL_MINEABLE);
 

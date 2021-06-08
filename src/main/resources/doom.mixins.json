@@ -12,6 +12,7 @@
 		"AnvilScreenHandlerMixin",
 		"NoiseChunkGeneratorMixin",
 		"BuilderAccessor",
+		"IngredientAccess",
 		"LootContextAccessor",
 		"LootManagerAccessor",
 		"LootTableMixin",

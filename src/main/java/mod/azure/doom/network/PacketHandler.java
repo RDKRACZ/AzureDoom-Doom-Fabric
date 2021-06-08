@@ -18,10 +18,14 @@ import mod.azure.doom.item.weapons.SwordCrucibleItem;
 import mod.azure.doom.item.weapons.Unmaykr;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 
 public class PacketHandler {
 
+	public static final Identifier lock_slot = new Identifier(DoomMod.MODID, "select_craft");
+
 	public static void registerMessages() {
+		ServerPlayNetworking.registerGlobalReceiver(lock_slot, new C2SMessageSelectCraft());
 		ServerPlayNetworking.registerGlobalReceiver(DoomMod.FALL_DISTANCE_PACKET_ID,
 				(server, player, serverPlayNetworkHandler, inputPacket, packetSender) -> {
 					float fallDistance = inputPacket.readFloat();

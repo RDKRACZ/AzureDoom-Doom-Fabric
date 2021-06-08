@@ -31,9 +31,9 @@ public class EntityPacketOnClient {
 			if (entity != null) {
 				entity.updatePosition(x, y, z);
 				entity.updateTrackedPosition(x, y, z);
-				entity.pitch = pitch;
-				entity.yaw = yaw;
-				entity.setEntityId(entityID);
+				entity.setPitch(pitch);
+				entity.setYaw(yaw);
+				entity.setId(entityID);
 				entity.setUuid(entityUUID);
 				world.addEntity(entityID, entity);
 			}
