@@ -1,20 +1,16 @@
-package mod.azure.doom.structures;
+package mod.azure.doom.structures.templates;
 
-import com.mojang.serialization.Codec;
-
-import mod.azure.doom.DoomMod;
+import mod.azure.doom.structures.generator.PortalGenerator;
 import mod.azure.doom.util.registry.ModEntityTypes;
 import net.minecraft.block.BlockState;
 import net.minecraft.structure.MarginedStructureStart;
 import net.minecraft.structure.PoolStructurePiece;
 import net.minecraft.structure.StructureManager;
 import net.minecraft.structure.pool.StructurePoolBasedGenerator;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.Pool;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.registry.DynamicRegistryManager;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.HeightLimitView;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.biome.Biome;
@@ -24,17 +20,17 @@ import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.gen.ChunkRandom;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.VerticalBlockSample;
-import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.StructureFeature;
 import net.minecraft.world.gen.feature.StructurePoolFeatureConfig;
 
-public class PortalStructure extends StructureFeature<DefaultFeatureConfig> {
-	public PortalStructure(Codec<DefaultFeatureConfig> codec) {
-		super(codec);
+public class PortalStructure extends StructureFeature<StructurePoolFeatureConfig> {
+
+	public PortalStructure() {
+		super(StructurePoolFeatureConfig.CODEC);
 	}
 
 	@Override
-	public StructureStartFactory<DefaultFeatureConfig> getStructureStartFactory() {
+	public StructureStartFactory<StructurePoolFeatureConfig> getStructureStartFactory() {
 		return PortalStructure.Start::new;
 	}
 
@@ -64,9 +60,9 @@ public class PortalStructure extends StructureFeature<DefaultFeatureConfig> {
 
 	@Override
 	protected boolean shouldStartAt(ChunkGenerator chunkGenerator, BiomeSource biomeSource, long worldSeed,
-			ChunkRandom random, ChunkPos pos, Biome biome, ChunkPos chunkPos, DefaultFeatureConfig config,
+			ChunkRandom random, ChunkPos pos, Biome biome, ChunkPos chunkPos, StructurePoolFeatureConfig config,
 			HeightLimitView world) {
-		BlockPos centerOfChunk = new BlockPos((pos.x << 4) + 7, 0, (pos.z << 4) + 7);
+		BlockPos centerOfChunk = new BlockPos(pos.x, 0, pos.z);
 		int landHeight = chunkGenerator.getHeightInGround(centerOfChunk.getX(), centerOfChunk.getZ(),
 				Heightmap.Type.WORLD_SURFACE_WG, world);
 		VerticalBlockSample columnOfBlocks = chunkGenerator.getColumnSample(centerOfChunk.getX(), centerOfChunk.getZ(),
@@ -75,26 +71,22 @@ public class PortalStructure extends StructureFeature<DefaultFeatureConfig> {
 		return topBlock.getFluidState().isEmpty();
 	}
 
-	public static class Start extends MarginedStructureStart<DefaultFeatureConfig> {
-		public Start(StructureFeature<DefaultFeatureConfig> structureFeature, ChunkPos chunkPos, int i, long l) {
+	public static class Start extends MarginedStructureStart<StructurePoolFeatureConfig> {
+		public Start(StructureFeature<StructurePoolFeatureConfig> structureFeature, ChunkPos chunkPos, int i, long l) {
 			super(structureFeature, chunkPos, i, l);
 		}
 
 		@Override
 		public void init(DynamicRegistryManager registryManager, ChunkGenerator chunkGenerator,
-				StructureManager manager, ChunkPos pos, Biome biome, DefaultFeatureConfig config,
+				StructureManager manager, ChunkPos pos, Biome biome, StructurePoolFeatureConfig config,
 				HeightLimitView world) {
-
-			int x = (pos.x << 4) + 7;
-			int z = (pos.z << 4) + 7;
-			BlockPos.Mutable blockpos = new BlockPos.Mutable(x, chunkGenerator.getSeaLevel(), z);
-			StructurePoolBasedGenerator.method_30419(registryManager,
-					new StructurePoolFeatureConfig(() -> registryManager.get(Registry.STRUCTURE_POOL_KEY)
-							.get(new Identifier(DoomMod.MODID, "portal/start_pool")), 10),
-					PoolStructurePiece::new, chunkGenerator, manager, blockpos, DEFAULT, random, false, true, world);
+			PortalGenerator.init();
+			StructurePoolBasedGenerator.method_30419(registryManager, config, PoolStructurePiece::new, chunkGenerator,
+					manager, new BlockPos.Mutable((pos.x << 4) + 7, 0, (pos.z << 4) + 7), this, this.random, false,
+					true, world);
 			this.children.forEach(piece -> piece.translate(0, 1, 0));
 			this.children.forEach(piece -> piece.getBoundingBox().minY -= 1);
-			//this.setBoundingBoxFromChildren();
+			this.setBoundingBoxFromChildren();
 		}
 
 	}

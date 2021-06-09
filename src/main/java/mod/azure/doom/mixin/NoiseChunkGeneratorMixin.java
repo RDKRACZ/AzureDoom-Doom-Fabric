@@ -16,7 +16,8 @@ import net.minecraft.world.gen.chunk.NoiseChunkGenerator;
 
 @Mixin(NoiseChunkGenerator.class)
 public class NoiseChunkGeneratorMixin {
-	@Inject(method = "getEntitySpawnList(Lnet/minecraft/world/biome/Biome;Lnet/minecraft/world/gen/StructureAccessor;Lnet/minecraft/entity/SpawnGroup;Lnet/minecraft/util/math/BlockPos;)Ljava/util/List;", at = @At(value = "HEAD"), cancellable = true)
+	
+	@Inject(at = @At("HEAD"), method = "getEntitySpawnList", cancellable = true)
 	private void structureMobs(Biome biome, StructureAccessor accessor, SpawnGroup group, BlockPos pos,
 			CallbackInfoReturnable<Pool<SpawnSettings.SpawnEntry>> cir) {
 
@@ -33,8 +34,20 @@ public class NoiseChunkGeneratorMixin {
 			if (accessor.getStructureAt(pos, true, DoomStructures.MAYKR).hasChildren()) {
 				return DoomStructures.MAYKR.getMonsterSpawns();
 			}
+			if (accessor.getStructureAt(pos, true, DoomStructures.PORTAL).hasChildren()) {
+				return DoomStructures.MAYKR.getMonsterSpawns();
+			}
+			if (accessor.getStructureAt(pos, true, DoomStructures.TITAN_SKULL).hasChildren()) {
+				return DoomStructures.MAYKR.getMonsterSpawns();
+			}
 		} else if (group == SpawnGroup.CREATURE) {
 			if (accessor.getStructureAt(pos, true, DoomStructures.MAYKR).hasChildren()) {
+				return DoomStructures.MAYKR.getCreatureSpawns();
+			}
+			if (accessor.getStructureAt(pos, true, DoomStructures.PORTAL).hasChildren()) {
+				return DoomStructures.MAYKR.getCreatureSpawns();
+			}
+			if (accessor.getStructureAt(pos, true, DoomStructures.TITAN_SKULL).hasChildren()) {
 				return DoomStructures.MAYKR.getCreatureSpawns();
 			}
 		}
