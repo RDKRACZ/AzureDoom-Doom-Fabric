@@ -11,7 +11,6 @@ public class GunTableInventory implements Inventory {
 
 	private final DefaultedList<ItemStack> stacks;
 
-
 	public GunTableInventory(GunTableScreenHandler container) {
 		this.stacks = DefaultedList.ofSize(6, ItemStack.EMPTY);
 		this.container = container;

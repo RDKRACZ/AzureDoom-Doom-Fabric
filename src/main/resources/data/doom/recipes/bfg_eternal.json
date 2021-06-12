@@ -7,12 +7,16 @@
 			"count": 50
 		},
 		"b": {
-			"item": "minecraft:ghast_tear",
+			"item": "minecraft:nether_star",
 			"count": 3
 		},
 		"c": {
 			"item": "doom:argent_plate",
 			"count": 15
+		},
+		"d": {
+			"tag": "doom:glass",
+			"count": 1
 		}
 	},
 	"result": {
