@@ -15,7 +15,7 @@ public class TitanSkullGenerator {
 			.register(new StructurePool(new Identifier(DoomMod.MODID, "titan_skull/start_pools"), new Identifier("empty"),
 					ImmutableList
 							.of(new Pair<>(StructurePoolElement.method_30425(DoomMod.MODID + ":titan_skull"), 1)),
-					StructurePool.Projection.RIGID));
+					StructurePool.Projection.TERRAIN_MATCHING));
 
 	public static void init() {
 

@@ -67,7 +67,8 @@ public class MaykrStructure extends StructureFeature<StructurePoolFeatureConfig>
 				HeightLimitView world) {
 			MaykrGenerator.init();
 			StructurePoolBasedGenerator.method_30419(registryManager, config, PoolStructurePiece::new, chunkGenerator,
-					manager, new BlockPos.Mutable(pos.x, 0, pos.z), this, this.random, false, true, world);
+					manager, new BlockPos.Mutable((pos.x << 4) + 7, 0, (pos.z << 4) + 7), this, this.random, false,
+					true, world);
 			this.children.forEach(piece -> piece.translate(0, 0, 0));
 			this.children.forEach(piece -> piece.getBoundingBox().minY -= 1);
 			this.setBoundingBoxFromChildren();

@@ -26,7 +26,7 @@ public class DoomStructures {
 				.superflatFeature(DoomConfiguredFeatures.MAYKR).adjustsSurface().register();
 
 		FabricStructureBuilder.create(new Identifier(DoomMod.MODID, "titan_skull"), TITAN_SKULL)
-				.step(GenerationStep.Feature.UNDERGROUND_DECORATION).defaultConfig(new StructureConfig(80, 20, 1234567890))
+				.step(GenerationStep.Feature.SURFACE_STRUCTURES).defaultConfig(new StructureConfig(80, 20, 1234567890))
 				.superflatFeature(DoomConfiguredFeatures.TITAN_SKULL).adjustsSurface().register();
 
 		FabricStructureBuilder.create(new Identifier(DoomMod.MODID, "portal"), PORTAL)

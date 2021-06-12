@@ -8,7 +8,6 @@ import mod.azure.doom.client.gui.GunTableScreenHandler;
 import mod.azure.doom.config.DoomConfig;
 import mod.azure.doom.entity.tileentity.IconBlockEntity;
 import mod.azure.doom.network.PacketHandler;
-import mod.azure.doom.recipes.GunRecipe;
 import mod.azure.doom.recipes.GunTableRecipe;
 import mod.azure.doom.structures.DoomConfiguredFeatures;
 import mod.azure.doom.structures.DoomConfiguredStructures;
@@ -37,7 +36,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.SpecialRecipeSerializer;
+import net.minecraft.recipe.RecipeType;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.BuiltinRegistries;
@@ -54,6 +53,7 @@ public class DoomMod implements ModInitializer {
 	public static final String MODID = "doom";
 	public static BlockEntityType<IconBlockEntity> ICON;
 	public static ProjectilesEntityRegister PROJECTILES;
+	public static RecipeType<GunTableRecipe> GUN_TABLE_RECIPE;
 	public static BlockEntityType<GunBlockEntity> GUN_TABLE_ENTITY;
 	public static final Identifier BFG = new Identifier(MODID, "bfg");
 	public static final Identifier PISTOL = new Identifier(MODID, "pistol");
@@ -78,8 +78,8 @@ public class DoomMod implements ModInitializer {
 			FabricBlockSettings.of(Material.METAL).strength(4.0f).nonOpaque());
 	public static final ItemGroup DoomEggItemGroup = FabricItemGroupBuilder.create(new Identifier(MODID, "eggs"))
 			.icon(() -> new ItemStack(DoomItems.IMP_SPAWN_EGG)).build();
-	public static final ItemGroup DoomArmorItemGroup = FabricItemGroupBuilder.create(new Identifier(MODID, "armor"))
-			.icon(() -> new ItemStack(DoomItems.DOOM_HELMET)).build();
+//	public static final ItemGroup DoomArmorItemGroup = FabricItemGroupBuilder.create(new Identifier(MODID, "armor"))
+//			.icon(() -> new ItemStack(DoomItems.DOOM_HELMET)).build();
 	public static final ItemGroup DoomBlockItemGroup = FabricItemGroupBuilder.create(new Identifier(MODID, "blocks"))
 			.icon(() -> new ItemStack(DoomBlocks.BARREL_BLOCK)).build();
 	public static final ItemGroup DoomWeaponItemGroup = FabricItemGroupBuilder.create(new Identifier(MODID, "weapons"))
@@ -88,8 +88,6 @@ public class DoomMod implements ModInitializer {
 			.icon(() -> new ItemStack(DoomItems.INMORTAL)).build();
 	public static ScreenHandlerType<GunTableScreenHandler> SCREEN_HANDLER_TYPE = ScreenHandlerRegistry
 			.registerSimple(GUN_TABLE_GUI, GunTableScreenHandler::new);
-	public static final SpecialRecipeSerializer<GunRecipe> GUNS_RECIPE_SERIALIZER = Registry
-			.register(Registry.RECIPE_SERIALIZER, GUNS, new SpecialRecipeSerializer<>(GunRecipe::new));
 	public static final RecipeSerializer<GunTableRecipe> GUN_TABLE_RECIPE_SERIALIZER = Registry
 			.register(Registry.RECIPE_SERIALIZER, new Identifier(MODID, "gun_table"), new GunTableRecipe.Serializer());
 
@@ -134,59 +132,6 @@ public class DoomMod implements ModInitializer {
 				(context) -> RegistrationHelper.addStructure(context, DoomConfiguredStructures.CONFIGURED_TITAN_SKULL)
 
 		);
-
-//		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.BELT.getInfoBuilder().build());
-//		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.CHARM.getInfoBuilder().build());
-//		ItemComponentCallbackV2.event(DoomItems.SOULCUBE).register(
-//				((item, itemStack, componentContainer) -> componentContainer.put(CuriosComponent.ITEM, new ICurio() {
-//					@Override
-//					public boolean canRightClickEquip() {
-//						return true;
-//					}
-//				})));
-//		ItemComponentCallbackV2.event(DoomItems.DAISY).register(
-//				((item, itemStack, componentContainer) -> componentContainer.put(CuriosComponent.ITEM, new ICurio() {
-//					@Override
-//					public boolean canRightClickEquip() {
-//						return true;
-//					}
-//
-//					@Override
-//					public void onEquip(String identifier, int index, LivingEntity livingEntity) {
-//						if (livingEntity instanceof PlayerEntity) {
-//							startPowers((PlayerEntity) livingEntity);
-//						}
-//					}
-//
-//					@Override
-//					public void onUnequip(String identifier, int index, LivingEntity livingEntity) {
-//						if (livingEntity instanceof PlayerEntity) {
-//							stopPowers((PlayerEntity) livingEntity);
-//						}
-//					}
-//
-//					private void startPowers(PlayerEntity player) {
-//						player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 10000000, 2));
-//					}
-//
-//					private void stopPowers(PlayerEntity player) {
-//						player.removeStatusEffect(StatusEffects.SPEED);
-//					}
-//
-//					@Override
-//					public void curioTick(String identifier, int index, LivingEntity livingEntity) {
-//						if (livingEntity instanceof PlayerEntity) {
-//							PlayerEntity player = ((PlayerEntity) livingEntity);
-//							startPowers(player);
-//						}
-//					}
-//
-//					@Override
-//					public boolean canEquip(String identifier, LivingEntity entityLivingBase) {
-//						return !CuriosApi.getCuriosHelper().findEquippedCurio(DoomItems.DAISY, entityLivingBase)
-//								.isPresent();
-//					}
-//				})));
 		PacketHandler.registerMessages();
 	}
 }
