@@ -57,10 +57,10 @@ public class TitanSkullStructure extends StructureFeature<StructurePoolFeatureCo
 				StructureManager manager, ChunkPos pos, Biome biome, StructurePoolFeatureConfig config,
 				HeightLimitView world) {
 			TitanSkullGenerator.init();
-			BlockPos.Mutable blockpos = new BlockPos.Mutable(pos.getStartX() + this.random.nextInt(16),
-					chunkGenerator.getSeaLevel(), pos.getStartZ() + this.random.nextInt(16));
+			BlockPos.Mutable blockpos = new BlockPos.Mutable(pos.getStartX() + this.random.nextInt(16), 33,
+					pos.getStartZ() + this.random.nextInt(16));
 			StructurePoolBasedGenerator.method_30419(registryManager, config, PoolStructurePiece::new, chunkGenerator,
-					manager, blockpos, this, this.random, false, true, world);
+					manager, blockpos, this, this.random, false, false, world);
 			this.children.forEach(piece -> piece.translate(0, 1, 0));
 			this.children.forEach(piece -> piece.getBoundingBox().minY -= 1);
 			this.setBoundingBoxFromChildren();
