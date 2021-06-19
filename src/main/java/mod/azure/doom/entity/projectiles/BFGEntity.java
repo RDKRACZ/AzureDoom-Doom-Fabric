@@ -285,8 +285,7 @@ public class BFGEntity extends PersistentProjectileEntity implements IAnimatable
 
 	@Override
 	protected void onEntityHit(EntityHitResult entityHitResult) {
-		super.onEntityHit(entityHitResult);
-		Entity entity = this.getOwner();
+		Entity entity = entityHitResult.getEntity();
 		if (entityHitResult.getType() != HitResult.Type.ENTITY
 				|| !((EntityHitResult) entityHitResult).getEntity().isPartOf(entity)) {
 			if (!this.world.isClient) {
@@ -296,8 +295,8 @@ public class BFGEntity extends PersistentProjectileEntity implements IAnimatable
 								: Explosion.DestructionType.NONE);
 				this.remove();
 			}
+			this.playSound(ModSoundEvents.BFG_HIT, 1.0F, 1.0F);
 		}
-		this.playSound(ModSoundEvents.BFG_HIT, 1.0F, 1.0F);
 	}
 
 	public void doDamage() {

@@ -87,7 +87,7 @@ public class MaykrDroneEntity extends DemonEntity implements IAnimatable {
 		this.goalSelector.add(4,
 				new RangedStrafeAttackGoal(this, new MaykrDroneEntity.FireballAttack(this)
 						.setProjectileOriginOffset(0.8, 0.8, 0.8).setDamage(config.maykrdrone_ranged_damage), 1.0D, 50,
-						30, 15, 15F).setMultiShot(2, 3));
+						30, 15, 15F, 1).setMultiShot(2, 3));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, MerchantEntity.class, true));
 		this.targetSelector.add(2, new RevengeGoal(this).setGroupRevenge());

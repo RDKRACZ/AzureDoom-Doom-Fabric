@@ -26,7 +26,7 @@ public class ArchvileRender extends GeoEntityRenderer<ArchvileEntity> {
 
 	@Override
 	protected int getBlockLight(ArchvileEntity entity, BlockPos blockPos) {
-		return entity.isAttacking() ? 15 : 1;
+		return entity.getAttckingState() == 1 ? 15 : 1;
 	}
 
 	protected float getLyingAngle(ArchvileEntity entityLivingBaseIn) {

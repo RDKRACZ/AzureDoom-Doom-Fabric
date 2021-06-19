@@ -24,7 +24,7 @@ public class ArchvileModel extends AnimatedGeoModel<ArchvileEntity> {
 
 	@Override
 	public Identifier getTextureLocation(ArchvileEntity object) {
-		return (object.isAttacking() ? TEX[(object.getFlameTimer())]
+		return (object.getAttckingState() == 1 ? TEX[(object.getFlameTimer())]
 				: new Identifier(DoomMod.MODID, "textures/entity/archvile.png"));
 	}
 

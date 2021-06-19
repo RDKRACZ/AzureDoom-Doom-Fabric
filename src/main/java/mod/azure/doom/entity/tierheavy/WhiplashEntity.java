@@ -21,9 +21,6 @@ import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundEvent;
@@ -42,8 +39,6 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class WhiplashEntity extends DemonEntity implements IAnimatable {
-	private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(WhiplashEntity.class,
-			TrackedDataHandlerRegistry.BOOLEAN);
 
 	public WhiplashEntity(EntityType<WhiplashEntity> entityType, World worldIn) {
 		super(entityType, worldIn);
@@ -52,12 +47,8 @@ public class WhiplashEntity extends DemonEntity implements IAnimatable {
 	private AnimationFactory factory = new AnimationFactory(this);
 
 	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-		if (event.isMoving() && !this.dataTracker.get(SHOOTING)) {
+		if (event.isMoving()) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
-			return PlayState.CONTINUE;
-		}
-		if (this.dataTracker.get(SHOOTING) && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking", true));
 			return PlayState.CONTINUE;
 		}
 		if ((this.dead || this.getHealth() < 0.01 || this.isDead())) {
@@ -68,9 +59,18 @@ public class WhiplashEntity extends DemonEntity implements IAnimatable {
 		return PlayState.CONTINUE;
 	}
 
+	private <E extends IAnimatable> PlayState predicate1(AnimationEvent<E> event) {
+		if (this.dataTracker.get(STATE) == 1 && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking", true));
+			return PlayState.CONTINUE;
+		}
+		return PlayState.STOP;
+	}
+
 	@Override
 	public void registerControllers(AnimationData data) {
 		data.addAnimationController(new AnimationController<WhiplashEntity>(this, "controller", 0, this::predicate));
+		data.addAnimationController(new AnimationController<WhiplashEntity>(this, "controller1", 0, this::predicate1));
 	}
 
 	@Override
@@ -84,21 +84,6 @@ public class WhiplashEntity extends DemonEntity implements IAnimatable {
 		if (this.deathTime == 80) {
 			this.remove();
 		}
-	}
-
-	@Environment(EnvType.CLIENT)
-	public boolean isShooting() {
-		return (Boolean) this.dataTracker.get(SHOOTING);
-	}
-
-	@Override
-	public void setShooting(boolean shooting) {
-		this.dataTracker.set(SHOOTING, shooting);
-	}
-
-	protected void initDataTracker() {
-		super.initDataTracker();
-		this.dataTracker.startTracking(SHOOTING, false);
 	}
 
 	public static boolean spawning(EntityType<WhiplashEntity> p_223337_0_, World p_223337_1_, SpawnReason reason,
@@ -116,7 +101,7 @@ public class WhiplashEntity extends DemonEntity implements IAnimatable {
 
 	protected void initCustomGoals() {
 		this.goalSelector.add(4, new WhiplashEntity.ShootFireballGoal(this));
-		this.goalSelector.add(4, new DemonAttackGoal(this, 1.0D, false));
+		this.goalSelector.add(4, new DemonAttackGoal(this, 1.0D, false, 1));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, MerchantEntity.class, true));
 		this.targetSelector.add(2, new RevengeGoal(this).setGroupRevenge());
@@ -138,8 +123,10 @@ public class WhiplashEntity extends DemonEntity implements IAnimatable {
 			this.cooldown = 0;
 		}
 
-		public void resetTask() {
-			this.parentEntity.setShooting(false);
+		@Override
+		public void stop() {
+			super.stop();
+			this.parentEntity.setAttackingState(0);
 		}
 
 		public void tick() {
@@ -166,7 +153,7 @@ public class WhiplashEntity extends DemonEntity implements IAnimatable {
 				--this.cooldown;
 			}
 			this.parentEntity.getLookControl().lookAt(livingEntity, 90.0F, 30.0F);
-			this.parentEntity.setShooting(this.cooldown > 10);
+			this.parentEntity.setAttackingState(cooldown >= 10 ? 1 : 0);
 		}
 	}
 

@@ -44,9 +44,6 @@ public class PlasmaGun extends DoomBaseItem {
 					EnergyCellEntity abstractarrowentity = createArrow(worldIn, stack, playerentity);
 					abstractarrowentity.setProperties(playerentity, playerentity.pitch, playerentity.yaw, 0.0F,
 							0.15F * 3.0F, 1.0F);
-
-					abstractarrowentity.setDamage(15);
-					abstractarrowentity.age = 35;
 					abstractarrowentity.hasNoGravity();
 
 					stack.damage(1, livingEntityIn, p -> p.sendToolBreakStatus(livingEntityIn.getActiveHand()));

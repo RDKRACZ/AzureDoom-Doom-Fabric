@@ -26,11 +26,7 @@ public class PainRender extends GeoEntityRenderer<PainEntity> {
 
 	@Override
 	protected int getBlockLight(PainEntity entity, BlockPos blockPos) {
-		if (entity.isAttacking()) {
-			return 15;
-		} else {
-			return 0;
-		}
+		return entity.getAttckingState() == 1 ? 15 : 1;
 	}
 
 }

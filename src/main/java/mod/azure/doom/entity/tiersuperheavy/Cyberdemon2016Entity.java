@@ -9,8 +9,6 @@ import mod.azure.doom.entity.attack.AbstractRangedAttack;
 import mod.azure.doom.entity.attack.AttackSound;
 import mod.azure.doom.entity.projectiles.entity.RocketMobEntity;
 import mod.azure.doom.util.ModSoundEvents;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityDimensions;
@@ -26,9 +24,6 @@ import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
@@ -49,9 +44,6 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class Cyberdemon2016Entity extends DemonEntity implements IAnimatable {
 
-	private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(Cyberdemon2016Entity.class,
-			TrackedDataHandlerRegistry.BOOLEAN);
-
 	private AnimationFactory factory = new AnimationFactory(this);
 
 	public Cyberdemon2016Entity(EntityType<Cyberdemon2016Entity> entityType, World worldIn) {
@@ -59,12 +51,8 @@ public class Cyberdemon2016Entity extends DemonEntity implements IAnimatable {
 	}
 
 	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-		if (event.isMoving() && !this.dataTracker.get(SHOOTING)) {
+		if (event.isMoving()) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
-			return PlayState.CONTINUE;
-		}
-		if (this.dataTracker.get(SHOOTING) && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking"));
 			return PlayState.CONTINUE;
 		}
 		if ((this.dead || this.getHealth() < 0.01 || this.isDead())) {
@@ -75,9 +63,20 @@ public class Cyberdemon2016Entity extends DemonEntity implements IAnimatable {
 		return PlayState.CONTINUE;
 	}
 
+	private <E extends IAnimatable> PlayState predicate1(AnimationEvent<E> event) {
+		if (this.dataTracker.get(STATE) == 1 && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking", true));
+			return PlayState.CONTINUE;
+		}
+		return PlayState.STOP;
+	}
+
 	@Override
 	public void registerControllers(AnimationData data) {
-		data.addAnimationController(new AnimationController<Cyberdemon2016Entity>(this, "controller", 0, this::predicate));
+		data.addAnimationController(
+				new AnimationController<Cyberdemon2016Entity>(this, "controller", 0, this::predicate));
+		data.addAnimationController(
+				new AnimationController<Cyberdemon2016Entity>(this, "controller1", 0, this::predicate1));
 	}
 
 	@Override
@@ -100,20 +99,6 @@ public class Cyberdemon2016Entity extends DemonEntity implements IAnimatable {
 		return p_223337_1_.getDifficulty() != Difficulty.PEACEFUL;
 	}
 
-	@Environment(EnvType.CLIENT)
-	public boolean isShooting() {
-		return (Boolean) this.dataTracker.get(SHOOTING);
-	}
-
-	public void setShooting(boolean shooting) {
-		this.dataTracker.set(SHOOTING, shooting);
-	}
-
-	protected void initDataTracker() {
-		super.initDataTracker();
-		this.dataTracker.startTracking(SHOOTING, false);
-	}
-
 	@Override
 	protected void initGoals() {
 		this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
@@ -122,8 +107,8 @@ public class Cyberdemon2016Entity extends DemonEntity implements IAnimatable {
 		this.goalSelector.add(4,
 				new RangedStaticAttackGoal(this, new Cyberdemon2016Entity.FireballAttack(this)
 						.setProjectileOriginOffset(0.8, 0.8, 0.8).setDamage(config.cyberdemon2016_ranged_damage), 60,
-						20, 30F));
-		this.goalSelector.add(4, new DemonAttackGoal(this, 1.0D, false));
+						20, 30F, 1));
+		this.goalSelector.add(4, new DemonAttackGoal(this, 1.0D, false, 2));
 		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]).setGroupRevenge());
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, MerchantEntity.class, true));

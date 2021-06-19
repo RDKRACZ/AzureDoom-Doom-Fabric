@@ -19,11 +19,12 @@ public class RangedStrafeAttackGoal extends Goal {
 	private boolean strafingClockwise;
 	private boolean strafingBackwards;
 	private int strafingTime = -1;
+	private int statecheck;
 
 	private AbstractRangedAttack attack;
 
 	public RangedStrafeAttackGoal(DemonEntity mob, AbstractRangedAttack attack, double moveSpeedAmpIn,
-			int attackCooldownIn, int visibleTicksDelay, int strafeTicks, float maxAttackDistanceIn) {
+			int attackCooldownIn, int visibleTicksDelay, int strafeTicks, float maxAttackDistanceIn, int state) {
 		this.entity = mob;
 		this.moveSpeedAmp = moveSpeedAmpIn;
 		this.attackCooldown = attackCooldownIn;
@@ -32,6 +33,7 @@ public class RangedStrafeAttackGoal extends Goal {
 		this.attack = attack;
 		this.visibleTicksDelay = visibleTicksDelay;
 		this.strafeTicks = strafeTicks;
+		this.statecheck = state;
 	}
 
 	// use defaults
@@ -192,8 +194,7 @@ public class RangedStrafeAttackGoal extends Goal {
 				} else
 					this.attackTime++;
 			}
-
-			this.entity.setShooting(this.attackTime >= this.attackCooldown - this.attackCooldown * 0.25);
+			this.entity.setAttackingState(attackTime >= attackCooldown * 0.75 ? this.statecheck : 0);
 		}
 	}
 }

@@ -5,8 +5,6 @@ import java.util.Random;
 
 import mod.azure.doom.entity.DemonEntity;
 import mod.azure.doom.entity.tierfodder.PossessedScientistEntity;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -18,9 +16,6 @@ import net.minecraft.entity.ai.goal.RevengeGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
@@ -40,8 +35,6 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 public class TentacleEntity extends DemonEntity implements IAnimatable {
 
 	private AnimationFactory factory = new AnimationFactory(this);
-	private static final TrackedData<Boolean> MELEE = DataTracker.registerData(TentacleEntity.class,
-			TrackedDataHandlerRegistry.BOOLEAN);
 
 	public TentacleEntity(EntityType<? extends DemonEntity> type, World worldIn) {
 		super(type, worldIn);
@@ -52,17 +45,22 @@ public class TentacleEntity extends DemonEntity implements IAnimatable {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("death", false));
 			return PlayState.CONTINUE;
 		}
-		if (this.dataTracker.get(MELEE) && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+		event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
+		return PlayState.CONTINUE;
+	}
+
+	private <E extends IAnimatable> PlayState predicate1(AnimationEvent<E> event) {
+		if (this.dataTracker.get(STATE) == 1 && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking", true));
 			return PlayState.CONTINUE;
 		}
-		event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
-		return PlayState.CONTINUE;
+		return PlayState.STOP;
 	}
 
 	@Override
 	public void registerControllers(AnimationData data) {
 		data.addAnimationController(new AnimationController<TentacleEntity>(this, "controller", 0, this::predicate));
+		data.addAnimationController(new AnimationController<TentacleEntity>(this, "controller1", 0, this::predicate1));
 	}
 
 	@Override
@@ -76,22 +74,6 @@ public class TentacleEntity extends DemonEntity implements IAnimatable {
 		if (this.deathTime == 30) {
 			this.remove();
 		}
-	}
-
-	@Environment(EnvType.CLIENT)
-	public boolean isShooting() {
-		return (Boolean) this.dataTracker.get(MELEE);
-	}
-
-	@Override
-	public void setAttacking(boolean attacking) {
-		this.dataTracker.set(MELEE, attacking);
-	}
-
-	@Override
-	protected void initDataTracker() {
-		super.initDataTracker();
-		this.dataTracker.startTracking(MELEE, false);
 	}
 
 	public static boolean spawning(EntityType<PossessedScientistEntity> p_223337_0_, World p_223337_1_,
@@ -139,8 +121,10 @@ public class TentacleEntity extends DemonEntity implements IAnimatable {
 			this.cooldown = 0;
 		}
 
-		public void resetTask() {
-			this.parentEntity.setShooting(false);
+		@Override
+		public void stop() {
+			super.stop();
+			this.parentEntity.setAttackingState(0);
 		}
 
 		public void tick() {
@@ -157,7 +141,7 @@ public class TentacleEntity extends DemonEntity implements IAnimatable {
 				} else if (this.cooldown > 0) {
 					--this.cooldown;
 				}
-				this.parentEntity.setAttacking(this.cooldown >= 25);
+				this.parentEntity.setAttackingState(this.cooldown >= 25 ? 1 : 0);
 			}
 		}
 

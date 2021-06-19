@@ -9,8 +9,6 @@ import org.jetbrains.annotations.Nullable;
 import mod.azure.doom.entity.DemonEntity;
 import mod.azure.doom.entity.projectiles.entity.ArchvileFiring;
 import mod.azure.doom.util.ModSoundEvents;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
@@ -27,9 +25,6 @@ import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.MobEntity;
@@ -55,8 +50,6 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class ArchvileEntity extends DemonEntity implements IAnimatable {
-	private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(ArchvileEntity.class,
-			TrackedDataHandlerRegistry.BOOLEAN);
 	private int ageWhenTargetSet;
 	public int flameTimer;
 
@@ -67,20 +60,6 @@ public class ArchvileEntity extends DemonEntity implements IAnimatable {
 	public static boolean spawning(EntityType<ArchvileEntity> p_223337_0_, World p_223337_1_, SpawnReason reason,
 			BlockPos p_223337_3_, Random p_223337_4_) {
 		return p_223337_1_.getDifficulty() != Difficulty.PEACEFUL;
-	}
-
-	@Environment(EnvType.CLIENT)
-	public boolean isShooting() {
-		return (Boolean) this.dataTracker.get(SHOOTING);
-	}
-
-	public void setShooting(boolean shooting) {
-		this.dataTracker.set(SHOOTING, shooting);
-	}
-
-	protected void initDataTracker() {
-		super.initDataTracker();
-		this.dataTracker.startTracking(SHOOTING, false);
 	}
 
 	@Override
@@ -111,12 +90,8 @@ public class ArchvileEntity extends DemonEntity implements IAnimatable {
 	private AnimationFactory factory = new AnimationFactory(this);
 
 	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-		if (event.isMoving() && !this.dataTracker.get(SHOOTING)) {
+		if (event.isMoving()) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
-			return PlayState.CONTINUE;
-		}
-		if (this.dataTracker.get(SHOOTING) && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking"));
 			return PlayState.CONTINUE;
 		}
 		if ((this.dead || this.getHealth() < 0.01 || this.isDead())) {
@@ -127,9 +102,18 @@ public class ArchvileEntity extends DemonEntity implements IAnimatable {
 		return PlayState.CONTINUE;
 	}
 
+	private <E extends IAnimatable> PlayState predicate1(AnimationEvent<E> event) {
+		if (this.dataTracker.get(STATE) == 1 && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking", true));
+			return PlayState.CONTINUE;
+		}
+		return PlayState.STOP;
+	}
+
 	@Override
 	public void registerControllers(AnimationData data) {
 		data.addAnimationController(new AnimationController<ArchvileEntity>(this, "controller", 0, this::predicate));
+		data.addAnimationController(new AnimationController<ArchvileEntity>(this, "controller1", 0, this::predicate1));
 	}
 
 	@Override
@@ -191,8 +175,10 @@ public class ArchvileEntity extends DemonEntity implements IAnimatable {
 			this.cooldown = 0;
 		}
 
-		public void resetTask() {
-			this.ghast.setShooting(false);
+		@Override
+		public void stop() {
+			super.stop();
+			this.ghast.setAttackingState(0);
 		}
 
 		public void tick() {
@@ -255,8 +241,7 @@ public class ArchvileEntity extends DemonEntity implements IAnimatable {
 					}
 					this.cooldown = -80;
 				}
-
-				this.ghast.setShooting(this.cooldown > 20);
+				this.ghast.setAttackingState(this.cooldown > 20 ? 1 : 0);
 			} else if (this.cooldown > 0) {
 				--this.cooldown;
 			}

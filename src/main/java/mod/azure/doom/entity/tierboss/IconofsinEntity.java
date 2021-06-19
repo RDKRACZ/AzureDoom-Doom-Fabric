@@ -9,8 +9,6 @@ import org.jetbrains.annotations.Nullable;
 import mod.azure.doom.entity.DemonEntity;
 import mod.azure.doom.entity.projectiles.entity.ArchvileFiring;
 import mod.azure.doom.util.ModSoundEvents;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.AreaEffectCloudEntity;
 import net.minecraft.entity.Entity;
@@ -29,9 +27,6 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.boss.ServerBossBar;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.passive.MerchantEntity;
@@ -60,9 +55,6 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class IconofsinEntity extends DemonEntity implements IAnimatable {
 
-	private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(IconofsinEntity.class,
-			TrackedDataHandlerRegistry.BOOLEAN);
-
 	private final ServerBossBar bossBar = (ServerBossBar) (new ServerBossBar(this.getDisplayName(),
 			BossBar.Color.PURPLE, BossBar.Style.PROGRESS)).setDarkenSky(true).setThickenFog(true);
 
@@ -80,10 +72,6 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 		if (event.isMoving()) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
-			return PlayState.CONTINUE;
-		}
-		if (this.dataTracker.get(SHOOTING) && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("summoned", false));
 			return PlayState.CONTINUE;
 		}
 		if ((this.dead || this.getHealth() < 0.01 || this.isDead())) {
@@ -104,9 +92,18 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 		return PlayState.CONTINUE;
 	}
 
+	private <E extends IAnimatable> PlayState predicate1(AnimationEvent<E> event) {
+		if (this.dataTracker.get(STATE) == 1 && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("summoned", true));
+			return PlayState.CONTINUE;
+		}
+		return PlayState.STOP;
+	}
+
 	@Override
 	public void registerControllers(AnimationData data) {
 		data.addAnimationController(new AnimationController<IconofsinEntity>(this, "controller", 0, this::predicate));
+		data.addAnimationController(new AnimationController<IconofsinEntity>(this, "controller1", 0, this::predicate1));
 	}
 
 	@Override
@@ -122,20 +119,6 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 			if (world.isClient) {
 			}
 		}
-	}
-
-	@Environment(EnvType.CLIENT)
-	public boolean isShooting() {
-		return (Boolean) this.dataTracker.get(SHOOTING);
-	}
-
-	public void setShooting(boolean shooting) {
-		this.dataTracker.set(SHOOTING, shooting);
-	}
-
-	protected void initDataTracker() {
-		super.initDataTracker();
-		this.dataTracker.startTracking(SHOOTING, false);
 	}
 
 	@Override
@@ -168,7 +151,7 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 
 	static class ShootFireballGoal extends Goal {
 		private final IconofsinEntity parentEntity;
-		public int cooldown;
+	    protected int cooldown = 0;
 
 		public ShootFireballGoal(IconofsinEntity parentEntity) {
 			this.parentEntity = parentEntity;
@@ -182,15 +165,15 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 			this.cooldown = 0;
 		}
 
-		public void resetTask() {
-			this.parentEntity.setShooting(false);
+		public void stop() {
+			super.stop();
+			this.parentEntity.setAttackingState(0);
 		}
 
 		public void tick() {
 			LivingEntity livingEntity = this.parentEntity.getTarget();
 			if (livingEntity != null) {
-				if (livingEntity.squaredDistanceTo(this.parentEntity) < 4096.0D
-						&& this.parentEntity.canSee(livingEntity)) {
+				if (this.parentEntity.canSee(livingEntity)) {
 					++this.cooldown;
 					Random rand = new Random();
 					double d = Math.min(livingEntity.getY(), parentEntity.getY());
@@ -204,44 +187,46 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 
 							SplittableRandom random = new SplittableRandom();
 							boolean r = random.nextInt(1, 101) <= 20;
-							if (r) {
-								for (j = 15; j < 55; ++j) {
-									h2 = f2 + (float) j * 3.1415927F * 0.4F;
-									parentEntity.spawnFlames(
-											parentEntity.getX()
-													+ (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
-											parentEntity.getZ()
-													+ (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
-											d, e1, h2, 0);
-									parentEntity.spawnFlames(
-											parentEntity.getX()
-													+ (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
-											parentEntity.getZ()
-													+ (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
-											d, e1, h2, 0);
-									parentEntity.spawnFlames(
-											parentEntity.getX()
-													+ (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
-											parentEntity.getZ()
-													+ (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
-											d, e1, h2, 0);
-									parentEntity.spawnFlames(
-											parentEntity.getX()
-													+ (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
-											parentEntity.getZ()
-													+ (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
-											d, e1, h2, 0);
-									parentEntity.spawnFlames(
-											parentEntity.getX()
-													+ (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
-											parentEntity.getZ()
-													+ (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
-											d, e1, h2, 0);
+							if (parentEntity.distanceTo(livingEntity) < 13.0D) {
+								if (r) {
+									for (j = 15; j < 55; ++j) {
+										h2 = f2 + (float) j * 3.1415927F * 0.4F;
+										parentEntity.spawnFlames(
+												parentEntity.getX()
+														+ (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
+												parentEntity.getZ()
+														+ (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
+												d, e1, h2, 0);
+										parentEntity.spawnFlames(
+												parentEntity.getX()
+														+ (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
+												parentEntity.getZ()
+														+ (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
+												d, e1, h2, 0);
+										parentEntity.spawnFlames(
+												parentEntity.getX()
+														+ (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
+												parentEntity.getZ()
+														+ (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
+												d, e1, h2, 0);
+										parentEntity.spawnFlames(
+												parentEntity.getX()
+														+ (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
+												parentEntity.getZ()
+														+ (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
+												d, e1, h2, 0);
+										parentEntity.spawnFlames(
+												parentEntity.getX()
+														+ (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
+												parentEntity.getZ()
+														+ (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
+												d, e1, h2, 0);
+									}
+								} else {
+									this.parentEntity.doDamage();
 								}
-							} else {
-								this.parentEntity.doDamage();
 							}
-							this.parentEntity.setAttacking(this.cooldown >= 15);
+							this.parentEntity.setAttackingState(cooldown > 10 ? 1 : 0);
 							this.cooldown = -35;
 						}
 					}

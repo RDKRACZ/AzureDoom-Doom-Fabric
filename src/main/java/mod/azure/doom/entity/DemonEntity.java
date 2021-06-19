@@ -32,6 +32,8 @@ public class DemonEntity extends HostileEntity implements Angerable {
 
 	private static final TrackedData<Integer> ANGER_TIME = DataTracker.registerData(DemonEntity.class,
 			TrackedDataHandlerRegistry.INTEGER);
+	public static final TrackedData<Integer> STATE = DataTracker.registerData(DemonEntity.class,
+			TrackedDataHandlerRegistry.INTEGER);
 	private static final IntRange ANGER_TIME_RANGE = Durations.betweenSeconds(20, 39);
 	private UUID targetUuid;
 
@@ -62,12 +64,12 @@ public class DemonEntity extends HostileEntity implements Angerable {
 		return true;
 	}
 
-	public void setShooting(boolean attacking) {
-
+	public int getAttckingState() {
+		return this.dataTracker.get(STATE);
 	}
 
-	public void setMeleeAttacking(boolean attacking) {
-
+	public void setAttackingState(int time) {
+		this.dataTracker.set(STATE, time);
 	}
 
 	public static boolean canSpawnInDark(EntityType<? extends HostileEntity> type, ServerWorldAccess serverWorldAccess,
@@ -83,6 +85,7 @@ public class DemonEntity extends HostileEntity implements Angerable {
 	protected void initDataTracker() {
 		super.initDataTracker();
 		this.dataTracker.startTracking(ANGER_TIME, 0);
+		this.dataTracker.startTracking(STATE, 0);
 	}
 
 	@Override
