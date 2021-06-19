@@ -95,7 +95,7 @@ public class PossessedScientistEntity extends DemonEntity implements IAnimatable
 	}
 
 	protected void initCustomGoals() {
-		this.goalSelector.add(2, new DemonAttackGoal(this, 1.0D, false));
+		this.goalSelector.add(2, new DemonAttackGoal(this, 1.0D, false, 1));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, MerchantEntity.class, true));
 		this.targetSelector.add(2, new RevengeGoal(this).setGroupRevenge());

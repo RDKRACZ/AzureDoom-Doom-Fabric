@@ -53,11 +53,8 @@ public class Unmaykr extends DoomBaseItem {
 					abstractarrowentity1.setProperties(playerentity, playerentity.pitch, playerentity.yaw + 10, 0.0F,
 							1.0F * 3.0F, 1.0F);
 
-					abstractarrowentity.setDamage(3.7);
 					abstractarrowentity.hasNoGravity();
-					abstractarrowentity1.setDamage(3.7);
 					abstractarrowentity1.hasNoGravity();
-					abstractarrowentity2.setDamage(3.7);
 					abstractarrowentity2.hasNoGravity();
 
 					stack.damage(1, entityLiving, p -> p.sendToolBreakStatus(entityLiving.getActiveHand()));

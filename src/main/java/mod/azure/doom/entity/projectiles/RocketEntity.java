@@ -243,7 +243,6 @@ public class RocketEntity extends PersistentProjectileEntity implements IAnimata
 
 	@Override
 	protected void onEntityHit(EntityHitResult entityHitResult) {
-		super.onEntityHit(entityHitResult);
 		if (!this.world.isClient) {
 			this.doDamage();
 			this.world.createExplosion(this, this.getX(), this.getBodyY(0.0625D), this.getZ(), 1.0F, false,

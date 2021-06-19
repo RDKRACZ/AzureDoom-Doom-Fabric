@@ -53,8 +53,6 @@ public class RocketLauncher extends DoomBaseItem {
 					abstractarrowentity.refreshPositionAndAngles(entityLiving.getX(), entityLiving.getBodyY(0.5),
 							entityLiving.getZ(), 0, 0);
 
-					abstractarrowentity.setDamage(2.5);
-
 					stack.damage(1, entityLiving, p -> p.sendToolBreakStatus(entityLiving.getActiveHand()));
 					worldIn.spawnEntity(abstractarrowentity);
 					worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(),

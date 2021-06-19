@@ -6,8 +6,6 @@ import mod.azure.doom.entity.DemonEntity;
 import mod.azure.doom.entity.projectiles.entity.ArchvileFiring;
 import mod.azure.doom.entity.projectiles.entity.BarenBlastEntity;
 import mod.azure.doom.util.ModSoundEvents;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
@@ -24,9 +22,7 @@ import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundEvent;
@@ -46,37 +42,46 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class MancubusEntity extends DemonEntity implements IAnimatable {
-	private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(MancubusEntity.class,
-			TrackedDataHandlerRegistry.BOOLEAN);
+
+	private AnimationFactory factory = new AnimationFactory(this);
 
 	public MancubusEntity(EntityType<MancubusEntity> entityType, World worldIn) {
 		super(entityType, worldIn);
 	}
 
-	private AnimationFactory factory = new AnimationFactory(this);
-
 	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-		if (event.isMoving() && !this.dataTracker.get(SHOOTING)) {
+		if (event.isMoving()) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
 			return PlayState.CONTINUE;
 		}
 		if ((this.dead || this.getHealth() < 0.01 || this.isDead())) {
-			if (world.isClient) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("death", false));
-				return PlayState.CONTINUE;
-			}
-		}
-		if (this.dataTracker.get(SHOOTING) && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking", true));
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("death", false));
 			return PlayState.CONTINUE;
 		}
 		event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
 		return PlayState.CONTINUE;
 	}
 
+	private <E extends IAnimatable> PlayState predicate1(AnimationEvent<E> event) {
+		if (this.dataTracker.get(STATE) == 1 && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking", true));
+			return PlayState.CONTINUE;
+		}
+		if (this.dataTracker.get(STATE) == 2 && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("firing", true));
+			return PlayState.CONTINUE;
+		}
+		if (this.dataTracker.get(STATE) == 3 && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("ground", false));
+			return PlayState.CONTINUE;
+		}
+		return PlayState.STOP;
+	}
+
 	@Override
 	public void registerControllers(AnimationData data) {
 		data.addAnimationController(new AnimationController<MancubusEntity>(this, "controller", 0, this::predicate));
+		data.addAnimationController(new AnimationController<MancubusEntity>(this, "controller1", 0, this::predicate1));
 	}
 
 	@Override
@@ -101,23 +106,11 @@ public class MancubusEntity extends DemonEntity implements IAnimatable {
 		return p_223337_1_.getDifficulty() != Difficulty.PEACEFUL;
 	}
 
-	@Environment(EnvType.CLIENT)
-	public boolean isShooting() {
-		return (Boolean) this.dataTracker.get(SHOOTING);
-	}
-
-	public void setShooting(boolean shooting) {
-		this.dataTracker.set(SHOOTING, shooting);
-	}
-
-	protected void initDataTracker() {
-		super.initDataTracker();
-		this.dataTracker.startTracking(SHOOTING, false);
-	}
-
 	@Override
 	protected void initGoals() {
 		this.goalSelector.add(8, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
+		this.goalSelector.add(8, new LookAtEntityGoal(this, MerchantEntity.class, 8.0F));
+		this.goalSelector.add(8, new LookAtEntityGoal(this, IronGolemEntity.class, 8.0F));
 		this.goalSelector.add(8, new LookAroundGoal(this));
 		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
 		this.initCustomGoals();
@@ -127,13 +120,14 @@ public class MancubusEntity extends DemonEntity implements IAnimatable {
 		this.goalSelector.add(1, new MancubusEntity.ShootFireballGoal(this));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, MerchantEntity.class, true));
+		this.targetSelector.add(2, new FollowTargetGoal<>(this, IronGolemEntity.class, true));
 		this.targetSelector.add(2, new RevengeGoal(this).setGroupRevenge());
 	}
 
 	static class ShootFireballGoal extends Goal {
 		private final MancubusEntity parentEntity;
-		public int cooldown;
-
+	    protected int cooldown = 0;
+	    
 		public ShootFireballGoal(MancubusEntity parentEntity) {
 			this.parentEntity = parentEntity;
 		}
@@ -146,8 +140,9 @@ public class MancubusEntity extends DemonEntity implements IAnimatable {
 			this.cooldown = 0;
 		}
 
-		public void resetTask() {
-			this.parentEntity.setShooting(false);
+		@Override
+		public void stop() {
+			super.stop();
 		}
 
 		public void tick() {
@@ -167,34 +162,37 @@ public class MancubusEntity extends DemonEntity implements IAnimatable {
 				int j;
 				if (this.cooldown == 15) {
 					if (parentEntity.distanceTo(livingEntity) < 3.0D) {
-						float h2;
 						for (j = 0; j < 5; ++j) {
-							h2 = f2 + (float) j * 3.1415927F * 0.4F;
+							float h2 = f2 + (float) j * (float) Math.PI * 0.4F;
 							parentEntity.spawnFlames(parentEntity.getX() + (double) MathHelper.cos(h2) * 1.5D,
 									parentEntity.getZ() + (double) MathHelper.sin(h2) * 1.5D, d, e1, h2, 0);
 						}
-					} else if (parentEntity.distanceTo(livingEntity) < 13.0D) {
+						this.parentEntity.setAttackingState(cooldown > 5 ? 3 : 0);
+					} else if (parentEntity.distanceTo(livingEntity) < 13.0D
+							&& parentEntity.distanceTo(livingEntity) > 3.0D) {
 						for (j = 0; j < 16; ++j) {
 							double l1 = 1.25D * (double) (j + 1);
 							int m = 1 * j;
 							parentEntity.spawnFlames(parentEntity.getX() + (double) MathHelper.cos(f2) * l1 + 0.5,
 									parentEntity.getZ() + (double) MathHelper.sin(f2) * l1, d, e1, f2, m);
 						}
+						this.parentEntity.setAttackingState(cooldown > 5 ? 2 : 0);
 					} else {
 						fireballEntity.updatePosition(this.parentEntity.getX() + vec3d.x * 2.0D,
 								this.parentEntity.getBodyY(0.5D) + 0.5D, parentEntity.getZ() + vec3d.z * 2.0D);
 						world.spawnEntity(fireballEntity);
+						this.parentEntity.setAttackingState(cooldown > 5 ? 1 : 0);
 					}
 				}
 				if (this.cooldown == 30) {
 					if (parentEntity.distanceTo(livingEntity) < 3.0D) {
-						float h2;
-						for (j = 0; j < 5; ++j) {
-							h2 = f2 + (float) j * 3.1415927F * 0.4F;
-							parentEntity.spawnFlames(parentEntity.getX() + (double) MathHelper.cos(h2) * 1.5D,
-									parentEntity.getZ() + (double) MathHelper.sin(h2) * 1.5D, d, e1, h2, 0);
+						for (int k = 0; k < 8; ++k) {
+							float f3 = f2 + (float) k * (float) Math.PI * 2.0F / 8.0F + 1.2566371F;
+							parentEntity.spawnFlames(parentEntity.getX() + (double) MathHelper.cos(f3) * 2.5D,
+									parentEntity.getZ() + (double) MathHelper.sin(f3) * 2.5D, d, e1, f3, 3);
 						}
-					} else if (parentEntity.distanceTo(livingEntity) < 13.0D) {
+					} else if (parentEntity.distanceTo(livingEntity) < 13.0D
+							&& parentEntity.distanceTo(livingEntity) > 3.0D) {
 						for (j = 0; j < 16; ++j) {
 							double l1 = 1.25D * (double) (j + 1);
 							int m = 1 * j;
@@ -206,13 +204,12 @@ public class MancubusEntity extends DemonEntity implements IAnimatable {
 								this.parentEntity.getBodyY(0.5D) + 0.5D, parentEntity.getZ() + vec3d.z * 2.0D);
 						world.spawnEntity(fireballEntity);
 					}
-					this.cooldown = -50;
+					this.cooldown = -150;
 				}
 			} else if (this.cooldown > 0) {
 				--this.cooldown;
 			}
 			this.parentEntity.getLookControl().lookAt(livingEntity, 90.0F, 30.0F);
-			this.parentEntity.setShooting(this.cooldown > 10);
 		}
 	}
 

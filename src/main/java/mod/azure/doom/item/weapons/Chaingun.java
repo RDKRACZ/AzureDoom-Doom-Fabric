@@ -38,14 +38,13 @@ public class Chaingun extends DoomBaseItem {
 	public void usageTick(World worldIn, LivingEntity entityLiving, ItemStack stack, int count) {
 		if (entityLiving instanceof PlayerEntity) {
 			PlayerEntity playerentity = (PlayerEntity) entityLiving;
-			if (stack.getDamage() < (stack.getMaxDamage() - 1)) {
+			if (stack.getDamage() < (stack.getMaxDamage() - 1)
+					&& !playerentity.getItemCooldownManager().isCoolingDown(this)) {
+				playerentity.getItemCooldownManager().set(this, 2);
 				if (!worldIn.isClient) {
 					ChaingunBulletEntity abstractarrowentity = createArrow(worldIn, stack, playerentity);
 					abstractarrowentity.setProperties(playerentity, playerentity.pitch, playerentity.yaw, 0.0F,
 							1.0F * 3.0F, 1.0F);
-
-					abstractarrowentity.setDamage(1.5);
-					abstractarrowentity.age = 35;
 					abstractarrowentity.hasNoGravity();
 
 					stack.damage(1, entityLiving, p -> p.sendToolBreakStatus(entityLiving.getActiveHand()));

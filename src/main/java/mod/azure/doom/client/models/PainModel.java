@@ -2,8 +2,8 @@ package mod.azure.doom.client.models;
 
 import mod.azure.doom.DoomMod;
 import mod.azure.doom.entity.tierheavy.PainEntity;
-import net.minecraft.util.math.Vec3f;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3f;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.processor.IBone;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
@@ -25,7 +25,7 @@ public class PainModel extends AnimatedGeoModel<PainEntity> {
 
 	@Override
 	public Identifier getTextureLocation(PainEntity object) {
-		return object.isAttacking() ? ATTACKING : NORMAL;
+		return object.getAttckingState() == 1 ? ATTACKING : NORMAL;
 	}
 
 	@Override

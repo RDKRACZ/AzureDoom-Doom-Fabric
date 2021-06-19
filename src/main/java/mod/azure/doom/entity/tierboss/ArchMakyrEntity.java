@@ -37,8 +37,6 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class ArchMakyrEntity extends DemonEntity implements IAnimatable {
 
-	private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(ArchMakyrEntity.class,
-			TrackedDataHandlerRegistry.BOOLEAN);
 	private AnimationFactory factory = new AnimationFactory(this);
 	public static final TrackedData<Integer> VARIANT = DataTracker.registerData(ArchMakyrEntity.class,
 			TrackedDataHandlerRegistry.INTEGER);
@@ -52,10 +50,6 @@ public class ArchMakyrEntity extends DemonEntity implements IAnimatable {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
 			return PlayState.CONTINUE;
 		}
-		if (this.dataTracker.get(SHOOTING) && !((this.dead || this.getHealth() < 0.01 || this.isDead()))) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking", true));
-			return PlayState.CONTINUE;
-		}
 		if ((this.dead || this.getHealth() < 0.01 || this.isDead())) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("death", false));
 			return PlayState.CONTINUE;
@@ -64,9 +58,18 @@ public class ArchMakyrEntity extends DemonEntity implements IAnimatable {
 		return PlayState.CONTINUE;
 	}
 
+	private <E extends IAnimatable> PlayState predicate1(AnimationEvent<E> event) {
+		if (this.dataTracker.get(STATE) == 1 && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking", true));
+			return PlayState.CONTINUE;
+		}
+		return PlayState.STOP;
+	}
+
 	@Override
 	public void registerControllers(AnimationData data) {
 		data.addAnimationController(new AnimationController<ArchMakyrEntity>(this, "controller", 0, this::predicate));
+		data.addAnimationController(new AnimationController<ArchMakyrEntity>(this, "controller1", 0, this::predicate1));
 	}
 
 	@Override
@@ -84,19 +87,8 @@ public class ArchMakyrEntity extends DemonEntity implements IAnimatable {
 		}
 	}
 
-	@Environment(EnvType.CLIENT)
-	public boolean isShooting() {
-		return (Boolean) this.dataTracker.get(SHOOTING);
-	}
-
-	@Override
-	public void setShooting(boolean shooting) {
-		this.dataTracker.set(SHOOTING, shooting);
-	}
-
 	protected void initDataTracker() {
 		super.initDataTracker();
-		this.dataTracker.startTracking(SHOOTING, false);
 		this.dataTracker.startTracking(VARIANT, 0);
 	}
 

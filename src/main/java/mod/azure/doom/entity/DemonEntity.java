@@ -8,8 +8,6 @@ import org.jetbrains.annotations.Nullable;
 import mod.azure.doom.DoomMod;
 import mod.azure.doom.config.DoomConfig.MobStats;
 import mod.azure.doom.util.packets.EntityPacket;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
@@ -31,6 +29,8 @@ import net.minecraft.world.World;
 public class DemonEntity extends HostileEntity implements Angerable {
 
 	private static final TrackedData<Integer> ANGER_TIME = DataTracker.registerData(DemonEntity.class,
+			TrackedDataHandlerRegistry.INTEGER);
+	public static final TrackedData<Integer> STATE = DataTracker.registerData(DemonEntity.class,
 			TrackedDataHandlerRegistry.INTEGER);
 	private static final UniformIntProvider ANGER_TIME_RANGE = Durations.betweenSeconds(20, 39);
 	private UUID targetUuid;
@@ -56,18 +56,12 @@ public class DemonEntity extends HostileEntity implements Angerable {
 		return fluid.isIn(FluidTags.LAVA);
 	}
 
-	@Override
-	@Environment(EnvType.CLIENT)
-	public boolean shouldRender(double distance) {
-		return true;
+	public int getAttckingState() {
+		return this.dataTracker.get(STATE);
 	}
 
-	public void setShooting(boolean attacking) {
-
-	}
-
-	public void setMeleeAttacking(boolean attacking) {
-
+	public void setAttackingState(int time) {
+		this.dataTracker.set(STATE, time);
 	}
 
 	public static boolean canSpawnInDark(EntityType<? extends HostileEntity> type, ServerWorldAccess serverWorldAccess,
@@ -83,6 +77,7 @@ public class DemonEntity extends HostileEntity implements Angerable {
 	protected void initDataTracker() {
 		super.initDataTracker();
 		this.dataTracker.startTracking(ANGER_TIME, 0);
+		this.dataTracker.startTracking(STATE, 0);
 	}
 
 	@Override

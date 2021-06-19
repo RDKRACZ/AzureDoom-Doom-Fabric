@@ -30,9 +30,6 @@ import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -55,9 +52,6 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class CacodemonEntity extends DemonEntity implements Monster, IAnimatable {
 
-	private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(CacodemonEntity.class,
-			TrackedDataHandlerRegistry.BOOLEAN);
-
 	public CacodemonEntity(EntityType<? extends CacodemonEntity> type, World worldIn) {
 		super(type, worldIn);
 		this.moveControl = new CacodemonEntity.GhastMoveControl(this);
@@ -66,27 +60,30 @@ public class CacodemonEntity extends DemonEntity implements Monster, IAnimatable
 	private AnimationFactory factory = new AnimationFactory(this);
 
 	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-		if (event.isMoving() && !this.dataTracker.get(SHOOTING)) {
+		if (event.isMoving()) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
 			return PlayState.CONTINUE;
 		}
 		if ((this.dead || this.getHealth() < 0.01 || this.isDead())) {
-			if (world.isClient) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("death", false));
-				return PlayState.CONTINUE;
-			}
-		}
-		if (this.dataTracker.get(SHOOTING) && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking", true));
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("death", false));
 			return PlayState.CONTINUE;
 		}
 		event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
 		return PlayState.CONTINUE;
 	}
 
+	private <E extends IAnimatable> PlayState predicate1(AnimationEvent<E> event) {
+		if (this.dataTracker.get(STATE) == 1 && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking", true));
+			return PlayState.CONTINUE;
+		}
+		return PlayState.STOP;
+	}
+
 	@Override
 	public void registerControllers(AnimationData data) {
 		data.addAnimationController(new AnimationController<CacodemonEntity>(this, "controller", 0, this::predicate));
+		data.addAnimationController(new AnimationController<CacodemonEntity>(this, "controller1", 0, this::predicate1));
 	}
 
 	@Override
@@ -104,20 +101,6 @@ public class CacodemonEntity extends DemonEntity implements Monster, IAnimatable
 				}
 			}
 		}
-	}
-
-	@Environment(EnvType.CLIENT)
-	public boolean isShooting() {
-		return (Boolean) this.dataTracker.get(SHOOTING);
-	}
-
-	public void setShooting(boolean shooting) {
-		this.dataTracker.set(SHOOTING, shooting);
-	}
-
-	protected void initDataTracker() {
-		super.initDataTracker();
-		this.dataTracker.startTracking(SHOOTING, false);
 	}
 
 	public boolean handleFallDamage(float fallDistance, float damageMultiplier) {
@@ -181,8 +164,8 @@ public class CacodemonEntity extends DemonEntity implements Monster, IAnimatable
 		this.goalSelector.add(4, new RangedStaticAttackGoal(this,
 				new FireballAttack(this, true).setDamage(10).setProjectileOriginOffset(1.5, 0.3, 1.5).setSound(
 						ModSoundEvents.CACODEMON_FIREBALL, 1.0F, 1.2F / (this.getRandom().nextFloat() * 0.2F + 0.9F)),
-				60, 20, 30F));
-		this.goalSelector.add(4, new DemonAttackGoal(this, 1.0D, false));
+				60, 20, 30F, 1));
+		this.goalSelector.add(4, new DemonAttackGoal(this, 1.0D, false, 2));
 		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
 		this.targetSelector.add(1, new FollowTargetGoal<>(this, PlayerEntity.class, 10, true, false, (p_213812_1_) -> {
 			return Math.abs(p_213812_1_.getY() - this.getY()) <= 4.0D;
