@@ -18,7 +18,6 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Hand;
-import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.network.GeckoLibNetwork;
 import software.bernie.geckolib3.util.GeckoLibUtil;
@@ -73,14 +72,10 @@ public class Shotgun extends DoomBaseItem {
 		return f;
 	}
 
-	@Override
-	public UseAction getUseAction(ItemStack stack) {
-		return UseAction.BOW;
-	}
-
 	public void reload(PlayerEntity user, Hand hand) {
 		if (user.getStackInHand(hand).getItem() instanceof Shotgun) {
-			while (user.getStackInHand(hand).getDamage() != 0 && user.getInventory().count(DoomItems.SHOTGUN_SHELLS) > 0) {
+			while (user.getStackInHand(hand).getDamage() != 0
+					&& user.getInventory().count(DoomItems.SHOTGUN_SHELLS) > 0) {
 				removeAmmo(DoomItems.SHOTGUN_SHELLS, user);
 				user.getStackInHand(hand).damage(-4, user, s -> user.sendToolBreakStatus(hand));
 				user.getStackInHand(hand).setCooldown(3);

@@ -18,7 +18,6 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Hand;
-import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.network.GeckoLibNetwork;
 import software.bernie.geckolib3.util.GeckoLibUtil;
@@ -63,14 +62,10 @@ public class PlasmaGun extends DoomBaseItem {
 		}
 	}
 
-	@Override
-	public UseAction getUseAction(ItemStack stack) {
-		return UseAction.BOW;
-	}
-
 	public void reload(PlayerEntity user, Hand hand) {
 		if (user.getStackInHand(hand).getItem() instanceof PlasmaGun) {
-			while (user.getStackInHand(hand).getDamage() != 0 && user.getInventory().count(DoomItems.ENERGY_CELLS) > 0) {
+			while (user.getStackInHand(hand).getDamage() != 0
+					&& user.getInventory().count(DoomItems.ENERGY_CELLS) > 0) {
 				removeAmmo(DoomItems.ENERGY_CELLS, user);
 				user.getStackInHand(hand).damage(-20, user, s -> user.sendToolBreakStatus(hand));
 				user.getStackInHand(hand).setCooldown(3);

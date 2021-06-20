@@ -4,17 +4,18 @@ import java.util.Random;
 
 import mod.azure.doom.entity.DemonEntity;
 import mod.azure.doom.entity.ai.goal.DemonAttackGoal;
-import mod.azure.doom.entity.projectiles.entity.ArchvileFiring;
+import mod.azure.doom.entity.ai.goal.RangedStaticAttackGoal;
+import mod.azure.doom.entity.attack.AbstractRangedAttack;
+import mod.azure.doom.entity.attack.AttackSound;
+import mod.azure.doom.entity.projectiles.entity.ChainBladeEntity;
 import mod.azure.doom.util.ModSoundEvents;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.FollowTargetGoal;
-import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.goal.RevengeGoal;
@@ -24,11 +25,10 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -61,8 +61,14 @@ public class WhiplashEntity extends DemonEntity implements IAnimatable {
 	}
 
 	private <E extends IAnimatable> PlayState predicate1(AnimationEvent<E> event) {
-		if (this.dataTracker.get(STATE) == 1 && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+		if (!event.isMoving() && this.dataTracker.get(STATE) == 1
+				&& !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking", true));
+			return PlayState.CONTINUE;
+		}
+		if (event.isMoving() && this.dataTracker.get(STATE) == 1
+				&& !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking_moving", true));
 			return PlayState.CONTINUE;
 		}
 		return PlayState.STOP;
@@ -70,8 +76,8 @@ public class WhiplashEntity extends DemonEntity implements IAnimatable {
 
 	@Override
 	public void registerControllers(AnimationData data) {
-		data.addAnimationController(new AnimationController<WhiplashEntity>(this, "controller", 0, this::predicate));
-		data.addAnimationController(new AnimationController<WhiplashEntity>(this, "controller1", 0, this::predicate1));
+		data.addAnimationController(new AnimationController<WhiplashEntity>(this, "controller", 2, this::predicate));
+		data.addAnimationController(new AnimationController<WhiplashEntity>(this, "controller1", 2, this::predicate1));
 	}
 
 	@Override
@@ -101,89 +107,35 @@ public class WhiplashEntity extends DemonEntity implements IAnimatable {
 	}
 
 	protected void initCustomGoals() {
-		this.goalSelector.add(4, new WhiplashEntity.ShootFireballGoal(this));
+		this.goalSelector.add(4,
+				new RangedStaticAttackGoal(this,
+						new WhiplashEntity.FireballAttack(this).setProjectileOriginOffset(0.8, 0.8, 0.8).setDamage(6),
+						60, 20, 30F, 1));
 		this.goalSelector.add(4, new DemonAttackGoal(this, 1.0D, false, 1));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, MerchantEntity.class, true));
 		this.targetSelector.add(2, new RevengeGoal(this).setGroupRevenge());
 	}
 
-	static class ShootFireballGoal extends Goal {
-		private final WhiplashEntity parentEntity;
-		public int cooldown;
+	public class FireballAttack extends AbstractRangedAttack {
 
-		public ShootFireballGoal(WhiplashEntity parentEntity) {
-			this.parentEntity = parentEntity;
+		public FireballAttack(DemonEntity parentEntity, double xOffSetModifier, double entityHeightFraction,
+				double zOffSetModifier, float damage) {
+			super(parentEntity, xOffSetModifier, entityHeightFraction, zOffSetModifier, damage);
 		}
 
-		public boolean canStart() {
-			return this.parentEntity.getTarget() != null;
-		}
-
-		public void start() {
-			this.cooldown = 0;
+		public FireballAttack(DemonEntity parentEntity) {
+			super(parentEntity);
 		}
 
 		@Override
-		public void stop() {
-			super.stop();
-			this.parentEntity.setAttackingState(0);
+		public AttackSound getDefaultAttackSound() {
+			return new AttackSound(SoundEvents.BLOCK_CHAIN_PLACE, 1, 1);
 		}
 
-		public void tick() {
-			LivingEntity livingEntity = this.parentEntity.getTarget();
-			if (livingEntity.squaredDistanceTo(this.parentEntity) < 4096.0D && this.parentEntity.canSee(livingEntity)) {
-				++this.cooldown;
-				double d = Math.min(livingEntity.getY(), parentEntity.getY());
-				double e1 = Math.max(livingEntity.getY(), parentEntity.getY()) + 1.0D;
-				float f2 = (float) MathHelper.atan2(livingEntity.getZ() - parentEntity.getZ(),
-						livingEntity.getX() - parentEntity.getX());
-				int j;
-				if (this.cooldown == 15) {
-					if (parentEntity.distanceTo(livingEntity) < 13.0D) {
-						for (j = 0; j < 16; ++j) {
-							double l1 = 1.25D * (double) (j + 1);
-							int m = 1 * j;
-							parentEntity.spawnFlames(parentEntity.getX() + (double) MathHelper.cos(f2) * l1 + 0.5,
-									parentEntity.getZ() + (double) MathHelper.sin(f2) * l1, d, e1, f2, m);
-						}
-					}
-					this.cooldown = -50;
-				}
-			} else if (this.cooldown > 0) {
-				--this.cooldown;
-			}
-			this.parentEntity.getLookControl().lookAt(livingEntity, 90.0F, 30.0F);
-			this.parentEntity.setAttackingState(cooldown >= 10 ? 1 : 0);
-		}
-	}
-
-	public void spawnFlames(double x, double z, double maxY, double y, float yaw, int warmup) {
-		BlockPos blockPos = new BlockPos(x, y, z);
-		boolean bl = false;
-		double d = -0.75D;
-		do {
-			BlockPos blockPos2 = blockPos.down();
-			BlockState blockState = this.world.getBlockState(blockPos2);
-			if (blockState.isSideSolidFullSquare(this.world, blockPos2, Direction.UP)) {
-				if (!this.world.isAir(blockPos)) {
-					BlockState blockState2 = this.world.getBlockState(blockPos);
-					VoxelShape voxelShape = blockState2.getCollisionShape(this.world, blockPos);
-					if (!voxelShape.isEmpty()) {
-						d = voxelShape.getMax(Direction.Axis.Y);
-					}
-				}
-				bl = true;
-				break;
-			}
-			blockPos = blockPos.down();
-		} while (blockPos.getY() >= MathHelper.floor(maxY) - 1);
-
-		if (bl) {
-			ArchvileFiring fang = new ArchvileFiring(this.world, x, (double) blockPos.getY() + d, z, yaw, warmup, this);
-			fang.setFireTicks(age);
-			fang.isInvisible();
-			this.world.spawnEntity(fang);
+		@Override
+		public ProjectileEntity getProjectile(World world, double d2, double d3, double d4) {
+			return new ChainBladeEntity(world, this.parentEntity, d2, d3, d4, damage);
 		}
 	}
 
@@ -191,7 +143,7 @@ public class WhiplashEntity extends DemonEntity implements IAnimatable {
 		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 25.0D)
 				.add(EntityAttributes.GENERIC_MAX_HEALTH, config.whiplash_health)
 				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, config.whiplash_melee_damage)
-				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.35D)
+				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.45D)
 				.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
 	}
 

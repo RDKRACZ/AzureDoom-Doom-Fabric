@@ -3,7 +3,7 @@ package mod.azure.doom.entity.tierheavy;
 import java.util.Random;
 
 import mod.azure.doom.entity.DemonEntity;
-import mod.azure.doom.entity.projectiles.entity.ArchvileFiring;
+import mod.azure.doom.entity.projectiles.entity.DoomFireEntity;
 import mod.azure.doom.entity.projectiles.entity.BarenBlastEntity;
 import mod.azure.doom.util.ModSoundEvents;
 import net.minecraft.block.BlockState;
@@ -143,6 +143,7 @@ public class MancubusEntity extends DemonEntity implements IAnimatable {
 		@Override
 		public void stop() {
 			super.stop();
+			this.parentEntity.setAttackingState(0);
 		}
 
 		public void tick() {
@@ -204,6 +205,8 @@ public class MancubusEntity extends DemonEntity implements IAnimatable {
 								this.parentEntity.getBodyY(0.5D) + 0.5D, parentEntity.getZ() + vec3d.z * 2.0D);
 						world.spawnEntity(fireballEntity);
 					}
+				}
+				if (this.cooldown == 60) {
 					this.cooldown = -150;
 				}
 			} else if (this.cooldown > 0) {
@@ -235,7 +238,7 @@ public class MancubusEntity extends DemonEntity implements IAnimatable {
 		} while (blockPos.getY() >= MathHelper.floor(maxY) - 1);
 
 		if (bl) {
-			ArchvileFiring fang = new ArchvileFiring(this.world, x, (double) blockPos.getY() + d, z, yaw, warmup, this);
+			DoomFireEntity fang = new DoomFireEntity(this.world, x, (double) blockPos.getY() + d, z, yaw, warmup, this);
 			fang.setFireTicks(age);
 			fang.isInvisible();
 			this.world.spawnEntity(fang);

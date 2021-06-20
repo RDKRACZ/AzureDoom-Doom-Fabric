@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.collect.Maps;
 
@@ -38,8 +37,13 @@ import net.minecraft.world.World;
 
 public class ArgentPaxel extends MiningToolItem {
 
-	protected static final Map<Block, BlockState> SHOVEL_LOOKUP = Maps
-			.newHashMap(ImmutableMap.of(Blocks.GRASS_BLOCK, Blocks.DIRT_PATH.getDefaultState()));
+	protected static final Map<Block, BlockState> SHOVEL_LOOKUP = Maps.newHashMap((new Builder<Block, BlockState>())
+			.put(Blocks.GRASS_BLOCK, Blocks.DIRT_PATH.getDefaultState())
+			.put(Blocks.DIRT, Blocks.DIRT_PATH.getDefaultState()).put(Blocks.PODZOL, Blocks.DIRT_PATH.getDefaultState())
+			.put(Blocks.COARSE_DIRT, Blocks.DIRT_PATH.getDefaultState())
+			.put(Blocks.MYCELIUM, Blocks.DIRT_PATH.getDefaultState())
+			.put(Blocks.ROOTED_DIRT, Blocks.DIRT_PATH.getDefaultState()).build());
+
 	protected static final Map<Block, Block> BLOCK_STRIPPING_MAP = (new Builder<Block, Block>())
 			.put(Blocks.OAK_WOOD, Blocks.STRIPPED_OAK_WOOD).put(Blocks.OAK_LOG, Blocks.STRIPPED_OAK_LOG)
 			.put(Blocks.DARK_OAK_WOOD, Blocks.STRIPPED_DARK_OAK_WOOD)
@@ -76,7 +80,6 @@ public class ArgentPaxel extends MiningToolItem {
 		return material == Material.STONE || material == Material.METAL;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public ActionResult useOnBlock(ItemUsageContext context) {
 		World world = context.getWorld();
@@ -106,7 +109,7 @@ public class ArgentPaxel extends MiningToolItem {
 		if (!world.isClient) {
 			world.setBlockState(blockpos, resultToSet, 11);
 			if (player != null) {
-				context.getStack().damage(1, (LivingEntity) player, (Consumer) ((p) -> {
+				context.getStack().damage(1, (LivingEntity) player, (Consumer<LivingEntity>) ((p) -> {
 					((LivingEntity) p).sendToolBreakStatus(context.getHand());
 				}));
 			}
