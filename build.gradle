@@ -21,6 +21,37 @@ archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
 
+
+repositories {
+	maven {
+		url = "https://maven.theillusivec4.top/"
+	}
+	maven {	
+		url = 'https://maven.fabricmc.net/io/github/prospector/modmenu/'
+	}
+	maven {
+        name = "Ladysnake Libs"
+        url = 'https://dl.bintray.com/ladysnake/libs'
+    }
+	maven {
+        url = "https://www.cursemaven.com"
+    }
+     maven {
+        name = "OnyxStudios"
+        url = "https://maven.abusedmaster.xyz"
+    }
+    maven {
+        name "Siphalor's Maven"
+        url "https://maven.siphalor.de"
+    }
+    maven { url "https://maven.shedaniel.me/" }
+    maven { url = 'https://maven.terraformersmc.com/' }
+    maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
+    maven { url 'https://maven.blamejared.com' }
+    maven { url  = 'https://plugins.gradle.org/m2/' }
+    maven { url 'https://jitpack.io' }
+}
+
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
@@ -58,6 +89,7 @@ dependencies {
     }
     modApi "me.shedaniel.cloth:cloth-config-fabric:4.11.19"
     include "me.shedaniel.cloth:cloth-config-fabric:4.11.19"
+    modImplementation "vazkii.patchouli:Patchouli:1.16.4-51-FABRIC"
 
 	modImplementation("de.siphalor:nbtcrafting-1.16:2+") {
     	exclude(group: "com.terraformersmc.modmenu")
@@ -78,36 +110,6 @@ dependencies {
         exclude(group: "me.shedaniel")
     }
 	include "com.github.Shnupbups:Piglib:1.0.2-1.16"
-}
-
-repositories {
-	maven {
-		url = "https://maven.theillusivec4.top/"
-	}
-	maven {	
-		url = 'https://maven.fabricmc.net/io/github/prospector/modmenu/'
-	}
-	maven {
-        name = "Ladysnake Libs"
-        url = 'https://dl.bintray.com/ladysnake/libs'
-    }
-	maven {
-        url = "https://www.cursemaven.com"
-    }
-     maven {
-        name = "OnyxStudios"
-        url = "https://maven.abusedmaster.xyz"
-    }
-    maven {
-        name "Siphalor's Maven"
-        url "https://maven.siphalor.de"
-    }
-    maven { url "https://maven.shedaniel.me/" }
-    maven { url = 'https://maven.terraformersmc.com/' }
-    maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
-    maven { url 'https://maven.blamejared.com' }
-    maven { url  = 'https://plugins.gradle.org/m2/' }
-    maven { url 'https://jitpack.io' }
 }
 
 processResources {

@@ -30,7 +30,7 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class ArchvileFiring extends Entity implements IAnimatable {
+public class DoomFireEntity extends Entity implements IAnimatable {
 
 	private int warmup;
 	private boolean startedAttack;
@@ -38,14 +38,14 @@ public class ArchvileFiring extends Entity implements IAnimatable {
 	private boolean playingAnimation;
 	private LivingEntity owner;
 	private UUID ownerUuid;
-	private float damage = 7.0F;
+	private float damage = 2.0F;
 
-	public ArchvileFiring(EntityType<ArchvileFiring> entityType, World world) {
+	public DoomFireEntity(EntityType<DoomFireEntity> entityType, World world) {
 		super(entityType, world);
 		this.ticksLeft = 22;
 	}
 
-	public ArchvileFiring(World worldIn, double x, double y, double z, float yaw, int warmup, LivingEntity casterIn) {
+	public DoomFireEntity(World worldIn, double x, double y, double z, float yaw, int warmup, LivingEntity casterIn) {
 		this(ProjectilesEntityRegister.FIRING, worldIn);
 		this.warmup = warmup;
 		this.setOwner(owner);
@@ -162,7 +162,7 @@ public class ArchvileFiring extends Entity implements IAnimatable {
 
 	@Override
 	public void registerControllers(AnimationData data) {
-		data.addAnimationController(new AnimationController<ArchvileFiring>(this, "controller", 0, this::predicate));
+		data.addAnimationController(new AnimationController<DoomFireEntity>(this, "controller", 0, this::predicate));
 	}
 
 	@Override
