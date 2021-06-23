@@ -69,10 +69,9 @@ public class TitanSkullStructure extends StructureFeature<DefaultFeatureConfig> 
 		public void init(DynamicRegistryManager dynamicRegistryManager, ChunkGenerator chunkGenerator,
 				StructureManager structureManager, int chunkX, int chunkZ, Biome biome,
 				DefaultFeatureConfig defaultFeatureConfig) {
-
-			int x = (chunkX << 4) + 7;
-			int z = (chunkZ << 4) + 7;
-			BlockPos.Mutable blockpos = new BlockPos.Mutable(x, chunkGenerator.getSeaLevel(), z);
+			ChunkPos chunkPos = new ChunkPos(chunkX, chunkZ);
+			BlockPos.Mutable blockpos = new BlockPos.Mutable(chunkPos.getStartX() + this.random.nextInt(16), 33,
+					chunkPos.getStartZ() + this.random.nextInt(16));
 			StructurePoolBasedGenerator.method_30419(dynamicRegistryManager,
 					new StructurePoolFeatureConfig(() -> dynamicRegistryManager.get(Registry.TEMPLATE_POOL_WORLDGEN)
 							.get(new Identifier(DoomMod.MODID, "titan_skull/start_pool")), 10),

@@ -1,6 +1,6 @@
 {
 	"type": "doom:gun_table",
-	"pattern": "abc",
+	"pattern": "abcd",
 	"key": {
 		"a": {
 			"item": "doom:argent_energy",

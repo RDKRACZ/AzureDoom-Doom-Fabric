@@ -48,10 +48,10 @@ public class ChaingunnerRender extends GeoEntityRenderer<ChaingunnerEntity> {
 			int packedOverlayIn, float red, float green, float blue, float alpha) {
 		if (bone.getName().equals("bipedLeftArm_1")) {
 			stack.push();
-			stack.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(-90));
-			stack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(-5));
-			stack.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(-60));
-			stack.translate(0.05D, 0.50D, 0.85D);
+			stack.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(0));
+			stack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(0));
+			stack.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(0));
+			stack.translate(0.4D, 1.04D, -0.32D);
 			stack.scale(1.0f, 1.0f, 1.0f);
 			MinecraftClient.getInstance().getItemRenderer().renderItem(chaingun, Mode.THIRD_PERSON_RIGHT_HAND,
 					packedLightIn, packedOverlayIn, stack, this.rtb);
