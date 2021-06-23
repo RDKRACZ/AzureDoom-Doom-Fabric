@@ -17,8 +17,7 @@
 		"LootContextAccessor",
 		"LootManagerAccessor",
 		"LootTableMixin",
-		"StructuresConfigAccessor",
-		"StructurePoolsMixin"
+		"StructuresConfigAccessor"
 	],
 	"injectors": {
 		"defaultRequire": 1

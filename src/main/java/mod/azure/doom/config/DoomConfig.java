@@ -9,9 +9,6 @@ import mod.azure.doom.DoomMod;
 public class DoomConfig implements ConfigData {
 
 	@ConfigEntry.Gui.CollapsibleObject
-	public Structures structures = new Structures();
-
-	@ConfigEntry.Gui.CollapsibleObject
 	public Weapons weapons = new Weapons();
 
 	@ConfigEntry.Gui.CollapsibleObject
@@ -19,10 +16,6 @@ public class DoomConfig implements ConfigData {
 
 	@ConfigEntry.Gui.CollapsibleObject
 	public MobStats stats = new MobStats();
-
-	public static class Structures {
-		public boolean enable_structures = true;
-	}
 
 	public static class Weapons {
 		public int crucible_marauder_max_damage = 5;
