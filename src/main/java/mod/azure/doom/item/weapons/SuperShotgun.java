@@ -50,12 +50,12 @@ public class SuperShotgun extends DoomBaseItem {
 					worldIn.spawnEntity(abstractarrowentity);
 					worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(),
 							playerentity.getZ(), ModSoundEvents.SUPER_SHOTGUN_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F);
-				}
-				if (!worldIn.isClient) {
-					final int id = GeckoLibUtil.guaranteeIDForStack(stack, (ServerWorld) worldIn);
-					GeckoLibNetwork.syncAnimation(playerentity, this, id, ANIM_OPEN);
-					for (PlayerEntity otherPlayer : PlayerLookup.tracking(playerentity)) {
-						GeckoLibNetwork.syncAnimation(otherPlayer, this, id, ANIM_OPEN);
+					if (!worldIn.isClient) {
+						final int id = GeckoLibUtil.guaranteeIDForStack(stack, (ServerWorld) worldIn);
+						GeckoLibNetwork.syncAnimation(playerentity, this, id, ANIM_OPEN);
+						for (PlayerEntity otherPlayer : PlayerLookup.tracking(playerentity)) {
+							GeckoLibNetwork.syncAnimation(otherPlayer, this, id, ANIM_OPEN);
+						}
 					}
 				}
 			}
