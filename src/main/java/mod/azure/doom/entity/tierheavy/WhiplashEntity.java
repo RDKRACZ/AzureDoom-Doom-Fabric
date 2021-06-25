@@ -3,10 +3,7 @@ package mod.azure.doom.entity.tierheavy;
 import java.util.Random;
 
 import mod.azure.doom.entity.DemonEntity;
-import mod.azure.doom.entity.ai.goal.RangedStaticAttackGoal;
-import mod.azure.doom.entity.attack.AbstractRangedAttack;
-import mod.azure.doom.entity.attack.AttackSound;
-import mod.azure.doom.entity.projectiles.entity.ChainBladeEntity;
+import mod.azure.doom.entity.ai.goal.DemonAttackGoal;
 import mod.azure.doom.util.ModSoundEvents;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -23,9 +20,7 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
@@ -105,35 +100,10 @@ public class WhiplashEntity extends DemonEntity implements IAnimatable {
 	}
 
 	protected void initCustomGoals() {
-		this.goalSelector.add(4,
-				new RangedStaticAttackGoal(this,
-						new WhiplashEntity.FireballAttack(this).setProjectileOriginOffset(0.8, 0.8, 0.8).setDamage(6),
-						60, 20, 30F, 1));
+		this.targetSelector.add(4, new DemonAttackGoal(this, 1.0D, false, 1));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, MerchantEntity.class, true));
 		this.targetSelector.add(2, new RevengeGoal(this).setGroupRevenge());
-	}
-
-	public class FireballAttack extends AbstractRangedAttack {
-
-		public FireballAttack(DemonEntity parentEntity, double xOffSetModifier, double entityHeightFraction,
-				double zOffSetModifier, float damage) {
-			super(parentEntity, xOffSetModifier, entityHeightFraction, zOffSetModifier, damage);
-		}
-
-		public FireballAttack(DemonEntity parentEntity) {
-			super(parentEntity);
-		}
-
-		@Override
-		public AttackSound getDefaultAttackSound() {
-			return new AttackSound(SoundEvents.BLOCK_CHAIN_PLACE, 1, 1);
-		}
-
-		@Override
-		public ProjectileEntity getProjectile(World world, double d2, double d3, double d4) {
-			return new ChainBladeEntity(world, this.parentEntity, d2, d3, d4, damage);
-		}
 	}
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
