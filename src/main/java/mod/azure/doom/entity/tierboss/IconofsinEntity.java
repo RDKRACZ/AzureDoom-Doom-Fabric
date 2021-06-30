@@ -389,37 +389,34 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 
 	@Override
 	public int getArmor() {
-		float health = this.getHealth();
-		return (health < (this.getMaxHealth() * 0.95) && health >= (this.getMaxHealth() * 0.90) ? 27
-				: health < (this.getMaxHealth() * 0.90) && health >= (this.getMaxHealth() * 0.85) ? 24
-						: health < (this.getMaxHealth() * 0.85) && health >= (this.getMaxHealth() * 0.80) ? 21
-								: health < (this.getMaxHealth() * 0.80) && health >= (this.getMaxHealth() * 0.75) ? 18
-										: health < (this.getMaxHealth() * 0.75)
-												&& health >= (this.getMaxHealth() * 0.70)
-														? 15
-														: health < (this.getMaxHealth() * 0.70)
-																&& health >= (this.getMaxHealth() * 0.65)
-																		? 12
-																		: health < (this.getMaxHealth() * 0.65)
-																				&& health >= (this
-																						.getMaxHealth() * 0.60)
-																								? 9
-																								: health < (this
-																										.getMaxHealth()
-																										* 0.60)
-																										&& health >= (this
+		float currentHealth = this.getHealth();
+		float maxHealth = this.getHealth();
+		return (currentHealth < (maxHealth * 0.95) && currentHealth >= (maxHealth * 0.90) ? 27
+				: currentHealth < (maxHealth * 0.90) && currentHealth >= (maxHealth * 0.85) ? 24
+						: currentHealth < (maxHealth * 0.85) && currentHealth >= (maxHealth * 0.80) ? 21
+								: currentHealth < (maxHealth * 0.80) && currentHealth >= (maxHealth * 0.75) ? 18
+										: currentHealth < (maxHealth * 0.75) && currentHealth >= (maxHealth * 0.70) ? 15
+												: currentHealth < (maxHealth * 0.70)
+														&& currentHealth >= (maxHealth * 0.65)
+																? 12
+																: currentHealth < (maxHealth * 0.65)
+																		&& currentHealth >= (this.getMaxHealth() * 0.60)
+																				? 9
+																				: currentHealth < (this.getMaxHealth()
+																						* 0.60)
+																						&& currentHealth >= (this
+																								.getMaxHealth() * 0.55)
+																										? 6
+																										: currentHealth < (this
 																												.getMaxHealth()
-																												* 0.55) ? 6
-																														: health < (this
-																																.getMaxHealth()
-																																* 0.55)
-																																&& health >= (this
+																												* 0.55)
+																												&& currentHealth >= (this
+																														.getMaxHealth()
+																														* 0.50) ? 3
+																																: currentHealth < (this
 																																		.getMaxHealth()
-																																		* 0.50) ? 3
-																																				: health < (this
-																																						.getMaxHealth()
-																																						* 0.50) ? 0
-																																								: 30);
+																																		* 0.50) ? 0
+																																				: 30);
 	}
 
 	@Override

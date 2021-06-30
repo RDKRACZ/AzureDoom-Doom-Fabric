@@ -237,14 +237,16 @@ public class BFGEntity extends PersistentProjectileEntity implements IAnimatable
 							|| entity instanceof HoglinEntity)) {
 				if (y <= 1.0D) {
 					if (entity.isAlive()) {
-						entity.damage(DamageSource.player((PlayerEntity) this.shooter), 10);
+						entity.damage(DamageSource.player((PlayerEntity) this.shooter),
+								DoomMod.config.weapons.bfgball_damage_aoe);
 						setBeamTarget(entity.getId());
 					}
 				}
 			}
 			if (!(entity instanceof PlayerEntity) && entity instanceof EnderDragonEntity) {
 				if (entity.isAlive()) {
-					((EnderDragonEntity) entity).head.damage(DamageSource.player((PlayerEntity) this.shooter), 10);
+					((EnderDragonEntity) entity).head.damage(DamageSource.player((PlayerEntity) this.shooter),
+							DoomMod.config.weapons.bfgball_damage_aoe);
 					setBeamTarget(entity.getId());
 				}
 			}
@@ -320,7 +322,8 @@ public class BFGEntity extends PersistentProjectileEntity implements IAnimatable
 							|| entity instanceof PhantomEntity || entity instanceof ShulkerEntity
 							|| entity instanceof HoglinEntity)) {
 				if (y <= 1.0D) {
-					entity.damage(DamageSource.player((PlayerEntity) this.shooter), 100);
+					entity.damage(DamageSource.player((PlayerEntity) this.shooter),
+							DoomMod.config.weapons.bfgball_damage);
 					if (!this.world.isClient) {
 						List<LivingEntity> list1 = this.world.getNonSpectatingEntities(LivingEntity.class,
 								this.getBoundingBox().expand(4.0D, 2.0D, 4.0D));
@@ -345,7 +348,8 @@ public class BFGEntity extends PersistentProjectileEntity implements IAnimatable
 			}
 			if (entity instanceof EnderDragonEntity) {
 				if (entity.isAlive()) {
-					((EnderDragonEntity) entity).head.damage(DamageSource.player((PlayerEntity) this.shooter), 30);
+					((EnderDragonEntity) entity).head.damage(DamageSource.player((PlayerEntity) this.shooter),
+							DoomMod.config.weapons.bfgball_damage_dragon);
 				}
 			}
 		}

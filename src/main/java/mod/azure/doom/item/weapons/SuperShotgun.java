@@ -41,13 +41,15 @@ public class SuperShotgun extends DoomBaseItem {
 				playerentity.getItemCooldownManager().set(this, 24);
 				if (!worldIn.isClient) {
 					ShotgunShellEntity abstractarrowentity = createArrow(worldIn, stack, playerentity);
-					abstractarrowentity.setProperties(playerentity, playerentity.pitch, playerentity.yaw, 0.0F,
+					abstractarrowentity.setProperties(playerentity, playerentity.pitch, playerentity.yaw + 1, 0.0F,
 							1.0F * 3.0F, 1.0F);
-
-					abstractarrowentity.setDamage(7.6);
+					worldIn.spawnEntity(abstractarrowentity);
+					ShotgunShellEntity abstractarrowentity1 = createArrow(worldIn, stack, playerentity);
+					abstractarrowentity1.setProperties(playerentity, playerentity.pitch, playerentity.yaw - 1, 0.0F,
+							1.0F * 3.0F, 1.0F);
+					worldIn.spawnEntity(abstractarrowentity1);
 
 					stack.damage(2, entityLiving, p -> p.sendToolBreakStatus(entityLiving.getActiveHand()));
-					worldIn.spawnEntity(abstractarrowentity);
 					worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(),
 							playerentity.getZ(), ModSoundEvents.SUPER_SHOTGUN_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F);
 					if (!worldIn.isClient) {
