@@ -1,5 +1,6 @@
 package mod.azure.doom.entity.projectiles;
 
+import mod.azure.doom.DoomMod;
 import mod.azure.doom.entity.tierboss.IconofsinEntity;
 import mod.azure.doom.util.packets.EntityPacket;
 import mod.azure.doom.util.registry.DoomItems;
@@ -252,7 +253,7 @@ public class ChaingunBulletEntity extends PersistentProjectileEntity implements 
 				((LivingEntity) entity2).onAttacking(entity);
 			}
 		}
-		if (entity.damage(damageSource2, 1.5F)) {
+		if (entity.damage(damageSource2, DoomMod.config.weapons.chaingun_bullet_damage)) {
 			if (entity instanceof LivingEntity) {
 				LivingEntity livingEntity = (LivingEntity) entity;
 				if (!this.world.isClient && entity2 instanceof LivingEntity) {

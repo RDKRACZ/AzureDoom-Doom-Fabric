@@ -279,7 +279,7 @@ public class RocketEntity extends PersistentProjectileEntity implements IAnimata
 			double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d)) / q);
 			if (y <= 1.0D) {
 				if (entity instanceof LivingEntity) {
-					entity.damage(DamageSource.player((PlayerEntity) this.shooter), 20);
+					entity.damage(DamageSource.player((PlayerEntity) this.shooter), DoomMod.config.weapons.rocket_damage);
 				}
 				this.world.createExplosion(this, this.getX(), this.getBodyY(0.0625D), this.getZ(), 0.0F,
 						Explosion.DestructionType.NONE);

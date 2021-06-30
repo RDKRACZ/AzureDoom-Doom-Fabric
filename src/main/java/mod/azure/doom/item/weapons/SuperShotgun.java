@@ -43,8 +43,10 @@ public class SuperShotgun extends DoomBaseItem {
 					ShotgunShellEntity abstractarrowentity = createArrow(worldIn, stack, playerentity);
 					abstractarrowentity.setProperties(playerentity, playerentity.pitch, playerentity.yaw, 0.0F,
 							1.0F * 3.0F, 1.0F);
-
-					abstractarrowentity.setDamage(7.6);
+					ShotgunShellEntity abstractarrowentity1 = createArrow(worldIn, stack, playerentity);
+					abstractarrowentity1.setProperties(playerentity, playerentity.pitch, playerentity.yaw - 1, 0.0F,
+							1.0F * 3.0F, 1.0F);
+					worldIn.spawnEntity(abstractarrowentity1);
 
 					stack.damage(2, entityLiving, p -> p.sendToolBreakStatus(entityLiving.getActiveHand()));
 					worldIn.spawnEntity(abstractarrowentity);
