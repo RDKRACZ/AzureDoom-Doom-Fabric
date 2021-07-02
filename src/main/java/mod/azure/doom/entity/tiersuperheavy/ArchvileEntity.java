@@ -158,6 +158,13 @@ public class ArchvileEntity extends DemonEntity implements IAnimatable {
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, MerchantEntity.class, true));
 	}
+	
+	@Override
+	protected void updateGoalControls() {
+		boolean flag = this.getTarget() != null && this.canSee(this.getTarget());
+		this.goalSelector.setControlEnabled(Goal.Control.LOOK, flag);
+		super.updateGoalControls();
+	}
 
 	static class AttackGoal extends Goal {
 		private final ArchvileEntity ghast;
@@ -172,12 +179,16 @@ public class ArchvileEntity extends DemonEntity implements IAnimatable {
 		}
 
 		public void start() {
+			super.start();
+			this.ghast.setAttacking(true);
 			this.cooldown = 0;
+			this.ghast.setAttackingState(0);
 		}
 
 		@Override
 		public void stop() {
 			super.stop();
+			this.ghast.setAttacking(false);
 			this.ghast.setAttackingState(0);
 		}
 
@@ -239,9 +250,12 @@ public class ArchvileEntity extends DemonEntity implements IAnimatable {
 						this.ghast.playSound(ModSoundEvents.ARCHVILE_SCREAM, 1.0F,
 								1.2F / (this.ghast.random.nextFloat() * 0.2F + 0.9F));
 					}
+					this.ghast.setAttackingState(1);
+				}
+				if (this.cooldown == 60) {
+					this.ghast.setAttackingState(0);
 					this.cooldown = -80;
 				}
-				this.ghast.setAttackingState(this.cooldown > 20 ? 1 : 0);
 			} else if (this.cooldown > 0) {
 				--this.cooldown;
 			}
