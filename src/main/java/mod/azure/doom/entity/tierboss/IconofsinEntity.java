@@ -162,11 +162,16 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 		}
 
 		public void start() {
+			super.start();
+			this.parentEntity.setAttacking(true);
 			this.cooldown = 0;
+			this.parentEntity.setAttackingState(0);
 		}
 
+		@Override
 		public void stop() {
 			super.stop();
+			this.parentEntity.setAttacking(false);
 			this.parentEntity.setAttackingState(0);
 		}
 
@@ -225,10 +230,13 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 								} else {
 									this.parentEntity.doDamage();
 								}
+								this.parentEntity.setAttackingState(1);
 							}
-							this.parentEntity.setAttackingState(cooldown > 10 ? 1 : 0);
-							this.cooldown = -35;
 						}
+					}
+					if (this.cooldown == 45) {
+						this.parentEntity.setAttackingState(0);
+						this.cooldown = -135;
 					}
 				} else if (this.cooldown > 0) {
 					--this.cooldown;
