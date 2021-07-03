@@ -29,6 +29,8 @@ public class ModSoundEvents {
 	public static SoundEvent PISTOL_HIT = of("doom.pistol_fire");
 
 	public static SoundEvent SHOTGUN_SHOOT = of("doom.shotgun_fire");
+	public static SoundEvent SHOTGUNRELOAD = of("doom.shotgunreload");
+	public static SoundEvent CLIPRELOAD = of("doom.clipreload");
 
 	public static SoundEvent SUPER_SHOTGUN_SHOOT = of("doom.super_shotgun_fire");
 
