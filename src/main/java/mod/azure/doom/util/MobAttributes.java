@@ -5,6 +5,7 @@ import mod.azure.doom.entity.tierambient.GoreNestEntity;
 import mod.azure.doom.entity.tierambient.TentacleEntity;
 import mod.azure.doom.entity.tierboss.ArchMakyrEntity;
 import mod.azure.doom.entity.tierboss.IconofsinEntity;
+import mod.azure.doom.entity.tierboss.MotherDemonEntity;
 import mod.azure.doom.entity.tierboss.SpiderMastermind2016Entity;
 import mod.azure.doom.entity.tierboss.SpiderMastermindEntity;
 import mod.azure.doom.entity.tierfodder.ChaingunnerEntity;
@@ -104,5 +105,6 @@ public class MobAttributes {
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.FIREBARON, FireBaronEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.ARCHVILEETERNAL, ArchvileEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.TENTACLE, TentacleEntity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(ModEntityTypes.MOTHERDEMON, MotherDemonEntity.createMobAttributes());
 	}
 }

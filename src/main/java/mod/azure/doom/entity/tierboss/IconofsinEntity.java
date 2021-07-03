@@ -115,8 +115,7 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 	protected void updatePostDeath() {
 		++this.deathTime;
 		if (this.deathTime == 50) {
-			if (world.isClient) {
-			}
+			this.remove(Entity.RemovalReason.KILLED);
 		}
 	}
 

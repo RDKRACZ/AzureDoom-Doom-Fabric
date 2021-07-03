@@ -31,6 +31,7 @@ import mod.azure.doom.client.render.MancubusRender;
 import mod.azure.doom.client.render.MarauderRender;
 import mod.azure.doom.client.render.MaykrDroneRender;
 import mod.azure.doom.client.render.MechaZombieRender;
+import mod.azure.doom.client.render.MotherDemonRender;
 import mod.azure.doom.client.render.NightmareImpRender;
 import mod.azure.doom.client.render.PainRender;
 import mod.azure.doom.client.render.Pinky2016Render;
@@ -179,6 +180,8 @@ public class DoomRenderRegistry {
 				(ctx) -> new ArchvileEternalRender(ctx));
 
 		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.TENTACLE, (ctx) -> new TentacleRender(ctx));
+
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.MOTHERDEMON, (ctx) -> new MotherDemonRender(ctx));
 
 		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.ARGENT_BOLT,
 				(ctx) -> new ArgentBoltRender(ctx));
