@@ -61,7 +61,7 @@ public class GunTableBlock extends Block implements BlockEntityProvider {
 
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext context) {
-		return this.getDefaultState().with(FACING, context.getPlayerLookDirection());
+		return this.getDefaultState().with(FACING, context.getPlayerLookDirection().rotateYCounterclockwise());
 	}
 
 	@Override

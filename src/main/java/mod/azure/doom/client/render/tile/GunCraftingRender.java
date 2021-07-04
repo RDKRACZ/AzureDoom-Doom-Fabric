@@ -45,7 +45,7 @@ public class GunCraftingRender extends GeoBlockRenderer<GunBlockEntity> {
 	@Override
 	public void renderRecursively(GeoBone bone, MatrixStack stack, VertexConsumer bufferIn, int packedLightIn,
 			int packedOverlayIn, float red, float green, float blue, float alpha) {
-		if (bone.getName().equals("gun")) {
+		if (bone.getName().equals("group")) {
 			stack.push();
 			stack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-40));
 			stack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(0));
