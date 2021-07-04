@@ -4,6 +4,8 @@ import org.lwjgl.glfw.GLFW;
 
 import mod.azure.doom.DoomMod;
 import mod.azure.doom.client.gui.GunTableScreen;
+import mod.azure.doom.client.render.item.GunCraftingItemRender;
+import mod.azure.doom.client.render.item.TotemItemRender;
 import mod.azure.doom.client.render.weapons.BFG9000Render;
 import mod.azure.doom.client.render.weapons.BFGRender;
 import mod.azure.doom.client.render.weapons.BallistaRender;
@@ -18,6 +20,7 @@ import mod.azure.doom.client.render.weapons.SSGRender;
 import mod.azure.doom.client.render.weapons.UnmaykrRender;
 import mod.azure.doom.util.packets.EntityPacket;
 import mod.azure.doom.util.packets.EntityPacketOnClient;
+import mod.azure.doom.util.registry.DoomBlocks;
 import mod.azure.doom.util.registry.DoomItems;
 import nerdhub.cardinal.components.api.event.ItemComponentCallbackV2;
 import net.fabricmc.api.ClientModInitializer;
@@ -51,6 +54,8 @@ public class ClientInit implements ClientModInitializer {
 		ModelProviderinit.init();
 		DoomRenderRegistry.init();
 		ScreenRegistry.register(DoomMod.SCREEN_HANDLER_TYPE, GunTableScreen::new);
+		GeoItemRenderer.registerItemRenderer(DoomBlocks.TOTEM.asItem(), new TotemItemRender());
+		GeoItemRenderer.registerItemRenderer(DoomItems.GUN_TABLE, new GunCraftingItemRender());
 		GeoItemRenderer.registerItemRenderer(DoomItems.BFG, new BFG9000Render());
 		GeoItemRenderer.registerItemRenderer(DoomItems.BFG_ETERNAL, new BFGRender());
 		GeoItemRenderer.registerItemRenderer(DoomItems.SG, new SGRender());

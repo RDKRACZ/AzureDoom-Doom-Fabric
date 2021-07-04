@@ -1,5 +1,6 @@
 package mod.azure.doom.client;
 
+import mod.azure.doom.DoomMod;
 import mod.azure.doom.client.render.ArachonotronEternalRender;
 import mod.azure.doom.client.render.ArachonotronRender;
 import mod.azure.doom.client.render.ArchMaykrRender;
@@ -46,6 +47,7 @@ import mod.azure.doom.client.render.SpectreRender;
 import mod.azure.doom.client.render.SpiderMastermind2016Render;
 import mod.azure.doom.client.render.SpiderMastermindRender;
 import mod.azure.doom.client.render.TentacleRender;
+import mod.azure.doom.client.render.TurretRender;
 import mod.azure.doom.client.render.TyrantRender;
 import mod.azure.doom.client.render.UnwillingRender;
 import mod.azure.doom.client.render.WhiplashRender;
@@ -95,6 +97,8 @@ import mod.azure.doom.client.render.projectiles.entity.ChaingunMobRender;
 import mod.azure.doom.client.render.projectiles.entity.DroneBoltRender;
 import mod.azure.doom.client.render.projectiles.entity.EnergyCellMobRender;
 import mod.azure.doom.client.render.projectiles.entity.RocketMobRender;
+import mod.azure.doom.client.render.tile.GunCraftingRender;
+import mod.azure.doom.client.render.tile.TotemRender;
 import mod.azure.doom.item.armor.AstroDoomArmor;
 import mod.azure.doom.item.armor.BronzeDoomArmor;
 import mod.azure.doom.item.armor.ClassicBronzeDoomArmor;
@@ -128,6 +132,7 @@ import mod.azure.doom.util.registry.DoomBlocks;
 import mod.azure.doom.util.registry.ModEntityTypes;
 import mod.azure.doom.util.registry.ProjectilesEntityRegister;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 import net.minecraft.client.render.RenderLayer;
 import software.bernie.geckolib3.renderer.geo.GeoArmorRenderer;
@@ -285,6 +290,9 @@ public class DoomRenderRegistry {
 		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.MOTHERDEMON, (dispatcher, context) -> {
 			return new MotherDemonRender(dispatcher);
 		});
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.TURRET, (dispatcher, context) -> {
+			return new TurretRender(dispatcher);
+		});
 
 		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.ARGENT_BOLT, (dispatcher, context) -> {
 			return new ArgentBoltRender(dispatcher);
@@ -334,6 +342,9 @@ public class DoomRenderRegistry {
 		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.BLOODBOLT_MOB, (dispatcher, context) -> {
 			return new BloodBoltRender(dispatcher);
 		});
+
+		BlockEntityRendererRegistry.INSTANCE.register(DoomMod.TOTEM, TotemRender::new);
+		BlockEntityRendererRegistry.INSTANCE.register(DoomMod.GUN_TABLE_ENTITY, GunCraftingRender::new);
 
 		GeoArmorRenderer.registerArmorRenderer(DoomicornDoomArmor.class, new DoomicornRender());
 		GeoArmorRenderer.registerArmorRenderer(NightmareDoomArmor.class, new NightmareRender());

@@ -10,6 +10,8 @@ import mod.azure.doom.block.E1M1StairsBlock;
 import mod.azure.doom.block.E1M1TurnableBlock;
 import mod.azure.doom.block.E1M1TurnableHurtBlock;
 import mod.azure.doom.block.JumppadBlock;
+import mod.azure.doom.block.TotemBlock;
+import mod.azure.doom.item.DoomBlockItem;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
@@ -70,7 +72,13 @@ public class DoomBlocks {
 	public static final Block ICON_WALL16 = new DoomWallBlock();
 	public static final Block ARGENT_LAMP_BLOCK = new ArgentLampBlock();
 
+	public static final Block TOTEM = new TotemBlock();
+
 	public static void init() {
+		Registry.register(Registry.BLOCK, new Identifier(DoomMod.MODID, "totem"), DoomBlocks.TOTEM);
+		Registry.register(Registry.ITEM, new Identifier(DoomMod.MODID, "totem"),
+				new DoomBlockItem(DoomBlocks.TOTEM, new Item.Settings().group(DoomMod.DoomBlockItemGroup)));
+		
 		Registry.register(Registry.BLOCK, new Identifier(DoomMod.MODID, "argent_block"), DoomBlocks.ARGENT_BLOCK);
 		Registry.register(Registry.ITEM, new Identifier(DoomMod.MODID, "argent_block"),
 				new BlockItem(DoomBlocks.ARGENT_BLOCK, new Item.Settings().group(DoomMod.DoomBlockItemGroup)));
