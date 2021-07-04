@@ -3,6 +3,7 @@ package mod.azure.doom.util;
 import mod.azure.doom.entity.tierambient.CueBallEntity;
 import mod.azure.doom.entity.tierambient.GoreNestEntity;
 import mod.azure.doom.entity.tierambient.TentacleEntity;
+import mod.azure.doom.entity.tierambient.TurretEntity;
 import mod.azure.doom.entity.tierboss.ArchMakyrEntity;
 import mod.azure.doom.entity.tierboss.IconofsinEntity;
 import mod.azure.doom.entity.tierboss.MotherDemonEntity;
@@ -106,5 +107,6 @@ public class MobAttributes {
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.ARCHVILEETERNAL, ArchvileEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.TENTACLE, TentacleEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.MOTHERDEMON, MotherDemonEntity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(ModEntityTypes.TURRET, TurretEntity.createMobAttributes());
 	}
 }

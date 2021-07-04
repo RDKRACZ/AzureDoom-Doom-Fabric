@@ -41,6 +41,7 @@ public class PortalStructure extends StructureFeature<DefaultFeatureConfig> {
 
 	private static final Pool<SpawnEntry> STRUCTURE_MONSTERS = Pool.of(
 			new SpawnSettings.SpawnEntry(ModEntityTypes.LOST_SOUL, 20, 1, 2),
+			new SpawnSettings.SpawnEntry(ModEntityTypes.TURRET, 20, 1, 2),
 			new SpawnSettings.SpawnEntry(ModEntityTypes.ZOMBIEMAN, 20, 1, 2),
 			new SpawnSettings.SpawnEntry(ModEntityTypes.CHAINGUNNER, 20, 1, 2),
 			new SpawnSettings.SpawnEntry(ModEntityTypes.POSSESSEDWORKER, 20, 1, 2),
@@ -53,6 +54,7 @@ public class PortalStructure extends StructureFeature<DefaultFeatureConfig> {
 
 	private static final Pool<SpawnEntry> STRUCTURE_CREATURES = Pool.of(
 			new SpawnSettings.SpawnEntry(ModEntityTypes.LOST_SOUL, 20, 1, 2),
+			new SpawnSettings.SpawnEntry(ModEntityTypes.TURRET, 20, 1, 2),
 			new SpawnSettings.SpawnEntry(ModEntityTypes.ZOMBIEMAN, 20, 1, 2),
 			new SpawnSettings.SpawnEntry(ModEntityTypes.CHAINGUNNER, 20, 1, 2),
 			new SpawnSettings.SpawnEntry(ModEntityTypes.POSSESSEDWORKER, 20, 1, 2),

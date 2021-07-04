@@ -6,6 +6,7 @@ import java.util.Map;
 import mod.azure.doom.DoomMod;
 import mod.azure.doom.item.ArgentEnergyItem;
 import mod.azure.doom.item.ArgentPlateItem;
+import mod.azure.doom.item.DoomBlockItem;
 import mod.azure.doom.item.E1M1MusicDisc;
 import mod.azure.doom.item.UnopenedItem;
 import mod.azure.doom.item.ammo.ArgentBolt;
@@ -97,7 +98,7 @@ public class DoomItems {
 	public static Item GAS_BARREL = item(new Item(new Item.Settings().group(DoomMod.DoomWeaponItemGroup)),
 			"gas_barrel");
 	public static BlockItem GUN_TABLE = item(
-			new BlockItem(DoomMod.GUN_TABLE, new Item.Settings().group(DoomMod.DoomWeaponItemGroup)), "gun_table");
+			new DoomBlockItem(DoomMod.GUN_TABLE, new Item.Settings().group(DoomMod.DoomWeaponItemGroup)), "gun_table");
 
 	public static Item[] ITEMS = { CHAINSAW_ETERNAL, CRUCIBLESWORD, ROCKETLAUNCHER, AXE_OPEN, HEAVYCANNON, SSG,
 			PLASMAGUN, CHAINSAW64, CHAINSAW, CHAINGUN, BALLISTA, UNMAYKR, BFG_ETERNAL, BFG, SG, PISTOL };
@@ -198,6 +199,10 @@ public class DoomItems {
 			new DoomSpawnEgg(ModEntityTypes.ARCHVILEETERNAL));
 	public static DoomSpawnEgg TENTACLE_SPAWN_EGG = item("tentacle_spawn_egg",
 			new DoomSpawnEgg(ModEntityTypes.TENTACLE));
+	public static DoomSpawnEgg MOTHERDEMON_SPAWN_EGG = item("motherdemon_spawn_egg",
+			new DoomSpawnEgg(ModEntityTypes.MOTHERDEMON));
+	public static DoomSpawnEgg TURRET_SPAWN_EGG = item("turret_spawn_egg",
+			new DoomSpawnEgg(ModEntityTypes.TURRET));
 
 	// Armor
 	/**

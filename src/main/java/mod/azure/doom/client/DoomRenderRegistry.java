@@ -1,5 +1,6 @@
 package mod.azure.doom.client;
 
+import mod.azure.doom.DoomMod;
 import mod.azure.doom.client.render.ArachonotronEternalRender;
 import mod.azure.doom.client.render.ArachonotronRender;
 import mod.azure.doom.client.render.ArchMaykrRender;
@@ -46,6 +47,7 @@ import mod.azure.doom.client.render.SpectreRender;
 import mod.azure.doom.client.render.SpiderMastermind2016Render;
 import mod.azure.doom.client.render.SpiderMastermindRender;
 import mod.azure.doom.client.render.TentacleRender;
+import mod.azure.doom.client.render.TurretRender;
 import mod.azure.doom.client.render.TyrantRender;
 import mod.azure.doom.client.render.UnwillingRender;
 import mod.azure.doom.client.render.WhiplashRender;
@@ -60,21 +62,25 @@ import mod.azure.doom.client.render.projectiles.RocketRender;
 import mod.azure.doom.client.render.projectiles.ShotgunShellRender;
 import mod.azure.doom.client.render.projectiles.UnmaykrBulletRender;
 import mod.azure.doom.client.render.projectiles.entity.ArchvileFiringRender;
-import mod.azure.doom.client.render.projectiles.entity.BloodBoltRender;
 import mod.azure.doom.client.render.projectiles.entity.ChainBladeRender;
 import mod.azure.doom.client.render.projectiles.entity.ChaingunMobRender;
 import mod.azure.doom.client.render.projectiles.entity.DroneBoltRender;
 import mod.azure.doom.client.render.projectiles.entity.EnergyCellMobRender;
 import mod.azure.doom.client.render.projectiles.entity.RocketMobRender;
+import mod.azure.doom.client.render.tile.GunCraftingRender;
+import mod.azure.doom.client.render.tile.TotemRender;
 import mod.azure.doom.util.registry.DoomBlocks;
 import mod.azure.doom.util.registry.ModEntityTypes;
 import mod.azure.doom.util.registry.ProjectilesEntityRegister;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 
 public class DoomRenderRegistry {
 
+	@SuppressWarnings("unchecked")
 	public static void init() {
 		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.ARCHVILE, (ctx) -> new ArchvileRender(ctx));
 
@@ -181,6 +187,8 @@ public class DoomRenderRegistry {
 
 		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.TENTACLE, (ctx) -> new TentacleRender(ctx));
 
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.TURRET, (ctx) -> new TurretRender(ctx));
+
 		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.MOTHERDEMON, (ctx) -> new MotherDemonRender(ctx));
 
 		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.ARGENT_BOLT,
@@ -224,8 +232,10 @@ public class DoomRenderRegistry {
 		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.DRONEBOLT_MOB,
 				(ctx) -> new DroneBoltRender(ctx));
 
-		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.BLOODBOLT_MOB,
-				(ctx) -> new BloodBoltRender(ctx));
+		BlockEntityRendererRegistry.INSTANCE.register(DoomMod.TOTEM,
+				(BlockEntityRendererFactory.Context rendererDispatcherIn) -> new TotemRender());
+		BlockEntityRendererRegistry.INSTANCE.register(DoomMod.GUN_TABLE_ENTITY,
+				(BlockEntityRendererFactory.Context rendererDispatcherIn) -> new GunCraftingRender());
 
 //		GeoArmorRenderer.registerArmorRenderer(DoomicornDoomArmor.class, new DoomicornRender());
 //		GeoArmorRenderer.registerArmorRenderer(NightmareDoomArmor.class, new NightmareRender());

@@ -5,11 +5,12 @@ import java.util.Map;
 
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
-import mod.azure.doom.block.GunBlockEntity;
 import mod.azure.doom.block.GunTableBlock;
 import mod.azure.doom.client.gui.GunTableScreenHandler;
 import mod.azure.doom.config.DoomConfig;
+import mod.azure.doom.entity.tileentity.GunBlockEntity;
 import mod.azure.doom.entity.tileentity.IconBlockEntity;
+import mod.azure.doom.entity.tileentity.TotemEntity;
 import mod.azure.doom.mixin.StructuresConfigAccessor;
 import mod.azure.doom.network.PacketHandler;
 import mod.azure.doom.recipes.GunTableRecipe;
@@ -59,6 +60,7 @@ public class DoomMod implements ModInitializer {
 	public static ModSoundEvents SOUNDS;
 	public static ModEntityTypes MOBS;
 	public static final String MODID = "doom";
+	public static BlockEntityType<TotemEntity> TOTEM;
 	public static BlockEntityType<IconBlockEntity> ICON;
 	public static ProjectilesEntityRegister PROJECTILES;
 	public static RecipeType<GunTableRecipe> GUN_TABLE_RECIPE;
@@ -113,6 +115,8 @@ public class DoomMod implements ModInitializer {
 		Registry.register(Registry.BLOCK, new Identifier(MODID, "gun_table"), GUN_TABLE);
 		ICON = Registry.register(Registry.BLOCK_ENTITY_TYPE, MODID + ":icon",
 				FabricBlockEntityTypeBuilder.create(IconBlockEntity::new, DoomBlocks.ICON_WALL1).build(null));
+		TOTEM = Registry.register(Registry.BLOCK_ENTITY_TYPE, MODID + ":totem",
+				FabricBlockEntityTypeBuilder.create(TotemEntity::new, DoomBlocks.TOTEM).build(null));
 		GUN_TABLE_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, MODID + ":guntable",
 				FabricBlockEntityTypeBuilder.create(GunBlockEntity::new, GUN_TABLE).build(null));
 		MobSpawn.addSpawnEntries();

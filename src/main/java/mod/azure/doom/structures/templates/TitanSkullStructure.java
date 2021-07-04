@@ -39,8 +39,9 @@ public class TitanSkullStructure extends StructureFeature<DefaultFeatureConfig> 
 		return TitanSkullStructure.Start::new;
 	}
 
-	private static final Pool<SpawnEntry> STRUCTURE_MONSTERS = Pool
-			.of(new SpawnSettings.SpawnEntry(ModEntityTypes.LOST_SOUL, 100, 4, 9));
+	private static final Pool<SpawnEntry> STRUCTURE_MONSTERS = Pool.of(
+			new SpawnSettings.SpawnEntry(ModEntityTypes.LOST_SOUL, 100, 4, 9),
+			new SpawnSettings.SpawnEntry(ModEntityTypes.TURRET, 20, 1, 2));
 
 	@Override
 	public Pool<SpawnEntry> getMonsterSpawns() {

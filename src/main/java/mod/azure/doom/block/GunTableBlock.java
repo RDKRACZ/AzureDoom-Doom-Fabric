@@ -1,5 +1,6 @@
 package mod.azure.doom.block;
 
+import mod.azure.doom.entity.tileentity.GunBlockEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
@@ -28,26 +29,16 @@ import net.minecraft.world.World;
 public class GunTableBlock extends Block implements BlockEntityProvider {
 
 	public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
-	private static final VoxelShape BASE_SHAPE = Block.createCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 4.0D, 14.0D);
-	private static final VoxelShape X_STEP_SHAPE = Block.createCuboidShape(3.0D, 4.0D, 4.0D, 13.0D, 5.0D, 12.0D);
-	private static final VoxelShape X_STEM_SHAPE = Block.createCuboidShape(4.0D, 5.0D, 6.0D, 12.0D, 10.0D, 10.0D);
-	private static final VoxelShape X_FACE_SHAPE = Block.createCuboidShape(0.0D, 10.0D, 3.0D, 16.0D, 16.0D, 13.0D);
-	private static final VoxelShape Z_STEP_SHAPE = Block.createCuboidShape(4.0D, 4.0D, 3.0D, 12.0D, 5.0D, 13.0D);
-	private static final VoxelShape Z_STEM_SHAPE = Block.createCuboidShape(6.0D, 5.0D, 4.0D, 10.0D, 10.0D, 12.0D);
-	private static final VoxelShape Z_FACE_SHAPE = Block.createCuboidShape(3.0D, 10.0D, 0.0D, 13.0D, 16.0D, 16.0D);
-	private static final VoxelShape X_AXIS_SHAPE = VoxelShapes.union(BASE_SHAPE, X_STEP_SHAPE, X_STEM_SHAPE,
-			X_FACE_SHAPE);
-	private static final VoxelShape Z_AXIS_SHAPE = VoxelShapes.union(BASE_SHAPE, Z_STEP_SHAPE, Z_STEM_SHAPE,
-			Z_FACE_SHAPE);
+	private static final VoxelShape XBASE1 = Block.createCuboidShape(0, 0, -16, 16, 9, 32);
+	private static final VoxelShape XBASE2 = Block.createCuboidShape(2, 9, -14, 13, 25, 30);
+	private static final VoxelShape YBASE1 = Block.createCuboidShape(-16, 0, 0, 32, 9, 16);
+	private static final VoxelShape YBASE2 = Block.createCuboidShape(-14, 9, 2, 30, 25, 13);
+	private static final VoxelShape X_AXIS_SHAPE = VoxelShapes.union(XBASE1, XBASE2);
+	private static final VoxelShape Z_AXIS_SHAPE = VoxelShapes.union(YBASE1, YBASE2);
 
 	public GunTableBlock(Settings settings) {
 		super(settings);
 		this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
-	}
-
-	@Override
-	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		return this.getDefaultState().with(FACING, ctx.getPlayerFacing().rotateYCounterclockwise());
 	}
 
 	@Override
@@ -61,11 +52,16 @@ public class GunTableBlock extends Block implements BlockEntityProvider {
 
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		Direction direction = (Direction) state.get(FACING);
-		return direction.getAxis() == Direction.Axis.X ? X_AXIS_SHAPE : Z_AXIS_SHAPE;
+		return direction.getAxis() == Direction.Axis.X ? Z_AXIS_SHAPE : X_AXIS_SHAPE;
 	}
 
 	public BlockState mirror(BlockState state, BlockMirror mirror) {
 		return state.rotate(mirror.getRotation((Direction) state.get(FACING)));
+	}
+
+	@Override
+	public BlockState getPlacementState(ItemPlacementContext context) {
+		return this.getDefaultState().with(FACING, context.getPlayerLookDirection());
 	}
 
 	@Override

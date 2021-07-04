@@ -5,6 +5,7 @@ import mod.azure.doom.entity.projectiles.BarrelEntity;
 import mod.azure.doom.entity.tierambient.CueBallEntity;
 import mod.azure.doom.entity.tierambient.GoreNestEntity;
 import mod.azure.doom.entity.tierambient.TentacleEntity;
+import mod.azure.doom.entity.tierambient.TurretEntity;
 import mod.azure.doom.entity.tierboss.ArchMakyrEntity;
 import mod.azure.doom.entity.tierboss.IconofsinEntity;
 import mod.azure.doom.entity.tierboss.MotherDemonEntity;
@@ -333,6 +334,12 @@ public class ModEntityTypes {
 	public static final EntityType<TentacleEntity> TENTACLE = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "tentacle"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, TentacleEntity::new)
+					.dimensions(EntityDimensions.fixed(1.7f, 2.2F)).fireImmune().trackedUpdateRate(9)
+					.trackRangeBlocks(90).build());
+
+	public static final EntityType<TurretEntity> TURRET = Registry.register(Registry.ENTITY_TYPE,
+			new Identifier(DoomMod.MODID, "turret"),
+			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, TurretEntity::new)
 					.dimensions(EntityDimensions.fixed(1.7f, 2.2F)).fireImmune().trackedUpdateRate(9)
 					.trackRangeBlocks(90).build());
 

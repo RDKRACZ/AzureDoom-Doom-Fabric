@@ -1,4 +1,4 @@
-package mod.azure.doom.block;
+package mod.azure.doom.entity.tileentity;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
