@@ -9,6 +9,7 @@ import mod.azure.doom.util.registry.DoomItems;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.entity.AreaEffectCloudEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -18,8 +19,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.Box;
@@ -51,6 +55,9 @@ public class SentinelHammerItem extends Item implements IAnimatable, ISyncable {
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
 //		tooltip.add(
 //				new TranslatableText("doom.marauder_axe1.text").formatted(Formatting.RED).formatted(Formatting.ITALIC));
+		tooltip.add(new TranslatableText(
+				"Ammo: " + (stack.getMaxDamage() - stack.getDamage() - 1) + " / " + (stack.getMaxDamage() - 1))
+						.formatted(Formatting.ITALIC));
 		super.appendTooltip(stack, world, tooltip, context);
 	}
 
@@ -64,6 +71,13 @@ public class SentinelHammerItem extends Item implements IAnimatable, ISyncable {
 				entityLiving.getEntityWorld().getOtherEntities(entityLiving, aabb)
 						.forEach(e -> doDamage(entityLiving, e));
 				stack.damage(1, entityLiving, p -> p.sendToolBreakStatus(entityLiving.getActiveHand()));
+				AreaEffectCloudEntity areaeffectcloudentity = new AreaEffectCloudEntity(playerentity.world,
+						playerentity.getX(), playerentity.getY(), playerentity.getZ());
+				areaeffectcloudentity.setParticleType(ParticleTypes.CRIT);
+				areaeffectcloudentity.setRadius(5.0F);
+				areaeffectcloudentity.setDuration(20);
+				areaeffectcloudentity.updatePosition(playerentity.getX(), playerentity.getY(), playerentity.getZ());
+				worldIn.spawnEntity(areaeffectcloudentity);
 				if (!worldIn.isClient) {
 					final int id = GeckoLibUtil.guaranteeIDForStack(stack, (ServerWorld) worldIn);
 					GeckoLibNetwork.syncAnimation(playerentity, this, id, ANIM_OPEN);

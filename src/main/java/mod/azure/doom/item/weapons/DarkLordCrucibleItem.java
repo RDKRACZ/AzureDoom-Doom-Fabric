@@ -36,13 +36,13 @@ import software.bernie.geckolib3.network.GeckoLibNetwork;
 import software.bernie.geckolib3.network.ISyncable;
 import software.bernie.geckolib3.util.GeckoLibUtil;
 
-public class SwordCrucibleItem extends Item implements IAnimatable, ISyncable {
+public class DarkLordCrucibleItem extends Item implements IAnimatable, ISyncable {
 
 	public AnimationFactory factory = new AnimationFactory(this);
 	public String controllerName = "controller";
 	public static final int ANIM_OPEN = 0;
 
-	public SwordCrucibleItem() {
+	public DarkLordCrucibleItem() {
 		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(5));
 		GeckoLibNetwork.registerSyncable(this);
 	}
@@ -103,8 +103,6 @@ public class SwordCrucibleItem extends Item implements IAnimatable, ISyncable {
 
 	@Override
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-		tooltip.add(new TranslatableText("doom.crucible_sword.text").formatted(Formatting.RED)
-				.formatted(Formatting.ITALIC));
 		tooltip.add(new TranslatableText(
 				"Ammo: " + (stack.getMaxDamage() - stack.getDamage() - 1) + " / " + (stack.getMaxDamage() - 1))
 						.formatted(Formatting.ITALIC));
@@ -112,7 +110,7 @@ public class SwordCrucibleItem extends Item implements IAnimatable, ISyncable {
 	}
 
 	public void reload(PlayerEntity user, Hand hand) {
-		if (user.getStackInHand(hand).getItem() instanceof SwordCrucibleItem) {
+		if (user.getStackInHand(hand).getItem() instanceof DarkLordCrucibleItem) {
 			while (user.getStackInHand(hand).getDamage() != 0
 					&& user.inventory.count(DoomBlocks.ARGENT_BLOCK.asItem()) > 0) {
 				removeAmmo(DoomBlocks.ARGENT_BLOCK.asItem(), user);
@@ -126,11 +124,11 @@ public class SwordCrucibleItem extends Item implements IAnimatable, ISyncable {
 	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
 		PlayerEntity playerentity = (PlayerEntity) entity;
 		if (world.isClient) {
-			if (playerentity.getMainHandStack().getItem() instanceof SwordCrucibleItem && ClientInit.reload.isPressed()
+			if (playerentity.getMainHandStack().getItem() instanceof DarkLordCrucibleItem && ClientInit.reload.isPressed()
 					&& selected) {
 				PacketByteBuf passedData = new PacketByteBuf(Unpooled.buffer());
 				passedData.writeBoolean(true);
-				ClientPlayNetworking.send(DoomMod.CRUCIBLE, passedData);
+				ClientPlayNetworking.send(DoomMod.DARKLORDCRUCIBLE, passedData);
 			}
 		}
 	}

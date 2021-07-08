@@ -66,6 +66,7 @@ import mod.azure.doom.item.weapons.Ballista;
 import mod.azure.doom.item.weapons.Chaingun;
 import mod.azure.doom.item.weapons.Chainsaw;
 import mod.azure.doom.item.weapons.ChainsawAnimated;
+import mod.azure.doom.item.weapons.DarkLordCrucibleItem;
 import mod.azure.doom.item.weapons.HeavyCannon;
 import mod.azure.doom.item.weapons.PistolItem;
 import mod.azure.doom.item.weapons.PlasmaGun;
@@ -126,7 +127,8 @@ public class DoomItems {
 	public static SwordCrucibleItem CRUCIBLESWORD = item(new SwordCrucibleItem(), "cruciblesword");
 	public static InvisibleSphereItem INVISIBLE = item(new InvisibleSphereItem(), "invisiblesphere");
 	public static ChainsawAnimated CHAINSAW_ETERNAL = item(new ChainsawAnimated(), "chainsaweternal");
-	public static SentinelHammerItem SENTINELHAMMER = item( new SentinelHammerItem(), "sentinelhammer");
+	public static SentinelHammerItem SENTINELHAMMER = item(new SentinelHammerItem(), "sentinelhammer");
+	public static DarkLordCrucibleItem DARKLORDCRUCIBLE = item(new DarkLordCrucibleItem(), "darklordcrucible");
 	public static E1M1MusicDisc E1M1_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E1M1), "e1m1_music_disc");
 	public static Item GAS_BARREL = item(new Item(new Item.Settings().group(DoomMod.DoomWeaponItemGroup)),
 			"gas_barrel");

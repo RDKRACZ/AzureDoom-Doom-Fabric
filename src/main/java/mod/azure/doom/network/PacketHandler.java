@@ -8,6 +8,7 @@ import mod.azure.doom.item.weapons.Ballista;
 import mod.azure.doom.item.weapons.Chaingun;
 import mod.azure.doom.item.weapons.Chainsaw;
 import mod.azure.doom.item.weapons.ChainsawAnimated;
+import mod.azure.doom.item.weapons.DarkLordCrucibleItem;
 import mod.azure.doom.item.weapons.HeavyCannon;
 import mod.azure.doom.item.weapons.PistolItem;
 import mod.azure.doom.item.weapons.PlasmaGun;
@@ -141,6 +142,13 @@ public class PacketHandler {
 				(server, player, serverPlayNetworkHandler, inputPacket, packetSender) -> {
 					if (player.getMainHandStack().getItem() instanceof SentinelHammerItem) {
 						((SentinelHammerItem) player.getMainHandStack().getItem()).reload(player, Hand.MAIN_HAND);
+					}
+					;
+				});
+		ServerPlayNetworking.registerGlobalReceiver(DoomMod.DARKLORDCRUCIBLE,
+				(server, player, serverPlayNetworkHandler, inputPacket, packetSender) -> {
+					if (player.getMainHandStack().getItem() instanceof DarkLordCrucibleItem) {
+						((DarkLordCrucibleItem) player.getMainHandStack().getItem()).reload(player, Hand.MAIN_HAND);
 					}
 					;
 				});
