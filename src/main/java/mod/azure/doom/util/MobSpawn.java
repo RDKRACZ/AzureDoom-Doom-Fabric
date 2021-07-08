@@ -355,13 +355,21 @@ public class MobSpawn {
 						.and(context -> context.getBiome().getCategory() == Biome.Category.NETHER),
 				SpawnGroup.MONSTER, ModEntityTypes.GORE_NEST, config.gorenest_spawn_weight, config.gorenest_min_group,
 				config.gorenest_max_group);
-
-//						BiomeModifications.addSpawn(BiomeSelectors.foundInTheNether().and(context -> context.getBiome().getCategory() == Biome.Category.NETHER),SpawnGroup.MONSTER, ModEntityTypes.DOOMHUNTER,
-//								config.doomhunter_spawn_weight, config.doomhunter_min_group,
-//								config.doomhunter_max_group);
-//						BiomeModifications.addSpawn(BiomeSelectors.foundInTheNether().and(context -> context.getBiome().getCategory() == Biome.Category.NETHER),SpawnGroup.MONSTER, ModEntityTypes.WHIPLASH,
-//								config.whiplash_spawn_weight,
-//								config.whiplash_min_group, config.whiplash_max_group);
+		BiomeModifications.addSpawn(
+				BiomeSelectors.foundInTheNether()
+						.and(context -> context.getBiome().getCategory() == Biome.Category.NETHER),
+				SpawnGroup.MONSTER, ModEntityTypes.DOOMHUNTER, config.doomhunter_spawn_weight,
+				config.doomhunter_min_group, config.doomhunter_max_group);
+		BiomeModifications.addSpawn(
+				BiomeSelectors.foundInTheNether()
+						.and(context -> context.getBiome().getCategory() == Biome.Category.NETHER),
+				SpawnGroup.MONSTER, ModEntityTypes.WHIPLASH, config.whiplash_spawn_weight, config.whiplash_min_group,
+				config.whiplash_max_group);
+		BiomeModifications.addSpawn(
+				BiomeSelectors.foundInTheNether()
+						.and(context -> context.getBiome().getCategory() == Biome.Category.NETHER),
+				SpawnGroup.MONSTER, ModEntityTypes.SUMMONER, config.summoner_spawn_weight, config.summoner_min_group,
+				config.summoner_max_group);
 //						BiomeModifications.addSpawn(BiomeSelectors.foundInTheNether().and(context -> context.getBiome().getCategory() == Biome.Category.NETHER),SpawnGroup.MONSTER, ModEntityTypes.BARON2016,
 //								config.baron_spawn_weight,
 //								config.baron_min_group, config.baron_max_group);

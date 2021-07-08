@@ -44,6 +44,7 @@ import mod.azure.doom.entity.tiersuperheavy.CyberdemonEntity;
 import mod.azure.doom.entity.tiersuperheavy.DoomHunterEntity;
 import mod.azure.doom.entity.tiersuperheavy.FireBaronEntity;
 import mod.azure.doom.entity.tiersuperheavy.MarauderEntity;
+import mod.azure.doom.entity.tiersuperheavy.SummonerEntity;
 import mod.azure.doom.util.registry.ModEntityTypes;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 
@@ -108,5 +109,6 @@ public class MobAttributes {
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.TENTACLE, TentacleEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.MOTHERDEMON, MotherDemonEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.TURRET, TurretEntity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(ModEntityTypes.SUMMONER, SummonerEntity.createMobAttributes());
 	}
 }

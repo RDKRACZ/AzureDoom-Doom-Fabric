@@ -7,10 +7,8 @@ import java.util.function.Predicate;
 import org.jetbrains.annotations.Nullable;
 
 import mod.azure.doom.entity.DemonEntity;
-import mod.azure.doom.entity.projectiles.entity.ArchvileFiring;
+import mod.azure.doom.entity.projectiles.entity.DoomFireEntity;
 import mod.azure.doom.util.ModSoundEvents;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
@@ -27,9 +25,6 @@ import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.MobEntity;
@@ -55,8 +50,6 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class ArchvileEntity extends DemonEntity implements IAnimatable {
-	private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(ArchvileEntity.class,
-			TrackedDataHandlerRegistry.BOOLEAN);
 	private int ageWhenTargetSet;
 	public int flameTimer;
 
@@ -67,20 +60,6 @@ public class ArchvileEntity extends DemonEntity implements IAnimatable {
 	public static boolean spawning(EntityType<ArchvileEntity> p_223337_0_, World p_223337_1_, SpawnReason reason,
 			BlockPos p_223337_3_, Random p_223337_4_) {
 		return p_223337_1_.getDifficulty() != Difficulty.PEACEFUL;
-	}
-
-	@Environment(EnvType.CLIENT)
-	public boolean isShooting() {
-		return (Boolean) this.dataTracker.get(SHOOTING);
-	}
-
-	public void setShooting(boolean shooting) {
-		this.dataTracker.set(SHOOTING, shooting);
-	}
-
-	protected void initDataTracker() {
-		super.initDataTracker();
-		this.dataTracker.startTracking(SHOOTING, false);
 	}
 
 	@Override
@@ -104,19 +83,15 @@ public class ArchvileEntity extends DemonEntity implements IAnimatable {
 			}
 		}
 		if (this.deathTime == 50) {
-			this.remove();
+			this.remove(Entity.RemovalReason.KILLED);
 		}
 	}
 
 	private AnimationFactory factory = new AnimationFactory(this);
 
 	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-		if (event.isMoving() && !this.dataTracker.get(SHOOTING)) {
+		if (event.isMoving()) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
-			return PlayState.CONTINUE;
-		}
-		if (this.dataTracker.get(SHOOTING) && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking"));
 			return PlayState.CONTINUE;
 		}
 		if ((this.dead || this.getHealth() < 0.01 || this.isDead())) {
@@ -127,9 +102,18 @@ public class ArchvileEntity extends DemonEntity implements IAnimatable {
 		return PlayState.CONTINUE;
 	}
 
+	private <E extends IAnimatable> PlayState predicate1(AnimationEvent<E> event) {
+		if (this.dataTracker.get(STATE) == 1 && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking", true));
+			return PlayState.CONTINUE;
+		}
+		return PlayState.STOP;
+	}
+
 	@Override
 	public void registerControllers(AnimationData data) {
 		data.addAnimationController(new AnimationController<ArchvileEntity>(this, "controller", 0, this::predicate));
+		data.addAnimationController(new AnimationController<ArchvileEntity>(this, "controller1", 0, this::predicate1));
 	}
 
 	@Override
@@ -174,6 +158,13 @@ public class ArchvileEntity extends DemonEntity implements IAnimatable {
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, MerchantEntity.class, true));
 	}
+	
+	@Override
+	protected void updateGoalControls() {
+		boolean flag = this.getTarget() != null && this.canSee(this.getTarget());
+		this.goalSelector.setControlEnabled(Goal.Control.LOOK, flag);
+		super.updateGoalControls();
+	}
 
 	static class AttackGoal extends Goal {
 		private final ArchvileEntity ghast;
@@ -188,11 +179,17 @@ public class ArchvileEntity extends DemonEntity implements IAnimatable {
 		}
 
 		public void start() {
+			super.start();
+			this.ghast.setAttacking(true);
 			this.cooldown = 0;
+			this.ghast.setAttackingState(0);
 		}
 
-		public void resetTask() {
-			this.ghast.setShooting(false);
+		@Override
+		public void stop() {
+			super.stop();
+			this.ghast.setAttacking(false);
+			this.ghast.setAttackingState(0);
 		}
 
 		public void tick() {
@@ -215,7 +212,7 @@ public class ArchvileEntity extends DemonEntity implements IAnimatable {
 						for (int x = 0; x < list.size(); ++x) {
 							Entity entity = (Entity) list.get(x);
 							if ((entity instanceof MobEntity)) {
-								double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d1)) / q);
+								float y = (MathHelper.sqrt((float) entity.squaredDistanceTo(vec3d1)) / q);
 								if (y <= 1.0D) {
 									((MobEntity) entity)
 											.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 1000, 1));
@@ -253,10 +250,12 @@ public class ArchvileEntity extends DemonEntity implements IAnimatable {
 						this.ghast.playSound(ModSoundEvents.ARCHVILE_SCREAM, 1.0F,
 								1.2F / (this.ghast.random.nextFloat() * 0.2F + 0.9F));
 					}
+					this.ghast.setAttackingState(1);
+				}
+				if (this.cooldown == 60) {
+					this.ghast.setAttackingState(0);
 					this.cooldown = -80;
 				}
-
-				this.ghast.setShooting(this.cooldown > 20);
 			} else if (this.cooldown > 0) {
 				--this.cooldown;
 			}
@@ -270,12 +269,12 @@ public class ArchvileEntity extends DemonEntity implements IAnimatable {
 		private int lookAtPlayerWarmup;
 		private int ticksSinceUnseenTeleport;
 		private final TargetPredicate staringPlayerPredicate;
-		private final TargetPredicate validTargetPredicate = (new TargetPredicate()).includeHidden();
+		private final TargetPredicate validTargetPredicate = TargetPredicate.createAttackable().ignoreVisibility();
 
 		public TeleportTowardsPlayerGoal(ArchvileEntity enderman, @Nullable Predicate<LivingEntity> predicate) {
 			super(enderman, PlayerEntity.class, 10, false, false, predicate);
 			this.enderman = enderman;
-			this.staringPlayerPredicate = (new TargetPredicate()).setBaseMaxDistance(this.getFollowRange())
+			this.staringPlayerPredicate = TargetPredicate.createAttackable().setBaseMaxDistance(this.getFollowRange())
 					.setPredicate((playerEntity) -> {
 						return enderman.isPlayerStaring((PlayerEntity) playerEntity);
 					});
@@ -343,7 +342,7 @@ public class ArchvileEntity extends DemonEntity implements IAnimatable {
 	}
 
 	private boolean isPlayerStaring(PlayerEntity player) {
-		ItemStack itemStack = (ItemStack) player.inventory.armor.get(3);
+		ItemStack itemStack = (ItemStack) player.getInventory().armor.get(3);
 		if (itemStack.getItem() == Blocks.CARVED_PUMPKIN.asItem()) {
 			return false;
 		} else {
@@ -434,7 +433,7 @@ public class ArchvileEntity extends DemonEntity implements IAnimatable {
 		} while (blockPos.getY() >= MathHelper.floor(maxY) - 1);
 
 		if (bl) {
-			ArchvileFiring fang = new ArchvileFiring(this.world, x, (double) blockPos.getY() + d, z, yaw, warmup, this);
+			DoomFireEntity fang = new DoomFireEntity(this.world, x, (double) blockPos.getY() + d, z, yaw, warmup, this);
 			fang.setFireTicks(age);
 			fang.isInvisible();
 			this.world.spawnEntity(fang);

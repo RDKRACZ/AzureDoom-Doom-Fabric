@@ -2,6 +2,7 @@ package mod.azure.doom.structures;
 
 import mod.azure.doom.DoomMod;
 import mod.azure.doom.structures.templates.MaykrStructure;
+import mod.azure.doom.structures.templates.MotherDemonStructure;
 import mod.azure.doom.structures.templates.PortalStructure;
 import mod.azure.doom.structures.templates.TitanSkullStructure;
 import net.fabricmc.fabric.api.structure.v1.FabricStructureBuilder;
@@ -19,6 +20,9 @@ public class DoomStructures {
 	public static StructureFeature<DefaultFeatureConfig> TITAN_SKULL = new TitanSkullStructure(
 			DefaultFeatureConfig.CODEC);
 
+	public static StructureFeature<DefaultFeatureConfig> MOTHERDEMON = new MotherDemonStructure(
+			DefaultFeatureConfig.CODEC);
+
 	public static StructureFeature<DefaultFeatureConfig> PORTAL = new PortalStructure(DefaultFeatureConfig.CODEC);
 
 	public static void setupAndRegisterStructureFeatures() {
@@ -30,6 +34,10 @@ public class DoomStructures {
 		FabricStructureBuilder.create(new Identifier(DoomMod.MODID, "titan_skull"), TITAN_SKULL)
 				.step(GenerationStep.Feature.SURFACE_STRUCTURES).defaultConfig(new StructureConfig(80, 20, 1234567890))
 				.superflatFeature(TITAN_SKULL.configure(FeatureConfig.DEFAULT)).adjustsSurface().register();
+
+		FabricStructureBuilder.create(new Identifier(DoomMod.MODID, "motherdemon"), MOTHERDEMON)
+				.step(GenerationStep.Feature.SURFACE_STRUCTURES).defaultConfig(new StructureConfig(80, 20, 1234567899))
+				.superflatFeature(MOTHERDEMON.configure(FeatureConfig.DEFAULT)).adjustsSurface().register();
 
 		FabricStructureBuilder.create(new Identifier(DoomMod.MODID, "portal"), PORTAL)
 				.step(GenerationStep.Feature.SURFACE_STRUCTURES).defaultConfig(new StructureConfig(80, 20, 1234567890))

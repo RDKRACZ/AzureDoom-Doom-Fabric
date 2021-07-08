@@ -5,8 +5,10 @@ import mod.azure.doom.entity.projectiles.BarrelEntity;
 import mod.azure.doom.entity.tierambient.CueBallEntity;
 import mod.azure.doom.entity.tierambient.GoreNestEntity;
 import mod.azure.doom.entity.tierambient.TentacleEntity;
+import mod.azure.doom.entity.tierambient.TurretEntity;
 import mod.azure.doom.entity.tierboss.ArchMakyrEntity;
 import mod.azure.doom.entity.tierboss.IconofsinEntity;
+import mod.azure.doom.entity.tierboss.MotherDemonEntity;
 import mod.azure.doom.entity.tierboss.SpiderMastermind2016Entity;
 import mod.azure.doom.entity.tierboss.SpiderMastermindEntity;
 import mod.azure.doom.entity.tierfodder.ChaingunnerEntity;
@@ -45,7 +47,6 @@ import mod.azure.doom.entity.tiersuperheavy.DoomHunterEntity;
 import mod.azure.doom.entity.tiersuperheavy.FireBaronEntity;
 import mod.azure.doom.entity.tiersuperheavy.MarauderEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -54,9 +55,9 @@ import net.minecraft.util.registry.Registry;
 
 public class ModEntityTypes {
 
-	public static final EntityType<Entity> BARREL = Registry.register(Registry.ENTITY_TYPE,
+	public static final EntityType<BarrelEntity> BARREL = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "barrel"),
-			FabricEntityTypeBuilder.create(SpawnGroup.MISC, BarrelEntity::new)
+			FabricEntityTypeBuilder.<BarrelEntity>create(SpawnGroup.MISC, BarrelEntity::new)
 					.dimensions(EntityDimensions.fixed(0.98F, 0.98F)).trackRangeBlocks(90).trackedUpdateRate(4)
 					.build());
 
@@ -334,6 +335,18 @@ public class ModEntityTypes {
 			new Identifier(DoomMod.MODID, "tentacle"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, TentacleEntity::new)
 					.dimensions(EntityDimensions.fixed(1.7f, 2.2F)).fireImmune().trackedUpdateRate(9)
+					.trackRangeBlocks(90).build());
+
+	public static final EntityType<TurretEntity> TURRET = Registry.register(Registry.ENTITY_TYPE,
+			new Identifier(DoomMod.MODID, "turret"),
+			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, TurretEntity::new)
+					.dimensions(EntityDimensions.fixed(1.7f, 2.2F)).fireImmune().trackedUpdateRate(9)
+					.trackRangeBlocks(90).build());
+
+	public static final EntityType<MotherDemonEntity> MOTHERDEMON = Registry.register(Registry.ENTITY_TYPE,
+			new Identifier(DoomMod.MODID, "motherdemon"),
+			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, MotherDemonEntity::new)
+					.dimensions(EntityDimensions.fixed(6.3f, 10.0F)).fireImmune().trackedUpdateRate(9)
 					.trackRangeBlocks(90).build());
 
 	public static final EntityType<BloodMaykrEntity> BLOODMAYKR = Registry.register(Registry.ENTITY_TYPE,

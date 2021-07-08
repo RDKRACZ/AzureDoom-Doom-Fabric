@@ -13,7 +13,7 @@ public class CustomFireballEntity extends FireballEntity {
 
 	public CustomFireballEntity(World worldIn, LivingEntity shooter, double accelX, double accelY, double accelZ,
 			float directHitDamage) {
-		super(worldIn, shooter, accelX, accelY, accelZ);
+		super(worldIn, shooter, accelX, accelY, accelZ, 1);
 		this.directHitDamage = directHitDamage;
 	}
 
@@ -25,7 +25,7 @@ public class CustomFireballEntity extends FireballEntity {
 			entity.setOnFireFor(5);
 			entity.damage(DamageSource.fireball(this, entity2), directHitDamage);
 			if (entity2 instanceof LivingEntity) {
-				this.dealDamage((LivingEntity) entity2, entity);
+				this.applyDamageEffects((LivingEntity) entity2, entity);
 			}
 		}
 	}

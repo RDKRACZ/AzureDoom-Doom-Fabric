@@ -70,7 +70,11 @@ public class BaronEntity extends DemonEntity implements IAnimatable {
 
 	private <E extends IAnimatable> PlayState predicate1(AnimationEvent<E> event) {
 		if (this.dataTracker.get(STATE) == 1 && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking", true));
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("melee", true));
+			return PlayState.CONTINUE;
+		}
+		if (this.dataTracker.get(STATE) == 2 && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("ranged", true));
 			return PlayState.CONTINUE;
 		}
 		return PlayState.STOP;
@@ -102,8 +106,8 @@ public class BaronEntity extends DemonEntity implements IAnimatable {
 		this.goalSelector.add(4,
 				new RangedStaticAttackGoal(this, new BaronEntity.FireballAttack(this)
 						.setProjectileOriginOffset(0.8, 0.8, 0.8).setDamage(config.baron_ranged_damage), 60, 20, 30F,
-						1));
-		this.goalSelector.add(4, new DemonAttackGoal(this, 1.0D, false, 2));
+						2));
+		this.goalSelector.add(2, new DemonAttackGoal(this, 1.0D, false, 1));
 		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]).setGroupRevenge());
 		this.targetSelector.add(2, new FollowTargetGoal(this, PlayerEntity.class, true));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, MerchantEntity.class, true));

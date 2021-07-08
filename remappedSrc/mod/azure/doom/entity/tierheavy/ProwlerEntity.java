@@ -10,8 +10,6 @@ import mod.azure.doom.entity.DemonEntity;
 import mod.azure.doom.entity.ai.goal.DemonAttackGoal;
 import mod.azure.doom.entity.attack.AbstractRangedAttack;
 import mod.azure.doom.entity.attack.FireballAttack;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -27,9 +25,6 @@ import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.UniversalAngerGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
@@ -51,9 +46,6 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class ProwlerEntity extends DemonEntity implements IAnimatable {
 
-	private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(ProwlerEntity.class,
-			TrackedDataHandlerRegistry.BOOLEAN);
-
 	private AnimationFactory factory = new AnimationFactory(this);
 	private int ageWhenTargetSet;
 
@@ -64,15 +56,12 @@ public class ProwlerEntity extends DemonEntity implements IAnimatable {
 	@Override
 	public void registerControllers(AnimationData data) {
 		data.addAnimationController(new AnimationController<ProwlerEntity>(this, "controller", 0, this::predicate));
+		data.addAnimationController(new AnimationController<ProwlerEntity>(this, "controller1", 0, this::predicate1));
 	}
 
 	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-		if (event.isMoving() && !this.dataTracker.get(SHOOTING)) {
+		if (event.isMoving()) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
-			return PlayState.CONTINUE;
-		}
-		if (this.dataTracker.get(SHOOTING) && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("attack", false));
 			return PlayState.CONTINUE;
 		}
 		if ((this.dead || this.getHealth() < 0.01 || this.isDead())) {
@@ -85,6 +74,14 @@ public class ProwlerEntity extends DemonEntity implements IAnimatable {
 		return PlayState.CONTINUE;
 	}
 
+	private <E extends IAnimatable> PlayState predicate1(AnimationEvent<E> event) {
+		if (this.dataTracker.get(STATE) == 1 && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking", true));
+			return PlayState.CONTINUE;
+		}
+		return PlayState.STOP;
+	}
+
 	@Override
 	public AnimationFactory getFactory() {
 		return this.factory;
@@ -94,25 +91,10 @@ public class ProwlerEntity extends DemonEntity implements IAnimatable {
 	protected void updatePostDeath() {
 		++this.deathTime;
 		if (this.deathTime == 50) {
-			this.remove();
+			this.remove(Entity.RemovalReason.KILLED);
 			if (world.isClient) {
 			}
 		}
-	}
-
-	@Environment(EnvType.CLIENT)
-	public boolean isShooting() {
-		return (Boolean) this.dataTracker.get(SHOOTING);
-	}
-
-	@Override
-	public void setShooting(boolean shooting) {
-		this.dataTracker.set(SHOOTING, shooting);
-	}
-
-	protected void initDataTracker() {
-		super.initDataTracker();
-		this.dataTracker.startTracking(SHOOTING, false);
 	}
 
 	public static boolean spawning(EntityType<ProwlerEntity> p_223337_0_, World p_223337_1_, SpawnReason reason,
@@ -131,7 +113,7 @@ public class ProwlerEntity extends DemonEntity implements IAnimatable {
 	@Override
 	protected void initGoals() {
 		this.goalSelector.add(0, new SwimGoal(this));
-		this.goalSelector.add(4, new DemonAttackGoal(this, 1.0D, false));
+		this.goalSelector.add(4, new DemonAttackGoal(this, 1.0D, false, 2));
 		this.goalSelector.add(4,
 				new ProwlerEntity.RangedStrafeAttackGoal(this,
 						new FireballAttack(this, false).setProjectileOriginOffset(0.8, 0.8, 0.8)
@@ -258,6 +240,7 @@ public class ProwlerEntity extends DemonEntity implements IAnimatable {
 		public void finishRunning() {
 			super.canStop();
 			this.entity.setAttacking(false);
+			this.entity.setAttackingState(0);
 			this.seeTime = 0;
 			this.attackTime = -1;
 			this.entity.clearActiveItem();
@@ -334,8 +317,7 @@ public class ProwlerEntity extends DemonEntity implements IAnimatable {
 					} else
 						this.attackTime++;
 				}
-
-				this.entity.setShooting(this.attackTime >= this.attackCooldown - this.attackCooldown * 0.25);
+				this.entity.setAttackingState(attackTime >= attackCooldown * 0.25 ? 1 : 0);
 			}
 		}
 	}
@@ -346,12 +328,12 @@ public class ProwlerEntity extends DemonEntity implements IAnimatable {
 		private int lookAtPlayerWarmup;
 		private int ticksSinceUnseenTeleport;
 		private final TargetPredicate staringPlayerPredicate;
-		private final TargetPredicate validTargetPredicate = (new TargetPredicate()).includeHidden();
+		private final TargetPredicate validTargetPredicate = TargetPredicate.createAttackable().ignoreVisibility();
 
 		public TeleportTowardsPlayerGoal(ProwlerEntity enderman, @Nullable Predicate<LivingEntity> predicate) {
 			super(enderman, PlayerEntity.class, 10, false, false, predicate);
 			this.enderman = enderman;
-			this.staringPlayerPredicate = (new TargetPredicate()).setBaseMaxDistance(this.getFollowRange())
+			this.staringPlayerPredicate = TargetPredicate.createAttackable().setBaseMaxDistance(this.getFollowRange())
 					.setPredicate((playerEntity) -> {
 						return enderman.isPlayerStaring((PlayerEntity) playerEntity);
 					});

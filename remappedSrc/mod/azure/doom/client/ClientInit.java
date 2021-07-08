@@ -2,6 +2,12 @@ package mod.azure.doom.client;
 
 import org.lwjgl.glfw.GLFW;
 
+import dev.emi.trinkets.api.client.TrinketRenderer;
+import dev.emi.trinkets.api.client.TrinketRendererRegistry;
+import mod.azure.doom.DoomMod;
+import mod.azure.doom.client.gui.GunTableScreen;
+import mod.azure.doom.client.render.item.GunCraftingItemRender;
+import mod.azure.doom.client.render.item.TotemItemRender;
 import mod.azure.doom.client.render.weapons.BFG9000Render;
 import mod.azure.doom.client.render.weapons.BFGRender;
 import mod.azure.doom.client.render.weapons.BallistaRender;
@@ -16,25 +22,23 @@ import mod.azure.doom.client.render.weapons.SSGRender;
 import mod.azure.doom.client.render.weapons.UnmaykrRender;
 import mod.azure.doom.util.packets.EntityPacket;
 import mod.azure.doom.util.packets.EntityPacketOnClient;
+import mod.azure.doom.util.registry.DoomBlocks;
 import mod.azure.doom.util.registry.DoomItems;
-import nerdhub.cardinal.components.api.event.ItemComponentCallbackV2;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.options.KeyBinding;
+import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.render.model.json.ModelTransformation.Mode;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.Direction;
-import software.bernie.geckolib3.renderer.geo.GeoItemRenderer;
-import top.theillusivec4.curios.api.CuriosComponent;
-import top.theillusivec4.curios.api.type.component.IRenderableCurio;
+import software.bernie.geckolib3.renderers.geo.GeoItemRenderer;
 
 @SuppressWarnings("deprecation")
 @Environment(EnvType.CLIENT)
@@ -43,10 +47,14 @@ public class ClientInit implements ClientModInitializer {
 	public static KeyBinding reload = new KeyBinding("key.doom.reload", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R,
 			"category.doom.binds");
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void onInitializeClient() {
 		ModelProviderinit.init();
 		DoomRenderRegistry.init();
+		ScreenRegistry.register(DoomMod.SCREEN_HANDLER_TYPE, GunTableScreen::new);
+		GeoItemRenderer.registerItemRenderer(DoomBlocks.TOTEM.asItem(), new TotemItemRender());
+		GeoItemRenderer.registerItemRenderer(DoomItems.GUN_TABLE, new GunCraftingItemRender());
 		GeoItemRenderer.registerItemRenderer(DoomItems.BFG, new BFG9000Render());
 		GeoItemRenderer.registerItemRenderer(DoomItems.BFG_ETERNAL, new BFGRender());
 		GeoItemRenderer.registerItemRenderer(DoomItems.SG, new SGRender());
@@ -63,22 +71,18 @@ public class ClientInit implements ClientModInitializer {
 			EntityPacketOnClient.onPacket(ctx, buf);
 		});
 		KeyBindingHelper.registerKeyBinding(reload);
-		ItemComponentCallbackV2.event(DoomItems.SOULCUBE).register(((item, itemStack,
-				componentContainer) -> componentContainer.put(CuriosComponent.ITEM_RENDER, new IRenderableCurio() {
-					@Override
-					public void render(String identifier, int index, MatrixStack matrixStack,
-							VertexConsumerProvider vertexConsumerProvider, int light, LivingEntity livingEntity,
-							float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks,
-							float netHeadYaw, float headPitch) {
-						IRenderableCurio.RenderHelper.translateIfSneaking(matrixStack, livingEntity);
-						IRenderableCurio.RenderHelper.rotateIfSneaking(matrixStack, livingEntity);
-						matrixStack.scale(0.35F, 0.35F, 0.35F);
-						matrixStack.translate(0.0F, 0.5F, -0.4F);
-						matrixStack.multiply(Direction.DOWN.getRotationQuaternion());
-						MinecraftClient.getInstance().getItemRenderer().renderItem(itemStack, Mode.NONE, light,
-								OverlayTexture.DEFAULT_UV, matrixStack, vertexConsumerProvider);
+		TrinketRendererRegistry.registerRenderer(DoomItems.SOULCUBE,
+				(stack, slotReference, contextModel, matrices, vertexConsumers, light, entity, limbAngle, limbDistance,
+						tickDelta, animationProgress, headYaw, headPitch) -> {
+					if (entity instanceof AbstractClientPlayerEntity player) {
+						TrinketRenderer.translateToChest(matrices,
+								(PlayerEntityModel<AbstractClientPlayerEntity>) contextModel, player);
+						matrices.scale(0.35F, 0.35F, 0.35F);
+						matrices.multiply(Direction.DOWN.getRotationQuaternion());
+						MinecraftClient.getInstance().getItemRenderer().renderItem(stack, Mode.NONE, light,
+								OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, 0);
 					}
-				})));
+				});
 	}
 
 }

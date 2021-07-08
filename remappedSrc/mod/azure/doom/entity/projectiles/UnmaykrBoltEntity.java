@@ -1,19 +1,24 @@
 package mod.azure.doom.entity.projectiles;
 
+import mod.azure.doom.DoomMod;
 import mod.azure.doom.entity.tierboss.IconofsinEntity;
 import mod.azure.doom.util.packets.EntityPacket;
 import mod.azure.doom.util.registry.DoomItems;
 import mod.azure.doom.util.registry.ProjectilesEntityRegister;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
+import net.minecraft.network.packet.s2c.play.GameStateChangeS2CPacket;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.hit.BlockHitResult;
@@ -62,7 +67,7 @@ public class UnmaykrBoltEntity extends PersistentProjectileEntity {
 	protected void age() {
 		++this.ticksInAir;
 		if (this.ticksInAir >= 40) {
-			this.remove();
+			this.remove(Entity.RemovalReason.DISCARDED);
 		}
 	}
 
@@ -82,14 +87,14 @@ public class UnmaykrBoltEntity extends PersistentProjectileEntity {
 	}
 
 	@Override
-	public void writeCustomDataToTag(CompoundTag tag) {
-		super.writeCustomDataToTag(tag);
+	public void writeCustomDataToNbt(NbtCompound tag) {
+		super.writeCustomDataToNbt(tag);
 		tag.putShort("life", (short) this.ticksInAir);
 	}
 
 	@Override
-	public void readCustomDataFromTag(CompoundTag tag) {
-		super.readCustomDataFromTag(tag);
+	public void readCustomDataFromNbt(NbtCompound tag) {
+		super.readCustomDataFromNbt(tag);
 		this.ticksInAir = tag.getShort("life");
 	}
 
@@ -99,14 +104,14 @@ public class UnmaykrBoltEntity extends PersistentProjectileEntity {
 		boolean bl = this.isNoClip();
 		Vec3d vec3d = this.getVelocity();
 		if (this.prevPitch == 0.0F && this.prevYaw == 0.0F) {
-			float f = MathHelper.sqrt(squaredHorizontalLength(vec3d));
+			double f = vec3d.horizontalLength();
 			this.yaw = (float) (MathHelper.atan2(vec3d.x, vec3d.z) * 57.2957763671875D);
 			this.pitch = (float) (MathHelper.atan2(vec3d.y, (double) f) * 57.2957763671875D);
 			this.prevYaw = this.yaw;
 			this.prevPitch = this.pitch;
 		}
 		if (this.age >= 600) {
-			this.remove();
+			this.remove(Entity.RemovalReason.DISCARDED);
 		}
 		if (this.inAir && !bl) {
 			this.age();
@@ -120,7 +125,7 @@ public class UnmaykrBoltEntity extends PersistentProjectileEntity {
 			if (((HitResult) hitResult).getType() != HitResult.Type.MISS) {
 				vector3d3 = ((HitResult) hitResult).getPos();
 			}
-			while (!this.removed) {
+			while (!this.isRemoved()) {
 				EntityHitResult entityHitResult = this.getEntityCollision(vec3d3, vector3d3);
 				if (entityHitResult != null) {
 					hitResult = entityHitResult;
@@ -150,7 +155,7 @@ public class UnmaykrBoltEntity extends PersistentProjectileEntity {
 			double h = this.getX() + d;
 			double j = this.getY() + e;
 			double k = this.getZ() + g;
-			float l = MathHelper.sqrt(squaredHorizontalLength(vec3d));
+			double l = vec3d.horizontalLength();
 			if (bl) {
 				this.yaw = (float) (MathHelper.atan2(-d, -g) * 57.2957763671875D);
 			} else {
@@ -201,16 +206,49 @@ public class UnmaykrBoltEntity extends PersistentProjectileEntity {
 	protected void onBlockHit(BlockHitResult blockHitResult) {
 		super.onBlockHit(blockHitResult);
 		if (!this.world.isClient) {
-			this.remove();
+			this.remove(Entity.RemovalReason.DISCARDED);
 		}
 		this.setSound(SoundEvents.ITEM_ARMOR_EQUIP_IRON);
 	}
 
 	@Override
 	protected void onEntityHit(EntityHitResult entityHitResult) {
-		super.onEntityHit(entityHitResult);
-		if (!this.world.isClient) {
-			this.remove();
+		Entity entity = entityHitResult.getEntity();
+		if (entityHitResult.getType() != HitResult.Type.ENTITY
+				|| !((EntityHitResult) entityHitResult).getEntity().isPartOf(entity)) {
+			if (!this.world.isClient) {
+				this.remove(Entity.RemovalReason.DISCARDED);
+			}
+		}
+		Entity entity2 = this.getOwner();
+		DamageSource damageSource2;
+		if (entity2 == null) {
+			damageSource2 = DamageSource.magic(this, this);
+		} else {
+			damageSource2 = DamageSource.magic(this, entity2);
+			if (entity2 instanceof LivingEntity) {
+				((LivingEntity) entity2).onAttacking(entity);
+			}
+		}
+		if (entity.damage(damageSource2, DoomMod.config.weapons.unmaykr_damage)) {
+			if (entity instanceof LivingEntity) {
+				LivingEntity livingEntity = (LivingEntity) entity;
+				if (!this.world.isClient && entity2 instanceof LivingEntity) {
+					EnchantmentHelper.onUserDamaged(livingEntity, entity2);
+					EnchantmentHelper.onTargetDamaged((LivingEntity) entity2, livingEntity);
+				}
+
+				this.onHit(livingEntity);
+				if (entity2 != null && livingEntity != entity2 && livingEntity instanceof PlayerEntity
+						&& entity2 instanceof ServerPlayerEntity && !this.isSilent()) {
+					((ServerPlayerEntity) entity2).networkHandler.sendPacket(
+							new GameStateChangeS2CPacket(GameStateChangeS2CPacket.PROJECTILE_HIT_PLAYER, 0.0F));
+				}
+			}
+		} else {
+			if (!this.world.isClient) {
+				this.remove(Entity.RemovalReason.DISCARDED);
+			}
 		}
 	}
 

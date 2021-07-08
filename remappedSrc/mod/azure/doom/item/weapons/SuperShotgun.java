@@ -18,7 +18,6 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Hand;
-import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.network.GeckoLibNetwork;
 import software.bernie.geckolib3.util.GeckoLibUtil;
@@ -42,21 +41,23 @@ public class SuperShotgun extends DoomBaseItem {
 				playerentity.getItemCooldownManager().set(this, 24);
 				if (!worldIn.isClient) {
 					ShotgunShellEntity abstractarrowentity = createArrow(worldIn, stack, playerentity);
-					abstractarrowentity.setProperties(playerentity, playerentity.pitch, playerentity.yaw, 0.0F,
+					abstractarrowentity.setProperties(playerentity, playerentity.pitch, playerentity.yaw + 1, 0.0F,
 							1.0F * 3.0F, 1.0F);
-
-					abstractarrowentity.setDamage(7.6);
+					worldIn.spawnEntity(abstractarrowentity);
+					ShotgunShellEntity abstractarrowentity1 = createArrow(worldIn, stack, playerentity);
+					abstractarrowentity1.setProperties(playerentity, playerentity.pitch, playerentity.yaw - 1, 0.0F,
+							1.0F * 3.0F, 1.0F);
+					worldIn.spawnEntity(abstractarrowentity1);
 
 					stack.damage(2, entityLiving, p -> p.sendToolBreakStatus(entityLiving.getActiveHand()));
-					worldIn.spawnEntity(abstractarrowentity);
 					worldIn.playSound((PlayerEntity) null, playerentity.getX(), playerentity.getY(),
 							playerentity.getZ(), ModSoundEvents.SUPER_SHOTGUN_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F);
-				}
-				if (!worldIn.isClient) {
-					final int id = GeckoLibUtil.guaranteeIDForStack(stack, (ServerWorld) worldIn);
-					GeckoLibNetwork.syncAnimation(playerentity, this, id, ANIM_OPEN);
-					for (PlayerEntity otherPlayer : PlayerLookup.tracking(playerentity)) {
-						GeckoLibNetwork.syncAnimation(otherPlayer, this, id, ANIM_OPEN);
+					if (!worldIn.isClient) {
+						final int id = GeckoLibUtil.guaranteeIDForStack(stack, (ServerWorld) worldIn);
+						GeckoLibNetwork.syncAnimation(playerentity, this, id, ANIM_OPEN);
+						for (PlayerEntity otherPlayer : PlayerLookup.tracking(playerentity)) {
+							GeckoLibNetwork.syncAnimation(otherPlayer, this, id, ANIM_OPEN);
+						}
 					}
 				}
 			}
@@ -73,14 +74,10 @@ public class SuperShotgun extends DoomBaseItem {
 		return f;
 	}
 
-	@Override
-	public UseAction getUseAction(ItemStack stack) {
-		return UseAction.BOW;
-	}
-
 	public void reload(PlayerEntity user, Hand hand) {
 		if (user.getStackInHand(hand).getItem() instanceof SuperShotgun) {
-			while (user.getStackInHand(hand).getDamage() != 0 && user.inventory.count(DoomItems.SHOTGUN_SHELLS) > 0) {
+			while (user.getStackInHand(hand).getDamage() != 0
+					&& user.getInventory().count(DoomItems.SHOTGUN_SHELLS) > 0) {
 				removeAmmo(DoomItems.SHOTGUN_SHELLS, user);
 				user.getStackInHand(hand).damage(-4, user, s -> user.sendToolBreakStatus(hand));
 				user.getStackInHand(hand).setCooldown(3);

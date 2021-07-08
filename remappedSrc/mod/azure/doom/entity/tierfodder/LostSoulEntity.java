@@ -138,7 +138,7 @@ public class LostSoulEntity extends DemonEntity implements Monster, IAnimatable 
 			this.setVelocity(this.getVelocity().multiply((double) f));
 		}
 
-		this.method_29242(this, false);
+		this.updateLimbs(this, false);
 	}
 
 	public boolean isClimbing() {

@@ -7,10 +7,8 @@ import java.util.SplittableRandom;
 import org.jetbrains.annotations.Nullable;
 
 import mod.azure.doom.entity.DemonEntity;
-import mod.azure.doom.entity.projectiles.entity.ArchvileFiring;
+import mod.azure.doom.entity.projectiles.entity.DoomFireEntity;
 import mod.azure.doom.util.ModSoundEvents;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.AreaEffectCloudEntity;
 import net.minecraft.entity.Entity;
@@ -29,14 +27,11 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.boss.ServerBossBar;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
@@ -60,9 +55,6 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class IconofsinEntity extends DemonEntity implements IAnimatable {
 
-	private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(IconofsinEntity.class,
-			TrackedDataHandlerRegistry.BOOLEAN);
-
 	private final ServerBossBar bossBar = (ServerBossBar) (new ServerBossBar(this.getDisplayName(),
 			BossBar.Color.PURPLE, BossBar.Style.PROGRESS)).setDarkenSky(true).setThickenFog(true);
 
@@ -78,12 +70,8 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 	private AnimationFactory factory = new AnimationFactory(this);
 
 	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-		if (event.isMoving()) {
+		if (event.isMoving() && this.getHealth() > (this.getMaxHealth() * 0.50)) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
-			return PlayState.CONTINUE;
-		}
-		if (this.dataTracker.get(SHOOTING) && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("summoned", false));
 			return PlayState.CONTINUE;
 		}
 		if ((this.dead || this.getHealth() < 0.01 || this.isDead())) {
@@ -92,11 +80,11 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 				return PlayState.CONTINUE;
 			}
 		}
-		if (event.isMoving() && this.getHealth() < 500.0D) {
+		if (event.isMoving() && this.getHealth() < (this.getMaxHealth() * 0.50)) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking_nohelmet", true));
 			return PlayState.CONTINUE;
 		}
-		if (this.getHealth() < 500.0D) {
+		if (this.getHealth() < (this.getMaxHealth() * 0.50)) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("idle_nohelmet", true));
 			return PlayState.CONTINUE;
 		}
@@ -104,9 +92,18 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 		return PlayState.CONTINUE;
 	}
 
+	private <E extends IAnimatable> PlayState predicate1(AnimationEvent<E> event) {
+		if (this.dataTracker.get(STATE) == 1 && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("summoned", true));
+			return PlayState.CONTINUE;
+		}
+		return PlayState.STOP;
+	}
+
 	@Override
 	public void registerControllers(AnimationData data) {
 		data.addAnimationController(new AnimationController<IconofsinEntity>(this, "controller", 0, this::predicate));
+		data.addAnimationController(new AnimationController<IconofsinEntity>(this, "controller1", 0, this::predicate1));
 	}
 
 	@Override
@@ -118,28 +115,12 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 	protected void updatePostDeath() {
 		++this.deathTime;
 		if (this.deathTime == 50) {
-			this.remove();
-			if (world.isClient) {
-			}
+			this.remove(Entity.RemovalReason.KILLED);
 		}
 	}
 
-	@Environment(EnvType.CLIENT)
-	public boolean isShooting() {
-		return (Boolean) this.dataTracker.get(SHOOTING);
-	}
-
-	public void setShooting(boolean shooting) {
-		this.dataTracker.set(SHOOTING, shooting);
-	}
-
-	protected void initDataTracker() {
-		super.initDataTracker();
-		this.dataTracker.startTracking(SHOOTING, false);
-	}
-
 	@Override
-	public boolean handleFallDamage(float fallDistance, float damageMultiplier) {
+	public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
 		return false;
 	}
 
@@ -168,7 +149,7 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 
 	static class ShootFireballGoal extends Goal {
 		private final IconofsinEntity parentEntity;
-		public int cooldown;
+		protected int cooldown = 0;
 
 		public ShootFireballGoal(IconofsinEntity parentEntity) {
 			this.parentEntity = parentEntity;
@@ -179,18 +160,23 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 		}
 
 		public void start() {
+			super.start();
+			this.parentEntity.setAttacking(true);
 			this.cooldown = 0;
+			this.parentEntity.setAttackingState(0);
 		}
 
-		public void resetTask() {
-			this.parentEntity.setShooting(false);
+		@Override
+		public void stop() {
+			super.stop();
+			this.parentEntity.setAttacking(false);
+			this.parentEntity.setAttackingState(0);
 		}
 
 		public void tick() {
 			LivingEntity livingEntity = this.parentEntity.getTarget();
 			if (livingEntity != null) {
-				if (livingEntity.squaredDistanceTo(this.parentEntity) < 4096.0D
-						&& this.parentEntity.canSee(livingEntity)) {
+				if (this.parentEntity.canSee(livingEntity)) {
 					++this.cooldown;
 					Random rand = new Random();
 					double d = Math.min(livingEntity.getY(), parentEntity.getY());
@@ -204,46 +190,51 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 
 							SplittableRandom random = new SplittableRandom();
 							boolean r = random.nextInt(1, 101) <= 20;
-							if (r) {
-								for (j = 15; j < 55; ++j) {
-									h2 = f2 + (float) j * 3.1415927F * 0.4F;
-									parentEntity.spawnFlames(
-											parentEntity.getX()
-													+ (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
-											parentEntity.getZ()
-													+ (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
-											d, e1, h2, 0);
-									parentEntity.spawnFlames(
-											parentEntity.getX()
-													+ (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
-											parentEntity.getZ()
-													+ (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
-											d, e1, h2, 0);
-									parentEntity.spawnFlames(
-											parentEntity.getX()
-													+ (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
-											parentEntity.getZ()
-													+ (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
-											d, e1, h2, 0);
-									parentEntity.spawnFlames(
-											parentEntity.getX()
-													+ (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
-											parentEntity.getZ()
-													+ (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
-											d, e1, h2, 0);
-									parentEntity.spawnFlames(
-											parentEntity.getX()
-													+ (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
-											parentEntity.getZ()
-													+ (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
-											d, e1, h2, 0);
+							if (parentEntity.distanceTo(livingEntity) < 13.0D) {
+								if (r) {
+									for (j = 15; j < 55; ++j) {
+										h2 = f2 + (float) j * 3.1415927F * 0.4F;
+										parentEntity.spawnFlames(
+												parentEntity.getX()
+														+ (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
+												parentEntity.getZ()
+														+ (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
+												d, e1, h2, 0);
+										parentEntity.spawnFlames(
+												parentEntity.getX()
+														+ (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
+												parentEntity.getZ()
+														+ (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
+												d, e1, h2, 0);
+										parentEntity.spawnFlames(
+												parentEntity.getX()
+														+ (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
+												parentEntity.getZ()
+														+ (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
+												d, e1, h2, 0);
+										parentEntity.spawnFlames(
+												parentEntity.getX()
+														+ (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
+												parentEntity.getZ()
+														+ (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
+												d, e1, h2, 0);
+										parentEntity.spawnFlames(
+												parentEntity.getX()
+														+ (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
+												parentEntity.getZ()
+														+ (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
+												d, e1, h2, 0);
+									}
+								} else {
+									this.parentEntity.doDamage();
 								}
-							} else {
-								this.parentEntity.doDamage();
+								this.parentEntity.setAttackingState(1);
 							}
-							this.parentEntity.setAttacking(this.cooldown >= 15);
-							this.cooldown = -35;
 						}
+					}
+					if (this.cooldown == 45) {
+						this.parentEntity.setAttackingState(0);
+						this.cooldown = -135;
 					}
 				} else if (this.cooldown > 0) {
 					--this.cooldown;
@@ -265,12 +256,12 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 		Vec3d vec3d = new Vec3d(this.getX(), this.getY(), this.getZ());
 		for (int x = 0; x < list.size(); ++x) {
 			Entity entity = (Entity) list.get(x);
-			double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d)) / q);
+			double y = (double) (MathHelper.sqrt((float) entity.squaredDistanceTo(vec3d)) / q);
 			if (y <= 1.0D) {
 				if (entity instanceof LivingEntity) {
 					entity.damage(DamageSource.magic(this, this.getTarget()), 7);
 					if (!this.world.isClient) {
-						List<LivingEntity> list1 = this.world.getEntitiesIncludingUngeneratedChunks(LivingEntity.class,
+						List<LivingEntity> list1 = this.world.getNonSpectatingEntities(LivingEntity.class,
 								this.getBoundingBox().expand(4.0D, 2.0D, 4.0D));
 						AreaEffectCloudEntity areaeffectcloudentity = new AreaEffectCloudEntity(entity.world,
 								entity.getX(), entity.getY(), entity.getZ());
@@ -316,7 +307,7 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 		} while (blockPos.getY() >= MathHelper.floor(maxY) - 1);
 
 		if (bl) {
-			ArchvileFiring fang = new ArchvileFiring(this.world, x, (double) blockPos.getY() + d, z, yaw, warmup, this);
+			DoomFireEntity fang = new DoomFireEntity(this.world, x, (double) blockPos.getY() + d, z, yaw, warmup, this);
 			fang.setFireTicks(age);
 			fang.isInvisible();
 			this.world.spawnEntity(fang);
@@ -379,8 +370,8 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 	}
 
 	@Override
-	public void readCustomDataFromTag(CompoundTag tag) {
-		super.readCustomDataFromTag(tag);
+	public void readCustomDataFromNbt(NbtCompound tag) {
+		super.readCustomDataFromNbt(tag);
 		if (this.hasCustomName()) {
 			this.bossBar.setName(this.getDisplayName());
 		}
@@ -405,29 +396,46 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 
 	@Override
 	public int getArmor() {
-		float health = this.getHealth();
-		return (health < 950 && health >= 900 ? 27
-				: health < 900 && health >= 850 ? 24
-						: health < 850 && health >= 800 ? 21
-								: health < 800 && health >= 750 ? 18
-										: health < 750 && health >= 700 ? 15
-												: health < 700 && health >= 650 ? 12
-														: health < 650 && health >= 600 ? 9
-																: health < 600 && health >= 550 ? 6
-																		: health < 550 && health >= 500 ? 3
-																				: health < 500 ? 0 : 30);
+		float currentHealth = this.getHealth();
+		float maxHealth = this.getHealth();
+		return (currentHealth < (maxHealth * 0.95) && currentHealth >= (maxHealth * 0.90) ? 27
+				: currentHealth < (maxHealth * 0.90) && currentHealth >= (maxHealth * 0.85) ? 24
+						: currentHealth < (maxHealth * 0.85) && currentHealth >= (maxHealth * 0.80) ? 21
+								: currentHealth < (maxHealth * 0.80) && currentHealth >= (maxHealth * 0.75) ? 18
+										: currentHealth < (maxHealth * 0.75) && currentHealth >= (maxHealth * 0.70) ? 15
+												: currentHealth < (maxHealth * 0.70)
+														&& currentHealth >= (maxHealth * 0.65)
+																? 12
+																: currentHealth < (maxHealth * 0.65)
+																		&& currentHealth >= (this.getMaxHealth() * 0.60)
+																				? 9
+																				: currentHealth < (this.getMaxHealth()
+																						* 0.60)
+																						&& currentHealth >= (this
+																								.getMaxHealth() * 0.55)
+																										? 6
+																										: currentHealth < (this
+																												.getMaxHealth()
+																												* 0.55)
+																												&& currentHealth >= (this
+																														.getMaxHealth()
+																														* 0.50) ? 3
+																																: currentHealth < (this
+																																		.getMaxHealth()
+																																		* 0.50) ? 0
+																																				: 30);
 	}
 
 	@Override
 	public void tickMovement() {
 		super.tickMovement();
 		++this.age;
-		if (this.getHealth() > 500.0D) {
+		if (this.getHealth() > (this.getMaxHealth() * 0.50)) {
 			if (!this.world.isClient) {
 				this.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 1000000, 1));
 			}
 		}
-		if (this.getHealth() < 500.0D) {
+		if (this.getHealth() < (this.getMaxHealth() * 0.50)) {
 			if (!this.world.isClient) {
 				this.removeStatusEffect(StatusEffects.STRENGTH);
 				this.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 10000000, 2));

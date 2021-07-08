@@ -223,15 +223,15 @@ public class GunTableScreen extends HandledScreen<GunTableScreenHandler> {
 				ItemStack stack;
 				if (mouseX < this.x + 20) {
 					stack = handler.getRecipes().get(this.index + indexStartOffset).getOutput();
-					renderTooltip(matrices, stack, mouseX, mouseY);
+					renderTooltip(matrices, mouseX, mouseY);
 				} else if (mouseX < this.x + 50 && mouseX > this.x + 30) {
 					stack = handler.getRecipes().get(this.index + indexStartOffset).getOutput();
 					if (!stack.isEmpty()) {
-						renderTooltip(matrices, stack, mouseX, mouseY);
+						renderTooltip(matrices, mouseX, mouseY);
 					}
 				} else if (mouseX > this.x + 65) {
 					stack = handler.getRecipes().get(this.index + indexStartOffset).getOutput();
-					renderTooltip(matrices, stack, mouseX, mouseY);
+					renderTooltip(matrices, mouseX, mouseY);
 				}
 			}
 		}

@@ -29,6 +29,8 @@ public class ModSoundEvents {
 	public static SoundEvent PISTOL_HIT = of("doom.pistol_fire");
 
 	public static SoundEvent SHOTGUN_SHOOT = of("doom.shotgun_fire");
+	public static SoundEvent SHOTGUNRELOAD = of("doom.shotgunreload");
+	public static SoundEvent CLIPRELOAD = of("doom.clipreload");
 
 	public static SoundEvent SUPER_SHOTGUN_SHOOT = of("doom.super_shotgun_fire");
 
@@ -137,6 +139,11 @@ public class ModSoundEvents {
 	public static SoundEvent MAKYR_AMBIENT = of("doom.maykr_ambient");
 	public static SoundEvent MAKYR_DEATH = of("doom.maykr_death");
 	public static SoundEvent MAKYR_HURT = of("doom.maykr_hurt");
+
+	public static SoundEvent MOTHER_AMBIENT = of("doom.mother_ambient");
+	public static SoundEvent MOTHER_DEATH = of("doom.mother_death");
+	public static SoundEvent MOTHER_ATTACK = of("doom.mother_attack");
+	public static SoundEvent MOTHER_HURT = of("doom.mother_pain");
 
 	static SoundEvent of(String id) {
 		SoundEvent sound = new SoundEvent(new Identifier(DoomMod.MODID, id));

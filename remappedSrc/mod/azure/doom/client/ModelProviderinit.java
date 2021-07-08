@@ -10,77 +10,77 @@ public class ModelProviderinit {
 	public static void init() {
 		// Crucible
 		FabricModelPredicateProviderRegistry.register(DoomItems.CRUCIBLESWORD, new Identifier("broken"),
-				(itemStack, clientWorld, livingEntity) -> {
+				(itemStack, clientWorld, livingEntity, seed) -> {
 					return isUsable(itemStack) ? 0.0F : 1.0F;
 				});
 		// Marauder Axe
 		FabricModelPredicateProviderRegistry.register(DoomItems.AXE_OPEN, new Identifier("broken"),
-				(itemStack, clientWorld, livingEntity) -> {
+				(itemStack, clientWorld, livingEntity, seed) -> {
 					return itemStack.getDamage() < itemStack.getMaxDamage() - 1 ? 0.0F : 1.0F;
 				});
 		FabricModelPredicateProviderRegistry.register(DoomItems.AXE_OPEN, new Identifier("pull"),
-				(itemStack, clientWorld, livingEntity) -> {
+				(itemStack, clientWorld, livingEntity, seed) -> {
 					return 0.0F;
 				});
 		FabricModelPredicateProviderRegistry.register(DoomItems.SG, new Identifier("pull"),
-				(p_239429_0_, p_239429_1_, p_239429_2_) -> {
-					if (p_239429_2_ == null) {
+				(itemStack, clientWorld, livingEntity, seed) -> {
+					if (livingEntity == null) {
 						return 0.0F;
 					} else {
 						return 0.0F;
 					}
 				});
 		FabricModelPredicateProviderRegistry.register(DoomItems.SSG, new Identifier("pull"),
-				(p_239429_0_, p_239429_1_, p_239429_2_) -> {
-					if (p_239429_2_ == null) {
+				(itemStack, clientWorld, livingEntity, seed) -> {
+					if (livingEntity == null) {
 						return 0.0F;
 					} else {
 						return 0.0F;
 					}
 				});
 		FabricModelPredicateProviderRegistry.register(DoomItems.UNMAYKR, new Identifier("pull"),
-				(p_239429_0_, p_239429_1_, p_239429_2_) -> {
-					if (p_239429_2_ == null) {
+				(itemStack, clientWorld, livingEntity, seed) -> {
+					if (livingEntity == null) {
 						return 0.0F;
 					} else {
 						return 0.0F;
 					}
 				});
 		FabricModelPredicateProviderRegistry.register(DoomItems.ROCKETLAUNCHER, new Identifier("pull"),
-				(p_239429_0_, p_239429_1_, p_239429_2_) -> {
-					if (p_239429_2_ == null) {
+				(itemStack, clientWorld, livingEntity, seed) -> {
+					if (livingEntity == null) {
 						return 0.0F;
 					} else {
 						return 0.0F;
 					}
 				});
 		FabricModelPredicateProviderRegistry.register(DoomItems.PLASMAGUN, new Identifier("pull"),
-				(p_239429_0_, p_239429_1_, p_239429_2_) -> {
-					if (p_239429_2_ == null) {
+				(itemStack, clientWorld, livingEntity, seed) -> {
+					if (livingEntity == null) {
 						return 0.0F;
 					} else {
 						return 0.0F;
 					}
 				});
 		FabricModelPredicateProviderRegistry.register(DoomItems.PISTOL, new Identifier("pull"),
-				(p_239429_0_, p_239429_1_, p_239429_2_) -> {
-					if (p_239429_2_ == null) {
+				(itemStack, clientWorld, livingEntity, seed) -> {
+					if (livingEntity == null) {
 						return 0.0F;
 					} else {
 						return 0.0F;
 					}
 				});
 		FabricModelPredicateProviderRegistry.register(DoomItems.HEAVYCANNON, new Identifier("pull"),
-				(p_239429_0_, p_239429_1_, p_239429_2_) -> {
-					if (p_239429_2_ == null) {
+				(itemStack, clientWorld, livingEntity, seed) -> {
+					if (livingEntity == null) {
 						return 0.0F;
 					} else {
 						return 0.0F;
 					}
 				});
 		FabricModelPredicateProviderRegistry.register(DoomItems.BFG_ETERNAL, new Identifier("pull"),
-				(p_239429_0_, p_239429_1_, p_239429_2_) -> {
-					if (p_239429_2_ == null) {
+				(itemStack, clientWorld, livingEntity, seed) -> {
+					if (livingEntity == null) {
 						return 0.0F;
 					} else {
 						return 0.0F;

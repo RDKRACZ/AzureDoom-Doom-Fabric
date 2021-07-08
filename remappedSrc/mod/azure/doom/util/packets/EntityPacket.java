@@ -17,7 +17,7 @@ public class EntityPacket {
 		PacketByteBuf buf = createBuffer();
 		buf.writeVarInt(Registry.ENTITY_TYPE.getRawId(entity.getType()));
 		buf.writeUuid(entity.getUuid());
-		buf.writeVarInt(entity.getEntityId());
+		buf.writeVarInt(entity.getId());
 		buf.writeDouble(entity.getX());
 		buf.writeDouble(entity.getY());
 		buf.writeDouble(entity.getZ());

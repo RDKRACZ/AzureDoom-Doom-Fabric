@@ -6,6 +6,7 @@ import mod.azure.doom.entity.DemonEntity;
 import mod.azure.doom.util.ModSoundEvents;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
@@ -18,7 +19,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -35,9 +36,7 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class ArchMakyrEntity extends DemonEntity implements IAnimatable {
-	
-	private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(ArchMakyrEntity.class,
-			TrackedDataHandlerRegistry.BOOLEAN);
+
 	private AnimationFactory factory = new AnimationFactory(this);
 	public static final TrackedData<Integer> VARIANT = DataTracker.registerData(ArchMakyrEntity.class,
 			TrackedDataHandlerRegistry.INTEGER);
@@ -51,10 +50,6 @@ public class ArchMakyrEntity extends DemonEntity implements IAnimatable {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
 			return PlayState.CONTINUE;
 		}
-		if (this.dataTracker.get(SHOOTING) && !((this.dead || this.getHealth() < 0.01 || this.isDead()))) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking", true));
-			return PlayState.CONTINUE;
-		}
 		if ((this.dead || this.getHealth() < 0.01 || this.isDead())) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("death", false));
 			return PlayState.CONTINUE;
@@ -63,9 +58,18 @@ public class ArchMakyrEntity extends DemonEntity implements IAnimatable {
 		return PlayState.CONTINUE;
 	}
 
+	private <E extends IAnimatable> PlayState predicate1(AnimationEvent<E> event) {
+		if (this.dataTracker.get(STATE) == 1 && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking", true));
+			return PlayState.CONTINUE;
+		}
+		return PlayState.STOP;
+	}
+
 	@Override
 	public void registerControllers(AnimationData data) {
 		data.addAnimationController(new AnimationController<ArchMakyrEntity>(this, "controller", 0, this::predicate));
+		data.addAnimationController(new AnimationController<ArchMakyrEntity>(this, "controller1", 0, this::predicate1));
 	}
 
 	@Override
@@ -77,38 +81,27 @@ public class ArchMakyrEntity extends DemonEntity implements IAnimatable {
 	protected void updatePostDeath() {
 		++this.deathTime;
 		if (this.deathTime == 50) {
-			this.remove();
+			this.remove(Entity.RemovalReason.KILLED);
 			if (world.isClient) {
 			}
 		}
 	}
 
-	@Environment(EnvType.CLIENT)
-	public boolean isShooting() {
-		return (Boolean) this.dataTracker.get(SHOOTING);
-	}
-
-	@Override
-	public void setShooting(boolean shooting) {
-		this.dataTracker.set(SHOOTING, shooting);
-	}
-
 	protected void initDataTracker() {
 		super.initDataTracker();
-		this.dataTracker.startTracking(SHOOTING, false);
 		this.dataTracker.startTracking(VARIANT, 0);
 	}
 
 	@Override
-	public void readCustomDataFromTag(CompoundTag tag) {
-		super.readCustomDataFromTag(tag);
-		this.setVariant(tag.getInt("Variant"));
+	public void writeCustomDataToNbt(NbtCompound tag) {
+		super.writeCustomDataToNbt(tag);
+		tag.putInt("Variant", this.getVariant());
 	}
 
 	@Override
-	public void writeCustomDataToTag(CompoundTag tag) {
-		super.writeCustomDataToTag(tag);
-		tag.putInt("Variant", this.getVariant());
+	public void readCustomDataFromNbt(NbtCompound tag) {
+		super.readCustomDataFromNbt(tag);
+		this.setVariant(tag.getInt("Variant"));
 	}
 
 	public int getVariant() {
@@ -138,7 +131,7 @@ public class ArchMakyrEntity extends DemonEntity implements IAnimatable {
 
 	@Override
 	public EntityData initialize(ServerWorldAccess serverWorldAccess, LocalDifficulty difficulty,
-			SpawnReason spawnReason, EntityData entityData, CompoundTag entityTag) {
+			SpawnReason spawnReason, EntityData entityData, NbtCompound entityTag) {
 		entityData = super.initialize(serverWorldAccess, difficulty, spawnReason, entityData, entityTag);
 		this.setVariant(this.random.nextInt());
 		return entityData;
@@ -174,6 +167,5 @@ public class ArchMakyrEntity extends DemonEntity implements IAnimatable {
 	public int getLimitPerChunk() {
 		return 1;
 	}
-
 
 }

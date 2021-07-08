@@ -5,15 +5,15 @@ import mod.azure.doom.entity.projectiles.ShotgunShellEntity;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import software.bernie.geckolib3.renderer.geo.GeoProjectilesRenderer;
+import software.bernie.geckolib3.renderers.geo.GeoProjectilesRenderer;
 
 public class ShotgunShellRender extends GeoProjectilesRenderer<ShotgunShellEntity> {
 
-	public ShotgunShellRender(EntityRenderDispatcher renderManagerIn) {
+	public ShotgunShellRender(EntityRendererFactory.Context renderManagerIn) {
 		super(renderManagerIn, new ShellModel());
 	}
 
@@ -34,7 +34,6 @@ public class ShotgunShellRender extends GeoProjectilesRenderer<ShotgunShellEntit
 			int packedOverlayIn, float red, float green, float blue, float partialTicks) {
 		super.renderEarly(animatable, stackIn, ticks, renderTypeBuffer, vertexBuilder, packedLightIn, packedOverlayIn,
 				red, green, blue, partialTicks);
-		stackIn.scale(animatable.age > 2 ? 1F : 0.0F, animatable.age > 2 ? 1F : 0.0F,
-				animatable.age > 2 ? 1F : 0.0F);
+		stackIn.scale(animatable.age > 2 ? 1F : 0.0F, animatable.age > 2 ? 1F : 0.0F, animatable.age > 2 ? 1F : 0.0F);
 	}
 }

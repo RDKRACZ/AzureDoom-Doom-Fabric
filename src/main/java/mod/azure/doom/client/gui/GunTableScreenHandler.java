@@ -70,7 +70,7 @@ public class GunTableScreenHandler extends ScreenHandler {
 			}
 
 			craftingInventory.setStack(5, itemStack);
-			serverPlayerEntity.networkHandler.sendPacket(new ScreenHandlerSlotUpdateS2CPacket(syncId, 5, itemStack));
+			serverPlayerEntity.networkHandler.sendPacket(new ScreenHandlerSlotUpdateS2CPacket(syncId, 0, 5, itemStack));
 		}
 	}
 

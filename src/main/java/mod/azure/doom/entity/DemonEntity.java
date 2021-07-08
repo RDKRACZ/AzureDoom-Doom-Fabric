@@ -11,7 +11,6 @@ import mod.azure.doom.util.packets.EntityPacket;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.Durations;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -20,6 +19,7 @@ import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.network.Packet;
 import net.minecraft.tag.FluidTags;
+import net.minecraft.util.TimeHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.Difficulty;
@@ -32,7 +32,7 @@ public class DemonEntity extends HostileEntity implements Angerable {
 			TrackedDataHandlerRegistry.INTEGER);
 	public static final TrackedData<Integer> STATE = DataTracker.registerData(DemonEntity.class,
 			TrackedDataHandlerRegistry.INTEGER);
-	private static final UniformIntProvider ANGER_TIME_RANGE = Durations.betweenSeconds(20, 39);
+	private static final UniformIntProvider ANGER_TIME_RANGE = TimeHelper.betweenSeconds(20, 39);
 	private UUID targetUuid;
 
 	public static MobStats config = DoomMod.config.stats;

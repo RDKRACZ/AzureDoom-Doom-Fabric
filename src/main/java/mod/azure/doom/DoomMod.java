@@ -143,6 +143,11 @@ public class DoomMod implements ModInitializer {
 				(context) -> RegistrationHelper.addStructure(context, DoomConfiguredStructures.CONFIGURED_TITAN_SKULL)
 
 		);
+		RegistrationHelper.addToBiome(new Identifier(DoomMod.MODID, "motherdemon_addition"),
+				BiomeSelectors.foundInTheNether().and(BiomeSelectors.foundInTheNether()),
+				(context) -> RegistrationHelper.addStructure(context, DoomConfiguredStructures.CONFIGURED_MOTHERDEMON)
+
+		);
 		// removeStructureSpawningFromSelectedDimension();
 		PacketHandler.registerMessages();
 	}
@@ -155,12 +160,14 @@ public class DoomMod implements ModInitializer {
 				tempMap.keySet().remove(DoomStructures.MAYKR);
 				tempMap.keySet().remove(DoomStructures.TITAN_SKULL);
 				tempMap.keySet().remove(DoomStructures.PORTAL);
+				tempMap.keySet().remove(DoomStructures.MOTHERDEMON);
 			}
 			if (!serverWorld.getRegistryKey().getValue().getPath().equals("the_end")) {
 				tempMap.keySet().remove(DoomStructures.MAYKR);
 			}
 			if (!serverWorld.getRegistryKey().getValue().getPath().equals("the_nether")) {
 				tempMap.keySet().remove(DoomStructures.TITAN_SKULL);
+				tempMap.keySet().remove(DoomStructures.MOTHERDEMON);
 			}
 			if ((serverWorld.getRegistryKey().getValue().getPath().equals("the_nether"))
 					|| serverWorld.getRegistryKey().getValue().getPath().equals("the_end")) {

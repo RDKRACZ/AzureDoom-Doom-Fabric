@@ -35,7 +35,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -133,10 +133,9 @@ public class ZombiemanEntity extends DemonEntity implements RangedAttackMob, IAn
 		this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(DoomItems.PISTOL));
 	}
 
-	
 	@Override
 	public EntityData initialize(ServerWorldAccess serverWorldAccess, LocalDifficulty difficulty,
-			SpawnReason spawnReason, EntityData entityData, CompoundTag entityTag) {
+			SpawnReason spawnReason, EntityData entityData, NbtCompound entityTag) {
 		entityData = super.initialize(serverWorldAccess, difficulty, spawnReason, entityData, entityTag);
 		this.initEquipment(difficulty);
 		this.updateAttackType();
@@ -181,7 +180,7 @@ public class ZombiemanEntity extends DemonEntity implements RangedAttackMob, IAn
 		double d = target.getX() - this.getX();
 		double e = target.getBodyY(0.3333333333333333D) - BulletEntity.getY();
 		double f = target.getZ() - this.getZ();
-		double g = (double) MathHelper.sqrt(d * d + f * f);
+		float g = MathHelper.sqrt((float) (d * d + f * f));
 		BulletEntity.setVelocity(d, e + g * 0.05F, f, 1.6F, 0.0F);
 		this.playSound(ModSoundEvents.PISTOL_HIT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
 		this.world.spawnEntity(BulletEntity);
@@ -204,8 +203,9 @@ public class ZombiemanEntity extends DemonEntity implements RangedAttackMob, IAn
 		return persistentProjectileEntity;
 	}
 
-	public void readCustomDataFromTag(CompoundTag tag) {
-		super.readCustomDataFromTag(tag);
+	@Override
+	public void readCustomDataFromNbt(NbtCompound tag) {
+		super.readCustomDataFromNbt(tag);
 		this.updateAttackType();
 	}
 

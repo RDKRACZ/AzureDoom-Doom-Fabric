@@ -95,7 +95,7 @@ public class PortalStructure extends StructureFeature<DefaultFeatureConfig> {
 					() -> registryManager.get(Registry.STRUCTURE_POOL_KEY)
 							.get(new Identifier(DoomMod.MODID, "portal/start_pool")),
 					10);
-			StructurePoolBasedGenerator.method_30419(registryManager, structureSettingsAndStartPool,
+			StructurePoolBasedGenerator.generate(registryManager, structureSettingsAndStartPool,
 					PoolStructurePiece::new, chunkGenerator, manager, blockpos, this, this.random, false, true, world);
 			this.children.forEach(piece -> piece.translate(0, 2, 0));
 			this.children.forEach(piece -> piece.getBoundingBox().minY -= 1);

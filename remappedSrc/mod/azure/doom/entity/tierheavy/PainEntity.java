@@ -13,6 +13,7 @@ import mod.azure.doom.util.registry.ModEntityTypes;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityPose;
@@ -29,9 +30,6 @@ import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -54,9 +52,6 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class PainEntity extends DemonEntity implements Monster, IAnimatable {
 
-	private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(PainEntity.class,
-			TrackedDataHandlerRegistry.BOOLEAN);
-
 	public PainEntity(EntityType<? extends PainEntity> type, World worldIn) {
 		super(type, worldIn);
 		this.moveControl = new PainEntity.GhastMoveControl(this);
@@ -65,7 +60,7 @@ public class PainEntity extends DemonEntity implements Monster, IAnimatable {
 	private AnimationFactory factory = new AnimationFactory(this);
 
 	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-		if (event.isMoving() && !this.dataTracker.get(SHOOTING)) {
+		if (event.isMoving()) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
 			return PlayState.CONTINUE;
 		}
@@ -73,17 +68,22 @@ public class PainEntity extends DemonEntity implements Monster, IAnimatable {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("death", false));
 			return PlayState.CONTINUE;
 		}
-		if (this.dataTracker.get(SHOOTING) && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking", false));
-			return PlayState.CONTINUE;
-		}
 		event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
 		return PlayState.CONTINUE;
+	}
+
+	private <E extends IAnimatable> PlayState predicate1(AnimationEvent<E> event) {
+		if (this.dataTracker.get(STATE) == 1 && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking", true));
+			return PlayState.CONTINUE;
+		}
+		return PlayState.STOP;
 	}
 
 	@Override
 	public void registerControllers(AnimationData data) {
 		data.addAnimationController(new AnimationController<PainEntity>(this, "controller", 0, this::predicate));
+		data.addAnimationController(new AnimationController<PainEntity>(this, "controller1", 0, this::predicate1));
 	}
 
 	@Override
@@ -95,26 +95,12 @@ public class PainEntity extends DemonEntity implements Monster, IAnimatable {
 	protected void updatePostDeath() {
 		++this.deathTime;
 		if (this.deathTime == 60) {
-			this.remove();
+			this.remove(Entity.RemovalReason.KILLED);
 			for (int i = 0; i < 20; ++i) {
 				if (world.isClient) {
 				}
 			}
 		}
-	}
-
-	@Environment(EnvType.CLIENT)
-	public boolean isShooting() {
-		return (Boolean) this.dataTracker.get(SHOOTING);
-	}
-
-	public void setShooting(boolean shooting) {
-		this.dataTracker.set(SHOOTING, shooting);
-	}
-
-	protected void initDataTracker() {
-		super.initDataTracker();
-		this.dataTracker.startTracking(SHOOTING, false);
 	}
 
 	public boolean handleFallDamage(float fallDistance, float damageMultiplier) {
@@ -152,7 +138,7 @@ public class PainEntity extends DemonEntity implements Monster, IAnimatable {
 			this.setVelocity(this.getVelocity().multiply((double) f));
 		}
 
-		this.method_29242(this, false);
+		this.updateLimbs(this, false);
 	}
 
 	public boolean isClimbing() {
@@ -177,7 +163,7 @@ public class PainEntity extends DemonEntity implements Monster, IAnimatable {
 		this.goalSelector.add(5, new RandomFlyConvergeOnTargetGoal(this, 2, 15, 0.5));
 		this.goalSelector.add(7, new PainEntity.LookAtTargetGoal(this));
 		this.goalSelector.add(4, new PainEntity.ShootFireballGoal(this));
-		this.goalSelector.add(4, new DemonAttackGoal(this, 1.0D, false));
+		this.goalSelector.add(4, new DemonAttackGoal(this, 1.0D, false, 2));
 		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
 		this.targetSelector.add(1, new FollowTargetGoal<>(this, PlayerEntity.class, 10, true, false, (p_213812_1_) -> {
 			return Math.abs(p_213812_1_.getY() - this.getY()) <= 4.0D;
@@ -220,8 +206,8 @@ public class PainEntity extends DemonEntity implements Monster, IAnimatable {
 			this.cooldown = 0;
 		}
 
-		public void resetTask() {
-			this.ghast.setShooting(false);
+		public void stop() {
+			this.ghast.setAttackingState(0);
 		}
 
 		public void tick() {
@@ -240,8 +226,7 @@ public class PainEntity extends DemonEntity implements Monster, IAnimatable {
 			} else if (this.cooldown > 0) {
 				--this.cooldown;
 			}
-
-			this.ghast.setShooting(this.cooldown > 10);
+			this.ghast.setAttackingState(cooldown >= 10 ? 1 : 0);
 		}
 	}
 

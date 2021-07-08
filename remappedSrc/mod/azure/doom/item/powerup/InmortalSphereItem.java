@@ -35,7 +35,7 @@ public class InmortalSphereItem extends Item {
 				if (!playerentity.abilities.creativeMode) {
 					stack.decrement(1);
 					if (stack.isEmpty()) {
-						playerentity.inventory.removeOne(stack);
+						playerentity.getInventory().removeOne(stack);
 					}
 				}
 			}

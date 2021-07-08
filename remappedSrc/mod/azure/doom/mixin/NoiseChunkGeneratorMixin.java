@@ -1,7 +1,5 @@
 package mod.azure.doom.mixin;
 
-import java.util.List;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -9,6 +7,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import mod.azure.doom.structures.DoomStructures;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.util.collection.Pool;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.SpawnSettings;
@@ -17,25 +16,38 @@ import net.minecraft.world.gen.chunk.NoiseChunkGenerator;
 
 @Mixin(NoiseChunkGenerator.class)
 public class NoiseChunkGeneratorMixin {
-	@Inject(method = "getEntitySpawnList(Lnet/minecraft/world/biome/Biome;Lnet/minecraft/world/gen/StructureAccessor;Lnet/minecraft/entity/SpawnGroup;Lnet/minecraft/util/math/BlockPos;)Ljava/util/List;", at = @At(value = "HEAD"), cancellable = true)
+	
+	@Inject(at = @At("HEAD"), method = "getEntitySpawnList", cancellable = true)
 	private void structureMobs(Biome biome, StructureAccessor accessor, SpawnGroup group, BlockPos pos,
-			CallbackInfoReturnable<List<SpawnSettings.SpawnEntry>> cir) {
+			CallbackInfoReturnable<Pool<SpawnSettings.SpawnEntry>> cir) {
 
-		List<SpawnSettings.SpawnEntry> list = getStructureSpawns(biome, accessor, group, pos);
+		Pool<SpawnSettings.SpawnEntry> list = getStructureSpawns(biome, accessor, group, pos);
 
 		if (list != null)
 			cir.setReturnValue(list);
 	}
 
-	private static List<SpawnSettings.SpawnEntry> getStructureSpawns(Biome biome, StructureAccessor accessor,
+	private static Pool<SpawnSettings.SpawnEntry> getStructureSpawns(Biome biome, StructureAccessor accessor,
 			SpawnGroup group, BlockPos pos) {
 
 		if (group == SpawnGroup.MONSTER) {
 			if (accessor.getStructureAt(pos, true, DoomStructures.MAYKR).hasChildren()) {
 				return DoomStructures.MAYKR.getMonsterSpawns();
 			}
+			if (accessor.getStructureAt(pos, true, DoomStructures.PORTAL).hasChildren()) {
+				return DoomStructures.MAYKR.getMonsterSpawns();
+			}
+			if (accessor.getStructureAt(pos, true, DoomStructures.TITAN_SKULL).hasChildren()) {
+				return DoomStructures.MAYKR.getMonsterSpawns();
+			}
 		} else if (group == SpawnGroup.CREATURE) {
 			if (accessor.getStructureAt(pos, true, DoomStructures.MAYKR).hasChildren()) {
+				return DoomStructures.MAYKR.getCreatureSpawns();
+			}
+			if (accessor.getStructureAt(pos, true, DoomStructures.PORTAL).hasChildren()) {
+				return DoomStructures.MAYKR.getCreatureSpawns();
+			}
+			if (accessor.getStructureAt(pos, true, DoomStructures.TITAN_SKULL).hasChildren()) {
 				return DoomStructures.MAYKR.getCreatureSpawns();
 			}
 		}

@@ -3,12 +3,12 @@ package mod.azure.doom.entity.tiersuperheavy;
 import java.util.Random;
 
 import mod.azure.doom.entity.DemonEntity;
-import mod.azure.doom.entity.ai.goal.DemonAttackGoal;
-import mod.azure.doom.entity.ai.goal.RangedStaticAttackGoal;
 import mod.azure.doom.entity.attack.AbstractRangedAttack;
 import mod.azure.doom.entity.attack.AttackSound;
+import mod.azure.doom.entity.projectiles.entity.DoomFireEntity;
 import mod.azure.doom.entity.projectiles.entity.RocketMobEntity;
 import mod.azure.doom.util.ModSoundEvents;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
@@ -16,8 +16,10 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.FollowTargetGoal;
+import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.RevengeGoal;
 import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -31,6 +33,10 @@ import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -53,20 +59,48 @@ public class DoomHunterEntity extends DemonEntity implements IAnimatable {
 
 	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 		if (event.isMoving()) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("idle2walking_transition", false)
+					.addAnimation("walking", true));
+			return PlayState.CONTINUE;
+		}
+		if (event.isMoving() && this.getHealth() < (this.getMaxHealth() * 0.50)) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("idle2walkingnosled_transition", false)
+					.addAnimation("walking_nosled", true));
 			return PlayState.CONTINUE;
 		}
 		if ((this.dead || this.getHealth() < 0.01 || this.isDead())) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("death", false));
 			return PlayState.CONTINUE;
 		}
-		event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
+		if (!event.isMoving() && this.getHealth() < (this.getMaxHealth() * 0.50)) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking2idlenosled_transition", false)
+					.addAnimation("idle_nosled", true));
+			return PlayState.CONTINUE;
+		}
+		event.getController().setAnimation(
+				new AnimationBuilder().addAnimation("walking2idle_transition", false).addAnimation("idle", true));
 		return PlayState.CONTINUE;
 	}
 
 	private <E extends IAnimatable> PlayState predicate1(AnimationEvent<E> event) {
 		if (this.dataTracker.get(STATE) == 1 && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking", true));
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("rockets", true));
+			return PlayState.CONTINUE;
+		}
+		if (this.dataTracker.get(STATE) == 2 && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("flamethrower", true));
+			return PlayState.CONTINUE;
+		}
+		if (this.dataTracker.get(STATE) == 3 && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("chainsaw", true));
+			return PlayState.CONTINUE;
+		}
+		if (this.dataTracker.get(STATE) == 4 && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("flamethrower_nosled", true));
+			return PlayState.CONTINUE;
+		}
+		if (this.dataTracker.get(STATE) == 5 && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("chainsaw_nosled", true));
 			return PlayState.CONTINUE;
 		}
 		return PlayState.STOP;
@@ -94,14 +128,178 @@ public class DoomHunterEntity extends DemonEntity implements IAnimatable {
 		this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
 		this.goalSelector.add(6, new LookAroundGoal(this));
 		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
-		this.goalSelector.add(4,
-				new RangedStaticAttackGoal(this, new DoomHunterEntity.FireballAttack(this)
-						.setProjectileOriginOffset(0.8, 0.8, 0.8).setDamage(config.doomhunter_ranged_damage), 60, 20,
-						30F, 1));
-		this.goalSelector.add(4, new DemonAttackGoal(this, 1.0D, false, 2));
+		this.goalSelector.add(4, new DoomHunterEntity.AttackGoal(this));
+		this.goalSelector.add(4, new DoomHunterEntity.DemonAttackGoal(this, 1.0D, false));
 		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]).setGroupRevenge());
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, MerchantEntity.class, true));
+	}
+
+	@Override
+	protected void updateGoalControls() {
+		boolean flag = this.getTarget() != null && this.canSee(this.getTarget());
+		this.goalSelector.setControlEnabled(Goal.Control.LOOK, flag);
+		super.updateGoalControls();
+	}
+
+	static class AttackGoal extends Goal {
+		private final DoomHunterEntity parentEntity;
+		protected int cooldown = 0;
+
+		public AttackGoal(DoomHunterEntity parentEntity) {
+			this.parentEntity = parentEntity;
+		}
+
+		public boolean canStart() {
+			return this.parentEntity.getTarget() != null;
+		}
+
+		public void start() {
+			super.start();
+			this.parentEntity.setAttacking(true);
+			this.cooldown = 0;
+			this.parentEntity.setAttackingState(0);
+		}
+
+		@Override
+		public void stop() {
+			super.stop();
+			this.parentEntity.setAttacking(false);
+			this.parentEntity.setAttackingState(0);
+		}
+
+		public void tick() {
+			LivingEntity livingEntity = this.parentEntity.getTarget();
+			if (livingEntity.squaredDistanceTo(this.parentEntity) < 4096.0D && this.parentEntity.canSee(livingEntity)) {
+				World world = this.parentEntity.world;
+				Vec3d vec3d = this.parentEntity.getRotationVec(1.0F);
+				++this.cooldown;
+				double f = livingEntity.getX() - (this.parentEntity.getX() + vec3d.x * 2.0D);
+				double g = livingEntity.getBodyY(0.5D) - (0.5D + this.parentEntity.getBodyY(0.5D));
+				double h = livingEntity.getZ() - (this.parentEntity.getZ() + vec3d.z * 2.0D);
+				RocketMobEntity fireballEntity = new RocketMobEntity(world, this.parentEntity, f, g, h, 6);
+				double d = Math.min(livingEntity.getY(), parentEntity.getY());
+				double e1 = Math.max(livingEntity.getY(), parentEntity.getY()) + 1.0D;
+				float f2 = (float) MathHelper.atan2(livingEntity.getZ() - parentEntity.getZ(),
+						livingEntity.getX() - parentEntity.getX());
+				int j;
+				if (this.cooldown == 15) {
+					if (parentEntity.getHealth() < (parentEntity.getMaxHealth() * 0.50)) {
+						for (j = 0; j < 16; ++j) {
+							double l1 = 1.25D * (double) (j + 1);
+							int m = 1 * j;
+							parentEntity.spawnFlames(parentEntity.getX() + (double) MathHelper.cos(f2) * l1,
+									parentEntity.getZ() + (double) MathHelper.sin(f2) * l1 + 0.5, d, e1, f2, m);
+							if (parentEntity.getHealth() < (parentEntity.getMaxHealth() * 0.50)) {
+								this.parentEntity.setAttackingState(2);
+							} else {
+								this.parentEntity.setAttackingState(4);
+							}
+						}
+					}
+					if (parentEntity.getHealth() > (parentEntity.getMaxHealth() * 0.50)) {
+						this.parentEntity.setAttackingState(1);
+						fireballEntity.updatePosition(this.parentEntity.getX() + vec3d.x * 2.0D,
+								this.parentEntity.getBodyY(0.5D) + 0.5D, parentEntity.getZ() + vec3d.z * 2.0D);
+						world.spawnEntity(fireballEntity);
+					}
+				}
+				if (this.cooldown == 25) {
+					this.parentEntity.setAttackingState(0);
+					this.cooldown = -150;
+				}
+			} else if (this.cooldown > 0) {
+				--this.cooldown;
+			}
+			this.parentEntity.lookAtEntity(livingEntity, 30.0F, 30.0F);
+		}
+	}
+
+	public void spawnFlames(double x, double z, double maxY, double y, float yaw, int warmup) {
+		BlockPos blockPos = new BlockPos(x, y, z);
+		boolean bl = false;
+		double d = -0.75D;
+		do {
+			BlockPos blockPos2 = blockPos.down();
+			BlockState blockState = this.world.getBlockState(blockPos2);
+			if (blockState.isSideSolidFullSquare(this.world, blockPos2, Direction.UP)) {
+				if (!this.world.isAir(blockPos)) {
+					BlockState blockState2 = this.world.getBlockState(blockPos);
+					VoxelShape voxelShape = blockState2.getCollisionShape(this.world, blockPos);
+					if (!voxelShape.isEmpty()) {
+						d = voxelShape.getMax(Direction.Axis.Y);
+					}
+				}
+				bl = true;
+				break;
+			}
+			blockPos = blockPos.down();
+		} while (blockPos.getY() >= MathHelper.floor(maxY) - 1);
+
+		if (bl) {
+			DoomFireEntity fang = new DoomFireEntity(this.world, x, (double) blockPos.getY() + d, z, yaw, warmup, this);
+			fang.setFireTicks(age);
+			fang.isInvisible();
+			this.world.spawnEntity(fang);
+		}
+	}
+
+	public class DemonAttackGoal extends MeleeAttackGoal {
+		private final DoomHunterEntity actor;
+		private int ticks;
+
+		public DemonAttackGoal(DoomHunterEntity zombie, double speed, boolean pauseWhenMobIdle) {
+			super(zombie, speed, pauseWhenMobIdle);
+			this.actor = zombie;
+		}
+
+		public void start() {
+			super.start();
+			this.ticks = 0;
+		}
+
+		public void stop() {
+			super.stop();
+			this.actor.setAttacking(false);
+			this.actor.setAttackingState(0);
+		}
+
+		@Override
+		public boolean shouldContinue() {
+			return super.shouldContinue();
+		}
+
+		public void tick() {
+			super.tick();
+			++this.ticks;
+			LivingEntity livingEntity = this.actor.getTarget();
+			if (livingEntity != null) {
+				this.actor.getLookControl().lookAt(livingEntity, 90.0F, 30.0F);
+				double d0 = this.mob.squaredDistanceTo(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ());
+				if (livingEntity.squaredDistanceTo(this.actor) < 4.0D) {
+					if (this.ticks >= 5 && this.getCooldown() < this.getMaxCooldown() / 2) {
+						this.actor.setAttacking(true);
+					}
+				}
+				this.attack(livingEntity, d0);
+			}
+		}
+
+		@Override
+		protected void attack(LivingEntity livingentity, double squaredDistance) {
+			double d0 = this.getSquaredMaxAttackDistance(livingentity);
+			if (squaredDistance <= d0 && this.getCooldown() <= 0) {
+				this.resetCooldown();
+				this.actor.setAttackingState(actor.getHealth() < (actor.getMaxHealth() * 0.50) ? 5 : 3);
+				this.actor.tryAttack(livingentity);
+			}
+		}
+
+		@Override
+		protected double getSquaredMaxAttackDistance(LivingEntity entity) {
+			return (double) (this.mob.getWidth() * 1.0F * this.mob.getWidth() * 1.0F + entity.getWidth());
+		}
+
 	}
 
 	public class FireballAttack extends AbstractRangedAttack {

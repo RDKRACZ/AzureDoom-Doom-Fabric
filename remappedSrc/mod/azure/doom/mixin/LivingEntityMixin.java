@@ -1,18 +1,21 @@
 package mod.azure.doom.mixin;
 
-import org.apache.commons.lang3.tuple.ImmutableTriple;
+import java.util.List;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import dev.emi.trinkets.api.SlotReference;
+import dev.emi.trinkets.api.TrinketsApi;
 import mod.azure.doom.util.registry.DoomItems;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
-import top.theillusivec4.curios.api.CuriosApi;
+import net.minecraft.util.Pair;
 
 @Mixin(LivingEntity.class)
 public class LivingEntityMixin {
@@ -23,8 +26,10 @@ public class LivingEntityMixin {
 		if (source.isOutOfWorld()) {
 			ci.setReturnValue(false);
 		} else {
-			ItemStack stack = CuriosApi.getCuriosHelper().findEquippedCurio(DoomItems.SOULCUBE, livingEntity)
-					.map(ImmutableTriple::getRight).orElse(ItemStack.EMPTY);
+			ItemStack stack = TrinketsApi.getTrinketComponent(livingEntity).map(component -> {
+				List<Pair<SlotReference, ItemStack>> res = component.getEquipped(DoomItems.SOULCUBE);
+				return res.size() > 0 ? res.get(0).getRight() : ItemStack.EMPTY;
+			}).orElse(ItemStack.EMPTY);
 
 			if (!stack.isEmpty()) {
 				stack.damage(1, livingEntity, p -> p.sendToolBreakStatus(livingEntity.getActiveHand()));

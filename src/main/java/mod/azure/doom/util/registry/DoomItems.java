@@ -203,6 +203,8 @@ public class DoomItems {
 			new DoomSpawnEgg(ModEntityTypes.MOTHERDEMON));
 	public static DoomSpawnEgg TURRET_SPAWN_EGG = item("turret_spawn_egg",
 			new DoomSpawnEgg(ModEntityTypes.TURRET));
+	public static DoomSpawnEgg SUMMONER_SPAWN_EGG = item("summoner_spawn_egg",
+			new DoomSpawnEgg(ModEntityTypes.SUMMONER));
 
 	// Armor
 	/**

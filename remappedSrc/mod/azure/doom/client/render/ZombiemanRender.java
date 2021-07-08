@@ -1,6 +1,5 @@
 package mod.azure.doom.client.render;
 
-import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
 import mod.azure.doom.client.models.ZombiemanModel;
 import mod.azure.doom.entity.tierfodder.ZombiemanEntity;
 import mod.azure.doom.util.registry.DoomItems;
@@ -8,13 +7,14 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.model.json.ModelTransformation.Mode;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3f;
 import software.bernie.geckolib3.geo.render.built.GeoBone;
+import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 public class ZombiemanRender extends GeoEntityRenderer<ZombiemanEntity> {
 
@@ -22,7 +22,7 @@ public class ZombiemanRender extends GeoEntityRenderer<ZombiemanEntity> {
 	private VertexConsumerProvider rtb;
 	private Identifier whTexture;
 
-	public ZombiemanRender(EntityRenderDispatcher renderManagerIn) {
+	public ZombiemanRender(EntityRendererFactory.Context renderManagerIn) {
 		super(renderManagerIn, new ZombiemanModel());
 	}
 
@@ -48,13 +48,13 @@ public class ZombiemanRender extends GeoEntityRenderer<ZombiemanEntity> {
 			int packedOverlayIn, float red, float green, float blue, float alpha) {
 		if (bone.getName().equals("bipedLeftArm_1")) {
 			stack.push();
-			stack.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(-40));
-			stack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(0));
-			stack.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(-5));
+			stack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-40));
+			stack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(0));
+			stack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(-5));
 			stack.translate(0.30D, 0.90D, 0.3D);
 			stack.scale(1.0f, 1.0f, 1.0f);
 			MinecraftClient.getInstance().getItemRenderer().renderItem(chaingun, Mode.THIRD_PERSON_RIGHT_HAND,
-					packedLightIn, packedOverlayIn, stack, this.rtb);
+					packedLightIn, packedOverlayIn, stack, this.rtb, 0);
 			stack.pop();
 			bufferIn = rtb.getBuffer(RenderLayer.getEntityTranslucent(whTexture));
 		}

@@ -76,7 +76,7 @@ public class TitanSkullStructure extends StructureFeature<DefaultFeatureConfig> 
 					() -> registryManager.get(Registry.STRUCTURE_POOL_KEY)
 							.get(new Identifier(DoomMod.MODID, "titan_skull/start_pool")),
 					10);
-			StructurePoolBasedGenerator.method_30419(registryManager, structureSettingsAndStartPool,
+			StructurePoolBasedGenerator.generate(registryManager, structureSettingsAndStartPool,
 					PoolStructurePiece::new, chunkGenerator, manager, blockpos, this, this.random, false, false, world);
 			this.children.forEach(piece -> piece.translate(0, 1, 0));
 			this.children.forEach(piece -> piece.getBoundingBox().minY -= 1);
