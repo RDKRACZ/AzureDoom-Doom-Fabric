@@ -135,7 +135,7 @@ public class SummonerEntity extends DemonEntity implements IAnimatable {
 						float f = (float) MathHelper.atan2(livingEntity.getZ() - ghast.getZ(),
 								livingEntity.getX() - ghast.getX());
 						int j;
-						if (ghast.squaredDistanceTo(livingEntity) < 13.0D) {
+						if (ghast.squaredDistanceTo(livingEntity) > 13.0D) {
 							for (j = 0; j < 16; ++j) {
 								double l1 = 1.25D * (double) (j + 1);
 								ghast.conjureFangs(ghast.getX() + (double) MathHelper.cos(f) * l1,
@@ -386,7 +386,7 @@ public class SummonerEntity extends DemonEntity implements IAnimatable {
 	@Override
 	protected void updatePostDeath() {
 		++this.deathTime;
-		if (this.deathTime == 50) {
+		if (this.deathTime == 30) {
 			this.remove();
 		}
 	}

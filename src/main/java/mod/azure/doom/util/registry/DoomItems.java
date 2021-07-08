@@ -70,6 +70,7 @@ import mod.azure.doom.item.weapons.HeavyCannon;
 import mod.azure.doom.item.weapons.PistolItem;
 import mod.azure.doom.item.weapons.PlasmaGun;
 import mod.azure.doom.item.weapons.RocketLauncher;
+import mod.azure.doom.item.weapons.SentinelHammerItem;
 import mod.azure.doom.item.weapons.Shotgun;
 import mod.azure.doom.item.weapons.SuperShotgun;
 import mod.azure.doom.item.weapons.SwordCrucibleItem;
@@ -125,6 +126,7 @@ public class DoomItems {
 	public static SwordCrucibleItem CRUCIBLESWORD = item(new SwordCrucibleItem(), "cruciblesword");
 	public static InvisibleSphereItem INVISIBLE = item(new InvisibleSphereItem(), "invisiblesphere");
 	public static ChainsawAnimated CHAINSAW_ETERNAL = item(new ChainsawAnimated(), "chainsaweternal");
+	public static SentinelHammerItem SENTINELHAMMER = item( new SentinelHammerItem(), "sentinelhammer");
 	public static E1M1MusicDisc E1M1_MUSIC_DISC = item(new E1M1MusicDisc(ModSoundEvents.E1M1), "e1m1_music_disc");
 	public static Item GAS_BARREL = item(new Item(new Item.Settings().group(DoomMod.DoomWeaponItemGroup)),
 			"gas_barrel");
@@ -232,8 +234,7 @@ public class DoomItems {
 			new DoomSpawnEgg(ModEntityTypes.TENTACLE));
 	public static DoomSpawnEgg MOTHERDEMON_SPAWN_EGG = item("motherdemon_spawn_egg",
 			new DoomSpawnEgg(ModEntityTypes.MOTHERDEMON));
-	public static DoomSpawnEgg TURRET_SPAWN_EGG = item("turret_spawn_egg",
-			new DoomSpawnEgg(ModEntityTypes.TURRET));
+	public static DoomSpawnEgg TURRET_SPAWN_EGG = item("turret_spawn_egg", new DoomSpawnEgg(ModEntityTypes.TURRET));
 	public static DoomSpawnEgg SUMMONER_SPAWN_EGG = item("summoner_spawn_egg",
 			new DoomSpawnEgg(ModEntityTypes.SUMMONER));
 

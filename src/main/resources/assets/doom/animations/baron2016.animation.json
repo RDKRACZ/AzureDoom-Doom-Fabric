@@ -969,7 +969,7 @@
 				},
 				"thighs": {
 					"position": {
-						"vector": [0, "Math.cos(query.anim_time * 360) * -0.5", 0]
+						"vector": [0, "Math.cos(query.anim_time * 360) * -0.5", "Math.cos(query.anim_time * 360) * -0.5"]
 					}
 				},
 				"chest": {
@@ -1135,7 +1135,7 @@
 				},
 				"thighs": {
 					"position": {
-						"vector": [0, "Math.cos(query.anim_time * 360) * -0.5", 0]
+						"vector": [0, "Math.cos(query.anim_time * 360) * -0.5", "Math.cos(query.anim_time * 360) * -0.5"]
 					}
 				},
 				"chest": {
@@ -1221,7 +1221,7 @@
 				},
 				"thighs": {
 					"position": {
-						"vector": [0, "Math.cos(query.anim_time * 360) * -0.5", 0]
+						"vector": [0, "Math.cos(query.anim_time * 360) * -0.5", "Math.cos(query.anim_time * 360) * -0.5"]
 					}
 				},
 				"chest": {
@@ -1819,6 +1819,40 @@
 						"0.72": {
 							"vector": [0, 0, 20],
 							"easing": "easeInOutSine"
+						}
+					}
+				}
+			}
+		},
+		"ranged_armor": {
+			"loop": true,
+			"animation_length": 0.72,
+			"bones": {
+				"firebornBladeL": {
+					"scale": {
+						"vector": [0, 0, 0]
+					}
+				},
+				"firebornBladeR": {
+					"scale": {
+						"vector": [0, 0, 0]
+					}
+				},
+				"lShoulder": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, -20]
+						},
+						"0.2": {
+							"vector": [-47.5, -57.5, -20],
+							"easing": "easeInOutSine"
+						},
+						"0.44": {
+							"vector": [-47.5, 30, -20],
+							"easing": "easeInOutSine"
+						},
+						"0.72": {
+							"vector": [0, 0, -20]
 						}
 					}
 				}
