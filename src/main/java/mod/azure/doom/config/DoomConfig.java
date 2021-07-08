@@ -187,6 +187,10 @@ public class DoomConfig implements ConfigData {
 		public int armoredbaron_spawn_weight = 4;
 		public int armoredbaron_min_group = 1;
 		public int armoredbaron_max_group = 1;
+
+		public int summoner_spawn_weight = 4;
+		public int summoner_min_group = 1;
+		public int summoner_max_group = 2;
 	}
 
 	public static class MobStats {
@@ -207,6 +211,9 @@ public class DoomConfig implements ConfigData {
 
 		public double archvile_health = 100;
 		public double archvile_melee_damage = 3;
+
+		public double summoner_health = 100;
+		public double summoner_melee_damage = 3;
 
 		public double prowler_health = 15;
 		public double prowler_melee_damage = 4;

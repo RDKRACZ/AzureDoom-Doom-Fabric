@@ -12,7 +12,7 @@ public class FireBaronModel extends AnimatedGeoModel<FireBaronEntity> {
 
 	@Override
 	public Identifier getModelLocation(FireBaronEntity object) {
-		return new Identifier(DoomMod.MODID, "geo/firebaron.geo.json");
+		return new Identifier(DoomMod.MODID, "geo/baron2016.geo.json");
 	}
 
 	@Override
@@ -22,7 +22,7 @@ public class FireBaronModel extends AnimatedGeoModel<FireBaronEntity> {
 
 	@Override
 	public Identifier getAnimationFileLocation(FireBaronEntity object) {
-		return new Identifier(DoomMod.MODID, "animations/firebaron.animation.json");
+		return new Identifier(DoomMod.MODID, "animations/baron2016.animation.json");
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })

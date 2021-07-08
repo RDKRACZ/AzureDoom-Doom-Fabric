@@ -149,6 +149,10 @@ public class DoomMod implements ModInitializer {
 				BiomeSelectors.all(), context -> {
 					context.getGenerationSettings().addBuiltInStructure(DoomConfiguredStructures.CONFIGURED_PORTAL);
 				});
+		BiomeModifications.create(new Identifier(MODID, "motherdemon_addition")).add(ModificationPhase.ADDITIONS,
+				BiomeSelectors.all(), context -> {
+					context.getGenerationSettings().addBuiltInStructure(DoomConfiguredStructures.CONFIGURED_MOTHERDEMON);
+				});
 		removeStructureSpawningFromSelectedDimension();
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.BELT.getInfoBuilder().build());
 		CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.CHARM.getInfoBuilder().build());
@@ -213,12 +217,14 @@ public class DoomMod implements ModInitializer {
 				tempMap.keySet().remove(DoomStructures.MAYKR);
 				tempMap.keySet().remove(DoomStructures.TITAN_SKULL);
 				tempMap.keySet().remove(DoomStructures.PORTAL);
+				tempMap.keySet().remove(DoomStructures.MOTHERDEMON);
 			}
 			if (!serverWorld.getRegistryKey().getValue().getPath().equals("the_end")) {
 				tempMap.keySet().remove(DoomStructures.MAYKR);
 			}
 			if (!serverWorld.getRegistryKey().getValue().getPath().equals("the_nether")) {
 				tempMap.keySet().remove(DoomStructures.TITAN_SKULL);
+				tempMap.keySet().remove(DoomStructures.MOTHERDEMON);
 			}
 			if ((serverWorld.getRegistryKey().getValue().getPath().equals("the_nether"))
 					|| serverWorld.getRegistryKey().getValue().getPath().equals("the_end")) {

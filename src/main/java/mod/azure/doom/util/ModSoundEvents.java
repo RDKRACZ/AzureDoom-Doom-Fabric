@@ -140,6 +140,11 @@ public class ModSoundEvents {
 	public static SoundEvent MAKYR_DEATH = of("doom.maykr_death");
 	public static SoundEvent MAKYR_HURT = of("doom.maykr_hurt");
 
+	public static SoundEvent MOTHER_AMBIENT = of("doom.mother_ambient");
+	public static SoundEvent MOTHER_DEATH = of("doom.mother_death");
+	public static SoundEvent MOTHER_ATTACK = of("doom.mother_attack");
+	public static SoundEvent MOTHER_HURT = of("doom.mother_pain");
+
 	static SoundEvent of(String id) {
 		SoundEvent sound = new SoundEvent(new Identifier(DoomMod.MODID, id));
 		Registry.register(Registry.SOUND_EVENT, new Identifier(DoomMod.MODID, id), sound);

@@ -46,6 +46,7 @@ import mod.azure.doom.client.render.ShotgunguyRender;
 import mod.azure.doom.client.render.SpectreRender;
 import mod.azure.doom.client.render.SpiderMastermind2016Render;
 import mod.azure.doom.client.render.SpiderMastermindRender;
+import mod.azure.doom.client.render.SummonerRender;
 import mod.azure.doom.client.render.TentacleRender;
 import mod.azure.doom.client.render.TurretRender;
 import mod.azure.doom.client.render.TyrantRender;
@@ -292,6 +293,9 @@ public class DoomRenderRegistry {
 		});
 		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.TURRET, (dispatcher, context) -> {
 			return new TurretRender(dispatcher);
+		});
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.SUMMONER, (dispatcher, context) -> {
+			return new SummonerRender(dispatcher);
 		});
 
 		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.ARGENT_BOLT, (dispatcher, context) -> {
