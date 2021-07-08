@@ -19,6 +19,8 @@ import mod.azure.doom.client.render.weapons.PlasmagunRender;
 import mod.azure.doom.client.render.weapons.RocketLauncherRender;
 import mod.azure.doom.client.render.weapons.SGRender;
 import mod.azure.doom.client.render.weapons.SSGRender;
+import mod.azure.doom.client.render.weapons.SentinelHammerRender;
+import mod.azure.doom.client.render.weapons.SwordCrucibleRender;
 import mod.azure.doom.client.render.weapons.UnmaykrRender;
 import mod.azure.doom.util.packets.EntityPacket;
 import mod.azure.doom.util.packets.EntityPacketOnClient;
@@ -67,6 +69,8 @@ public class ClientInit implements ClientModInitializer {
 		GeoItemRenderer.registerItemRenderer(DoomItems.PISTOL, new PistolRender());
 		GeoItemRenderer.registerItemRenderer(DoomItems.ROCKETLAUNCHER, new RocketLauncherRender());
 		GeoItemRenderer.registerItemRenderer(DoomItems.UNMAYKR, new UnmaykrRender());
+		GeoItemRenderer.registerItemRenderer(DoomItems.SENTINELHAMMER, new SentinelHammerRender());
+		GeoItemRenderer.registerItemRenderer(DoomItems.CRUCIBLESWORD, new SwordCrucibleRender());
 		ClientSidePacketRegistry.INSTANCE.register(EntityPacket.ID, (ctx, buf) -> {
 			EntityPacketOnClient.onPacket(ctx, buf);
 		});

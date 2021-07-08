@@ -82,6 +82,7 @@ public class DoomMod implements ModInitializer {
 	public static final Identifier SUPERSHOTGUN = new Identifier(MODID, "supershotgun");
 	public static final Identifier GUN_TABLE_GUI = new Identifier(MODID, "gun_table_gui");
 	public static final Identifier ROCKETLAUNCHER = new Identifier(MODID, "rocketlauncher");
+	public static final Identifier SENTINELHAMMER = new Identifier(MODID, "sentinelhammer");
 	public static final Identifier CHAINSAW_ETERNAL = new Identifier(MODID, "chainsaweternal");
 	public static final Identifier FALL_DISTANCE_PACKET_ID = new Identifier(MODID, "falldistance");
 	public static final GunTableBlock GUN_TABLE = new GunTableBlock(

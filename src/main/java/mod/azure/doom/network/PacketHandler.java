@@ -12,6 +12,7 @@ import mod.azure.doom.item.weapons.HeavyCannon;
 import mod.azure.doom.item.weapons.PistolItem;
 import mod.azure.doom.item.weapons.PlasmaGun;
 import mod.azure.doom.item.weapons.RocketLauncher;
+import mod.azure.doom.item.weapons.SentinelHammerItem;
 import mod.azure.doom.item.weapons.Shotgun;
 import mod.azure.doom.item.weapons.SuperShotgun;
 import mod.azure.doom.item.weapons.SwordCrucibleItem;
@@ -133,6 +134,13 @@ public class PacketHandler {
 				(server, player, serverPlayNetworkHandler, inputPacket, packetSender) -> {
 					if (player.getMainHandStack().getItem() instanceof HeavyCannon) {
 						((HeavyCannon) player.getMainHandStack().getItem()).reload(player, Hand.MAIN_HAND);
+					}
+					;
+				});
+		ServerPlayNetworking.registerGlobalReceiver(DoomMod.SENTINELHAMMER,
+				(server, player, serverPlayNetworkHandler, inputPacket, packetSender) -> {
+					if (player.getMainHandStack().getItem() instanceof SentinelHammerItem) {
+						((SentinelHammerItem) player.getMainHandStack().getItem()).reload(player, Hand.MAIN_HAND);
 					}
 					;
 				});
