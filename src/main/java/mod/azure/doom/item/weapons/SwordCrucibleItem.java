@@ -43,7 +43,7 @@ public class SwordCrucibleItem extends Item implements IAnimatable, ISyncable {
 	public static final int ANIM_OPEN = 0;
 
 	public SwordCrucibleItem() {
-		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1));
+		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(5));
 		GeckoLibNetwork.registerSyncable(this);
 	}
 

@@ -5,21 +5,17 @@ import java.util.List;
 import io.netty.buffer.Unpooled;
 import mod.azure.doom.DoomMod;
 import mod.azure.doom.client.ClientInit;
-import mod.azure.doom.util.registry.DoomItems;
+import mod.azure.doom.util.registry.DoomBlocks;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.client.item.TooltipContext;
-import net.minecraft.entity.AreaEffectCloudEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -40,25 +36,15 @@ import software.bernie.geckolib3.network.GeckoLibNetwork;
 import software.bernie.geckolib3.network.ISyncable;
 import software.bernie.geckolib3.util.GeckoLibUtil;
 
-public class SentinelHammerItem extends Item implements IAnimatable, ISyncable {
+public class DarkLordCrucibleItem extends Item implements IAnimatable, ISyncable {
 
 	public AnimationFactory factory = new AnimationFactory(this);
 	public String controllerName = "controller";
 	public static final int ANIM_OPEN = 0;
 
-	public SentinelHammerItem() {
+	public DarkLordCrucibleItem() {
 		super(new Item.Settings().group(DoomMod.DoomWeaponItemGroup).maxCount(1).maxDamage(5));
 		GeckoLibNetwork.registerSyncable(this);
-	}
-
-	@Override
-	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-//		tooltip.add(
-//				new TranslatableText("doom.marauder_axe1.text").formatted(Formatting.RED).formatted(Formatting.ITALIC));
-		tooltip.add(new TranslatableText(
-				"Ammo: " + (stack.getMaxDamage() - stack.getDamage() - 1) + " / " + (stack.getMaxDamage() - 1))
-						.formatted(Formatting.ITALIC));
-		super.appendTooltip(stack, world, tooltip, context);
 	}
 
 	@Override
@@ -67,17 +53,10 @@ public class SentinelHammerItem extends Item implements IAnimatable, ISyncable {
 			PlayerEntity playerentity = (PlayerEntity) entityLiving;
 			if (stack.getDamage() < (stack.getMaxDamage() - 1)) {
 				playerentity.getItemCooldownManager().set(this, 200);
-				final Box aabb = new Box(entityLiving.getBlockPos().up()).expand(1D, 1D, 1D);
+				final Box aabb = new Box(entityLiving.getBlockPos().up()).expand(4D, 1D, 4D);
 				entityLiving.getEntityWorld().getOtherEntities(entityLiving, aabb)
 						.forEach(e -> doDamage(entityLiving, e));
 				stack.damage(1, entityLiving, p -> p.sendToolBreakStatus(entityLiving.getActiveHand()));
-				AreaEffectCloudEntity areaeffectcloudentity = new AreaEffectCloudEntity(playerentity.world,
-						playerentity.getX(), playerentity.getY(), playerentity.getZ());
-				areaeffectcloudentity.setParticleType(ParticleTypes.CRIT);
-				areaeffectcloudentity.setRadius(5.0F);
-				areaeffectcloudentity.setDuration(20);
-				areaeffectcloudentity.updatePosition(playerentity.getX(), playerentity.getY(), playerentity.getZ());
-				worldIn.spawnEntity(areaeffectcloudentity);
 				if (!worldIn.isClient) {
 					final int id = GeckoLibUtil.guaranteeIDForStack(stack, (ServerWorld) worldIn);
 					GeckoLibNetwork.syncAnimation(playerentity, this, id, ANIM_OPEN);
@@ -92,8 +71,7 @@ public class SentinelHammerItem extends Item implements IAnimatable, ISyncable {
 	private void doDamage(LivingEntity user, Entity target) {
 		if (target instanceof LivingEntity) {
 			target.timeUntilRegen = 0;
-			((LivingEntity) target).addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 1000, 2));
-			target.damage(DamageSource.player((PlayerEntity) user), 25F);
+			target.damage(DamageSource.player((PlayerEntity) user), 200F);
 		}
 	}
 
@@ -122,27 +100,35 @@ public class SentinelHammerItem extends Item implements IAnimatable, ISyncable {
 			}
 		}
 	}
+	
+	@Override
+	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
+		tooltip.add(new TranslatableText(
+				"Ammo: " + (stack.getMaxDamage() - stack.getDamage() - 1) + " / " + (stack.getMaxDamage() - 1))
+						.formatted(Formatting.ITALIC));
+		super.appendTooltip(stack, world, tooltip, context);
+	}
+
+	public void reload(PlayerEntity user, Hand hand) {
+		if (user.getStackInHand(hand).getItem() instanceof DarkLordCrucibleItem) {
+			while (user.getStackInHand(hand).getDamage() != 0
+					&& user.getInventory().count(DoomBlocks.ARGENT_BLOCK.asItem()) > 0) {
+				removeAmmo(DoomBlocks.ARGENT_BLOCK.asItem(), user);
+				user.getStackInHand(hand).damage(-5, user, s -> user.sendToolBreakStatus(hand));
+				user.getStackInHand(hand).setCooldown(3);
+			}
+		}
+	}
 
 	@Override
 	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
 		PlayerEntity playerentity = (PlayerEntity) entity;
 		if (world.isClient) {
-			if (playerentity.getMainHandStack().getItem() instanceof AxeMarauderItem && ClientInit.reload.isPressed()
+			if (playerentity.getMainHandStack().getItem() instanceof DarkLordCrucibleItem && ClientInit.reload.isPressed()
 					&& selected) {
 				PacketByteBuf passedData = new PacketByteBuf(Unpooled.buffer());
 				passedData.writeBoolean(true);
-				ClientPlayNetworking.send(DoomMod.SENTINELHAMMER, passedData);
-			}
-		}
-	}
-
-	public void reload(PlayerEntity user, Hand hand) {
-		if (user.getStackInHand(hand).getItem() instanceof AxeMarauderItem) {
-			while (user.getStackInHand(hand).getDamage() != 0
-					&& user.getInventory().count(DoomItems.ARGENT_ENERGY.asItem()) > 0) {
-				removeAmmo(DoomItems.ARGENT_ENERGY.asItem(), user);
-				user.getStackInHand(hand).damage(-5, user, s -> user.sendToolBreakStatus(hand));
-				user.getStackInHand(hand).setCooldown(3);
+				ClientPlayNetworking.send(DoomMod.DARKLORDCRUCIBLE, passedData);
 			}
 		}
 	}
@@ -180,5 +166,4 @@ public class SentinelHammerItem extends Item implements IAnimatable, ISyncable {
 	public int getMaxUseTime(ItemStack stack) {
 		return 72000;
 	}
-
 }

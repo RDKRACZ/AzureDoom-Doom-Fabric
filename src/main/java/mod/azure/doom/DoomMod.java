@@ -84,6 +84,7 @@ public class DoomMod implements ModInitializer {
 	public static final Identifier ROCKETLAUNCHER = new Identifier(MODID, "rocketlauncher");
 	public static final Identifier SENTINELHAMMER = new Identifier(MODID, "sentinelhammer");
 	public static final Identifier CHAINSAW_ETERNAL = new Identifier(MODID, "chainsaweternal");
+	public static final Identifier DARKLORDCRUCIBLE = new Identifier(MODID, "darklordcrucible");
 	public static final Identifier FALL_DISTANCE_PACKET_ID = new Identifier(MODID, "falldistance");
 	public static final GunTableBlock GUN_TABLE = new GunTableBlock(
 			FabricBlockSettings.of(Material.METAL).strength(4.0f).nonOpaque());
