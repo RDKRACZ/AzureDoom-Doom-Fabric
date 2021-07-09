@@ -370,14 +370,20 @@ public class MobSpawn {
 						.and(context -> context.getBiome().getCategory() == Biome.Category.NETHER),
 				SpawnGroup.MONSTER, ModEntityTypes.SUMMONER, config.summoner_spawn_weight, config.summoner_min_group,
 				config.summoner_max_group);
-//						BiomeModifications.addSpawn(BiomeSelectors.foundInTheNether().and(context -> context.getBiome().getCategory() == Biome.Category.NETHER),SpawnGroup.MONSTER, ModEntityTypes.BARON2016,
-//								config.baron_spawn_weight,
-//								config.baron_min_group, config.baron_max_group);
-//						BiomeModifications.addSpawn(BiomeSelectors.foundInTheNether().and(context -> context.getBiome().getCategory() == Biome.Category.NETHER),SpawnGroup.MONSTER, ModEntityTypes.FIREBARON,
-//								config.baron_spawn_weight,
-//								config.baron_min_group, config.baron_max_group);
-//						BiomeModifications.addSpawn(BiomeSelectors.foundInTheNether().and(context -> context.getBiome().getCategory() == Biome.Category.NETHER),SpawnGroup.MONSTER, ModEntityTypes.ARMORBARON,
-//								config.armoredbaron_spawn_weight,
-//								config.armoredbaron_min_group, config.armoredbaron_max_group);
+		BiomeModifications.addSpawn(
+				BiomeSelectors.foundInTheNether()
+						.and(context -> context.getBiome().getCategory() == Biome.Category.NETHER),
+				SpawnGroup.MONSTER, ModEntityTypes.BARON2016, config.baron_spawn_weight, config.baron_min_group,
+				config.baron_max_group);
+		BiomeModifications.addSpawn(
+				BiomeSelectors.foundInTheNether()
+						.and(context -> context.getBiome().getCategory() == Biome.Category.NETHER),
+				SpawnGroup.MONSTER, ModEntityTypes.FIREBARON, config.baron_spawn_weight, config.baron_min_group,
+				config.baron_max_group);
+		BiomeModifications.addSpawn(
+				BiomeSelectors.foundInTheNether()
+						.and(context -> context.getBiome().getCategory() == Biome.Category.NETHER),
+				SpawnGroup.MONSTER, ModEntityTypes.ARMORBARON, config.armoredbaron_spawn_weight,
+				config.armoredbaron_min_group, config.armoredbaron_max_group);
 	}
 }

@@ -3,6 +3,7 @@ package mod.azure.doom.structures.templates;
 import com.mojang.serialization.Codec;
 
 import mod.azure.doom.DoomMod;
+import mod.azure.doom.util.registry.ModEntityTypes;
 import net.minecraft.block.BlockState;
 import net.minecraft.structure.MarginedStructureStart;
 import net.minecraft.structure.PoolStructurePiece;
@@ -17,6 +18,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.HeightLimitView;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.SpawnSettings;
 import net.minecraft.world.biome.SpawnSettings.SpawnEntry;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.gen.ChunkRandom;
@@ -26,21 +28,19 @@ import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.StructureFeature;
 import net.minecraft.world.gen.feature.StructurePoolFeatureConfig;
 
-public class MaykrStructure extends StructureFeature<DefaultFeatureConfig> {
+public class ArchMaykrStructure extends StructureFeature<DefaultFeatureConfig> {
 
-	public MaykrStructure(Codec<DefaultFeatureConfig> codec) {
+	public ArchMaykrStructure(Codec<DefaultFeatureConfig> codec) {
 		super(codec);
 	}
 
 	@Override
 	public StructureStartFactory<DefaultFeatureConfig> getStructureStartFactory() {
-		return MaykrStructure.Start::new;
+		return ArchMaykrStructure.Start::new;
 	}
 
-	private static final Pool<SpawnEntry> STRUCTURE_MONSTERS = Pool.of(
-	// new SpawnSettings.SpawnEntry(ModEntityTypes.MAYKRDRONE, 50, 2, 5)
-//					, new SpawnSettings.SpawnEntry(ModEntityTypes.BLOODMAYKR, 50, 1, 2)
-	);
+	private static final Pool<SpawnEntry> STRUCTURE_MONSTERS = Pool
+			.of(new SpawnSettings.SpawnEntry(ModEntityTypes.ARCHMAKER, 100, 1, 1));
 
 	@Override
 	public Pool<SpawnEntry> getMonsterSpawns() {
@@ -74,7 +74,7 @@ public class MaykrStructure extends StructureFeature<DefaultFeatureConfig> {
 			BlockPos.Mutable blockpos = new BlockPos.Mutable(x, 0, z);
 			StructurePoolFeatureConfig structureSettingsAndStartPool = new StructurePoolFeatureConfig(
 					() -> registryManager.get(Registry.STRUCTURE_POOL_KEY)
-							.get(new Identifier(DoomMod.MODID, "archmaykr/start_pool")),
+							.get(new Identifier(DoomMod.MODID, "maykr/start_pool")),
 					10);
 			StructurePoolBasedGenerator.generate(registryManager, structureSettingsAndStartPool,
 					PoolStructurePiece::new, chunkGenerator, manager, blockpos, this, this.random, false, true, world);

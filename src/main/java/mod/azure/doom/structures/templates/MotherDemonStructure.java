@@ -40,8 +40,7 @@ public class MotherDemonStructure extends StructureFeature<DefaultFeatureConfig>
 	}
 
 	private static final Pool<SpawnEntry> STRUCTURE_MONSTERS = Pool.of(
-			new SpawnSettings.SpawnEntry(ModEntityTypes.LOST_SOUL, 100, 4, 9),
-			new SpawnSettings.SpawnEntry(ModEntityTypes.TURRET, 20, 1, 2));
+			new SpawnSettings.SpawnEntry(ModEntityTypes.MOTHERDEMON, 100, 1, 1));
 
 	@Override
 	public Pool<SpawnEntry> getMonsterSpawns() {
