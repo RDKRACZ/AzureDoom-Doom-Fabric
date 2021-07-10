@@ -140,11 +140,11 @@ public class DoomMod implements ModInitializer {
 				(context) -> RegistrationHelper.addStructure(context, DoomConfiguredStructures.CONFIGURED_MAYKR)
 
 		);
-//		RegistrationHelper.addToBiome(new Identifier(DoomMod.MODID, "archmaykr_addition"),
-//				BiomeSelectors.foundInTheEnd().and(BiomeSelectors.foundInTheEnd()),
-//				(context) -> RegistrationHelper.addStructure(context, DoomConfiguredStructures.CONFIGURED_ARCHMAYKR)
-//
-//		);
+		RegistrationHelper.addToBiome(new Identifier(DoomMod.MODID, "archmaykr_addition"),
+				BiomeSelectors.foundInTheEnd().and(BiomeSelectors.foundInTheEnd()),
+				(context) -> RegistrationHelper.addStructure(context, DoomConfiguredStructures.CONFIGURED_ARCHMAYKR)
+
+		);
 		RegistrationHelper.addToBiome(new Identifier(DoomMod.MODID, "titan_skull_addition"),
 				BiomeSelectors.foundInTheNether().and(BiomeSelectors.foundInTheNether()),
 				(context) -> RegistrationHelper.addStructure(context, DoomConfiguredStructures.CONFIGURED_TITAN_SKULL)
@@ -155,7 +155,7 @@ public class DoomMod implements ModInitializer {
 				(context) -> RegistrationHelper.addStructure(context, DoomConfiguredStructures.CONFIGURED_MOTHERDEMON)
 
 		);
-		// removeStructureSpawningFromSelectedDimension();
+		removeStructureSpawningFromSelectedDimension();
 		PacketHandler.registerMessages();
 	}
 
@@ -165,14 +165,14 @@ public class DoomMod implements ModInitializer {
 					serverWorld.getChunkManager().getChunkGenerator().getStructuresConfig().getStructures());
 			if (!serverWorld.getRegistryKey().getValue().getNamespace().equals("minecraft")) {
 				tempMap.keySet().remove(DoomStructures.MAYKR);
-//				tempMap.keySet().remove(DoomStructures.ARCHMAYKR);
+				tempMap.keySet().remove(DoomStructures.ARCHMAYKR);
 				tempMap.keySet().remove(DoomStructures.TITAN_SKULL);
 				tempMap.keySet().remove(DoomStructures.PORTAL);
 				tempMap.keySet().remove(DoomStructures.MOTHERDEMON);
 			}
 			if (!serverWorld.getRegistryKey().getValue().getPath().equals("the_end")) {
 				tempMap.keySet().remove(DoomStructures.MAYKR);
-//				tempMap.keySet().remove(DoomStructures.ARCHMAYKR);
+				tempMap.keySet().remove(DoomStructures.ARCHMAYKR);
 			}
 			if (!serverWorld.getRegistryKey().getValue().getPath().equals("the_nether")) {
 				tempMap.keySet().remove(DoomStructures.TITAN_SKULL);

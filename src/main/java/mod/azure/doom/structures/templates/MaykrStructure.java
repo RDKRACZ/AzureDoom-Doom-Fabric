@@ -3,6 +3,7 @@ package mod.azure.doom.structures.templates;
 import com.mojang.serialization.Codec;
 
 import mod.azure.doom.DoomMod;
+import mod.azure.doom.util.registry.ModEntityTypes;
 import net.minecraft.block.BlockState;
 import net.minecraft.structure.MarginedStructureStart;
 import net.minecraft.structure.PoolStructurePiece;
@@ -17,6 +18,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.HeightLimitView;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.SpawnSettings;
 import net.minecraft.world.biome.SpawnSettings.SpawnEntry;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.gen.ChunkRandom;
@@ -38,9 +40,8 @@ public class MaykrStructure extends StructureFeature<DefaultFeatureConfig> {
 	}
 
 	private static final Pool<SpawnEntry> STRUCTURE_MONSTERS = Pool.of(
-	// new SpawnSettings.SpawnEntry(ModEntityTypes.MAYKRDRONE, 50, 2, 5)
-//					, new SpawnSettings.SpawnEntry(ModEntityTypes.BLOODMAYKR, 50, 1, 2)
-	);
+			new SpawnSettings.SpawnEntry(ModEntityTypes.MAYKRDRONE, 50, 2, 5),
+			new SpawnSettings.SpawnEntry(ModEntityTypes.BLOODMAYKR, 50, 1, 2));
 
 	@Override
 	public Pool<SpawnEntry> getMonsterSpawns() {

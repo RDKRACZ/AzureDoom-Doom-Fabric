@@ -74,7 +74,7 @@ public class ArchMaykrStructure extends StructureFeature<DefaultFeatureConfig> {
 			BlockPos.Mutable blockpos = new BlockPos.Mutable(x, 0, z);
 			StructurePoolFeatureConfig structureSettingsAndStartPool = new StructurePoolFeatureConfig(
 					() -> registryManager.get(Registry.STRUCTURE_POOL_KEY)
-							.get(new Identifier(DoomMod.MODID, "maykr/start_pool")),
+							.get(new Identifier(DoomMod.MODID, "archmaykr/start_pool")),
 					10);
 			StructurePoolBasedGenerator.generate(registryManager, structureSettingsAndStartPool,
 					PoolStructurePiece::new, chunkGenerator, manager, blockpos, this, this.random, false, true, world);
