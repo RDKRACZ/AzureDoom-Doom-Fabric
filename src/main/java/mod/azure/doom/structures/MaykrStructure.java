@@ -7,6 +7,7 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 
 import mod.azure.doom.DoomMod;
+import mod.azure.doom.util.registry.ModEntityTypes;
 import net.minecraft.structure.MarginedStructureStart;
 import net.minecraft.structure.PoolStructurePiece;
 import net.minecraft.structure.StructureManager;
@@ -39,8 +40,8 @@ public class MaykrStructure extends StructureFeature<DefaultFeatureConfig> {
 	}
 
 	private static final List<SpawnSettings.SpawnEntry> STRUCTURE_MONSTERS = ImmutableList.of(
-	// new SpawnSettings.SpawnEntry(ModEntityTypes.MAYKRDRONE, 50, 2, 5)
-//					, new SpawnSettings.SpawnEntry(ModEntityTypes.BLOODMAYKR, 50, 1, 2)
+			new SpawnSettings.SpawnEntry(ModEntityTypes.MAYKRDRONE, 50, 2, 5),
+			new SpawnSettings.SpawnEntry(ModEntityTypes.BLOODMAYKR, 50, 1, 2)
 	);
 
 	@Override

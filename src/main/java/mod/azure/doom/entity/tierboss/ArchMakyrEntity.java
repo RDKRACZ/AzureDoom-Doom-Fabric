@@ -2,6 +2,8 @@ package mod.azure.doom.entity.tierboss;
 
 import java.util.Random;
 
+import org.jetbrains.annotations.Nullable;
+
 import mod.azure.doom.entity.DemonEntity;
 import mod.azure.doom.util.ModSoundEvents;
 import net.fabricmc.api.EnvType;
@@ -12,14 +14,19 @@ import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.boss.BossBar;
+import net.minecraft.entity.boss.ServerBossBar;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
@@ -39,6 +46,8 @@ public class ArchMakyrEntity extends DemonEntity implements IAnimatable {
 	private AnimationFactory factory = new AnimationFactory(this);
 	public static final TrackedData<Integer> VARIANT = DataTracker.registerData(ArchMakyrEntity.class,
 			TrackedDataHandlerRegistry.INTEGER);
+	private final ServerBossBar bossBar = (ServerBossBar) (new ServerBossBar(this.getDisplayName(),
+			BossBar.Color.PURPLE, BossBar.Style.PROGRESS)).setDarkenSky(true).setThickenFog(true);
 
 	public ArchMakyrEntity(EntityType<ArchMakyrEntity> entityType, World worldIn) {
 		super(entityType, worldIn);
@@ -86,6 +95,13 @@ public class ArchMakyrEntity extends DemonEntity implements IAnimatable {
 		}
 	}
 
+	@Override
+	protected void updateGoalControls() {
+		boolean flag = this.getTarget() != null && this.canSee(this.getTarget());
+		this.goalSelector.setControlEnabled(Goal.Control.LOOK, flag);
+		super.updateGoalControls();
+	}
+
 	protected void initDataTracker() {
 		super.initDataTracker();
 		this.dataTracker.startTracking(VARIANT, 0);
@@ -95,6 +111,9 @@ public class ArchMakyrEntity extends DemonEntity implements IAnimatable {
 	public void readCustomDataFromTag(CompoundTag tag) {
 		super.readCustomDataFromTag(tag);
 		this.setVariant(tag.getInt("Variant"));
+		if (this.hasCustomName()) {
+			this.bossBar.setName(this.getDisplayName());
+		}
 	}
 
 	@Override
@@ -165,6 +184,28 @@ public class ArchMakyrEntity extends DemonEntity implements IAnimatable {
 	@Override
 	public int getLimitPerChunk() {
 		return 1;
+	}
+
+	public void onStartedTrackingBy(ServerPlayerEntity player) {
+		super.onStartedTrackingBy(player);
+		this.bossBar.addPlayer(player);
+	}
+
+	public void onStoppedTrackingBy(ServerPlayerEntity player) {
+		super.onStoppedTrackingBy(player);
+		this.bossBar.removePlayer(player);
+	}
+
+	@Override
+	public void setCustomName(@Nullable Text name) {
+		super.setCustomName(name);
+		this.bossBar.setName(this.getDisplayName());
+	}
+
+	@Override
+	protected void mobTick() {
+		super.mobTick();
+		this.bossBar.setPercent(this.getHealth() / this.getMaxHealth());
 	}
 
 }

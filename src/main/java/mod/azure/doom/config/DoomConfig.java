@@ -9,9 +9,6 @@ import mod.azure.doom.DoomMod;
 public class DoomConfig implements ConfigData {
 
 	@ConfigEntry.Gui.CollapsibleObject
-	public Structures structures = new Structures();
-
-	@ConfigEntry.Gui.CollapsibleObject
 	public Weapons weapons = new Weapons();
 
 	@ConfigEntry.Gui.CollapsibleObject

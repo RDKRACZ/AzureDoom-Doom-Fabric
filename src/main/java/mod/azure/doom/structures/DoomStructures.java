@@ -13,7 +13,7 @@ public class DoomStructures {
 
 	public static StructureFeature<DefaultFeatureConfig> MAYKR = new MaykrStructure(DefaultFeatureConfig.CODEC);
 
-//	public static StructureFeature<DefaultFeatureConfig> ARCHMAYKR = new ArchMaykrStructure(DefaultFeatureConfig.CODEC);
+	public static StructureFeature<DefaultFeatureConfig> ARCHMAYKR = new ArchMaykrStructure(DefaultFeatureConfig.CODEC);
 
 	public static StructureFeature<DefaultFeatureConfig> TITAN_SKULL = new TitanSkullStructure(DefaultFeatureConfig.CODEC);
 
@@ -27,9 +27,9 @@ public class DoomStructures {
 				.step(GenerationStep.Feature.SURFACE_STRUCTURES).defaultConfig(new StructureConfig(20, 11, 1234567890))
 				.superflatFeature(MAYKR.configure(FeatureConfig.DEFAULT)).adjustsSurface().register();
 
-//		FabricStructureBuilder.create(new Identifier(DoomMod.MODID, "archmaykr"), ARCHMAYKR)
-//				.step(GenerationStep.Feature.SURFACE_STRUCTURES).defaultConfig(new StructureConfig(20, 11, 1234567898))
-//				.superflatFeature(ARCHMAYKR.configure(FeatureConfig.DEFAULT)).adjustsSurface().register();
+		FabricStructureBuilder.create(new Identifier(DoomMod.MODID, "archmaykr"), ARCHMAYKR)
+				.step(GenerationStep.Feature.SURFACE_STRUCTURES).defaultConfig(new StructureConfig(20, 11, 1234567898))
+				.superflatFeature(ARCHMAYKR.configure(FeatureConfig.DEFAULT)).adjustsSurface().register();
 
 		FabricStructureBuilder.create(new Identifier(DoomMod.MODID, "titan_skull"), TITAN_SKULL)
 				.step(GenerationStep.Feature.SURFACE_STRUCTURES).defaultConfig(new StructureConfig(80, 20, 1234567890))
