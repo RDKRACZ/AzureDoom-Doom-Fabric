@@ -13,6 +13,7 @@ import mod.azure.doom.util.packets.EntityPacket;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityPose;
@@ -29,9 +30,13 @@ import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
@@ -39,6 +44,8 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -50,6 +57,9 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class CacodemonEntity extends DemonEntity implements Monster, IAnimatable {
+
+	public static final TrackedData<Integer> VARIANT = DataTracker.registerData(CacodemonEntity.class,
+			TrackedDataHandlerRegistry.INTEGER);
 
 	public CacodemonEntity(EntityType<? extends CacodemonEntity> type, World worldIn) {
 		super(type, worldIn);
@@ -93,12 +103,8 @@ public class CacodemonEntity extends DemonEntity implements Monster, IAnimatable
 	@Override
 	protected void updatePostDeath() {
 		++this.deathTime;
-		if (this.deathTime == 60) {
+		if (this.deathTime == 30) {
 			this.remove();
-			for (int i = 0; i < 20; ++i) {
-				if (world.isClient) {
-				}
-			}
 		}
 	}
 
@@ -142,6 +148,43 @@ public class CacodemonEntity extends DemonEntity implements Monster, IAnimatable
 
 	public boolean isClimbing() {
 		return false;
+	}
+
+	protected void initDataTracker() {
+		super.initDataTracker();
+		this.dataTracker.startTracking(VARIANT, 0);
+	}
+
+	@Override
+	public void readCustomDataFromTag(CompoundTag tag) {
+		super.readCustomDataFromTag(tag);
+		this.setVariant(tag.getInt("Variant"));
+	}
+
+	@Override
+	public void writeCustomDataToTag(CompoundTag tag) {
+		super.writeCustomDataToTag(tag);
+		tag.putInt("Variant", this.getVariant());
+	}
+
+	public int getVariant() {
+		return MathHelper.clamp((Integer) this.dataTracker.get(VARIANT), 1, 2);
+	}
+
+	public void setVariant(int variant) {
+		this.dataTracker.set(VARIANT, variant);
+	}
+
+	public int getVariants() {
+		return 2;
+	}
+
+	@Override
+	public EntityData initialize(ServerWorldAccess serverWorldAccess, LocalDifficulty difficulty,
+			SpawnReason spawnReason, EntityData entityData, CompoundTag entityTag) {
+		entityData = super.initialize(serverWorldAccess, difficulty, spawnReason, entityData, entityTag);
+		this.setVariant(this.random.nextInt());
+		return entityData;
 	}
 
 	@Override
