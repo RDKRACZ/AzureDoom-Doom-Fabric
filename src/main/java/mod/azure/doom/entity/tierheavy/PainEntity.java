@@ -14,6 +14,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityPose;
@@ -30,9 +31,13 @@ import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
@@ -40,6 +45,8 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -51,6 +58,9 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class PainEntity extends DemonEntity implements Monster, IAnimatable {
+
+	public static final TrackedData<Integer> VARIANT = DataTracker.registerData(PainEntity.class,
+			TrackedDataHandlerRegistry.INTEGER);
 
 	public PainEntity(EntityType<? extends PainEntity> type, World worldIn) {
 		super(type, worldIn);
@@ -94,12 +104,8 @@ public class PainEntity extends DemonEntity implements Monster, IAnimatable {
 	@Override
 	protected void updatePostDeath() {
 		++this.deathTime;
-		if (this.deathTime == 60) {
+		if (this.deathTime == 30) {
 			this.remove(Entity.RemovalReason.KILLED);
-			for (int i = 0; i < 20; ++i) {
-				if (world.isClient) {
-				}
-			}
 		}
 	}
 
@@ -143,6 +149,43 @@ public class PainEntity extends DemonEntity implements Monster, IAnimatable {
 
 	public boolean isClimbing() {
 		return false;
+	}
+
+	protected void initDataTracker() {
+		super.initDataTracker();
+		this.dataTracker.startTracking(VARIANT, 0);
+	}
+
+	@Override
+	public void writeCustomDataToNbt(NbtCompound tag) {
+		super.writeCustomDataToNbt(tag);
+		tag.putInt("Variant", this.getVariant());
+	}
+
+	@Override
+	public void readCustomDataFromNbt(NbtCompound tag) {
+		super.readCustomDataFromNbt(tag);
+		this.setVariant(tag.getInt("Variant"));
+	}
+
+	public int getVariant() {
+		return MathHelper.clamp((Integer) this.dataTracker.get(VARIANT), 1, 2);
+	}
+
+	public void setVariant(int variant) {
+		this.dataTracker.set(VARIANT, variant);
+	}
+
+	public int getVariants() {
+		return 2;
+	}
+
+	@Override
+	public EntityData initialize(ServerWorldAccess serverWorldAccess, LocalDifficulty difficulty,
+			SpawnReason spawnReason, EntityData entityData, NbtCompound entityTag) {
+		entityData = super.initialize(serverWorldAccess, difficulty, spawnReason, entityData, entityTag);
+		this.setVariant(this.random.nextInt());
+		return entityData;
 	}
 
 	@Override
@@ -217,10 +260,29 @@ public class PainEntity extends DemonEntity implements Monster, IAnimatable {
 				World world = this.ghast.world;
 				++this.cooldown;
 				if (this.cooldown == 200) {
-					LostSoulEntity lost_soul = ModEntityTypes.LOST_SOUL.create(world);
-					lost_soul.refreshPositionAndAngles(this.ghast.getX(), this.ghast.getY(), this.ghast.getZ(), 0, 0);
-					lost_soul.addVelocity(1.0D, 0.0D, 0.0D);
-					world.spawnEntity(lost_soul);
+					if (this.ghast.getVariant() == 1) {
+						LostSoulEntity lost_soul = ModEntityTypes.LOST_SOUL.create(world);
+						lost_soul.refreshPositionAndAngles(this.ghast.getX(), this.ghast.getY(), this.ghast.getZ(), 0,
+								0);
+						lost_soul.addVelocity(1.0D, 0.0D, 0.0D);
+						world.spawnEntity(lost_soul);
+					} else {
+						LostSoulEntity lost_soul = ModEntityTypes.LOST_SOUL.create(world);
+						lost_soul.refreshPositionAndAngles(this.ghast.getX(), this.ghast.getY(), this.ghast.getZ(), 0,
+								0);
+						lost_soul.addVelocity(1.0D, 0.0D, 0.0D);
+						world.spawnEntity(lost_soul);
+
+						LostSoulEntity lost_soul1 = ModEntityTypes.LOST_SOUL.create(world);
+						lost_soul1.refreshPositionAndAngles(this.ghast.getX(), this.ghast.getY(), this.ghast.getZ(), 0,
+								0);
+						lost_soul1.addVelocity(1.0D, 0.0D, 0.0D);
+						world.spawnEntity(lost_soul1);
+					}
+					this.ghast.setAttackingState(1);
+				}
+				if (this.cooldown == 215) {
+					this.ghast.setAttackingState(0);
 					this.cooldown = -400;
 				}
 			} else if (this.cooldown > 0) {
