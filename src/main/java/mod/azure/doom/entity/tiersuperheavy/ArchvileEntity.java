@@ -196,7 +196,7 @@ public class ArchvileEntity extends DemonEntity implements IAnimatable {
 			LivingEntity livingEntity = this.ghast.getTarget();
 			if (this.ghast.canSee(livingEntity)) {
 				++this.cooldown;
-				if (this.cooldown == 40) {
+				if (this.cooldown == 20) {
 					if (!this.ghast.world.isClient) {
 						float q = 24.0F;
 						int k = MathHelper.floor(this.ghast.getX() - (double) q - 1.0D);
@@ -227,19 +227,19 @@ public class ArchvileEntity extends DemonEntity implements IAnimatable {
 						int j;
 						if (ghast.squaredDistanceTo(livingEntity) < 9.0D) {
 							float h;
-							for (j = 0; j < 5; ++j) {
+							for (j = 0; j < 15; ++j) {
 								h = f + (float) j * 3.1415927F * 0.4F;
 								ghast.conjureFangs(ghast.getX() + (double) MathHelper.cos(h) * 1.5D,
 										ghast.getZ() + (double) MathHelper.sin(h) * 1.5D, d, e, h, 0);
 							}
 
-							for (j = 0; j < 8; ++j) {
+							for (j = 0; j < 18; ++j) {
 								h = f + (float) j * 3.1415927F * 2.0F / 8.0F + 1.2566371F;
 								ghast.conjureFangs(ghast.getX() + (double) MathHelper.cos(h) * 2.5D,
 										ghast.getZ() + (double) MathHelper.sin(h) * 2.5D, d, e, h, 3);
 							}
 						} else {
-							for (j = 0; j < 16; ++j) {
+							for (j = 0; j < 26; ++j) {
 								double l1 = 1.25D * (double) (j + 1);
 								ghast.conjureFangs(ghast.getX() + (double) MathHelper.cos(f) * l1,
 										ghast.getZ() + (double) MathHelper.sin(f) * l1, d, e, f, 32);
@@ -252,9 +252,9 @@ public class ArchvileEntity extends DemonEntity implements IAnimatable {
 					}
 					this.ghast.setAttackingState(1);
 				}
-				if (this.cooldown == 60) {
+				if (this.cooldown == 40) {
 					this.ghast.setAttackingState(0);
-					this.cooldown = -80;
+					this.cooldown = -50;
 				}
 			} else if (this.cooldown > 0) {
 				--this.cooldown;

@@ -259,7 +259,7 @@ public class PainEntity extends DemonEntity implements Monster, IAnimatable {
 				this.ghast.getLookControl().lookAt(livingEntity, 90.0F, 30.0F);
 				World world = this.ghast.world;
 				++this.cooldown;
-				if (this.cooldown == 200) {
+				if (this.cooldown == 20) {
 					if (this.ghast.getVariant() == 1) {
 						LostSoulEntity lost_soul = ModEntityTypes.LOST_SOUL.create(world);
 						lost_soul.refreshPositionAndAngles(this.ghast.getX(), this.ghast.getY(), this.ghast.getZ(), 0,
@@ -281,9 +281,9 @@ public class PainEntity extends DemonEntity implements Monster, IAnimatable {
 					}
 					this.ghast.setAttackingState(1);
 				}
-				if (this.cooldown == 215) {
+				if (this.cooldown == 35) {
 					this.ghast.setAttackingState(0);
-					this.cooldown = -400;
+					this.cooldown = -45;
 				}
 			} else if (this.cooldown > 0) {
 				--this.cooldown;
