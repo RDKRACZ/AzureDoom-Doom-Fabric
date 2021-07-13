@@ -97,6 +97,17 @@ public class LostSoulEntity extends DemonEntity implements Monster, IAnimatable 
 		this.dataTracker.set(SHOOTING, shooting);
 	}
 
+	@Override
+	protected void updatePostDeath() {
+		++this.deathTime;
+		if (this.deathTime == 5) {
+			this.remove();
+			if (!world.isClient) {
+				this.explode();
+			}
+		}
+	}
+
 	protected void initDataTracker() {
 		super.initDataTracker();
 		this.dataTracker.startTracking(SHOOTING, false);
@@ -126,14 +137,13 @@ public class LostSoulEntity extends DemonEntity implements Monster, IAnimatable 
 						.getSlipperiness() * 0.91F;
 			}
 
-			float g = 0.16277137F / (f * f * f);
 			f = 0.91F;
 			if (this.onGround) {
 				f = this.world.getBlockState(new BlockPos(this.getX(), this.getY() - 1.0D, this.getZ())).getBlock()
 						.getSlipperiness() * 0.91F;
 			}
 
-			this.updateVelocity(this.onGround ? 0.1F * g : 0.02F, movementInput);
+			this.updateVelocity(0.02F, movementInput);
 			this.move(MovementType.SELF, this.getVelocity());
 			this.setVelocity(this.getVelocity().multiply((double) f));
 		}
@@ -142,7 +152,7 @@ public class LostSoulEntity extends DemonEntity implements Monster, IAnimatable 
 	}
 
 	public boolean isClimbing() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -155,6 +165,7 @@ public class LostSoulEntity extends DemonEntity implements Monster, IAnimatable 
 				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25D)
 				.add(EntityAttributes.GENERIC_MAX_HEALTH, config.lost_soul_health)
 				.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D)
+				.add(EntityAttributes.HORSE_JUMP_STRENGTH, 2.0D)
 				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, config.lost_soul_melee_damage);
 	}
 
@@ -163,7 +174,7 @@ public class LostSoulEntity extends DemonEntity implements Monster, IAnimatable 
 		this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
 		this.goalSelector.add(5, new RandomFlyConvergeOnTargetGoal(this, 4, 15, 0.5));
 		this.goalSelector.add(7, new LostSoulEntity.LookAtTargetGoal(this));
-		this.goalSelector.add(4, new LostSoulEntity.ChargeTargetGoal());
+		this.goalSelector.add(4, new LostSoulEntity.ChargeTargetGoal(this));
 		this.goalSelector.add(5, new WanderAroundFarGoal(this, 1.0D));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, MerchantEntity.class, true));
@@ -207,22 +218,19 @@ public class LostSoulEntity extends DemonEntity implements Monster, IAnimatable 
 
 	class ChargeTargetGoal extends Goal {
 		public int attackTimer;
+		private final LostSoulEntity parentEntity;
 
-		public ChargeTargetGoal() {
+		public ChargeTargetGoal(LostSoulEntity ghast) {
 			this.setControls(EnumSet.of(Goal.Control.MOVE));
+			this.parentEntity = ghast;
 		}
 
 		public boolean canStart() {
-			if (LostSoulEntity.this.getTarget() != null && !LostSoulEntity.this.getMoveControl().isMoving()) {
-				return LostSoulEntity.this.squaredDistanceTo(LostSoulEntity.this.getTarget()) > 4.0D;
-			} else {
-				return false;
-			}
+			return parentEntity.getTarget() != null;
 		}
 
 		public boolean shouldContinue() {
-			return LostSoulEntity.this.getMoveControl().isMoving() && LostSoulEntity.this.isCharging()
-					&& LostSoulEntity.this.getTarget() != null && LostSoulEntity.this.getTarget().isAlive();
+			return parentEntity.getTarget() != null && parentEntity.getTarget().isAlive();
 		}
 
 		public void start() {
@@ -231,32 +239,24 @@ public class LostSoulEntity extends DemonEntity implements Monster, IAnimatable 
 			LostSoulEntity.this.moveControl.moveTo(vec3d.x, vec3d.y, vec3d.z, 4.0D);
 			LostSoulEntity.this.setCharging(true);
 			LostSoulEntity.this.playSound(ModSoundEvents.LOST_SOUL_AMBIENT, 1.0F, 1.0F);
+			this.attackTimer = 0;
 		}
 
 		public void stop() {
 			LostSoulEntity.this.setCharging(false);
-		}
-
-		public void resetTask() {
 			LostSoulEntity.this.setShooting(false);
 		}
-
+		
 		public void tick() {
-			LivingEntity livingEntity = LostSoulEntity.this.getTarget();
-			if (LostSoulEntity.this.getBoundingBox().intersects(livingEntity.getBoundingBox())) {
-				LostSoulEntity.this.tryAttack(livingEntity);
-				LostSoulEntity.this.setCharging(false);
-				--this.attackTimer;
-			} else {
-				double d = LostSoulEntity.this.squaredDistanceTo(livingEntity);
-				if (d < 400.0D) {
-					Vec3d vec3d = livingEntity.getCameraPosVec(1.0F);
-					LostSoulEntity.this.moveControl.moveTo(vec3d.x, vec3d.y, vec3d.z, 1.0D);
-					this.attackTimer = -10;
-				}
+			LivingEntity livingentity = parentEntity.getTarget();
+			++this.attackTimer;
+			parentEntity.setCharging(false);
+			Vec3d vec3d = livingentity.getCameraPosVec(1.0F);
+			parentEntity.moveControl.moveTo(vec3d.x, vec3d.y, vec3d.z, 1.0D);
+			if (this.parentEntity.getBoundingBox().expand(0.20000000298023224D).intersects(livingentity.getBoundingBox())) {
+				this.parentEntity.tryAttack(livingentity);
 			}
-
-			LostSoulEntity.this.setAttacking(this.attackTimer > 10);
+			this.attackTimer = Math.max(this.attackTimer - 0, 0);
 		}
 	}
 

@@ -10,7 +10,6 @@ import mod.azure.doom.entity.DemonEntity;
 import mod.azure.doom.entity.projectiles.entity.DoomFireEntity;
 import mod.azure.doom.util.ModSoundEvents;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.AreaEffectCloudEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
@@ -32,7 +31,6 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -107,6 +105,14 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 		}
 		if (this.dataTracker.get(STATE) == 4 && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("slam_nohelmet", true));
+			return PlayState.CONTINUE;
+		}
+		if (this.dataTracker.get(STATE) == 5 && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("stomp", true));
+			return PlayState.CONTINUE;
+		}
+		if (this.dataTracker.get(STATE) == 6 && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("stomp_nohelmet", true));
 			return PlayState.CONTINUE;
 		}
 		return PlayState.STOP;
@@ -193,19 +199,17 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 				if (this.parentEntity.canSee(livingEntity)) {
 					++this.cooldown;
 					Random rand = new Random();
-					double d = Math.min(livingEntity.getY(), parentEntity.getY());
-					double e1 = Math.max(livingEntity.getY(), parentEntity.getY()) + 1.0D;
 					float f2 = (float) MathHelper.atan2(livingEntity.getZ() - parentEntity.getZ(),
 							livingEntity.getX() - parentEntity.getX());
 					int j;
 					if (this.cooldown == 35) {
 						if (parentEntity.distanceTo(livingEntity) > 11.0D) {
 							float h2;
-
 							SplittableRandom random = new SplittableRandom();
-							boolean r = random.nextInt(1, 101) <= 20;
 							if (parentEntity.distanceTo(livingEntity) < 13.0D) {
-								if (r) {
+								if (random.nextInt(1, 101) == 20) {
+									double d = Math.min(livingEntity.getY(), parentEntity.getY());
+									double e1 = Math.max(livingEntity.getY(), parentEntity.getY()) + 1.0D;
 									for (j = 15; j < 55; ++j) {
 										h2 = f2 + (float) j * 3.1415927F * 0.4F;
 										parentEntity.spawnFlames(
@@ -243,6 +247,40 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 										} else {
 											this.parentEntity.setAttackingState(1);
 										}
+									}
+								} else if (random.nextInt(1, 101) == 40) {
+									float q = 50.0F;
+									int k = MathHelper.floor(this.parentEntity.getX() - (double) q - 1.0D);
+									int l = MathHelper.floor(this.parentEntity.getX() + (double) q + 1.0D);
+									int t = MathHelper.floor(this.parentEntity.getY() - (double) q - 1.0D);
+									int u = MathHelper.floor(this.parentEntity.getY() + (double) q + 1.0D);
+									int v = MathHelper.floor(this.parentEntity.getZ() - (double) q - 1.0D);
+									int w = MathHelper.floor(this.parentEntity.getZ() + (double) q + 1.0D);
+									List<Entity> list = this.parentEntity.world.getOtherEntities(this.parentEntity,
+											new Box((double) k, (double) t, (double) v, (double) l, (double) u,
+													(double) w));
+									Vec3d vec3d = new Vec3d(this.parentEntity.getX(), this.parentEntity.getY(),
+											this.parentEntity.getZ());
+									for (int x = 0; x < list.size(); ++x) {
+										Entity entity = (Entity) list.get(x);
+										double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d)) / q);
+										if (y <= 1.0D) {
+											if (entity instanceof LivingEntity) {
+												double d = (this.parentEntity.getBoundingBox().minX
+														+ this.parentEntity.getBoundingBox().maxX) / 2.0D;
+												double e = (this.parentEntity.getBoundingBox().minZ
+														+ this.parentEntity.getBoundingBox().maxZ) / 2.0D;
+												double f = entity.getX() - d;
+												double g = entity.getZ() - e;
+												double h = Math.max(f * f + g * g, 0.1D);
+												entity.addVelocity(f / h * 10.0D, (double) 0.2F * 10.0D, g / h * 10.0D);
+											}
+										}
+									}
+									if (parentEntity.getHealth() < (parentEntity.getMaxHealth() * 0.50)) {
+										this.parentEntity.setAttackingState(6);
+									} else {
+										this.parentEntity.setAttackingState(5);
 									}
 								} else {
 									this.parentEntity.doDamage();
@@ -283,26 +321,6 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 			if (y <= 1.0D) {
 				if (entity instanceof LivingEntity) {
 					entity.damage(DamageSource.magic(this, this.getTarget()), 7);
-					if (!this.world.isClient) {
-						List<LivingEntity> list1 = this.world.getEntitiesIncludingUngeneratedChunks(LivingEntity.class,
-								this.getBoundingBox().expand(4.0D, 2.0D, 4.0D));
-						AreaEffectCloudEntity areaeffectcloudentity = new AreaEffectCloudEntity(entity.world,
-								entity.getX(), entity.getY(), entity.getZ());
-						areaeffectcloudentity.setParticleType(ParticleTypes.EXPLOSION);
-						areaeffectcloudentity.setRadius(3.0F);
-						areaeffectcloudentity.setDuration(10);
-						if (!list1.isEmpty()) {
-							for (LivingEntity livingentity : list1) {
-								double d0 = this.squaredDistanceTo(livingentity);
-								if (d0 < 16.0D) {
-									areaeffectcloudentity.updatePosition(entity.getX(), entity.getEyeY(),
-											entity.getZ());
-									break;
-								}
-							}
-						}
-						this.world.spawnEntity(areaeffectcloudentity);
-					}
 				}
 			}
 		}

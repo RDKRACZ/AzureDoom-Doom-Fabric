@@ -133,15 +133,18 @@ public class TentacleEntity extends DemonEntity implements IAnimatable {
 				if (this.parentEntity.canSee(livingEntity)) {
 					if (parentEntity.distanceTo(livingEntity) < 3.0D) {
 						++this.cooldown;
-						if (this.cooldown == 35) {
+						if (this.cooldown == 15) {
 							this.parentEntity.doDamage();
-							this.cooldown = -35;
+							this.parentEntity.setAttackingState(1);
+						}
+						if (this.cooldown == 40) {
+							this.parentEntity.setAttackingState(0);
+							this.cooldown = -45;
 						}
 					}
 				} else if (this.cooldown > 0) {
 					--this.cooldown;
 				}
-				this.parentEntity.setAttackingState(this.cooldown >= 25 ? 1 : 0);
 			}
 		}
 

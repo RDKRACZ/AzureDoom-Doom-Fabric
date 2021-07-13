@@ -43,6 +43,7 @@ public class EnergyCellMobEntity extends ExplosiveProjectileEntity implements IA
 			float directHitDamage) {
 		super(ProjectilesEntityRegister.ENERGY_CELL_MOB, shooter, accelX, accelY, accelZ, worldIn);
 		this.shooter = shooter;
+		this.horizontalSpeed = 3.0F;
 		this.directHitDamage = directHitDamage;
 	}
 

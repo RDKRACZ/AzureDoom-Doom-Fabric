@@ -107,7 +107,7 @@ public class ArachnotronEntity extends DemonEntity implements IAnimatable {
 				new RangedStrafeAttackGoal(this,
 						new ArachnotronEntity.FireballAttack(this).setProjectileOriginOffset(0.8, 0.8, 0.8)
 								.setDamage(config.arachnotron_ranged_damage),
-						1.5D, 15, 30, 15, 15F, 1).setMultiShot(2, 3));
+						1.5D, 15, 30, 15, 15F, 1).setMultiShot(5, 3));
 		this.goalSelector.add(4, new DemonAttackGoal(this, 1.0D, false, 2));
 		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]).setGroupRevenge());
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
