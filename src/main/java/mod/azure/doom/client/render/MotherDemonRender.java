@@ -23,8 +23,8 @@ public class MotherDemonRender extends GeoEntityRenderer<MotherDemonEntity> {
 		return RenderLayer.getEntityTranslucent(getTextureLocation(animatable));
 	}
 
-	protected float getLyingAngle(MotherDemonEntity entityLivingBaseIn) {
+	@Override
+	protected float getDeathMaxRotation(MotherDemonEntity entityLivingBaseIn) {
 		return 0.0F;
 	}
-
 }

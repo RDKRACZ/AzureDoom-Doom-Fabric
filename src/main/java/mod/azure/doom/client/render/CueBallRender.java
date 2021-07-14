@@ -28,4 +28,9 @@ public class CueBallRender extends GeoEntityRenderer<CueBallEntity> {
 	protected int getBlockLight(CueBallEntity entityIn, BlockPos partialTicks) {
 		return 15;
 	}
+
+	@Override
+	protected float getDeathMaxRotation(CueBallEntity entityLivingBaseIn) {
+		return 0.0F;
+	}
 }

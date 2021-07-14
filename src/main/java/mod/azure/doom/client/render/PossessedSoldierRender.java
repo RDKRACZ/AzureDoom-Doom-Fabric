@@ -22,4 +22,9 @@ public class PossessedSoldierRender extends GeoEntityRenderer<PossessedSoldierEn
 			Identifier textureLocation) {
 		return RenderLayer.getEntityTranslucent(getTextureLocation(animatable));
 	}
+
+	@Override
+	protected float getDeathMaxRotation(PossessedSoldierEntity entityLivingBaseIn) {
+		return 0.0F;
+	}
 }

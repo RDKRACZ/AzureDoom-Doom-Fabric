@@ -73,4 +73,9 @@ public class MarauderRender extends GeoEntityRenderer<MarauderEntity> {
 		}
 		super.renderRecursively(bone, stack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 	}
+
+	@Override
+	protected float getDeathMaxRotation(MarauderEntity entityLivingBaseIn) {
+		return 0.0F;
+	}
 }

@@ -23,8 +23,9 @@ public class ProwlerRender extends GeoEntityRenderer<ProwlerEntity> {
 		return RenderLayer.getEntityTranslucent(getTextureLocation(animatable));
 	}
 
-	protected float getLyingAngle(ProwlerEntity entityLivingBaseIn) {
-		return 0;
+	@Override
+	protected float getDeathMaxRotation(ProwlerEntity entityLivingBaseIn) {
+		return 0.0F;
 	}
 
 }

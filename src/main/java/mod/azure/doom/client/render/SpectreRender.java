@@ -24,7 +24,8 @@ public class SpectreRender extends GeoEntityRenderer<SpectreEntity> {
 		return RenderLayer.getEntityTranslucent(getTextureLocation(animatable));
 	}
 
-	protected float getLyingAngle(SpectreEntity entityLivingBaseIn) {
+	@Override
+	protected float getDeathMaxRotation(SpectreEntity entityLivingBaseIn) {
 		return 0.0F;
 	}
 

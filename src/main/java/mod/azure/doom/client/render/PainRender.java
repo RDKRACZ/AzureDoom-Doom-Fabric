@@ -1,6 +1,5 @@
 package mod.azure.doom.client.render;
 
-import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 import mod.azure.doom.client.models.PainModel;
 import mod.azure.doom.entity.tierheavy.PainEntity;
 import net.minecraft.client.render.RenderLayer;
@@ -10,6 +9,7 @@ import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 public class PainRender extends GeoEntityRenderer<PainEntity> {
 
@@ -27,6 +27,11 @@ public class PainRender extends GeoEntityRenderer<PainEntity> {
 	@Override
 	protected int getBlockLight(PainEntity entity, BlockPos blockPos) {
 		return entity.getAttckingState() == 1 ? 15 : 1;
+	}
+
+	@Override
+	protected float getDeathMaxRotation(PainEntity entityLivingBaseIn) {
+		return 0.0F;
 	}
 
 }

@@ -29,7 +29,8 @@ public class ArchvileEternalRender extends GeoEntityRenderer<ArchvileEntity> {
 		return entity.getAttckingState() == 1 ? 15 : 1;
 	}
 
-	protected float getLyingAngle(ArchvileEntity entityLivingBaseIn) {
+	@Override
+	protected float getDeathMaxRotation(ArchvileEntity entityLivingBaseIn) {
 		return 0.0F;
 	}
 

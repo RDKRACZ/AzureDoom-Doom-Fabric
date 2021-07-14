@@ -61,4 +61,9 @@ public class ZombiemanRender extends GeoEntityRenderer<ZombiemanEntity> {
 		super.renderRecursively(bone, stack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 	}
 
+	@Override
+	protected float getDeathMaxRotation(ZombiemanEntity entityLivingBaseIn) {
+		return 0.0F;
+	}
+
 }

@@ -248,6 +248,11 @@ public class MobSpawn {
 		BiomeModifications.addSpawn(
 				BiomeSelectors.foundInTheNether()
 						.and(context -> context.getBiome().getCategory() == Biome.Category.NETHER),
+				SpawnGroup.MONSTER, ModEntityTypes.REVENANT2016, config.revenant_spawn_weight, config.revenant_min_group,
+				config.revenant_max_group);
+		BiomeModifications.addSpawn(
+				BiomeSelectors.foundInTheNether()
+						.and(context -> context.getBiome().getCategory() == Biome.Category.NETHER),
 				SpawnGroup.MONSTER, ModEntityTypes.SPIDERMASTERMIND, config.spider_mastermind_spawn_weight,
 				config.spider_mastermind_min_group, config.spider_mastermind_max_group);
 		BiomeModifications.addSpawn(

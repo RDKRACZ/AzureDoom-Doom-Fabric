@@ -61,4 +61,9 @@ public class ShotgunguyRender extends GeoEntityRenderer<ShotgunguyEntity> {
 		super.renderRecursively(bone, stack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 	}
 
+	@Override
+	protected float getDeathMaxRotation(ShotgunguyEntity entityLivingBaseIn) {
+		return 0.0F;
+	}
+
 }

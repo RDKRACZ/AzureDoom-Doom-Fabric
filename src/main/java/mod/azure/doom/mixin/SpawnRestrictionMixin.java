@@ -121,5 +121,7 @@ public class SpawnRestrictionMixin {
 				DemonEntity::canSpawnInDark);
 		register(ModEntityTypes.SUMMONER, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
 				DemonEntity::canSpawnInDark);
+		register(ModEntityTypes.REVENANT2016, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+				DemonEntity::canSpawnInDark);
 	}
 }

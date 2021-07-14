@@ -1,6 +1,5 @@
 package mod.azure.doom.client.render;
 
-import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 import mod.azure.doom.client.models.ImpModel;
 import mod.azure.doom.entity.tierfodder.ImpEntity;
 import net.minecraft.client.render.RenderLayer;
@@ -9,6 +8,7 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 public class ImpRender extends GeoEntityRenderer<ImpEntity> {
 
@@ -23,7 +23,8 @@ public class ImpRender extends GeoEntityRenderer<ImpEntity> {
 		return RenderLayer.getEntityTranslucent(getTextureLocation(animatable));
 	}
 
-	protected float getLyingAngle(ImpEntity entityLivingBaseIn) {
+	@Override
+	protected float getDeathMaxRotation(ImpEntity entityLivingBaseIn) {
 		return 0.0F;
 	}
 

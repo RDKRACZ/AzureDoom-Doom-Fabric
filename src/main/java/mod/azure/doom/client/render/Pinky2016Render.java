@@ -23,7 +23,8 @@ public class Pinky2016Render extends GeoEntityRenderer<Pinky2016> {
 		return RenderLayer.getEntityTranslucent(getTextureLocation(animatable));
 	}
 
-	protected float getLyingAngle(Pinky2016 entityLivingBaseIn) {
+	@Override
+	protected float getDeathMaxRotation(Pinky2016 entityLivingBaseIn) {
 		return 0.0F;
 	}
 
