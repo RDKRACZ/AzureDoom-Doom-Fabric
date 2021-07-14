@@ -1,6 +1,5 @@
 package mod.azure.doom.client.render;
 
-import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
 import mod.azure.doom.client.models.ZombiemanModel;
 import mod.azure.doom.entity.tierfodder.ZombiemanEntity;
 import mod.azure.doom.util.registry.DoomItems;
@@ -15,6 +14,7 @@ import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.geo.render.built.GeoBone;
+import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
 
 public class ZombiemanRender extends GeoEntityRenderer<ZombiemanEntity> {
 
@@ -59,6 +59,11 @@ public class ZombiemanRender extends GeoEntityRenderer<ZombiemanEntity> {
 			bufferIn = rtb.getBuffer(RenderLayer.getEntityTranslucent(whTexture));
 		}
 		super.renderRecursively(bone, stack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+	}
+
+	@Override
+	protected float getDeathMaxRotation(ZombiemanEntity entityLivingBaseIn) {
+		return 0.0F;
 	}
 
 }

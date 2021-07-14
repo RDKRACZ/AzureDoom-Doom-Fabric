@@ -23,7 +23,8 @@ public class SpiderMastermind2016Render extends GeoEntityRenderer<SpiderMastermi
 		return RenderLayer.getEntityTranslucent(getTextureLocation(animatable));
 	}
 
-	protected float getLyingAngle(SpiderMastermind2016Entity entityLivingBaseIn) {
+	@Override
+	protected float getDeathMaxRotation(SpiderMastermind2016Entity entityLivingBaseIn) {
 		return 0.0F;
 	}
 

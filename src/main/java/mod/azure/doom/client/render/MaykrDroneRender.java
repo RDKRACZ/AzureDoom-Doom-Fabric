@@ -23,7 +23,8 @@ public class MaykrDroneRender extends GeoEntityRenderer<MaykrDroneEntity> {
 		return RenderLayer.getEntityTranslucent(getTextureLocation(animatable));
 	}
 
-	protected float getLyingAngle(MaykrDroneEntity entityLivingBaseIn) {
+	@Override
+	protected float getDeathMaxRotation(MaykrDroneEntity entityLivingBaseIn) {
 		return 0.0F;
 	}
 

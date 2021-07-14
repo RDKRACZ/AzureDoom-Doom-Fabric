@@ -5,10 +5,6 @@ import java.time.temporal.ChronoField;
 import java.util.Random;
 
 import mod.azure.doom.entity.DemonEntity;
-import mod.azure.doom.entity.ai.goal.DemonAttackGoal;
-import mod.azure.doom.entity.ai.goal.RangedStrafeAttackGoal;
-import mod.azure.doom.entity.attack.AbstractRangedAttack;
-import mod.azure.doom.entity.attack.AttackSound;
 import mod.azure.doom.entity.projectiles.entity.RocketMobEntity;
 import mod.azure.doom.entity.tierfodder.ImpEntity;
 import mod.azure.doom.util.ModSoundEvents;
@@ -20,6 +16,7 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.FollowTargetGoal;
+import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.goal.RevengeGoal;
@@ -29,12 +26,12 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -47,26 +44,32 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class RevenantEntity extends DemonEntity implements IAnimatable {
+public class Revenant2016Entity extends DemonEntity implements IAnimatable {
 
 	private AnimationFactory factory = new AnimationFactory(this);
+	public int flameTimer;
 
 	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-		if (event.isMoving()) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
+		if (event.isMoving() && this.isOnGround()) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking_jetpack", true));
+			return PlayState.CONTINUE;
+		}
+		if (this.dataTracker.get(STATE) == 1 || this.hasNoGravity()) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("flying", true));
 			return PlayState.CONTINUE;
 		}
 		if ((this.dead || this.getHealth() < 0.01 || this.isDead())) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("death", false));
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("death_jetpack", false));
 			return PlayState.CONTINUE;
 		}
-		event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
+		event.getController().setAnimation(new AnimationBuilder().addAnimation("idle_jetpack", true));
 		return PlayState.CONTINUE;
 	}
 
 	@Override
 	public void registerControllers(AnimationData data) {
-		data.addAnimationController(new AnimationController<RevenantEntity>(this, "controller", 0, this::predicate));
+		data.addAnimationController(
+				new AnimationController<Revenant2016Entity>(this, "controller", 0, this::predicate));
 	}
 
 	@Override
@@ -74,7 +77,7 @@ public class RevenantEntity extends DemonEntity implements IAnimatable {
 		return this.factory;
 	}
 
-	public RevenantEntity(EntityType<RevenantEntity> entityType, World worldIn) {
+	public Revenant2016Entity(EntityType<Revenant2016Entity> entityType, World worldIn) {
 		super(entityType, worldIn);
 	}
 
@@ -109,6 +112,16 @@ public class RevenantEntity extends DemonEntity implements IAnimatable {
 		return p_223337_1_.getDifficulty() != Difficulty.PEACEFUL;
 	}
 
+	@Override
+	public void tick() {
+		super.tick();
+		flameTimer = (flameTimer + 1) % 2;
+	}
+
+	public int getFlameTimer() {
+		return flameTimer;
+	}
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	protected void initGoals() {
@@ -116,36 +129,91 @@ public class RevenantEntity extends DemonEntity implements IAnimatable {
 		this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
 		this.goalSelector.add(6, new LookAroundGoal(this));
 		this.targetSelector.add(1, new RevengeGoal(this, new Class[0]).setGroupRevenge());
-		this.goalSelector.add(4,
-				new RangedStrafeAttackGoal(this,
-						new RevenantEntity.FireballAttack(this).setProjectileOriginOffset(0.8, 0.8, 0.8)
-								.setDamage(config.revenant_ranged_damage),
-						1.0D, 50, 30, 15, 15F, 1).setMultiShot(2, 3));
-		this.goalSelector.add(7, new DemonAttackGoal(this, 1.0D, false, 2));
+		this.goalSelector.add(1, new Revenant2016Entity.FlyingAttackGoal(this));
 		this.targetSelector.add(2, new FollowTargetGoal(this, PlayerEntity.class, true));
 		this.targetSelector.add(3, new FollowTargetGoal<>(this, HostileEntity.class, true));
 	}
 
-	public class FireballAttack extends AbstractRangedAttack {
+	@Override
+	public int getSafeFallDistance() {
+		return 99;
+	}
 
-		public FireballAttack(DemonEntity parentEntity, double xOffSetModifier, double entityHeightFraction,
-				double zOffSetModifier, float damage) {
-			super(parentEntity, xOffSetModifier, entityHeightFraction, zOffSetModifier, damage);
+	@Override
+	protected int computeFallDamage(float fallDistance, float damageMultiplier) {
+		return 0;
+	}
+
+	@Override
+	protected void updateGoalControls() {
+		boolean flag = this.getTarget() != null && this.canSee(this.getTarget());
+		this.goalSelector.setControlEnabled(Goal.Control.LOOK, flag);
+		super.updateGoalControls();
+	}
+
+	static class FlyingAttackGoal extends Goal {
+		private final Revenant2016Entity parentEntity;
+		protected int attackTimer = 0;
+
+		public FlyingAttackGoal(Revenant2016Entity ghast) {
+			this.parentEntity = ghast;
 		}
 
-		public FireballAttack(DemonEntity parentEntity) {
-			super(parentEntity);
+		public boolean canStart() {
+			return this.parentEntity.getTarget() != null;
+		}
+
+		public void start() {
+			super.start();
+			this.parentEntity.setAttacking(true);
+			this.attackTimer = 0;
+			this.parentEntity.setAttackingState(0);
 		}
 
 		@Override
-		public AttackSound getDefaultAttackSound() {
-			return new AttackSound(ModSoundEvents.ROCKET_FIRING, 1, 1);
+		public void stop() {
+			super.stop();
+			this.parentEntity.setAttacking(false);
+			this.parentEntity.setAttackingState(0);
+			parentEntity.setNoGravity(false);
+			parentEntity.addVelocity(0, 0, 0);
 		}
 
-		@Override
-		public ProjectileEntity getProjectile(World world, double d2, double d3, double d4) {
-			return new RocketMobEntity(world, this.parentEntity, d2, d3, d4, damage);
-
+		public void tick() {
+			LivingEntity livingEntity = this.parentEntity.getTarget();
+			if (this.parentEntity.canSee(livingEntity)) {
+				++this.attackTimer;
+				World world = this.parentEntity.world;
+				Vec3d vec3d = this.parentEntity.getRotationVec(1.0F);
+				double f = livingEntity.getX() - (this.parentEntity.getX() + vec3d.x * 2.0D);
+				double g = livingEntity.getBodyY(0.5D) - (0.5D + this.parentEntity.getBodyY(0.5D));
+				double h = livingEntity.getZ() - (this.parentEntity.getZ() + vec3d.z * 2.0D);
+				RocketMobEntity fireballEntity = new RocketMobEntity(world, this.parentEntity, f, g, h, 5);
+				if (this.attackTimer == 15) {
+					parentEntity.setNoGravity(true);
+					parentEntity.addVelocity(0, (double) 0.2F * 2.0D, 0);
+					this.parentEntity.setAttackingState(1);
+					this.parentEntity.lookAtEntity(livingEntity, 30.0F, 30.0F);
+				}
+				if (this.attackTimer == 15) {
+					fireballEntity.updatePosition(this.parentEntity.getX() + vec3d.x * 2.0D,
+							this.parentEntity.getBodyY(0.5D) + 0.75D, parentEntity.getZ() + vec3d.z * 2.0D);
+					world.spawnEntity(fireballEntity);
+				}
+				if (this.attackTimer == 20) {
+					fireballEntity.updatePosition(this.parentEntity.getX() + vec3d.x * 2.0D,
+							this.parentEntity.getBodyY(0.5D) + 0.75D, parentEntity.getZ() + vec3d.z * 2.0D);
+					world.spawnEntity(fireballEntity);
+				}
+				if (this.attackTimer == 45) {
+					this.parentEntity.setAttackingState(0);
+					parentEntity.setNoGravity(false);
+					parentEntity.addVelocity(0, 0, 0);
+					this.attackTimer = -50;
+				}
+			} else if (this.attackTimer > 0) {
+				--this.attackTimer;
+			}
 		}
 	}
 

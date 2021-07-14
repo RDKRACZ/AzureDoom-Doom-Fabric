@@ -24,10 +24,6 @@ public class SpectreRender extends GeoEntityRenderer<SpectreEntity> {
 		return RenderLayer.getEntityTranslucent(getTextureLocation(animatable));
 	}
 
-	protected float getLyingAngle(SpectreEntity entityLivingBaseIn) {
-		return 0.0F;
-	}
-
 	@Override
 	public void render(GeoModel model, SpectreEntity animatable, float partialTicks, RenderLayer type,
 			MatrixStack matrixStackIn, VertexConsumerProvider renderTypeBuffer, VertexConsumer vertexBuilder,
@@ -35,5 +31,10 @@ public class SpectreRender extends GeoEntityRenderer<SpectreEntity> {
 		// TODO Auto-generated method stub
 		super.render(model, animatable, partialTicks, type, matrixStackIn, renderTypeBuffer, vertexBuilder,
 				packedLightIn, packedOverlayIn, red, green, blue, 0.1F);
+	}
+
+	@Override
+	protected float getDeathMaxRotation(SpectreEntity entityLivingBaseIn) {
+		return 0.0F;
 	}
 }

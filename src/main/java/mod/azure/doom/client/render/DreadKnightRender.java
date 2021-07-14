@@ -23,4 +23,9 @@ public class DreadKnightRender extends GeoEntityRenderer<Hellknight2016Entity> {
 		return RenderLayer.getEntityTranslucent(getTextureLocation(animatable));
 	}
 
+	@Override
+	protected float getDeathMaxRotation(Hellknight2016Entity entityLivingBaseIn) {
+		return 0.0F;
+	}
+
 }

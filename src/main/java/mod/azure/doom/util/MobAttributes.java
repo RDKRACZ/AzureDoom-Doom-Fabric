@@ -33,6 +33,7 @@ import mod.azure.doom.entity.tierheavy.PainEntity;
 import mod.azure.doom.entity.tierheavy.Pinky2016;
 import mod.azure.doom.entity.tierheavy.PinkyEntity;
 import mod.azure.doom.entity.tierheavy.ProwlerEntity;
+import mod.azure.doom.entity.tierheavy.Revenant2016Entity;
 import mod.azure.doom.entity.tierheavy.RevenantEntity;
 import mod.azure.doom.entity.tierheavy.SpectreEntity;
 import mod.azure.doom.entity.tierheavy.WhiplashEntity;
@@ -110,5 +111,6 @@ public class MobAttributes {
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.MOTHERDEMON, MotherDemonEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.TURRET, TurretEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(ModEntityTypes.SUMMONER, SummonerEntity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(ModEntityTypes.REVENANT2016, Revenant2016Entity.createMobAttributes());
 	}
 }

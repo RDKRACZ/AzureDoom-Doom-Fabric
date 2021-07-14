@@ -35,6 +35,7 @@ import mod.azure.doom.entity.tierheavy.PainEntity;
 import mod.azure.doom.entity.tierheavy.Pinky2016;
 import mod.azure.doom.entity.tierheavy.PinkyEntity;
 import mod.azure.doom.entity.tierheavy.ProwlerEntity;
+import mod.azure.doom.entity.tierheavy.Revenant2016Entity;
 import mod.azure.doom.entity.tierheavy.RevenantEntity;
 import mod.azure.doom.entity.tierheavy.SpectreEntity;
 import mod.azure.doom.entity.tierheavy.WhiplashEntity;
@@ -367,5 +368,11 @@ public class ModEntityTypes {
 			new Identifier(DoomMod.MODID, "summoner"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, SummonerEntity::new)
 					.dimensions(EntityDimensions.fixed(0.9F, 4.3F)).fireImmune().trackRangeBlocks(90)
+					.trackedUpdateRate(4).build());
+
+	public static final EntityType<Revenant2016Entity> REVENANT2016 = Registry.register(Registry.ENTITY_TYPE,
+			new Identifier(DoomMod.MODID, "revenant2016"),
+			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, Revenant2016Entity::new)
+					.dimensions(EntityDimensions.fixed(0.6f, 1.95F)).fireImmune().trackRangeBlocks(90)
 					.trackedUpdateRate(4).build());
 }

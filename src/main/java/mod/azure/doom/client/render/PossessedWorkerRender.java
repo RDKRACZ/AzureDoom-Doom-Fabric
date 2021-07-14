@@ -23,7 +23,8 @@ public class PossessedWorkerRender extends GeoEntityRenderer<PossessedScientistE
 		return RenderLayer.getEntityTranslucent(getTextureLocation(animatable));
 	}
 
-	protected float getLyingAngle(PossessedScientistEntity entityLivingBaseIn) {
+	@Override
+	protected float getDeathMaxRotation(PossessedScientistEntity entityLivingBaseIn) {
 		return 0.0F;
 	}
 

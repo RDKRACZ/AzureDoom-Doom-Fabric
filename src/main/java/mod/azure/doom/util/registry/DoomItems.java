@@ -239,6 +239,8 @@ public class DoomItems {
 	public static DoomSpawnEgg TURRET_SPAWN_EGG = item("turret_spawn_egg", new DoomSpawnEgg(ModEntityTypes.TURRET));
 	public static DoomSpawnEgg SUMMONER_SPAWN_EGG = item("summoner_spawn_egg",
 			new DoomSpawnEgg(ModEntityTypes.SUMMONER));
+	public static DoomSpawnEgg REVENANT2016_SPAWN_EGG = item("revenant2016_spawn_egg",
+			new DoomSpawnEgg(ModEntityTypes.REVENANT2016));
 
 	// Armor
 	public static DoomArmor DOOM_HELMET = item("doom_helmet",

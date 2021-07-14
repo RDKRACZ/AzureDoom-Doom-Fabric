@@ -23,4 +23,9 @@ public class Baron2016Render extends GeoEntityRenderer<BaronEntity> {
 		return RenderLayer.getEntityTranslucent(getTextureLocation(animatable));
 	}
 
+	@Override
+	protected float getDeathMaxRotation(BaronEntity entityLivingBaseIn) {
+		return 0.0F;
+	}
+
 }

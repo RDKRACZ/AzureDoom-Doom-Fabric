@@ -1,6 +1,5 @@
 package mod.azure.doom.client.render;
 
-import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
 import mod.azure.doom.client.models.IconofsinModel;
 import mod.azure.doom.entity.tierboss.IconofsinEntity;
 import net.minecraft.client.render.RenderLayer;
@@ -10,6 +9,7 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.geo.render.built.GeoModel;
+import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
 
 public class IconofsinRender extends GeoEntityRenderer<IconofsinEntity> {
 
@@ -157,6 +157,11 @@ public class IconofsinRender extends GeoEntityRenderer<IconofsinEntity> {
 		super.renderEarly(animatable, stackIn, ticks, renderTypeBuffer, vertexBuilder, packedLightIn, packedOverlayIn,
 				red, green, blue, partialTicks);
 		stackIn.scale(2F, 2F, 2F);
+	}
+
+	@Override
+	protected float getDeathMaxRotation(IconofsinEntity entityLivingBaseIn) {
+		return 0.0F;
 	}
 
 }

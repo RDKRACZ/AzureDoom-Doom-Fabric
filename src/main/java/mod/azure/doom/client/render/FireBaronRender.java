@@ -23,4 +23,9 @@ public class FireBaronRender extends GeoEntityRenderer<FireBaronEntity> {
 		return RenderLayer.getEntityTranslucent(getTextureLocation(animatable));
 	}
 
+	@Override
+	protected float getDeathMaxRotation(FireBaronEntity entityLivingBaseIn) {
+		return 0.0F;
+	}
+
 }

@@ -41,6 +41,7 @@ import mod.azure.doom.client.render.PossessedScientistRender;
 import mod.azure.doom.client.render.PossessedSoldierRender;
 import mod.azure.doom.client.render.PossessedWorkerRender;
 import mod.azure.doom.client.render.ProwlerRender;
+import mod.azure.doom.client.render.Revenant2016Render;
 import mod.azure.doom.client.render.RevenantRender;
 import mod.azure.doom.client.render.ShotgunguyRender;
 import mod.azure.doom.client.render.SpectreRender;
@@ -296,6 +297,9 @@ public class DoomRenderRegistry {
 		});
 		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.SUMMONER, (dispatcher, context) -> {
 			return new SummonerRender(dispatcher);
+		});
+		EntityRendererRegistry.INSTANCE.register(ModEntityTypes.REVENANT2016, (dispatcher, context) -> {
+			return new Revenant2016Render(dispatcher);
 		});
 
 		EntityRendererRegistry.INSTANCE.register(ProjectilesEntityRegister.ARGENT_BOLT, (dispatcher, context) -> {

@@ -24,7 +24,8 @@ public class ArachonotronEternalRender extends GeoEntityRenderer<ArachnotronEnti
 		return RenderLayer.getEntityTranslucent(getTextureLocation(animatable));
 	}
 
-	protected float getLyingAngle(ArachnotronEntity entityLivingBaseIn) {
+	@Override
+	protected float getDeathMaxRotation(ArachnotronEntity entityLivingBaseIn) {
 		return 0.0F;
 	}
 
