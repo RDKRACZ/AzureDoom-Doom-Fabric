@@ -142,6 +142,11 @@ public class DoomMod implements ModInitializer {
 				BiomeSelectors.all(), context -> {
 					context.getGenerationSettings().addBuiltInStructure(DoomConfiguredStructures.CONFIGURED_MAYKR);
 				});
+		BiomeModifications.create(new Identifier(MODID, "netherportal_addition")).add(ModificationPhase.ADDITIONS,
+				BiomeSelectors.all(), context -> {
+					context.getGenerationSettings()
+							.addBuiltInStructure(DoomConfiguredStructures.CONFIGURED_NETHERPORTAL);
+				});
 		BiomeModifications.create(new Identifier(MODID, "archmaykr_addition")).add(ModificationPhase.ADDITIONS,
 				BiomeSelectors.all(), context -> {
 					context.getGenerationSettings().addBuiltInStructure(DoomConfiguredStructures.CONFIGURED_ARCHMAYKR);
@@ -225,6 +230,7 @@ public class DoomMod implements ModInitializer {
 				tempMap.keySet().remove(DoomStructures.ARCHMAYKR);
 				tempMap.keySet().remove(DoomStructures.TITAN_SKULL);
 				tempMap.keySet().remove(DoomStructures.PORTAL);
+				tempMap.keySet().remove(DoomStructures.NETHERPORTAL);
 				tempMap.keySet().remove(DoomStructures.MOTHERDEMON);
 			}
 			if (!serverWorld.getRegistryKey().getValue().getPath().equals("the_end")) {
@@ -234,6 +240,7 @@ public class DoomMod implements ModInitializer {
 			if (!serverWorld.getRegistryKey().getValue().getPath().equals("the_nether")) {
 				tempMap.keySet().remove(DoomStructures.TITAN_SKULL);
 				tempMap.keySet().remove(DoomStructures.MOTHERDEMON);
+				tempMap.keySet().remove(DoomStructures.NETHERPORTAL);
 			}
 			if ((serverWorld.getRegistryKey().getValue().getPath().equals("the_nether"))
 					|| serverWorld.getRegistryKey().getValue().getPath().equals("the_end")) {

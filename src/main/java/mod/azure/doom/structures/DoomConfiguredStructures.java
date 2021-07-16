@@ -19,6 +19,8 @@ public class DoomConfiguredStructures {
 			.configure(DefaultFeatureConfig.DEFAULT);
 	public static ConfiguredStructureFeature<?, ?> CONFIGURED_MOTHERDEMON = DoomStructures.MOTHERDEMON
 			.configure(DefaultFeatureConfig.DEFAULT);
+	public static ConfiguredStructureFeature<?, ?> CONFIGURED_NETHERPORTAL = DoomStructures.NETHERPORTAL
+			.configure(DefaultFeatureConfig.DEFAULT);
 
 	public static void registerConfiguredStructures() {
 		Registry<ConfiguredStructureFeature<?, ?>> registry = BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE;
@@ -26,6 +28,7 @@ public class DoomConfiguredStructures {
 		Registry.register(registry, new Identifier(DoomMod.MODID, "configured_archmaykr"), CONFIGURED_ARCHMAYKR);
 		Registry.register(registry, new Identifier(DoomMod.MODID, "configured_titan_skull"), CONFIGURED_TITAN_SKULL);
 		Registry.register(registry, new Identifier(DoomMod.MODID, "configured_portal"), CONFIGURED_PORTAL);
+		Registry.register(registry, new Identifier(DoomMod.MODID, "configured_netherportal"), CONFIGURED_NETHERPORTAL);
 		Registry.register(registry, new Identifier(DoomMod.MODID, "configured_motherdemon"), CONFIGURED_MOTHERDEMON);
 	}
 }

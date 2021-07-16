@@ -1,5 +1,6 @@
 package mod.azure.doom.entity.tierboss;
 
+import java.util.List;
 import java.util.Random;
 
 import org.jetbrains.annotations.Nullable;
@@ -9,6 +10,7 @@ import mod.azure.doom.entity.projectiles.CustomFireballEntity;
 import mod.azure.doom.entity.projectiles.entity.DoomFireEntity;
 import mod.azure.doom.util.ModSoundEvents;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -33,6 +35,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -219,6 +222,26 @@ public class MotherDemonEntity extends DemonEntity implements IAnimatable {
 				--this.cooldown;
 			}
 			this.parentEntity.lookAtEntity(livingEntity, 30.0F, 30.0F);
+		}
+	}
+
+	@Override
+	public void baseTick() {
+		super.baseTick();
+		float q = 50.0F;
+		int k = MathHelper.floor(this.getX() - (double) q - 1.0D);
+		int l = MathHelper.floor(this.getX() + (double) q + 1.0D);
+		int t = MathHelper.floor(this.getY() - (double) q - 1.0D);
+		int u = MathHelper.floor(this.getY() + (double) q + 1.0D);
+		int v = MathHelper.floor(this.getZ() - (double) q - 1.0D);
+		int w = MathHelper.floor(this.getZ() + (double) q + 1.0D);
+		List<Entity> list = this.world.getOtherEntities(this,
+				new Box((double) k, (double) t, (double) v, (double) l, (double) u, (double) w));
+		for (int x = 0; x < list.size(); ++x) {
+			Entity entity = (Entity) list.get(x);
+			if (entity instanceof MotherDemonEntity && entity.age < 1) {
+				entity.remove();
+			}
 		}
 	}
 

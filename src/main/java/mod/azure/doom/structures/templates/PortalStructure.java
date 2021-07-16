@@ -1,4 +1,4 @@
-package mod.azure.doom.structures;
+package mod.azure.doom.structures.templates;
 
 import java.util.List;
 
@@ -29,22 +29,40 @@ import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.StructureFeature;
 import net.minecraft.world.gen.feature.StructurePoolFeatureConfig;
 
-public class MotherDemonStructure extends StructureFeature<DefaultFeatureConfig> {
-	public MotherDemonStructure(Codec<DefaultFeatureConfig> codec) {
+public class PortalStructure extends StructureFeature<DefaultFeatureConfig> {
+	public PortalStructure(Codec<DefaultFeatureConfig> codec) {
 		super(codec);
 	}
 
 	@Override
 	public StructureStartFactory<DefaultFeatureConfig> getStructureStartFactory() {
-		return MotherDemonStructure.Start::new;
+		return PortalStructure.Start::new;
 	}
 
 	private static final List<SpawnSettings.SpawnEntry> STRUCTURE_MONSTERS = ImmutableList.of(
-			new SpawnSettings.SpawnEntry(ModEntityTypes.MOTHERDEMON, 100, 1, 1));
+			new SpawnSettings.SpawnEntry(ModEntityTypes.LOST_SOUL, 20, 1, 2),
+			new SpawnSettings.SpawnEntry(ModEntityTypes.TURRET, 20, 1, 2),
+			new SpawnSettings.SpawnEntry(ModEntityTypes.ZOMBIEMAN, 20, 1, 2),
+			new SpawnSettings.SpawnEntry(ModEntityTypes.CHAINGUNNER, 20, 1, 2),
+			new SpawnSettings.SpawnEntry(ModEntityTypes.POSSESSEDWORKER, 20, 1, 2),
+			new SpawnSettings.SpawnEntry(ModEntityTypes.ARACHNOTRONETERNAL, 20, 1, 2));
 
 	@Override
 	public List<SpawnSettings.SpawnEntry> getMonsterSpawns() {
 		return STRUCTURE_MONSTERS;
+	}
+
+	private static final List<SpawnSettings.SpawnEntry> STRUCTURE_CREATURES = ImmutableList.of(
+			new SpawnSettings.SpawnEntry(ModEntityTypes.LOST_SOUL, 20, 1, 2),
+			new SpawnSettings.SpawnEntry(ModEntityTypes.TURRET, 20, 1, 2),
+			new SpawnSettings.SpawnEntry(ModEntityTypes.ZOMBIEMAN, 20, 1, 2),
+			new SpawnSettings.SpawnEntry(ModEntityTypes.CHAINGUNNER, 20, 1, 2),
+			new SpawnSettings.SpawnEntry(ModEntityTypes.POSSESSEDWORKER, 20, 1, 2),
+			new SpawnSettings.SpawnEntry(ModEntityTypes.ARACHNOTRONETERNAL, 20, 1, 2));
+
+	@Override
+	public List<SpawnSettings.SpawnEntry> getCreatureSpawns() {
+		return STRUCTURE_CREATURES;
 	}
 
 	@Override
@@ -69,12 +87,13 @@ public class MotherDemonStructure extends StructureFeature<DefaultFeatureConfig>
 		public void init(DynamicRegistryManager dynamicRegistryManager, ChunkGenerator chunkGenerator,
 				StructureManager structureManager, int chunkX, int chunkZ, Biome biome,
 				DefaultFeatureConfig defaultFeatureConfig) {
-			ChunkPos chunkPos = new ChunkPos(chunkX, chunkZ);
-			BlockPos.Mutable blockpos = new BlockPos.Mutable(chunkPos.getStartX() + this.random.nextInt(16), 33,
-					chunkPos.getStartZ() + this.random.nextInt(16));
+
+			int x = (chunkX << 4) + 7;
+			int z = (chunkZ << 4) + 7;
+			BlockPos.Mutable blockpos = new BlockPos.Mutable(x, chunkGenerator.getSeaLevel(), z);
 			StructurePoolBasedGenerator.method_30419(dynamicRegistryManager,
 					new StructurePoolFeatureConfig(() -> dynamicRegistryManager.get(Registry.TEMPLATE_POOL_WORLDGEN)
-							.get(new Identifier(DoomMod.MODID, "motherdemon/start_pool")), 10),
+							.get(new Identifier(DoomMod.MODID, "portal/start_pool")), 10),
 					PoolStructurePiece::new, chunkGenerator, structureManager, blockpos, this.children, this.random,
 					false, false);
 			this.children.forEach(piece -> piece.translate(0, 1, 0));
