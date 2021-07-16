@@ -4,6 +4,7 @@ import mod.azure.doom.DoomMod;
 import mod.azure.doom.structures.templates.ArchMaykrStructure;
 import mod.azure.doom.structures.templates.MaykrStructure;
 import mod.azure.doom.structures.templates.MotherDemonStructure;
+import mod.azure.doom.structures.templates.NetherPortalStructure;
 import mod.azure.doom.structures.templates.PortalStructure;
 import mod.azure.doom.structures.templates.TitanSkullStructure;
 import net.fabricmc.fabric.api.structure.v1.FabricStructureBuilder;
@@ -28,14 +29,16 @@ public class DoomStructures {
 
 	public static StructureFeature<DefaultFeatureConfig> PORTAL = new PortalStructure(DefaultFeatureConfig.CODEC);
 
+	public static StructureFeature<DefaultFeatureConfig> NETHERPORTAL = new NetherPortalStructure(DefaultFeatureConfig.CODEC);
+
 	public static void setupAndRegisterStructureFeatures() {
 
 		FabricStructureBuilder.create(new Identifier(DoomMod.MODID, "maykr"), MAYKR)
-				.step(GenerationStep.Feature.SURFACE_STRUCTURES).defaultConfig(new StructureConfig(20, 11, 1234567890))
+				.step(GenerationStep.Feature.SURFACE_STRUCTURES).defaultConfig(new StructureConfig(80, 20, 1234567890))
 				.superflatFeature(MAYKR.configure(FeatureConfig.DEFAULT)).adjustsSurface().register();
 
 		FabricStructureBuilder.create(new Identifier(DoomMod.MODID, "archmaykr"), ARCHMAYKR)
-				.step(GenerationStep.Feature.SURFACE_STRUCTURES).defaultConfig(new StructureConfig(20, 11, 1234567898))
+				.step(GenerationStep.Feature.SURFACE_STRUCTURES).defaultConfig(new StructureConfig(80, 20, 1234567898))
 				.superflatFeature(ARCHMAYKR.configure(FeatureConfig.DEFAULT)).adjustsSurface().register();
 
 		FabricStructureBuilder.create(new Identifier(DoomMod.MODID, "titan_skull"), TITAN_SKULL)
@@ -49,5 +52,9 @@ public class DoomStructures {
 		FabricStructureBuilder.create(new Identifier(DoomMod.MODID, "portal"), PORTAL)
 				.step(GenerationStep.Feature.SURFACE_STRUCTURES).defaultConfig(new StructureConfig(80, 20, 1234567890))
 				.superflatFeature(PORTAL.configure(FeatureConfig.DEFAULT)).adjustsSurface().register();
+
+		FabricStructureBuilder.create(new Identifier(DoomMod.MODID, "netherportal"), NETHERPORTAL)
+				.step(GenerationStep.Feature.SURFACE_STRUCTURES).defaultConfig(new StructureConfig(80, 20, 1234567895))
+				.superflatFeature(NETHERPORTAL.configure(FeatureConfig.DEFAULT)).adjustsSurface().register();
 	}
 }

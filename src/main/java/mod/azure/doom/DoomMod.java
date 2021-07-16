@@ -135,6 +135,11 @@ public class DoomMod implements ModInitializer {
 				(context) -> RegistrationHelper.addStructure(context, DoomConfiguredStructures.CONFIGURED_PORTAL)
 
 		);
+		RegistrationHelper.addToBiome(new Identifier(DoomMod.MODID, "netherportal_addition"),
+				BiomeSelectors.foundInOverworld().and(BiomeSelectors.foundInOverworld()),
+				(context) -> RegistrationHelper.addStructure(context, DoomConfiguredStructures.CONFIGURED_NETHERPORTAL)
+
+		);
 		RegistrationHelper.addToBiome(new Identifier(DoomMod.MODID, "maykr_addition"),
 				BiomeSelectors.foundInTheEnd().and(BiomeSelectors.foundInTheEnd()),
 				(context) -> RegistrationHelper.addStructure(context, DoomConfiguredStructures.CONFIGURED_MAYKR)
@@ -168,6 +173,7 @@ public class DoomMod implements ModInitializer {
 				tempMap.keySet().remove(DoomStructures.ARCHMAYKR);
 				tempMap.keySet().remove(DoomStructures.TITAN_SKULL);
 				tempMap.keySet().remove(DoomStructures.PORTAL);
+				tempMap.keySet().remove(DoomStructures.NETHERPORTAL);
 				tempMap.keySet().remove(DoomStructures.MOTHERDEMON);
 			}
 			if (!serverWorld.getRegistryKey().getValue().getPath().equals("the_end")) {
@@ -177,6 +183,7 @@ public class DoomMod implements ModInitializer {
 			if (!serverWorld.getRegistryKey().getValue().getPath().equals("the_nether")) {
 				tempMap.keySet().remove(DoomStructures.TITAN_SKULL);
 				tempMap.keySet().remove(DoomStructures.MOTHERDEMON);
+				tempMap.keySet().remove(DoomStructures.NETHERPORTAL);
 			}
 			if ((serverWorld.getRegistryKey().getValue().getPath().equals("the_nether"))
 					|| serverWorld.getRegistryKey().getValue().getPath().equals("the_end")) {

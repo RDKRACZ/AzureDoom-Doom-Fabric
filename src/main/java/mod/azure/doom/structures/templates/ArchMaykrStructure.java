@@ -3,6 +3,7 @@ package mod.azure.doom.structures.templates;
 import com.mojang.serialization.Codec;
 
 import mod.azure.doom.DoomMod;
+import mod.azure.doom.structures.DoomStructures;
 import mod.azure.doom.util.registry.ModEntityTypes;
 import net.minecraft.block.BlockState;
 import net.minecraft.structure.MarginedStructureStart;
@@ -23,6 +24,7 @@ import net.minecraft.world.biome.SpawnSettings.SpawnEntry;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.gen.ChunkRandom;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
+import net.minecraft.world.gen.chunk.StructureConfig;
 import net.minecraft.world.gen.chunk.VerticalBlockSample;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.StructureFeature;
@@ -57,7 +59,26 @@ public class ArchMaykrStructure extends StructureFeature<DefaultFeatureConfig> {
 		VerticalBlockSample columnOfBlocks = chunkGenerator.getColumnSample(centerOfChunk.getX(), centerOfChunk.getZ(),
 				world);
 		BlockState topBlock = columnOfBlocks.getState(centerOfChunk.up(landHeight));
-		return topBlock.getFluidState().isEmpty();
+		return !this.isNearby(chunkGenerator, worldSeed, random, chunkPos) ? topBlock.getFluidState().isEmpty() : false;
+	}
+
+	private boolean isNearby(ChunkGenerator generator, long worldSeed, ChunkRandom random, ChunkPos pos) {
+		StructureConfig structureConfig = generator.getStructuresConfig().getForType(DoomStructures.MAYKR);
+		if (structureConfig == null) {
+			return false;
+		} else {
+			int i = pos.x;
+			int j = pos.z;
+			for (int k = i - 10; k <= i + 10; ++k) {
+				for (int l = j - 10; l <= j + 10; ++l) {
+					ChunkPos chunkPos = DoomStructures.MAYKR.getStartChunk(structureConfig, worldSeed, random, k, l);
+					if (k == chunkPos.x && l == chunkPos.z) {
+						return true;
+					}
+				}
+			}
+			return false;
+		}
 	}
 
 	public static class Start extends MarginedStructureStart<DefaultFeatureConfig> {
