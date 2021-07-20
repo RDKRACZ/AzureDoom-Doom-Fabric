@@ -149,7 +149,7 @@ public class GunTableScreen extends HandledScreen<GunTableScreenHandler> {
 
 	private void renderIngredients(MatrixStack matrices, GunTableRecipe gunTableRecipe, int x, int y) {
 		for (int i = 0; i < 5; i++) {
-			ItemStack[] displayStacks = gunTableRecipe.getIngredientForSlot(i).getMatchingStacksClient();
+			ItemStack[] displayStacks = gunTableRecipe.getIngredientForSlot(i).getMatchingStacks();
 			if (displayStacks.length > 0) {
 				// probably slow, but subclassing ingredient is hard in fabric
 				ItemStack stack = new ItemStack(displayStacks[0].getItem(), gunTableRecipe.countRequired(i));

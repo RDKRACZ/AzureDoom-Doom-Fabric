@@ -91,7 +91,7 @@ public class AxeMarauderItem extends AxeItem {
 	@Override
 	public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
 		ItemStack stack = new ItemStack(this);
-		stack.hasTag();
+		stack.hasNbt();
 		stack.addEnchantment(Enchantments.SMITE, 10);
 		stack.addEnchantment(Enchantments.LOOTING, 10);
 		stack.addEnchantment(Enchantments.SHARPNESS, 10);
@@ -103,7 +103,7 @@ public class AxeMarauderItem extends AxeItem {
 
 	@Override
 	public void onCraft(ItemStack stack, World world, PlayerEntity player) {
-		stack.hasTag();
+		stack.hasNbt();
 		stack.addEnchantment(Enchantments.SMITE, 10);
 		stack.addEnchantment(Enchantments.LOOTING, 10);
 		stack.addEnchantment(Enchantments.SHARPNESS, 10);

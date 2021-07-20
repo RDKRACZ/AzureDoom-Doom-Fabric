@@ -33,7 +33,7 @@
 		"fabric": "*",
 		"minecraft": "1.17.x",
 		"trinkets": ">=3.0.1",
-		"geckolib3": ">=3.0.4"
+		"geckolib3": ">=3.0.9"
 	},
 	"suggests": {
 		"flamingo": "*"

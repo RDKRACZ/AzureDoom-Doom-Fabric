@@ -104,7 +104,7 @@ public class ChainBladeEntity extends ExplosiveProjectileEntity implements IAnim
 		if (!this.world.isClient) {
 			Entity entity = entityHitResult.getEntity();
 			Entity entity2 = this.getOwner();
-			entity.damage(DamageSource.magic(this, entity2), directHitDamage);
+			entity.damage(DamageSource.mob((LivingEntity) entity2), directHitDamage);
 			if (entity2 instanceof LivingEntity) {
 				this.applyDamageEffects((LivingEntity) entity2, entity);
 			}

@@ -63,7 +63,7 @@ public class BronzeDoomArmor extends GeoArmorItem implements IAnimatable {
 	@Override
 	public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
 		ItemStack stack = new ItemStack(this);
-		stack.hasTag();
+		stack.hasNbt();
 		stack.addEnchantment(Enchantments.FIRE_PROTECTION, 1);
 		if ((group == DoomMod.DoomArmorItemGroup) || (group == ItemGroup.SEARCH)) {
 			stacks.add(stack);
@@ -72,7 +72,7 @@ public class BronzeDoomArmor extends GeoArmorItem implements IAnimatable {
 
 	@Override
 	public void onCraft(ItemStack stack, World world, PlayerEntity player) {
-		stack.hasTag();
+		stack.hasNbt();
 		stack.addEnchantment(Enchantments.FIRE_PROTECTION, 1);
 	}
 

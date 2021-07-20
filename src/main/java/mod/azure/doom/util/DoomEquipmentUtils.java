@@ -19,9 +19,9 @@ public class DoomEquipmentUtils {
 	public static String TAG = "doomguntag";
 
 	public static boolean ruinedItemHasEnchantment(ItemStack ruinedItem, Enchantment enchantment) {
-		if (ruinedItem.getTag() == null)
+		if (ruinedItem.getNbt() == null)
 			return false;
-		String tagString = ruinedItem.getTag().getString(TAG);
+		String tagString = ruinedItem.getNbt().getString(TAG);
 		Map<Enchantment, Integer> enchantMap = DoomEquipmentUtils.processEncodedEnchantments(tagString);
 		if (enchantMap == null)
 			return false;
@@ -49,7 +49,7 @@ public class DoomEquipmentUtils {
 	public static ItemStack generateRepairedItemForAnvilByDamage(ItemStack leftStack, int targetDamage) {
 
 		ItemStack repaired = new ItemStack(DoomItems.getItemMap().get(leftStack.getItem()));
-		NbtCompound tag = leftStack.getOrCreateTag();
+		NbtCompound tag = leftStack.getOrCreateNbt();
 		String encodedEnch = tag.getString(TAG);
 		if (!encodedEnch.isEmpty())
 			tag.remove(TAG);
@@ -59,7 +59,7 @@ public class DoomEquipmentUtils {
 				repaired.addEnchantment(enchant.getKey(), enchant.getValue());
 			}
 		}
-		repaired.setTag(repaired.getOrCreateTag().copyFrom(tag));
+		repaired.setNbt(repaired.getOrCreateNbt().copyFrom(tag));
 		repaired.setDamage(targetDamage);
 		return repaired;
 	}
@@ -83,31 +83,31 @@ public class DoomEquipmentUtils {
 			if (isVanillaItemStackBreaking(breakingStack, itemMap.getValue())) {
 				// Directly copy over breaking Item's NBT, removing specific fields
 				ItemStack ruinedStack = new ItemStack(itemMap.getKey());
-				NbtCompound breakingNBT = breakingStack.getOrCreateTag();
+				NbtCompound breakingNBT = breakingStack.getOrCreateNbt();
 				if (breakingNBT.contains("Damage"))
 					breakingNBT.remove("Damage");
 				if (breakingNBT.contains("RepairCost"))
 					breakingNBT.remove("RepairCost");
 				// Set enchantment NBT data
-				NbtCompound enchantTag = getTagForEnchantments(breakingStack, ruinedStack);
+				NbtCompound enchantTag = getNbtForEnchantments(breakingStack, ruinedStack);
 				if (enchantTag != null)
 					breakingNBT.copyFrom(enchantTag);
 				if (breakingNBT.contains("Enchantments"))
 					breakingNBT.remove("Enchantments");
-				ruinedStack.setTag(breakingNBT);
+				ruinedStack.setNbt(breakingNBT);
 				serverPlayer.getInventory().offerOrDrop(ruinedStack);
 			}
 		}
 	}
 
-	public static NbtCompound getTagForEnchantments(ItemStack breakingStack, ItemStack ruinedStack) {
+	public static NbtCompound getNbtForEnchantments(ItemStack breakingStack, ItemStack ruinedStack) {
 		Set<String> enchantmentStrings = new HashSet<>();
 		for (Map.Entry<Enchantment, Integer> ench : EnchantmentHelper.get(breakingStack).entrySet()) {
 			String enchantString = Registry.ENCHANTMENT.getId(ench.getKey()) + ">" + ench.getValue();
 			enchantmentStrings.add(enchantString);
 		}
 		if (!enchantmentStrings.isEmpty()) {
-			NbtCompound tag = ruinedStack.getTag();
+			NbtCompound tag = ruinedStack.getNbt();
 			if (tag == null)
 				tag = new NbtCompound();
 			tag.putString(TAG, String.join(",", enchantmentStrings));
