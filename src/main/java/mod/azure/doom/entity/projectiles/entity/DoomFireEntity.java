@@ -130,7 +130,7 @@ public class DoomFireEntity extends Entity implements IAnimatable {
 				double y = (double) (MathHelper.sqrt(entity.distanceTo(this)));
 				if (y <= 1.0D) {
 					if (entity.isAlive()) {
-						entity.damage(DamageSource.magic(this, this), damage);
+						entity.damage(DamageSource.mobProjectile(entity, this.getOwner()), damage);
 						entity.setFireTicks(60);
 					}
 				}

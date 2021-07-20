@@ -255,9 +255,9 @@ public class ShotgunShellEntity extends PersistentProjectileEntity implements IA
 		Entity entity2 = this.getOwner();
 		DamageSource damageSource2;
 		if (entity2 == null) {
-			damageSource2 = DamageSource.magic(this, this);
+			damageSource2 = DamageSource.arrow(this, this);
 		} else {
-			damageSource2 = DamageSource.magic(this, entity2);
+			damageSource2 = DamageSource.arrow(this, entity2);
 			if (entity2 instanceof LivingEntity) {
 				((LivingEntity) entity2).onAttacking(entity);
 			}
