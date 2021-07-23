@@ -4,7 +4,6 @@ import mod.azure.doom.entity.tileentity.GunBlockEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -13,6 +12,7 @@ import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
@@ -28,7 +28,7 @@ import net.minecraft.world.World;
 
 public class GunTableBlock extends Block implements BlockEntityProvider {
 
-	public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
+	public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
 	private static final VoxelShape XBASE1 = Block.createCuboidShape(0, 0, -16, 16, 9, 32);
 	private static final VoxelShape XBASE2 = Block.createCuboidShape(2, 9, -14, 13, 25, 30);
 	private static final VoxelShape YBASE1 = Block.createCuboidShape(-16, 0, 0, 32, 9, 16);
@@ -61,7 +61,7 @@ public class GunTableBlock extends Block implements BlockEntityProvider {
 
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext context) {
-		return this.getDefaultState().with(FACING, context.getPlayerLookDirection().rotateYCounterclockwise());
+		return this.getDefaultState().with(FACING, context.getPlayerFacing().getOpposite());
 	}
 
 	@Override
