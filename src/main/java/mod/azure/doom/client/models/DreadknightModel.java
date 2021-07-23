@@ -2,7 +2,7 @@ package mod.azure.doom.client.models;
 
 import mod.azure.doom.DoomMod;
 import mod.azure.doom.entity.tierheavy.Hellknight2016Entity;
-import net.minecraft.client.util.math.Vector3f;
+import net.minecraft.util.math.Vec3f;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.processor.IBone;
@@ -37,8 +37,8 @@ public class DreadknightModel extends AnimatedGeoModel<Hellknight2016Entity> {
 
 		EntityModelData extraData = (EntityModelData) customPredicate.getExtraDataOfType(EntityModelData.class).get(0);
 		head.setRotationX(
-				Vector3f.POSITIVE_X.getRadialQuaternion((extraData.headPitch + 85) * ((float) Math.PI / 360F)).getX());
+				Vec3f.POSITIVE_X.getRadialQuaternion((extraData.headPitch + 85) * ((float) Math.PI / 360F)).getX());
 		head.setRotationY(
-				Vector3f.POSITIVE_Y.getRadialQuaternion(extraData.netHeadYaw * ((float) Math.PI / 340F)).getY());
+				Vec3f.POSITIVE_Y.getRadialQuaternion(extraData.netHeadYaw * ((float) Math.PI / 340F)).getY());
 	}
 }

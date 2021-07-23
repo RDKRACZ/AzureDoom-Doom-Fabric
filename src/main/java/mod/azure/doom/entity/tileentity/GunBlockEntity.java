@@ -8,7 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
@@ -50,15 +50,15 @@ public class GunBlockEntity extends BlockEntity
 	}
 
 	@Override
-	public CompoundTag toTag(CompoundTag tag) {
-		Inventories.toTag(tag, items);
-		return super.toTag(tag);
+	public NbtCompound writeNbt(NbtCompound nbt) {
+		Inventories.writeNbt(nbt, items);
+		return super.writeNbt(nbt);
 	}
 
 	@Override
-	public void fromTag(BlockState state, CompoundTag tag) {
+	public void fromTag(BlockState state, NbtCompound tag) {
 		super.fromTag(state, tag);
-		Inventories.fromTag(tag, items);
+		Inventories.readNbt(tag, items);
 	}
 
 	@Override

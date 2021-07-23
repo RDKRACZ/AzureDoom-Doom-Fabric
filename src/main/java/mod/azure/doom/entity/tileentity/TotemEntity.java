@@ -8,7 +8,7 @@ import mod.azure.doom.entity.DemonEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.particle.DustParticleEffect;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -58,8 +58,9 @@ public class TotemEntity extends BlockEntity implements IAnimatable, Tickable {
 				double d1 = (double) blockpos.getY() + 1.0D * (this.random.nextDouble() - 0.5D) * 2.0D;
 				double d2 = (double) blockpos.getZ() + 1.0D * (this.random.nextDouble() - 0.25D) * 2.0D;
 				for (int k = 0; k < 4; ++k) {
-					world.addParticle(DustParticleEffect.RED, d0, d1, d2, (this.random.nextDouble() - 0.5D) * 2.0D,
-							-this.random.nextDouble(), (this.random.nextDouble() - 0.5D) * 2.0D);
+					world.addParticle(ParticleTypes.SOUL_FIRE_FLAME, d0, d1, d2,
+							(this.random.nextDouble() - 0.5D) * 2.0D, -this.random.nextDouble(),
+							(this.random.nextDouble() - 0.5D) * 2.0D);
 				}
 			}
 		}

@@ -92,9 +92,9 @@ public class ArgentPaxel extends MiningToolItem {
 	public float getMiningSpeedMultiplier(ItemStack stack, BlockState state) {
 		return 30;
 	}
-
+	
 	@Override
-	public boolean isEffectiveOn(BlockState state) {
+	public boolean isSuitableFor(BlockState state) {
 		Block block = state.getBlock();
 		if (block == Blocks.SNOW || block == Blocks.SNOW_BLOCK) {
 			return true;

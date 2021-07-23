@@ -27,7 +27,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -61,8 +61,8 @@ public class DoomHunterEntity extends DemonEntity implements IAnimatable {
 			return PlayState.CONTINUE;
 		}
 		if (event.isMoving() && this.getHealth() < (this.getMaxHealth() * 0.50)) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("idle2walkingnosled_transition", false)
-					.addAnimation("walking_nosled", true));
+			event.getController().setAnimation(new AnimationBuilder()
+					.addAnimation("idle2walkingnosled_transition", false).addAnimation("walking_nosled", true));
 			return PlayState.CONTINUE;
 		}
 		if ((this.dead || this.getHealth() < 0.01 || this.isDead())) {
@@ -70,8 +70,8 @@ public class DoomHunterEntity extends DemonEntity implements IAnimatable {
 			return PlayState.CONTINUE;
 		}
 		if (!event.isMoving() && this.getHealth() < (this.getMaxHealth() * 0.50)) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking2idlenosled_transition", false)
-					.addAnimation("idle_nosled", true));
+			event.getController().setAnimation(new AnimationBuilder()
+					.addAnimation("walking2idlenosled_transition", false).addAnimation("idle_nosled", true));
 			return PlayState.CONTINUE;
 		}
 		event.getController().setAnimation(
@@ -310,7 +310,7 @@ public class DoomHunterEntity extends DemonEntity implements IAnimatable {
 
 	@Override
 	public EntityData initialize(ServerWorldAccess serverWorldAccess, LocalDifficulty difficulty,
-			SpawnReason spawnReason, EntityData entityData, CompoundTag entityTag) {
+			SpawnReason spawnReason, EntityData entityData, NbtCompound entityTag) {
 		entityData = super.initialize(serverWorldAccess, difficulty, spawnReason, entityData, entityTag);
 		return entityData;
 	}
@@ -321,10 +321,6 @@ public class DoomHunterEntity extends DemonEntity implements IAnimatable {
 
 	protected boolean shouldBurnInDay() {
 		return false;
-	}
-
-	public void readCustomDataFromTag(CompoundTag tag) {
-		super.readCustomDataFromTag(tag);
 	}
 
 	@Override

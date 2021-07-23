@@ -17,7 +17,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.particle.DustParticleEffect;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -146,7 +146,7 @@ public class ChainsawAnimated extends Item implements IAnimatable {
 
 	private void addParticle(Entity target) {
 		if (target instanceof LivingEntity) {
-			target.world.addParticle(DustParticleEffect.RED, target.getParticleX(0.5D), target.getRandomBodyY(),
+			target.world.addParticle(ParticleTypes.CRIMSON_SPORE, target.getParticleX(0.5D), target.getRandomBodyY(),
 					target.getParticleZ(0.5D), 0.0D, 0D, 0D);
 		}
 	}

@@ -35,7 +35,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -117,7 +117,8 @@ public class ChaingunnerEntity extends DemonEntity implements RangedAttackMob, I
 
 	public static DefaultAttributeContainer.Builder createMobAttributes() {
 		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 25.0D)
-				.add(EntityAttributes.GENERIC_MAX_HEALTH, config.chaingunner_health).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, config.chaingunner_melee_damage)
+				.add(EntityAttributes.GENERIC_MAX_HEALTH, config.chaingunner_health)
+				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, config.chaingunner_melee_damage)
 				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25D)
 				.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
 	}
@@ -128,10 +129,9 @@ public class ChaingunnerEntity extends DemonEntity implements RangedAttackMob, I
 		this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(DoomItems.CHAINGUN));
 	}
 
-	
 	@Override
 	public EntityData initialize(ServerWorldAccess serverWorldAccess, LocalDifficulty difficulty,
-			SpawnReason spawnReason, EntityData entityData, CompoundTag entityTag) {
+			SpawnReason spawnReason, EntityData entityData, NbtCompound entityTag) {
 		entityData = super.initialize(serverWorldAccess, difficulty, spawnReason, entityData, entityTag);
 		this.updateAttackType();
 		this.initEquipment(difficulty);
@@ -201,17 +201,18 @@ public class ChaingunnerEntity extends DemonEntity implements RangedAttackMob, I
 		return persistentProjectileEntity;
 	}
 
-	public void readCustomDataFromTag(CompoundTag tag) {
-		super.readCustomDataFromTag(tag);
+	@Override
+	public void readCustomDataFromNbt(NbtCompound tag) {
+		super.readCustomDataFromNbt(tag);
 		this.updateAttackType();
 	}
 
+	@Override
 	public void equipStack(EquipmentSlot slot, ItemStack stack) {
 		super.equipStack(slot, stack);
 		if (!this.world.isClient) {
 			this.updateAttackType();
 		}
-
 	}
 
 	@Override

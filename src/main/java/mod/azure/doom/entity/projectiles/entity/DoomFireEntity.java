@@ -18,7 +18,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
@@ -77,20 +77,19 @@ public class DoomFireEntity extends Entity implements IAnimatable {
 	}
 
 	@Override
-	protected void readCustomDataFromTag(CompoundTag tag) {
-		this.warmup = tag.getInt("Warmup");
-		if (tag.containsUuid("Owner")) {
-			this.ownerUuid = tag.getUuid("Owner");
-		}
-
-	}
-
-	protected void writeCustomDataToTag(CompoundTag tag) {
+	public void writeCustomDataToNbt(NbtCompound tag) {
 		tag.putInt("Warmup", this.warmup);
 		if (this.ownerUuid != null) {
 			tag.putUuid("Owner", this.ownerUuid);
 		}
+	}
 
+	@Override
+	public void readCustomDataFromNbt(NbtCompound tag) {
+		this.warmup = tag.getInt("Warmup");
+		if (tag.containsUuid("Owner")) {
+			this.ownerUuid = tag.getUuid("Owner");
+		}
 	}
 
 	public void tick() {

@@ -10,9 +10,9 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.render.model.json.ModelTransformation.Mode;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3f;
 import software.bernie.geckolib3.geo.render.built.GeoBone;
 import software.bernie.geckolib3.renderer.geo.GeoBlockRenderer;
 
@@ -48,9 +48,9 @@ public class GunCraftingRender extends GeoBlockRenderer<GunBlockEntity> {
 			int packedOverlayIn, float red, float green, float blue, float alpha) {
 		if (bone.getName().equals("group")) {
 			stack.push();
-			stack.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(-40));
-			stack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(0));
-			stack.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(-5));
+			stack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-40));
+			stack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(0));
+			stack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(-5));
 			stack.translate(-0.10D, 0.96D, 0.9D);
 			stack.scale(0.5f, 0.5f, 0.5f);
 			MinecraftClient.getInstance().getItemRenderer().renderItem(gun, Mode.THIRD_PERSON_RIGHT_HAND, packedLightIn,

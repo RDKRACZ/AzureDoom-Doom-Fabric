@@ -32,7 +32,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -130,10 +130,9 @@ public class ShotgunguyEntity extends DemonEntity implements RangedAttackMob, IA
 		this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(DoomItems.SG));
 	}
 
-	
 	@Override
 	public EntityData initialize(ServerWorldAccess serverWorldAccess, LocalDifficulty difficulty,
-			SpawnReason spawnReason, EntityData entityData, CompoundTag entityTag) {
+			SpawnReason spawnReason, EntityData entityData, NbtCompound entityTag) {
 		entityData = super.initialize(serverWorldAccess, difficulty, spawnReason, entityData, entityTag);
 		this.updateAttackType();
 		this.initEquipment(difficulty);
@@ -191,8 +190,9 @@ public class ShotgunguyEntity extends DemonEntity implements RangedAttackMob, IA
 		return persistentProjectileEntity;
 	}
 
-	public void readCustomDataFromTag(CompoundTag tag) {
-		super.readCustomDataFromTag(tag);
+	@Override
+	public void readCustomDataFromNbt(NbtCompound tag) {
+		super.readCustomDataFromNbt(tag);
 		this.updateAttackType();
 	}
 

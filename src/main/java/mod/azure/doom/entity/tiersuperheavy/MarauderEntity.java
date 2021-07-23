@@ -33,7 +33,7 @@ import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
@@ -326,7 +326,7 @@ public class MarauderEntity extends DemonEntity implements IAnimatable {
 
 	@Override
 	public EntityData initialize(ServerWorldAccess serverWorldAccess, LocalDifficulty difficulty,
-			SpawnReason spawnReason, EntityData entityData, CompoundTag entityTag) {
+			SpawnReason spawnReason, EntityData entityData, NbtCompound entityTag) {
 		entityData = super.initialize(serverWorldAccess, difficulty, spawnReason, entityData, entityTag);
 		this.initEquipment(difficulty);
 		return entityData;

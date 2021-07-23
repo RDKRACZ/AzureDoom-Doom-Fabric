@@ -36,7 +36,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
@@ -156,15 +156,14 @@ public class CacodemonEntity extends DemonEntity implements Monster, IAnimatable
 	}
 
 	@Override
-	public void readCustomDataFromTag(CompoundTag tag) {
-		super.readCustomDataFromTag(tag);
+	public void readCustomDataFromNbt(NbtCompound tag) {
+		super.readCustomDataFromNbt(tag);
 		this.setVariant(tag.getInt("Variant"));
 	}
 
 	@Override
-	public void writeCustomDataToTag(CompoundTag tag) {
-		super.writeCustomDataToTag(tag);
-		tag.putInt("Variant", this.getVariant());
+	public void writeCustomDataToNbt(NbtCompound tag) {
+		super.writeCustomDataToNbt(tag);
 	}
 
 	public int getVariant() {
@@ -181,7 +180,7 @@ public class CacodemonEntity extends DemonEntity implements Monster, IAnimatable
 
 	@Override
 	public EntityData initialize(ServerWorldAccess serverWorldAccess, LocalDifficulty difficulty,
-			SpawnReason spawnReason, EntityData entityData, CompoundTag entityTag) {
+			SpawnReason spawnReason, EntityData entityData, NbtCompound entityTag) {
 		entityData = super.initialize(serverWorldAccess, difficulty, spawnReason, entityData, entityTag);
 		this.setVariant(this.random.nextInt());
 		return entityData;

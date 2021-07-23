@@ -9,13 +9,13 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Matrix3f;
 import net.minecraft.util.math.Matrix4f;
+import net.minecraft.util.math.Vec3f;
 import software.bernie.geckolib3.geo.render.built.GeoModel;
 import software.bernie.geckolib3.renderer.geo.GeoProjectilesRenderer;
 
@@ -84,9 +84,9 @@ public class BFGCellRender extends GeoProjectilesRenderer<BFGEntity> {
 		matrices.push();
 		matrices.translate(0.0D, 1.0D, 0.0D);
 		matrices.multiply(
-				Vector3f.POSITIVE_Y.getRadialQuaternion((float) (-Math.atan2((double) dz, (double) dx)) - 1.5707964F));
+				Vec3f.POSITIVE_Y.getRadialQuaternion((float) (-Math.atan2((double) dz, (double) dx)) - 1.5707964F));
 		matrices.multiply(
-				Vector3f.POSITIVE_X.getRadialQuaternion((float) (-Math.atan2((double) f, (double) dy)) - 1.5707964F));
+				Vec3f.POSITIVE_X.getRadialQuaternion((float) (-Math.atan2((double) f, (double) dy)) - 1.5707964F));
 		VertexConsumer vertexConsumer = vertexConsumers.getBuffer(CRYSTAL_BEAM_LAYER);
 		float h = 0.0F - ((float) age + tickDelta) * 0.01F;
 		float i = MathHelper.sqrt(dx * dx + dy * dy + dz * dz) / 32.0F - ((float) age + tickDelta) * 0.01F;

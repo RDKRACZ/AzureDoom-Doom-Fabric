@@ -30,7 +30,7 @@ import net.minecraft.entity.mob.SlimeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.hit.BlockHitResult;
@@ -129,14 +129,14 @@ public class BFGEntity extends PersistentProjectileEntity implements IAnimatable
 	}
 
 	@Override
-	public void writeCustomDataToTag(CompoundTag tag) {
-		super.writeCustomDataToTag(tag);
+	public void writeCustomDataToNbt(NbtCompound tag) {
+		super.writeCustomDataToNbt(tag);
 		tag.putShort("life", (short) this.ticksInAir);
 	}
 
 	@Override
-	public void readCustomDataFromTag(CompoundTag tag) {
-		super.readCustomDataFromTag(tag);
+	public void readCustomDataFromNbt(NbtCompound tag) {
+		super.readCustomDataFromNbt(tag);
 		this.ticksInAir = tag.getShort("life");
 	}
 
@@ -245,7 +245,7 @@ public class BFGEntity extends PersistentProjectileEntity implements IAnimatable
 			}
 			if (!(entity instanceof PlayerEntity) && entity instanceof EnderDragonEntity) {
 				if (entity.isAlive()) {
-					((EnderDragonEntity) entity).partHead.damage(DamageSource.player((PlayerEntity) this.shooter),
+					((EnderDragonEntity) entity).head.damage(DamageSource.player((PlayerEntity) this.shooter),
 							DoomMod.config.weapons.bfgball_damage_aoe);
 					setBeamTarget(entity.getEntityId());
 				}
@@ -348,7 +348,7 @@ public class BFGEntity extends PersistentProjectileEntity implements IAnimatable
 			}
 			if (entity instanceof EnderDragonEntity) {
 				if (entity.isAlive()) {
-					((EnderDragonEntity) entity).partHead.damage(DamageSource.player((PlayerEntity) this.shooter),
+					((EnderDragonEntity) entity).head.damage(DamageSource.player((PlayerEntity) this.shooter),
 							DoomMod.config.weapons.bfgball_damage_dragon);
 				}
 			}

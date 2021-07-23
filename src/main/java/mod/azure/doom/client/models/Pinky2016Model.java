@@ -2,7 +2,7 @@ package mod.azure.doom.client.models;
 
 import mod.azure.doom.DoomMod;
 import mod.azure.doom.entity.tierheavy.Pinky2016;
-import net.minecraft.client.util.math.Vector3f;
+import net.minecraft.util.math.Vec3f;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.processor.IBone;
@@ -34,10 +34,10 @@ public class Pinky2016Model extends AnimatedGeoModel<Pinky2016> {
 
 		EntityModelData extraData = (EntityModelData) customPredicate.getExtraDataOfType(EntityModelData.class).get(0);
 		if (head != null) {
-			head.setRotationX(Vector3f.POSITIVE_X
+			head.setRotationX(Vec3f.POSITIVE_X
 					.getRadialQuaternion((extraData.headPitch + 30) * ((float) Math.PI / 360F)).getX());
 			head.setRotationY(
-					Vector3f.POSITIVE_Y.getRadialQuaternion(extraData.netHeadYaw * ((float) Math.PI / 500F)).getY());
+					Vec3f.POSITIVE_Y.getRadialQuaternion(extraData.netHeadYaw * ((float) Math.PI / 500F)).getY());
 		}
 	}
 }

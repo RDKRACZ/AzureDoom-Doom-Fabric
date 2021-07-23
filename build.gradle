@@ -1,12 +1,11 @@
 buildscript {
     repositories {
-        jcenter()
     	maven { url  = 'https://plugins.gradle.org/m2/' }
     }
 }
 
 plugins {
-	id 'fabric-loom' version '0.6-SNAPSHOT'
+	id 'fabric-loom' version '0.7-SNAPSHOT'
 	id 'maven-publish'
     id 'com.matthewprenger.cursegradle' version '1.4.0'
 }
@@ -57,7 +56,7 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modImplementation("software.bernie.geckolib:geckolib-fabric-1.16.5:3.0.39:dev") {
+    modImplementation("software.bernie.geckolib:geckolib-fabric-1.16.5:3.0.41:dev") {
     	exclude(group: "com.terraformersmc.modmenu")
         exclude(group: "io.github.prospector")
         exclude(group: "me.shedaniel")
@@ -109,15 +108,10 @@ dependencies {
 }
 
 processResources {
-	inputs.property "version", project.version
+    inputs.property "version", project.version
 
-	from(sourceSets.main.resources.srcDirs) {
-		include "fabric.mod.json"
+	filesMatching("fabric.mod.json") {
 		expand "version": project.version
-	}
-
-	from(sourceSets.main.resources.srcDirs) {
-		exclude "fabric.mod.json"
 	}
 }
 
@@ -138,12 +132,20 @@ processResources {
 }
 
 tasks.withType(JavaCompile) {
-	options.encoding = "UTF-8"
+    options.encoding = "UTF-8"
+	def targetVersion = 8
+	if (JavaVersion.current().isJava9Compatible()) {
+		 it.options.release = targetVersion
+	}
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
-	classifier = "sources"
-	from sourceSets.main.allSource
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+java {
+	withSourcesJar()
 }
 
 jar {

@@ -17,7 +17,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.hit.BlockHitResult;
@@ -113,14 +113,14 @@ public class RocketEntity extends PersistentProjectileEntity implements IAnimata
 	}
 
 	@Override
-	public void writeCustomDataToTag(CompoundTag tag) {
-		super.writeCustomDataToTag(tag);
+	public void writeCustomDataToNbt(NbtCompound tag) {
+		super.writeCustomDataToNbt(tag);
 		tag.putShort("life", (short) this.ticksInAir);
 	}
 
 	@Override
-	public void readCustomDataFromTag(CompoundTag tag) {
-		super.readCustomDataFromTag(tag);
+	public void readCustomDataFromNbt(NbtCompound tag) {
+		super.readCustomDataFromNbt(tag);
 		this.ticksInAir = tag.getShort("life");
 	}
 
@@ -279,7 +279,8 @@ public class RocketEntity extends PersistentProjectileEntity implements IAnimata
 			double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d)) / q);
 			if (y <= 1.0D) {
 				if (entity instanceof LivingEntity) {
-					entity.damage(DamageSource.player((PlayerEntity) this.shooter), DoomMod.config.weapons.rocket_damage);
+					entity.damage(DamageSource.player((PlayerEntity) this.shooter),
+							DoomMod.config.weapons.rocket_damage);
 				}
 				this.world.createExplosion(this, this.getX(), this.getBodyY(0.0625D), this.getZ(), 0.0F,
 						Explosion.DestructionType.NONE);

@@ -10,9 +10,9 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.model.json.ModelTransformation.Mode;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3f;
 import software.bernie.geckolib3.geo.render.built.GeoBone;
 import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
 
@@ -49,9 +49,9 @@ public class MarauderRender extends GeoEntityRenderer<MarauderEntity> {
 			int packedOverlayIn, float red, float green, float blue, float alpha) {
 		if (bone.getName().equals("bipedLeftArm_1")) {
 			stack.push();
-			stack.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(-40));
-			stack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(0));
-			stack.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(-5));
+			stack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-40));
+			stack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(0));
+			stack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(-5));
 			stack.translate(0.30D, 0.90D, 0.3D);
 			stack.scale(1.0f, 1.0f, 1.0f);
 			MinecraftClient.getInstance().getItemRenderer().renderItem(axe, Mode.THIRD_PERSON_RIGHT_HAND, packedLightIn,
@@ -61,9 +61,9 @@ public class MarauderRender extends GeoEntityRenderer<MarauderEntity> {
 		}
 		if (bone.getName().equals("bipedRightArm_1")) {
 			stack.push();
-			stack.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(-40));
-			stack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(0));
-			stack.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(5));
+			stack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-40));
+			stack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(0));
+			stack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(5));
 			stack.translate(-0.33D, 0.80D, 0.3D);
 			stack.scale(1.0f, 1.0f, 1.0f);
 			MinecraftClient.getInstance().getItemRenderer().renderItem(shotgun, Mode.THIRD_PERSON_LEFT_HAND,
