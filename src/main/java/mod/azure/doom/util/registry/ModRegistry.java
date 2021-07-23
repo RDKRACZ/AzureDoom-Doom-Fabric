@@ -1,7 +1,5 @@
 package mod.azure.doom.util.registry;
 
-import mod.azure.doom.util.ModSoundEvents;
-
 public class ModRegistry {
 
 	public static DoomBlocks BLOCKS;

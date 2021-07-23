@@ -7,7 +7,7 @@ import mod.azure.doom.entity.attack.AbstractRangedAttack;
 import mod.azure.doom.entity.attack.AttackSound;
 import mod.azure.doom.entity.projectiles.entity.DoomFireEntity;
 import mod.azure.doom.entity.projectiles.entity.RocketMobEntity;
-import mod.azure.doom.util.ModSoundEvents;
+import mod.azure.doom.util.registry.ModSoundEvents;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityDimensions;

@@ -1,7 +1,7 @@
 package mod.azure.doom.util.registry;
 
-import mod.azure.doom.util.packets.EntityPacket;
-import mod.azure.doom.util.packets.EntityPacketOnClient;
+import mod.azure.doom.network.EntityPacket;
+import mod.azure.doom.network.EntityPacketOnClient;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 
 @SuppressWarnings("deprecation")

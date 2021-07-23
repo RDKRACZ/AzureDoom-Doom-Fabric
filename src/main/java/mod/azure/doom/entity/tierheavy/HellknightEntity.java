@@ -8,7 +8,7 @@ import mod.azure.doom.entity.ai.goal.RangedStaticAttackGoal;
 import mod.azure.doom.entity.attack.AbstractRangedAttack;
 import mod.azure.doom.entity.attack.AttackSound;
 import mod.azure.doom.entity.projectiles.CustomFireballEntity;
-import mod.azure.doom.util.ModSoundEvents;
+import mod.azure.doom.util.registry.ModSoundEvents;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;

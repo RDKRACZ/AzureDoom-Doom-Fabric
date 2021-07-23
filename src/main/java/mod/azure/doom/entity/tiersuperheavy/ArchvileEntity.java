@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 
 import mod.azure.doom.entity.DemonEntity;
 import mod.azure.doom.entity.projectiles.entity.DoomFireEntity;
-import mod.azure.doom.util.ModSoundEvents;
+import mod.azure.doom.util.registry.ModSoundEvents;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;

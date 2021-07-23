@@ -6,7 +6,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import mod.azure.doom.DoomMod;
 import mod.azure.doom.network.C2SMessageSelectCraft;
-import mod.azure.doom.recipes.GunTableRecipe;
+import mod.azure.doom.util.recipes.GunTableRecipe;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -59,7 +59,7 @@ public class GunTableScreen extends HandledScreen<GunTableScreenHandler> {
 
 	protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
 		this.textRenderer.draw(matrices, this.title,
-				(float) (65 + this.backgroundWidth / 2 - this.textRenderer.getWidth(this.title) / 2), 6.0F, 4210752);
+				(float) (75 + this.backgroundWidth / 2 - this.textRenderer.getWidth(this.title) / 2), 6.0F, 4210752);
 	}
 
 	protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
@@ -156,7 +156,7 @@ public class GunTableScreen extends HandledScreen<GunTableScreenHandler> {
 				if (!stack.isEmpty()) {
 					this.itemRenderer.renderInGui(stack, x, y);
 					this.itemRenderer.renderGuiItemOverlay(this.textRenderer, stack, x, y);
-					x += 20;
+					x += 16;
 				}
 			}
 		}

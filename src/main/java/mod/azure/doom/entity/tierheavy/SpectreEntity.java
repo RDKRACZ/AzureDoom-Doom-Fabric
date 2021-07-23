@@ -4,7 +4,7 @@ import java.util.Random;
 
 import mod.azure.doom.entity.DemonEntity;
 import mod.azure.doom.entity.ai.goal.DemonAttackGoal;
-import mod.azure.doom.util.ModSoundEvents;
+import mod.azure.doom.util.registry.ModSoundEvents;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;

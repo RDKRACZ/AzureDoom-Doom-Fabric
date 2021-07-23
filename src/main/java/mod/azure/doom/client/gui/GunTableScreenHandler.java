@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import mod.azure.doom.DoomMod;
 import mod.azure.doom.mixin.IngredientAccess;
-import mod.azure.doom.recipes.GunTableRecipe;
+import mod.azure.doom.util.recipes.GunTableRecipe;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;

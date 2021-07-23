@@ -6,7 +6,7 @@ import mod.azure.doom.entity.ai.goal.RangedStrafeAttackGoal;
 import mod.azure.doom.entity.attack.AbstractRangedAttack;
 import mod.azure.doom.entity.attack.AttackSound;
 import mod.azure.doom.entity.projectiles.entity.EnergyCellMobEntity;
-import mod.azure.doom.util.ModSoundEvents;
+import mod.azure.doom.util.registry.ModSoundEvents;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;

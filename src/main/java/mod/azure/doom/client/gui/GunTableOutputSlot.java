@@ -2,7 +2,7 @@ package mod.azure.doom.client.gui;
 
 import java.util.Optional;
 
-import mod.azure.doom.recipes.GunTableRecipe;
+import mod.azure.doom.util.recipes.GunTableRecipe;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;

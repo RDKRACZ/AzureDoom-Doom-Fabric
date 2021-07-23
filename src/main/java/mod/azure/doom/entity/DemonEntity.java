@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Nullable;
 
 import mod.azure.doom.DoomMod;
 import mod.azure.doom.config.DoomConfig.MobStats;
-import mod.azure.doom.util.packets.EntityPacket;
+import mod.azure.doom.network.EntityPacket;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;

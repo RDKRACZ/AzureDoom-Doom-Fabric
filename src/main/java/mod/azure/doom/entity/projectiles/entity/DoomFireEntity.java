@@ -10,7 +10,7 @@ import mod.azure.doom.entity.tierboss.MotherDemonEntity;
 import mod.azure.doom.entity.tierheavy.MancubusEntity;
 import mod.azure.doom.entity.tiersuperheavy.ArchvileEntity;
 import mod.azure.doom.entity.tiersuperheavy.DoomHunterEntity;
-import mod.azure.doom.util.packets.EntityPacket;
+import mod.azure.doom.network.EntityPacket;
 import mod.azure.doom.util.registry.ProjectilesEntityRegister;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

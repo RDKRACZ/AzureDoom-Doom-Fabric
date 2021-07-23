@@ -47,7 +47,6 @@ import mod.azure.doom.item.weapons.Shotgun;
 import mod.azure.doom.item.weapons.SuperShotgun;
 import mod.azure.doom.item.weapons.SwordCrucibleItem;
 import mod.azure.doom.item.weapons.Unmaykr;
-import mod.azure.doom.util.ModSoundEvents;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;

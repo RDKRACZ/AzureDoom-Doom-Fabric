@@ -5,7 +5,7 @@ import java.util.Random;
 
 import blue.endless.jankson.annotation.Nullable;
 import mod.azure.doom.entity.DemonEntity;
-import mod.azure.doom.util.ModSoundEvents;
+import mod.azure.doom.util.registry.ModSoundEvents;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.Entity;

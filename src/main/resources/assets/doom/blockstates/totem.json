@@ -15,6 +15,12 @@
     "facing=west": {
       "y": 270,
       "model": "doom:block/totem"
+    },
+    "facing=up": {
+      "model": "doom:block/totem"
+    },
+    "facing=down": {
+      "model": "doom:block/totem"
     }
   }
 }

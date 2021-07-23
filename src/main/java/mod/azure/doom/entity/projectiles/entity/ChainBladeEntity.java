@@ -1,6 +1,6 @@
 package mod.azure.doom.entity.projectiles.entity;
 
-import mod.azure.doom.util.packets.EntityPacket;
+import mod.azure.doom.network.EntityPacket;
 import mod.azure.doom.util.registry.ProjectilesEntityRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;

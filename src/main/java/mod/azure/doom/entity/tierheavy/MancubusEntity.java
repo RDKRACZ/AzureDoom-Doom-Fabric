@@ -5,7 +5,7 @@ import java.util.Random;
 import mod.azure.doom.entity.DemonEntity;
 import mod.azure.doom.entity.projectiles.entity.BarenBlastEntity;
 import mod.azure.doom.entity.projectiles.entity.DoomFireEntity;
-import mod.azure.doom.util.ModSoundEvents;
+import mod.azure.doom.util.registry.ModSoundEvents;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
