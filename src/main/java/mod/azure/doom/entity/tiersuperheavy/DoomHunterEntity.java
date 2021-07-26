@@ -56,16 +56,15 @@ public class DoomHunterEntity extends DemonEntity implements IAnimatable {
 	}
 
 	private AnimationFactory factory = new AnimationFactory(this);
+	public int flameTimer;
 
 	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 		if (event.isMoving() && this.getHealth() > (this.getMaxHealth() * 0.50)) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("idle2walking_transition", false)
-					.addAnimation("walking", true));
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
 			return PlayState.CONTINUE;
 		}
 		if (event.isMoving() && this.getHealth() < (this.getMaxHealth() * 0.50)) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("idle2walkingnosled_transition", false)
-					.addAnimation("walking_nosled", true));
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking_nosled", true));
 			return PlayState.CONTINUE;
 		}
 		if ((this.dead || this.getHealth() < 0.01 || this.isDead())) {
@@ -73,12 +72,10 @@ public class DoomHunterEntity extends DemonEntity implements IAnimatable {
 			return PlayState.CONTINUE;
 		}
 		if (!event.isMoving() && this.getHealth() < (this.getMaxHealth() * 0.50)) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking2idlenosled_transition", false)
-					.addAnimation("idle_nosled", true));
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("idle_nosled", true));
 			return PlayState.CONTINUE;
 		}
-		event.getController().setAnimation(
-				new AnimationBuilder().addAnimation("walking2idle_transition", false).addAnimation("idle", true));
+		event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
 		return PlayState.CONTINUE;
 	}
 
@@ -372,20 +369,29 @@ public class DoomHunterEntity extends DemonEntity implements IAnimatable {
 	@Override
 	public int getArmor() {
 		float health = this.getHealth();
-		return (health < 140 && health >= 150 ? 8
-				: health < 140 && health >= 120 ? 6
-						: health < 120 && health >= 100 ? 4 : health < 100 && health >= 76 ? 2 : health < 75 ? 0 : 10);
+		return (health < (this.getMaxHealth() * 0.90) && health >= (this.getMaxHealth() * 0.85) ? 8
+				: health < (this.getMaxHealth() * 0.80) && health >= (this.getMaxHealth() * 0.75) ? 6
+						: health < (this.getMaxHealth() * 0.70) && health >= (this.getMaxHealth() * 0.65) ? 4
+								: health < (this.getMaxHealth() * 0.60) && health >= (this.getMaxHealth() * 0.55) ? 4
+										: health < (this.getMaxHealth() * 0.55)
+												&& health >= (this.getMaxHealth() * 0.50) ? 2
+														: health < (this.getMaxHealth() * 0.50) ? 0 : 10);
 	}
 
 	@Override
 	public void tickMovement() {
 		super.tickMovement();
+		flameTimer = (flameTimer + 1) % 8;
 		if (this.getHealth() < 75.0D) {
 			if (!this.world.isClient) {
 				this.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 10000000, 2));
 				this.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 10000000, 1));
 			}
 		}
+	}
+
+	public int getFlameTimer() {
+		return flameTimer;
 	}
 
 }
