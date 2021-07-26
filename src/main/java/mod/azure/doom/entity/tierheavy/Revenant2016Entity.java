@@ -115,7 +115,7 @@ public class Revenant2016Entity extends DemonEntity implements IAnimatable {
 	@Override
 	public void tick() {
 		super.tick();
-		flameTimer = (flameTimer + 1) % 2;
+		flameTimer = (flameTimer + 1) % 8;
 	}
 
 	public int getFlameTimer() {
