@@ -60,8 +60,7 @@ public class Hellknight2016Entity extends DemonEntity implements IAnimatable {
 	}
 
 	private <E extends IAnimatable> PlayState predicate1(AnimationEvent<E> event) {
-		if ((this.dataTracker.get(STATE) == 1 || !this.isOnGround())
-				&& !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+		if (this.dataTracker.get(STATE) == 1 && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("jumpattack", true));
 			return PlayState.CONTINUE;
 		}
