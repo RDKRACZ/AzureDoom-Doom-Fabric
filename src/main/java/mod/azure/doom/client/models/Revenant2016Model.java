@@ -12,7 +12,13 @@ import software.bernie.geckolib3.model.provider.data.EntityModelData;
 public class Revenant2016Model extends AnimatedGeoModel<Revenant2016Entity> {
 
 	private static final Identifier[] TEX = { new Identifier(DoomMod.MODID, "textures/entity/revenant.png"),
-			new Identifier(DoomMod.MODID, "textures/entity/revenant_1.png") };
+			new Identifier(DoomMod.MODID, "textures/entity/revenant_1.png"),
+			new Identifier(DoomMod.MODID, "textures/entity/revenant_2.png"),
+			new Identifier(DoomMod.MODID, "textures/entity/revenant_3.png"),
+			new Identifier(DoomMod.MODID, "textures/entity/revenant_4.png"),
+			new Identifier(DoomMod.MODID, "textures/entity/revenant_5.png"),
+			new Identifier(DoomMod.MODID, "textures/entity/revenant_6.png"),
+			new Identifier(DoomMod.MODID, "textures/entity/revenant_7.png") };
 
 	@Override
 	public Identifier getModelLocation(Revenant2016Entity object) {
