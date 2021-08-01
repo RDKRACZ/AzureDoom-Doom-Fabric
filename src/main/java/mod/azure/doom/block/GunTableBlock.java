@@ -52,7 +52,7 @@ public class GunTableBlock extends Block implements BlockEntityProvider {
 
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		Direction direction = (Direction) state.get(FACING);
-		return direction.getAxis() == Direction.Axis.X ? Z_AXIS_SHAPE : X_AXIS_SHAPE;
+		return direction.getAxis() == Direction.Axis.X ? X_AXIS_SHAPE : Z_AXIS_SHAPE;
 	}
 
 	public BlockState mirror(BlockState state, BlockMirror mirror) {
@@ -61,7 +61,7 @@ public class GunTableBlock extends Block implements BlockEntityProvider {
 
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext context) {
-		return this.getDefaultState().with(FACING, context.getPlayerFacing().getOpposite());
+		return this.getDefaultState().with(FACING, context.getPlayerFacing());
 	}
 
 	@Override

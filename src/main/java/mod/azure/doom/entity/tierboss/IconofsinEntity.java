@@ -15,11 +15,11 @@ import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.FollowTargetGoal;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
+import net.minecraft.entity.ai.goal.RevengeGoal;
 import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -41,7 +41,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -55,17 +54,11 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 
 	private final ServerBossBar bossBar = (ServerBossBar) (new ServerBossBar(this.getDisplayName(),
 			BossBar.Color.PURPLE, BossBar.Style.PROGRESS)).setDarkenSky(true).setThickenFog(true);
+	private AnimationFactory factory = new AnimationFactory(this);
 
 	public IconofsinEntity(EntityType<IconofsinEntity> entityType, World worldIn) {
 		super(entityType, worldIn);
 	}
-
-	public static boolean spawning(EntityType<IconofsinEntity> p_223337_0_, World p_223337_1_, SpawnReason reason,
-			BlockPos p_223337_3_, Random p_223337_4_) {
-		return p_223337_1_.getDifficulty() != Difficulty.PEACEFUL;
-	}
-
-	private AnimationFactory factory = new AnimationFactory(this);
 
 	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 		if (event.isMoving() && this.getHealth() > (this.getMaxHealth() * 0.50)) {
@@ -165,9 +158,10 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 		this.goalSelector.add(2, new IconofsinEntity.ShootFireballGoal(this));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, MerchantEntity.class, true));
+		this.targetSelector.add(2, new RevengeGoal(this).setGroupRevenge());
 	}
 
-	static class ShootFireballGoal extends Goal {
+	class ShootFireballGoal extends Goal {
 		private final IconofsinEntity parentEntity;
 		protected int cooldown = 0;
 
@@ -211,26 +205,14 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 							double e1 = Math.max(livingEntity.getY(), parentEntity.getY()) + 1.0D;
 							for (j = 15; j < 55; ++j) {
 								h2 = f2 + (float) j * 3.1415927F * 0.4F;
-								parentEntity.spawnFlames(
-										parentEntity.getX() + (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
-										parentEntity.getZ() + (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
-										d, e1, h2, 0);
-								parentEntity.spawnFlames(
-										parentEntity.getX() + (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
-										parentEntity.getZ() + (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
-										d, e1, h2, 0);
-								parentEntity.spawnFlames(
-										parentEntity.getX() + (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
-										parentEntity.getZ() + (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
-										d, e1, h2, 0);
-								parentEntity.spawnFlames(
-										parentEntity.getX() + (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
-										parentEntity.getZ() + (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
-										d, e1, h2, 0);
-								parentEntity.spawnFlames(
-										parentEntity.getX() + (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
-										parentEntity.getZ() + (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
-										d, e1, h2, 0);
+								for (int y = 0; y < 5; ++y) {
+									parentEntity.spawnFlames(
+											parentEntity.getX()
+													+ (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
+											parentEntity.getZ()
+													+ (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
+											d, e1, h2, 0);
+								}
 								if (parentEntity.getHealth() < (parentEntity.getMaxHealth() * 0.50)) {
 									this.parentEntity.setAttackingState(2);
 								} else {
@@ -306,7 +288,7 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 			double y = (double) (MathHelper.sqrt(entity.squaredDistanceTo(vec3d)) / q);
 			if (y <= 1.0D) {
 				if (entity instanceof LivingEntity) {
-					entity.damage(DamageSource.magic(this, this.getTarget()), 7);
+					entity.damage(DamageSource.mobProjectile(this, this.getTarget()), 7);
 				}
 			}
 		}
@@ -417,70 +399,28 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 	}
 
 	@Override
-	public void tick() {
-		super.tick();
-	}
-
-	@Override
 	public int getArmor() {
-		float health = this.getHealth();
-		return (health < (this.getMaxHealth() * 0.95) && health >= (this.getMaxHealth() * 0.90) ? 27
-				: health < (this.getMaxHealth() * 0.90) && health >= (this.getMaxHealth() * 0.85) ? 24
-						: health < (this.getMaxHealth() * 0.85) && health >= (this.getMaxHealth() * 0.80) ? 21
-								: health < (this.getMaxHealth() * 0.80) && health >= (this.getMaxHealth() * 0.75) ? 18
-										: health < (this.getMaxHealth() * 0.75)
-												&& health >= (this.getMaxHealth() * 0.70)
-														? 15
-														: health < (this.getMaxHealth() * 0.70)
-																&& health >= (this.getMaxHealth() * 0.65)
-																		? 12
-																		: health < (this.getMaxHealth() * 0.65)
-																				&& health >= (this
-																						.getMaxHealth() * 0.60)
-																								? 9
-																								: health < (this
-																										.getMaxHealth()
-																										* 0.60)
-																										&& health >= (this
-																												.getMaxHealth()
-																												* 0.55) ? 6
-																														: health < (this
-																																.getMaxHealth()
-																																* 0.55)
-																																&& health >= (this
-																																		.getMaxHealth()
-																																		* 0.50) ? 3
-																																				: health < (this
-																																						.getMaxHealth()
-																																						* 0.50) ? 0
-																																								: 30);
+		return (int) (getHealth() / getMaxHealth() / 1 * 9);
 	}
 
 	@Override
 	public void tickMovement() {
 		super.tickMovement();
 		++this.age;
-		if (this.getHealth() > (this.getMaxHealth() * 0.50)) {
-			if (!this.world.isClient) {
+		if (!this.world.isClient) {
+			if (this.getHealth() >= (this.getMaxHealth() * 0.50)) {
 				this.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 1000000, 1));
-			}
-		}
-		if (this.getHealth() < (this.getMaxHealth() * 0.50)) {
-			if (!this.world.isClient) {
+			} else {
 				this.removeStatusEffect(StatusEffects.STRENGTH);
 				this.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 10000000, 2));
 				this.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 10000000, 1));
 			}
-		}
-		if (!this.world.getDimension().isRespawnAnchorWorking()) {
-			if (!this.world.isClient) {
+			if (!this.world.getDimension().isRespawnAnchorWorking()) {
 				this.setGlowing(true);
 				this.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 10000000, 3));
-			}
-		}
-		if (!world.isClient) {
-			if (this.age % 2400 == 0) {
-				this.heal(40F);
+				if (this.age % 2400 == 0) {
+					this.heal(40F);
+				}
 			}
 		}
 	}

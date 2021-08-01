@@ -182,6 +182,7 @@ public class MotherDemonEntity extends DemonEntity implements IAnimatable {
 				World world = this.parentEntity.world;
 				Vec3d vec3d = this.parentEntity.getRotationVec(1.0F);
 				++this.cooldown;
+				Random rand = new Random();
 				double f = livingEntity.getX() - (this.parentEntity.getX() + vec3d.x * 2.0D);
 				double g = livingEntity.getBodyY(0.5D) - (0.5D + this.parentEntity.getBodyY(0.5D));
 				double h = livingEntity.getZ() - (this.parentEntity.getZ() + vec3d.z * 2.0D);
@@ -192,19 +193,24 @@ public class MotherDemonEntity extends DemonEntity implements IAnimatable {
 						livingEntity.getX() - parentEntity.getX());
 				int j;
 				if (this.cooldown == 15) {
-					if (parentEntity.getHealth() < (parentEntity.getMaxHealth() * 0.50)) {
-						for (j = 0; j < 16; ++j) {
-							double l1 = 1.25D * (double) (j + 1);
-							int m = 1 * j;
-							parentEntity.spawnFlames(parentEntity.getX() + (double) MathHelper.cos(f2) * l1,
-									parentEntity.getZ() + (double) MathHelper.sin(f2) * l1 + 0.5, d, e1, f2, m);
+					float h2;
+					if (parentEntity.getHealth() <= (parentEntity.getMaxHealth() * 0.50)) {
+						for (j = 0; j < 32; ++j) {
+							h2 = f2 + (float) j * 3.1415927F * 0.4F;
+							for (int y = 0; y < 5; ++y) {
+								parentEntity.spawnFlames(
+										parentEntity.getX()
+												+ (double) MathHelper.cos(h2) * rand.nextDouble() * 11.5D,
+										parentEntity.getZ()
+												+ (double) MathHelper.sin(h2) * rand.nextDouble() * 11.5D,
+										d, e1, h2, 0);
+							}
 							parentEntity.world.playSound(this.parentEntity.getX(), this.parentEntity.getY(),
 									this.parentEntity.getZ(), ModSoundEvents.MOTHER_ATTACK, SoundCategory.HOSTILE, 1.0F,
 									1.0F, true);
 							this.parentEntity.setAttackingState(2);
 						}
-					}
-					if (parentEntity.getHealth() > (parentEntity.getMaxHealth() * 0.50)) {
+					} else {
 						this.parentEntity.setAttackingState(1);
 						fireballEntity.updatePosition(this.parentEntity.getX() + vec3d.x * 2.0D,
 								this.parentEntity.getBodyY(0.5D) + 0.5D, parentEntity.getZ() + vec3d.z * 2.0D);
@@ -216,7 +222,7 @@ public class MotherDemonEntity extends DemonEntity implements IAnimatable {
 				}
 				if (this.cooldown == 30) {
 					this.parentEntity.setAttackingState(0);
-					this.cooldown = -150;
+					this.cooldown = -50;
 				}
 			} else if (this.cooldown > 0) {
 				--this.cooldown;

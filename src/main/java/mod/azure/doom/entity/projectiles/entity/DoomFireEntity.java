@@ -20,7 +20,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
@@ -94,24 +93,7 @@ public class DoomFireEntity extends Entity implements IAnimatable {
 
 	public void tick() {
 		super.tick();
-		if (this.world.isClient) {
-			if (this.playingAnimation) {
-				--this.ticksLeft;
-				if (this.ticksLeft == 14) {
-					for (int i = 0; i < 12; ++i) {
-						double d = this.getX()
-								+ (this.random.nextDouble() * 2.0D - 1.0D) * (double) this.getWidth() * 0.5D;
-						double e = this.getY() + 0.05D + this.random.nextDouble();
-						double f = this.getZ()
-								+ (this.random.nextDouble() * 2.0D - 1.0D) * (double) this.getWidth() * 0.5D;
-						double g = (this.random.nextDouble() * 2.0D - 1.0D) * 0.3D;
-						double h = 0.3D + this.random.nextDouble() * 0.3D;
-						double j = (this.random.nextDouble() * 2.0D - 1.0D) * 0.3D;
-						this.world.addParticle(ParticleTypes.LAVA, d, e + 1.0D, f, g, h, j);
-					}
-				}
-			}
-		} else if (--this.warmup < 0) {
+		if (--this.warmup < 0) {
 			if (!this.startedAttack) {
 				this.world.sendEntityStatus(this, (byte) 4);
 				this.startedAttack = true;
