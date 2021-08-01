@@ -1,4 +1,4 @@
-package mod.azure.doom.entity.tierheavy;
+package mod.azure.doom.entity.tierfodder;
 
 import java.util.Random;
 
@@ -21,11 +21,16 @@ import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -39,6 +44,8 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 public class MaykrDroneEntity extends DemonEntity implements IAnimatable {
 
 	private AnimationFactory factory = new AnimationFactory(this);
+	public static final TrackedData<Integer> VARIANT = DataTracker.registerData(MaykrDroneEntity.class,
+			TrackedDataHandlerRegistry.INTEGER);
 
 	public MaykrDroneEntity(EntityType<MaykrDroneEntity> type, World worldIn) {
 		super(type, worldIn);
@@ -67,6 +74,35 @@ public class MaykrDroneEntity extends DemonEntity implements IAnimatable {
 		return this.factory;
 	}
 
+	protected void initDataTracker() {
+		super.initDataTracker();
+		this.dataTracker.startTracking(VARIANT, 0);
+	}
+
+	@Override
+	public void readCustomDataFromNbt(NbtCompound tag) {
+		super.readCustomDataFromNbt(tag);
+		this.setVariant(tag.getInt("Variant"));
+	}
+
+	@Override
+	public void writeCustomDataToNbt(NbtCompound tag) {
+		super.writeCustomDataToNbt(tag);
+		tag.putInt("Variant", this.getVariant());
+	}
+
+	public int getVariant() {
+		return MathHelper.clamp((Integer) this.dataTracker.get(VARIANT), 1, 2);
+	}
+
+	public void setVariant(int variant) {
+		this.dataTracker.set(VARIANT, variant);
+	}
+
+	public int getVariants() {
+		return 2;
+	}
+
 	public static boolean spawning(EntityType<MaykrDroneEntity> p_223337_0_, World p_223337_1_, SpawnReason reason,
 			BlockPos p_223337_3_, Random p_223337_4_) {
 		return p_223337_1_.getDifficulty() != Difficulty.PEACEFUL;
@@ -85,9 +121,10 @@ public class MaykrDroneEntity extends DemonEntity implements IAnimatable {
 		this.goalSelector.add(8, new LookAroundGoal(this));
 		this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8D));
 		this.goalSelector.add(4,
-				new RangedStrafeAttackGoal(this, new MaykrDroneEntity.FireballAttack(this)
-						.setProjectileOriginOffset(0.8, 0.8, 0.8).setDamage(config.maykrdrone_ranged_damage), 1.0D, 50,
-						30, 15, 15F, 1).setMultiShot(2, 3));
+				new RangedStrafeAttackGoal(this,
+						new MaykrDroneEntity.FireballAttack(this).setProjectileOriginOffset(0.8, 0.8, 0.8)
+								.setDamage(config.maykrdrone_ranged_damage),
+						1.0D, 50, 30, 15, 15F, 1).setMultiShot(2, 3));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.add(2, new FollowTargetGoal<>(this, MerchantEntity.class, true));
 		this.targetSelector.add(2, new RevengeGoal(this).setGroupRevenge());
