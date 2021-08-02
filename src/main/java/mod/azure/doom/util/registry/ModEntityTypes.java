@@ -330,7 +330,7 @@ public class ModEntityTypes {
 	public static final EntityType<MaykrDroneEntity> MAYKRDRONE = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "maykr_drone"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, MaykrDroneEntity::new)
-					.dimensions(EntityDimensions.fixed(1.7f, 2.2F)).fireImmune().trackedUpdateRate(9)
+					.dimensions(EntityDimensions.fixed(1.2f, 2.7F)).fireImmune().trackedUpdateRate(9)
 					.trackRangeBlocks(90).build());
 
 	public static final EntityType<TentacleEntity> TENTACLE = Registry.register(Registry.ENTITY_TYPE,
