@@ -10,6 +10,7 @@ import mod.azure.doom.entity.projectiles.entity.DroneBoltEntity;
 import mod.azure.doom.util.ModSoundEvents;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
@@ -32,6 +33,8 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -60,6 +63,10 @@ public class MaykrDroneEntity extends DemonEntity implements IAnimatable {
 	}
 
 	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+		if ((this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("death", false));
+			return PlayState.CONTINUE;
+		}
 		event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
 		return PlayState.CONTINUE;
 	}
@@ -151,6 +158,14 @@ public class MaykrDroneEntity extends DemonEntity implements IAnimatable {
 			return new DroneBoltEntity(world, this.parentEntity, d2, d3, d4, damage);
 
 		}
+	}
+
+	@Override
+	public EntityData initialize(ServerWorldAccess serverWorldAccess, LocalDifficulty difficulty,
+			SpawnReason spawnReason, EntityData entityData, NbtCompound entityTag) {
+		entityData = super.initialize(serverWorldAccess, difficulty, spawnReason, entityData, entityTag);
+		this.setVariant(this.random.nextInt());
+		return entityData;
 	}
 
 	@Override
