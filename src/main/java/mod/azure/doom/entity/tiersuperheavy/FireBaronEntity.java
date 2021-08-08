@@ -50,7 +50,8 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 public class FireBaronEntity extends DemonEntity implements IAnimatable {
 
 	private AnimationFactory factory = new AnimationFactory(this);
-
+	public int flameTimer;
+	
 	public FireBaronEntity(EntityType<FireBaronEntity> entityType, World worldIn) {
 		super(entityType, worldIn);
 	}
@@ -89,6 +90,16 @@ public class FireBaronEntity extends DemonEntity implements IAnimatable {
 	@Override
 	public AnimationFactory getFactory() {
 		return this.factory;
+	}
+
+	@Override
+	public void tick() {
+		super.tick();
+		flameTimer = (flameTimer + 1) % 3;
+	}
+
+	public int getFlameTimer() {
+		return flameTimer;
 	}
 
 	public static boolean spawning(EntityType<BaronEntity> p_223337_0_, World p_223337_1_, SpawnReason reason,

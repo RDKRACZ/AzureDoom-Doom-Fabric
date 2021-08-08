@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import mod.azure.doom.DoomMod;
 import mod.azure.doom.config.DoomConfig.MobStats;
 import mod.azure.doom.network.EntityPacket;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
@@ -69,8 +70,8 @@ public class DemonEntity extends HostileEntity implements Angerable {
 		if (serverWorldAccess.getDifficulty() == Difficulty.PEACEFUL)
 			return false;
 		if ((spawnReason != SpawnReason.CHUNK_GENERATION && spawnReason != SpawnReason.NATURAL))
-			return true;
-		return true;
+			return !serverWorldAccess.getBlockState(pos.down()).isOf(Blocks.NETHER_WART_BLOCK);
+		return !serverWorldAccess.getBlockState(pos.down()).isOf(Blocks.NETHER_WART_BLOCK);
 	}
 
 	@Override

@@ -69,6 +69,10 @@ public class Cyberdemon2016Entity extends DemonEntity implements IAnimatable {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("attacking", true));
 			return PlayState.CONTINUE;
 		}
+		if (this.dataTracker.get(STATE) == 2 && !(this.dead || this.getHealth() < 0.01 || this.isDead())) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("melee", true));
+			return PlayState.CONTINUE;
+		}
 		return PlayState.STOP;
 	}
 
