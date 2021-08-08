@@ -10,6 +10,10 @@ import software.bernie.geckolib3.model.provider.data.EntityModelData;
 
 public class FireBaronModel extends AnimatedGeoModel<FireBaronEntity> {
 
+	private static final Identifier[] TEX = { new Identifier(DoomMod.MODID, "textures/entity/firebaron.png"),
+			new Identifier(DoomMod.MODID, "textures/entity/firebaron_1.png"),
+			new Identifier(DoomMod.MODID, "textures/entity/firebaron_2.png") };
+
 	@Override
 	public Identifier getModelLocation(FireBaronEntity object) {
 		return new Identifier(DoomMod.MODID, "geo/baron2016.geo.json");
@@ -17,7 +21,7 @@ public class FireBaronModel extends AnimatedGeoModel<FireBaronEntity> {
 
 	@Override
 	public Identifier getTextureLocation(FireBaronEntity object) {
-		return new Identifier(DoomMod.MODID, "textures/entity/firebaron.png");
+		return TEX[(object.getFlameTimer())];
 	}
 
 	@Override

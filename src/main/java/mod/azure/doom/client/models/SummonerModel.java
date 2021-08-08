@@ -14,7 +14,8 @@ public class SummonerModel extends AnimatedGeoModel<SummonerEntity> {
 
 	@Override
 	public Identifier getTextureLocation(SummonerEntity object) {
-		return new Identifier(DoomMod.MODID, "textures/entity/summoner.png");
+		return new Identifier(DoomMod.MODID,
+				"textures/entity/" + (object.getVariant() == 2 ? "summoner_red" : "summoner") + ".png");
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package mod.azure.doom.enchantments;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
 
 /**
@@ -43,7 +44,7 @@ public class LeapingDoomEnchantment extends Enchantment {
 
 	@Override
 	public boolean isAcceptableItem(ItemStack stack) {
-		return true;
+		return stack.getItem() instanceof ArmorItem ? true : false;
 	}
 
 	public boolean isAvailableForRandomSelection() {
