@@ -23,4 +23,9 @@ public class ArgentPlateItem extends Item {
 				new TranslatableText("doom.argent_plate.text").formatted(Formatting.RED).formatted(Formatting.ITALIC));
 		super.appendTooltip(stack, world, tooltip, context);
 	}
+	
+	@Override
+	public boolean isFireproof() {
+		return true;
+	}
 }

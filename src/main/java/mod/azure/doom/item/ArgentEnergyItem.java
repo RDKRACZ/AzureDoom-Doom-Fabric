@@ -32,4 +32,9 @@ public class ArgentEnergyItem extends Item {
 	public boolean hasGlint(ItemStack stack) {
 		return false;
 	}
+	
+	@Override
+	public boolean isFireproof() {
+		return true;
+	}
 }

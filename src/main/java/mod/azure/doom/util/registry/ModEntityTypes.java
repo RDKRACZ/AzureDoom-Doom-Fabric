@@ -355,13 +355,13 @@ public class ModEntityTypes {
 	public static final EntityType<BloodMaykrEntity> BLOODMAYKR = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "blood_maykr"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, BloodMaykrEntity::new)
-					.dimensions(EntityDimensions.fixed(1.7f, 2.2F)).fireImmune().trackedUpdateRate(9)
+					.dimensions(EntityDimensions.fixed(2.7f, 5.5F)).fireImmune().trackedUpdateRate(9)
 					.trackRangeBlocks(90).build());
 
 	public static final EntityType<ArchMakyrEntity> ARCHMAKER = Registry.register(Registry.ENTITY_TYPE,
 			new Identifier(DoomMod.MODID, "arch_maykr"),
 			FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ArchMakyrEntity::new)
-					.dimensions(EntityDimensions.fixed(1.7f, 2.2F)).fireImmune().trackedUpdateRate(9)
+					.dimensions(EntityDimensions.fixed(4.7f, 11.2F)).fireImmune().trackedUpdateRate(9)
 					.trackRangeBlocks(90).build());
 
 	public static final EntityType<SummonerEntity> SUMMONER = Registry.register(Registry.ENTITY_TYPE,
