@@ -14,6 +14,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -34,6 +35,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
@@ -41,6 +43,8 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.explosion.Explosion;
@@ -54,10 +58,10 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class LostSoulEntity extends DemonEntity implements Monster, IAnimatable {
 
-	private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(LostSoulEntity.class,
-			TrackedDataHandlerRegistry.BOOLEAN);
 	protected static final TrackedData<Byte> VEX_FLAGS = DataTracker.registerData(LostSoulEntity.class,
 			TrackedDataHandlerRegistry.BYTE);
+	public static final TrackedData<Integer> VARIANT = DataTracker.registerData(LostSoulEntity.class,
+			TrackedDataHandlerRegistry.INTEGER);
 	public int explosionPower = 1;
 	public int flameTimer;
 	@Nullable
@@ -89,15 +93,6 @@ public class LostSoulEntity extends DemonEntity implements Monster, IAnimatable 
 		return this.factory;
 	}
 
-	@Environment(EnvType.CLIENT)
-	public boolean isShooting() {
-		return (Boolean) this.dataTracker.get(SHOOTING);
-	}
-
-	public void setShooting(boolean shooting) {
-		this.dataTracker.set(SHOOTING, shooting);
-	}
-
 	@Override
 	protected void updatePostDeath() {
 		++this.deathTime;
@@ -111,8 +106,39 @@ public class LostSoulEntity extends DemonEntity implements Monster, IAnimatable 
 
 	protected void initDataTracker() {
 		super.initDataTracker();
-		this.dataTracker.startTracking(SHOOTING, false);
 		this.dataTracker.startTracking(VEX_FLAGS, (byte) 0);
+		this.dataTracker.startTracking(VARIANT, 0);
+	}
+
+	@Override
+	public void readCustomDataFromNbt(NbtCompound tag) {
+		super.readCustomDataFromNbt(tag);
+		this.setVariant(tag.getInt("Variant"));
+	}
+
+	@Override
+	public void writeCustomDataToNbt(NbtCompound tag) {
+		super.writeCustomDataToNbt(tag);
+	}
+
+	public int getVariant() {
+		return MathHelper.clamp((Integer) this.dataTracker.get(VARIANT), 1, 2);
+	}
+
+	public void setVariant(int variant) {
+		this.dataTracker.set(VARIANT, variant);
+	}
+
+	public int getVariants() {
+		return 2;
+	}
+
+	@Override
+	public EntityData initialize(ServerWorldAccess serverWorldAccess, LocalDifficulty difficulty,
+			SpawnReason spawnReason, EntityData entityData, NbtCompound entityTag) {
+		entityData = super.initialize(serverWorldAccess, difficulty, spawnReason, entityData, entityTag);
+		this.setVariant(this.random.nextInt());
+		return entityData;
 	}
 
 	public boolean handleFallDamage(float fallDistance, float damageMultiplier) {
@@ -137,7 +163,7 @@ public class LostSoulEntity extends DemonEntity implements Monster, IAnimatable 
 				f = this.world.getBlockState(new BlockPos(this.getX(), this.getY() - 1.0D, this.getZ())).getBlock()
 						.getSlipperiness() * 0.91F;
 			}
-			
+
 			f = 0.91F;
 			if (this.onGround) {
 				f = this.world.getBlockState(new BlockPos(this.getX(), this.getY() - 1.0D, this.getZ())).getBlock()
@@ -165,8 +191,7 @@ public class LostSoulEntity extends DemonEntity implements Monster, IAnimatable 
 		return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 25.0D)
 				.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25D)
 				.add(EntityAttributes.GENERIC_MAX_HEALTH, config.lost_soul_health)
-				.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D)
-				.add(EntityAttributes.HORSE_JUMP_STRENGTH, 2.0D)
+				.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D).add(EntityAttributes.HORSE_JUMP_STRENGTH, 2.0D)
 				.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, config.lost_soul_melee_damage);
 	}
 
@@ -245,16 +270,16 @@ public class LostSoulEntity extends DemonEntity implements Monster, IAnimatable 
 
 		public void stop() {
 			LostSoulEntity.this.setCharging(false);
-			LostSoulEntity.this.setShooting(false);
 		}
-		
+
 		public void tick() {
 			LivingEntity livingentity = parentEntity.getTarget();
 			++this.attackTimer;
 			parentEntity.setCharging(false);
 			Vec3d vec3d = livingentity.getCameraPosVec(1.0F);
 			parentEntity.moveControl.moveTo(vec3d.x, vec3d.y, vec3d.z, 1.0D);
-			if (this.parentEntity.getBoundingBox().expand(0.20000000298023224D).intersects(livingentity.getBoundingBox())) {
+			if (this.parentEntity.getBoundingBox().expand(0.20000000298023224D)
+					.intersects(livingentity.getBoundingBox())) {
 				this.parentEntity.tryAttack(livingentity);
 			}
 			this.attackTimer = Math.max(this.attackTimer - 0, 0);

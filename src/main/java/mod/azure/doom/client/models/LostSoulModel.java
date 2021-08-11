@@ -2,8 +2,8 @@ package mod.azure.doom.client.models;
 
 import mod.azure.doom.DoomMod;
 import mod.azure.doom.entity.tierfodder.LostSoulEntity;
-import net.minecraft.util.math.Vec3f;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3f;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.processor.IBone;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
@@ -23,8 +23,15 @@ public class LostSoulModel extends AnimatedGeoModel<LostSoulEntity> {
 			new Identifier(DoomMod.MODID, "textures/entity/lost_soul_fire_7.png"),
 			new Identifier(DoomMod.MODID, "textures/entity/lost_soul_fire_8.png") };
 
-	public LostSoulModel() {
-	}
+	private static final Identifier[] TEX1 = {
+			new Identifier(DoomMod.MODID, "textures/entity/lost_soul_green_fire_1.png"),
+			new Identifier(DoomMod.MODID, "textures/entity/lost_soul_green_fire_2.png"),
+			new Identifier(DoomMod.MODID, "textures/entity/lost_soul_green_fire_3.png"),
+			new Identifier(DoomMod.MODID, "textures/entity/lost_soul_green_fire_4.png"),
+			new Identifier(DoomMod.MODID, "textures/entity/lost_soul_green_fire_5.png"),
+			new Identifier(DoomMod.MODID, "textures/entity/lost_soul_green_fire_6.png"),
+			new Identifier(DoomMod.MODID, "textures/entity/lost_soul_green_fire_7.png"),
+			new Identifier(DoomMod.MODID, "textures/entity/lost_soul_green_fire_8.png") };
 
 	@Override
 	public Identifier getModelLocation(LostSoulEntity object) {
@@ -33,7 +40,7 @@ public class LostSoulModel extends AnimatedGeoModel<LostSoulEntity> {
 
 	@Override
 	public Identifier getTextureLocation(LostSoulEntity object) {
-		return TEX[(object.getFlameTimer())];
+		return object.getVariant() == 2 ? TEX1[(object.getFlameTimer())] : TEX[(object.getFlameTimer())];
 	}
 
 	@Override

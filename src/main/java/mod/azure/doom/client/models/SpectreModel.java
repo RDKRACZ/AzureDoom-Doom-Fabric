@@ -18,8 +18,8 @@ public class SpectreModel extends AnimatedGeoModel<SpectreEntity> {
 
 	@Override
 	public Identifier getTextureLocation(SpectreEntity object) {
-		return new Identifier(DoomMod.MODID,
-				"textures/entity/" + (object.getVariant() > 1 ? "pinky-texturemap" : "pinky2016") + ".png");
+		return new Identifier(DoomMod.MODID, "textures/entity/" + (object.getVariant() == 2 ? "pinky-texturemap"
+				: object.getVariant() == 3 ? "pinky_green" : "pinky2016") + ".png");
 	}
 
 	@Override

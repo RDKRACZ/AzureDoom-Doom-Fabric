@@ -147,7 +147,6 @@ public class MancubusEntity extends DemonEntity implements IAnimatable {
 			super.start();
 			this.parentEntity.setAttacking(true);
 			this.cooldown = 0;
-			this.parentEntity.setAttackingState(0);
 		}
 
 		@Override
