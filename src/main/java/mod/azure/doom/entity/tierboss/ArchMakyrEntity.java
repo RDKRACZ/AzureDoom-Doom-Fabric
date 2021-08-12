@@ -3,6 +3,7 @@ package mod.azure.doom.entity.tierboss;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Random;
+import java.util.SplittableRandom;
 
 import blue.endless.jankson.annotation.Nullable;
 import mod.azure.doom.entity.DemonEntity;
@@ -165,12 +166,45 @@ public class ArchMakyrEntity extends DemonEntity implements IAnimatable {
 				double f = livingEntity.getX() - (this.parentEntity.getX() + vec3d.x * 2.0D);
 				double g = livingEntity.getBodyY(0.5D) - (0.5D + this.parentEntity.getBodyY(0.5D));
 				double h = livingEntity.getZ() - (this.parentEntity.getZ() + vec3d.z * 2.0D);
-				CustomFireballEntity fireballEntity = new CustomFireballEntity(world, this.parentEntity, f, g, h, 9);
+				CustomFireballEntity fireballEntity = new CustomFireballEntity(world, this.parentEntity, f, g, h, 14);
 				if (this.cooldown == 15) {
+					SplittableRandom random = new SplittableRandom();
+					int r = random.nextInt(0, 2);
+					if (r == 1) {
 						fireballEntity.updatePosition(this.parentEntity.getX() + vec3d.x * 2.0D,
 								this.parentEntity.getBodyY(0.5D) + 0.5D, parentEntity.getZ() + vec3d.z * 2.0D);
 						world.spawnEntity(fireballEntity);
 						this.parentEntity.setAttackingState(1);
+					} else {
+						float q = 50.0F;
+						int k = MathHelper.floor(this.parentEntity.getX() - (double) q - 1.0D);
+						int l = MathHelper.floor(this.parentEntity.getX() + (double) q + 1.0D);
+						int t = MathHelper.floor(this.parentEntity.getY() - (double) q - 1.0D);
+						int u = MathHelper.floor(this.parentEntity.getY() + (double) q + 1.0D);
+						int v = MathHelper.floor(this.parentEntity.getZ() - (double) q - 1.0D);
+						int w = MathHelper.floor(this.parentEntity.getZ() + (double) q + 1.0D);
+						List<Entity> list = this.parentEntity.world.getOtherEntities(this.parentEntity,
+								new Box((double) k, (double) t, (double) v, (double) l, (double) u, (double) w));
+						Vec3d vec3d1 = new Vec3d(this.parentEntity.getX(), this.parentEntity.getY(),
+								this.parentEntity.getZ());
+						for (int x = 0; x < list.size(); ++x) {
+							Entity entity = (Entity) list.get(x);
+							double y = (double) (MathHelper.sqrt((float) entity.squaredDistanceTo(vec3d1)) / q);
+							if (y <= 1.0D) {
+								if (entity instanceof LivingEntity) {
+									double d = (this.parentEntity.getBoundingBox().minX
+											+ this.parentEntity.getBoundingBox().maxX) / 2.0D;
+									double e = (this.parentEntity.getBoundingBox().minZ
+											+ this.parentEntity.getBoundingBox().maxZ) / 2.0D;
+									double f1 = entity.getX() - d;
+									double g1 = entity.getZ() - e;
+									double h1 = Math.max(f1 * f1 + g1 * g1, 0.1D);
+									entity.addVelocity(f1 / h1 * 10.0D, (double) 0.2F * 10.0D, g1 / h1 * 10.0D);
+								}
+							}
+						}
+						this.parentEntity.setAttackingState(2);
+					}
 				}
 				if (this.cooldown == 25) {
 					this.parentEntity.setAttackingState(0);

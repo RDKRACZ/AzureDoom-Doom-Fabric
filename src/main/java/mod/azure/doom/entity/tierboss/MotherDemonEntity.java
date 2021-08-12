@@ -212,6 +212,8 @@ public class MotherDemonEntity extends DemonEntity implements IAnimatable {
 				double g = livingEntity.getBodyY(0.5D) - (0.5D + this.parentEntity.getBodyY(0.5D));
 				double h = livingEntity.getZ() - (this.parentEntity.getZ() + vec3d.z * 2.0D);
 				CustomFireballEntity fireballEntity = new CustomFireballEntity(world, this.parentEntity, f, g, h, 6);
+				CustomFireballEntity fireballEntity1 = new CustomFireballEntity(world, this.parentEntity, f, g, h, 6);
+				CustomFireballEntity fireballEntity2 = new CustomFireballEntity(world, this.parentEntity, f, g, h, 6);
 				double d = Math.min(livingEntity.getY(), parentEntity.getY());
 				double e1 = Math.max(livingEntity.getY(), parentEntity.getY()) + 1.0D;
 				float f2 = (float) MathHelper.atan2(livingEntity.getZ() - parentEntity.getZ(),
@@ -237,12 +239,18 @@ public class MotherDemonEntity extends DemonEntity implements IAnimatable {
 						}
 					} else {
 						this.parentEntity.setAttackingState(1);
-						fireballEntity.updatePosition(this.parentEntity.getX() + vec3d.x * 2.0D,
-								this.parentEntity.getBodyY(0.5D) + 0.5D, parentEntity.getZ() + vec3d.z * 2.0D);
+						fireballEntity.updatePosition(this.parentEntity.getX() + vec3d.x * 1.0D,
+								this.parentEntity.getBodyY(0.5D) + 0.5D, parentEntity.getZ() + vec3d.z * 1.0D);
+						world.spawnEntity(fireballEntity);
+						fireballEntity1.updatePosition((this.parentEntity.getX() + 3) + vec3d.x * 1.0D,
+								this.parentEntity.getBodyY(0.5D) + 0.5D, parentEntity.getZ() + vec3d.z * 1.0D);
+						world.spawnEntity(fireballEntity1);
+						fireballEntity2.updatePosition((this.parentEntity.getX() - 3) + vec3d.x * 1.0D,
+								this.parentEntity.getBodyY(0.5D) + 0.5D, parentEntity.getZ() + vec3d.z * 1.0D);
+						world.spawnEntity(fireballEntity2);
 						parentEntity.world.playSound(this.parentEntity.getX(), this.parentEntity.getY(),
 								this.parentEntity.getZ(), ModSoundEvents.MOTHER_ATTACK, SoundCategory.HOSTILE, 1.0F,
 								1.0F, true);
-						world.spawnEntity(fireballEntity);
 					}
 				}
 				if (this.cooldown == 30) {
