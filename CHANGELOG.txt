@@ -1,4 +1,4 @@
-v.4.0.1
+v.4.0.2
 
-- Added new random knockback attack to Khan Makyr.
-- Doubled the Khan Maykr fireball damage.
+- Texture compression - RDKRACZ
+- Removed included cloth-config-api, changed to depend marking in CurseForge.
