@@ -1,4 +1,4 @@
-v.4.0.2
+v.4.0.3
 
-- Texture compression - RDKRACZ
-- Removed included cloth-config-api, changed to depend marking in CurseForge.
+- Marked Cloth Config as required via fabric.mod.json #RDKRACZ
+- Fixed Sentinel Hammer recipe.
