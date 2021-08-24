@@ -67,7 +67,7 @@ public class SentinelHammerItem extends Item implements IAnimatable, ISyncable {
 			PlayerEntity playerentity = (PlayerEntity) entityLiving;
 			if (stack.getDamage() < (stack.getMaxDamage() - 1)) {
 				playerentity.getItemCooldownManager().set(this, 200);
-				final Box aabb = new Box(entityLiving.getBlockPos().up()).expand(1D, 1D, 1D);
+				final Box aabb = new Box(entityLiving.getBlockPos().up()).expand(5D, 5D, 5D);
 				entityLiving.getEntityWorld().getOtherEntities(entityLiving, aabb)
 						.forEach(e -> doDamage(entityLiving, e));
 				stack.damage(1, entityLiving, p -> p.sendToolBreakStatus(entityLiving.getActiveHand()));
