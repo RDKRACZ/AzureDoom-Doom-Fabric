@@ -7,11 +7,11 @@
 	
 	"pages": [
 		{
-			"type": "text",
+			"type": "patchouli:text",
 			"text": "Same as the Former Humans, but much meaner, and tougher. These walking shotguns provide you with a few extra holes if you're not careful!"
 		},
 		{
-			"type": "entity",
+			"type": "patchouli:entity",
 			"entity": "doom:shotgunguy"
 		}
 	]

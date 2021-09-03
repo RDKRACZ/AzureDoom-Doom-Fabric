@@ -7,11 +7,11 @@
 	
 	"pages": [
 		{
-			"type": "text",
+			"type": "patchouli:text",
 			"text": "What a name. And what a guy. Killing him is almost as bad as letting him live."
 		},
 		{
-			"type": "entity",
+			"type": "patchouli:entity",
 			"entity": "doom:painelemental",
 			"offset": 0.2
 		}

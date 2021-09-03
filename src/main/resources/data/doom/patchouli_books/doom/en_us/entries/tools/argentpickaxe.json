@@ -4,12 +4,12 @@
 	"category": "doom:tools_category",
 	"pages": [
 		{
-			"type": "spotlight",
+			"type": "patchouli:spotlight",
 			"item": "doom:argent_pickaxe",
 			"link_recipe": true
 		},
 		{
-			"type": "crafting",
+			"type": "patchouli:crafting",
 			"recipe": "doom:argent_pickaxe"
 		}
 	]

@@ -7,15 +7,15 @@
 	
 	"pages": [
 		{
-			"type": "text",
+			"type": "patchouli:text",
 			"text": "Slightly easier to kill than our friend the Baron, but appear in larger numbers."
 		},
 		{
-			"type": "entity",
+			"type": "patchouli:entity",
 			"entity": "doom:hellknight"
 		},
 		{
-			"type": "entity",
+			"type": "patchouli:entity",
 			"entity": "doom:hellknight2016"
 		}
 	]

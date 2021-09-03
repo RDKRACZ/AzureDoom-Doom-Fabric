@@ -7,11 +7,11 @@
 	
 	"pages": [
 		{
-			"type": "text",
+			"type": "patchouli:text",
 			"text": "Mecha Zombies pose a greater challenge then your basic Undead. Their arm cannon serves as a ranged energy weapon at long distances."
 		},
 		{
-			"type": "entity",
+			"type": "patchouli:entity",
 			"entity": "doom:mechazombie",
 			"offset": 0.2
 		}

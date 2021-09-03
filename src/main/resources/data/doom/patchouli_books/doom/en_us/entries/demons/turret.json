@@ -7,11 +7,11 @@
 	
 	"pages": [
 		{
-			"type": "text",
+			"type": "patchouli:text",
 			"text": "Stationary guards for the forces of Nether."
 		},
 		{
-			"type": "entity",
+			"type": "patchouli:entity",
 			"entity": "doom:turret",
 			"scale": 0.9
 		}

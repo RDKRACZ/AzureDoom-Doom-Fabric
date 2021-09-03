@@ -7,11 +7,11 @@
 	
 	"pages": [
 		{
-			"type": "text",
+			"type": "patchouli:text",
 			"text": "A variation of the Hell Knight breed, the Dread Knight has been modified and hardwired for aggression."
 		},
 		{
-			"type": "entity",
+			"type": "patchouli:entity",
 			"entity": "doom:dreadknight"
 		}
 	]

@@ -7,11 +7,11 @@
 	
 	"pages": [
 		{
-			"type": "text",
+			"type": "patchouli:text",
 			"text": "They float in the air, belch fire, and boast one Nether of a big mouth. You're toast if you get too close to these monstrosities."
 		},
 		{
-			"type": "entity",
+			"type": "patchouli:entity",
 			"entity": "doom:cacodemon",
 			"scale": 0.7
 		}

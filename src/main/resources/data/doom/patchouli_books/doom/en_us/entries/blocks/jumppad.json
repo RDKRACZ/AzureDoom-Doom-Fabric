@@ -4,11 +4,11 @@
 	"category": "doom:blocks_category",
 	"pages": [
 		{
-			"type": "crafting",
+			"type": "patchouli:crafting",
 			"recipe": "doom:jump_pad"
 		},
 		{
-			"type": "multiblock",
+			"type": "patchouli:multiblock",
 			"enable_visualize": false,
 			"offset": [0, 4, 0],
 			"multiblock": {

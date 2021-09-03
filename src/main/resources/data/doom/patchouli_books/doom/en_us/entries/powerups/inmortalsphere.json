@@ -4,12 +4,12 @@
 	"category": "doom:powerups_category",
 	"pages": [
 		{
-			"type": "spotlight",
+			"type": "patchouli:spotlight",
 			"item": "doom:inmortalsphere",
 			"link_recipe": true
 		},
 		{
-			"type": "text",
+			"type": "patchouli:text",
 			"text": "You can feel the Protection cover your body. Grants 100% Resistance for 30 seconds."
 		}
 	]

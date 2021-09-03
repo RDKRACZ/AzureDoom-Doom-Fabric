@@ -7,11 +7,11 @@
 	
 	"pages": [
 		{
-			"type": "text",
+			"type": "patchouli:text",
 			"text": "Geeze, weren't shotgun zombies bad enough? At least when you fade these jerks you get a cool chaingun."
 		},
 		{
-			"type": "entity",
+			"type": "patchouli:entity",
 			"entity": "doom:chaingunner"
 		}
 	]

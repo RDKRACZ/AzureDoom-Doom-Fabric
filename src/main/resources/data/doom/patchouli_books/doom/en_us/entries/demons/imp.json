@@ -7,19 +7,19 @@
 	
 	"pages": [
 		{
-			"type": "text",
+			"type": "patchouli:text",
 			"text": "The most common of the Nether spawn."
 		},
 		{
-			"type": "entity",
+			"type": "patchouli:entity",
 			"entity": "doom:imp"
 		},
 		{
-			"type": "entity",
+			"type": "patchouli:entity",
 			"entity": "doom:imp2016"
 		},
 		{
-			"type": "entity",
+			"type": "patchouli:entity",
 			"entity": "doom:nightmare_imp"
 		}
 	]

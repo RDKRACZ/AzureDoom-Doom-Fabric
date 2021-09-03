@@ -7,11 +7,11 @@
 	
 	"pages": [
 		{
-			"type": "text",
+			"type": "patchouli:text",
 			"text": "A creature of darkness, the Prowler hunts from the shadows, preferring stealth and concealment to open conflict."
 		},
 		{
-			"type": "entity",
+			"type": "patchouli:entity",
 			"entity": "doom:prowler"
 		}
 	]

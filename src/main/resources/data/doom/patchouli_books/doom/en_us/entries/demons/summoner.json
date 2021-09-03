@@ -7,11 +7,11 @@
 	
 	"pages": [
 		{
-			"type": "text",
+			"type": "patchouli:text",
 			"text": "The Summoner, a cunning adversary, is primarily a defensive summoning unit."
 		},
 		{
-			"type": "entity",
+			"type": "patchouli:entity",
 			"entity": "doom:summoner",
 			"scale": 0.7,
 			"offset": 0.3

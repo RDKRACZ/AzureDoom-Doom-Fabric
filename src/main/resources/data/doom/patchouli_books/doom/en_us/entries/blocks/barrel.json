@@ -4,13 +4,13 @@
 	"category": "doom:blocks_category",
 	"pages": [
 		{
-			"type": "spotlight",
+			"type": "patchouli:spotlight",
 			"item": "doom:barrel",
 			"link_recipe": true,
 			"text": "If your shots hit one of these barrels, it's kablooey time!"
 		},
 		{
-			"type": "crafting",
+			"type": "patchouli:crafting",
 			"recipe": "doom:barrel"
 		}
 	]

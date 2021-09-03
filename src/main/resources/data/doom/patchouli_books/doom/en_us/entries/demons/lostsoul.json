@@ -7,11 +7,11 @@
 	
 	"pages": [
 		{
-			"type": "text",
+			"type": "patchouli:text",
 			"text": "Dumb. Tough. Flies. On fire. 'Nuff said."
 		},
 		{
-			"type": "entity",
+			"type": "patchouli:entity",
 			"entity": "doom:lost_soul",
 			"scale": 0.7,
 			"offset": 0.3

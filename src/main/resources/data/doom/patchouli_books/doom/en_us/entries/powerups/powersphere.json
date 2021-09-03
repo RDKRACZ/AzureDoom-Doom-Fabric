@@ -4,12 +4,12 @@
 	"category": "doom:powerups_category",
 	"pages": [
 		{
-			"type": "spotlight",
+			"type": "patchouli:spotlight",
 			"item": "doom:powersphere",
 			"link_recipe": true
 		},
 		{
-			"type": "text",
+			"type": "patchouli:text",
 			"text": "You can feel your scars fading. Heals the player completely."
 		}
 	]
