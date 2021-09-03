@@ -57,7 +57,12 @@ dependencies {
         exclude(group: "me.shedaniel")
         exclude(group: "net.fabricmc")
     }
-    modCompileOnly "vazkii.patchouli:Patchouli:1.17-55-FABRIC-SNAPSHOT"	
+    modCompileOnly("vazkii.patchouli:Patchouli:1.17-55-FABRIC-SNAPSHOT") {
+    	exclude(group: "com.terraformersmc.modmenu")
+        exclude(group: "io.github.prospector")
+        exclude(group: "me.shedaniel")
+        exclude(group: "net.fabricmc")
+    }
 	modImplementation 'curse.maven:trinkets-341284:3387025'
     modApi("me.shedaniel.cloth:cloth-config-fabric:5.0.34") {
     	exclude(group: "com.terraformersmc.modmenu")
@@ -80,19 +85,6 @@ dependencies {
 	modImplementation 'curse.maven:ccaentity-318449:3380734'
 	modImplementation 'curse.maven:ccaworld-318449:3380739'
 	modImplementation 'curse.maven:ccabase-318449:3380731'
-	//modImplementation 'curse.maven:HWG-448106:3230994'
-    //modCompileOnly("com.github.Shnupbups:Piglib:1.0.2-1.17") {
-    //	exclude(group: "com.terraformersmc.modmenu")
-    //    exclude(group: "io.github.prospector")
-    //    exclude(group: "me.shedaniel")
-    //    exclude(group: "net.fabricmc")
-    //}
-	//include("com.github.Shnupbups:Piglib:1.0.2-1.17") {
-    //	exclude(group: "com.terraformersmc.modmenu")
-    //    exclude(group: "io.github.prospector")
-    //    exclude(group: "me.shedaniel")
-    //    exclude(group: "net.fabricmc")
-    //}
 }
 
 processResources {
