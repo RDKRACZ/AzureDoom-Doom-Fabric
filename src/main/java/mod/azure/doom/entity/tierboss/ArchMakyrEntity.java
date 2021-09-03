@@ -169,7 +169,7 @@ public class ArchMakyrEntity extends DemonEntity implements IAnimatable {
 				CustomFireballEntity fireballEntity = new CustomFireballEntity(world, this.parentEntity, f, g, h, 14);
 				if (this.cooldown == 15) {
 					SplittableRandom random = new SplittableRandom();
-					int r = random.nextInt(0, 2);
+					int r = random.nextInt(0, 3);
 					if (r == 1) {
 						fireballEntity.updatePosition(this.parentEntity.getX() + vec3d.x * 2.0D,
 								this.parentEntity.getBodyY(0.5D) + 0.5D, parentEntity.getZ() + vec3d.z * 2.0D);

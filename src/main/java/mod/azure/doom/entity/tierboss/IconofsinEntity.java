@@ -196,7 +196,7 @@ public class IconofsinEntity extends DemonEntity implements IAnimatable {
 						if (parentEntity.distanceTo(livingEntity) > 11.0D) {
 							float h2;
 							SplittableRandom random = new SplittableRandom();
-							int r = random.nextInt(0, 3);
+							int r = random.nextInt(0, 4);
 							if (r == 1) {
 								double d = Math.min(livingEntity.getY(), parentEntity.getY());
 								double e1 = Math.max(livingEntity.getY(), parentEntity.getY()) + 1.0D;
